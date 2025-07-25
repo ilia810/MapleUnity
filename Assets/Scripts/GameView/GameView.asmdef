@@ -1,0 +1,17 @@
+{
+    "name": "GameView",
+    "rootNamespace": "MapleClient.GameView",
+    "references": [
+        "GameLogic",
+        "GameData"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
