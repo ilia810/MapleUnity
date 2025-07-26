@@ -251,18 +251,10 @@ namespace MapleClient.GameData
                     texture.filterMode = FilterMode.Point;
                     texture.wrapMode = TextureWrapMode.Clamp;
                     
-                    // Get origin/pivot point
-                    Vector2 pivot = GetOrigin(node);
-                    if (pivot == Vector2.zero)
-                    {
-                        pivot = new Vector2(0.5f, 0.5f); // Default center pivot
-                    }
-                    else
-                    {
-                        // Convert to normalized coordinates
-                        pivot.x = pivot.x / texture.width;
-                        pivot.y = 1.0f - (pivot.y / texture.height); // Flip Y for Unity
-                    }
+                    // In C++ client, origin is NOT used as sprite pivot
+                    // Instead, origin is subtracted from position during drawing
+                    // So we create sprites with bottom-left pivot (0,0) to match MapleStory
+                    Vector2 pivot = new Vector2(0f, 0f); // Bottom-left pivot
                     
                     // Create sprite with proper pixels per unit for MapleStory
                     // MapleStory uses 100 pixels = 1 game unit
@@ -273,7 +265,6 @@ namespace MapleClient.GameData
                         100f // pixels per unit
                     );
                     
-                    Debug.Log($"Created sprite {name} with pivot at ({pivot.x:F2}, {pivot.y:F2})");
                     return sprite;
                 }
                 else

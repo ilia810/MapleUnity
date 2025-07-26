@@ -96,10 +96,13 @@ namespace MapleClient.SceneGeneration
             {
                 renderer.sprite = sprite;
                 
-                // The sprite is already created with the origin as its pivot point in SpriteLoader
-                // No additional offset needed - the pivot handles the positioning correctly
-                // Setting localPosition to zero ensures the sprite renders at the tile position
-                renderer.transform.localPosition = Vector3.zero;
+                // In C++ client: rlt = pos - center - origin
+                // Since our sprites now have bottom-left pivot (0,0), we need to subtract origin
+                // Origin is in pixels, so convert to Unity units
+                float offsetX = -origin.x / 100f;  // Subtract origin.x
+                float offsetY = -origin.y / 100f;  // Subtract origin.y
+                
+                renderer.transform.localPosition = new Vector3(offsetX, offsetY, 0);
                 
                 // Store origin in tileData for debugging
                 tileData.OriginX = (int)origin.x;
@@ -110,7 +113,7 @@ namespace MapleClient.SceneGeneration
                 {
                     Debug.Log($"Tile L{tileData.Layer} {tileData.Variant}/{tileData.No}: " +
                              $"pos=({tileData.X},{tileData.Y}), origin=({origin.x},{origin.y}), " +
-                             $"z={tileData.Z}, zM={tileData.ZM}");
+                             $"offset=({offsetX},{offsetY}), z={tileData.Z}, zM={tileData.ZM}");
                 }
             }
             else
@@ -123,32 +126,25 @@ namespace MapleClient.SceneGeneration
         
         private int CalculateSortingOrder(TileData tileData)
         {
-            // Based on C++ client implementation:
-            // - Tiles use z value for sorting, with zM as fallback when z is 0
-            // - Layer 7 is background, layer 0 is foreground
-            // - Within a layer, tiles are sorted by their depth value
+            // C++ client: Each layer has its own multimap<uint8_t, Tile>
+            // Layers are drawn in order (7 to 0), tiles within layer sorted by z
             
-            // Get the actual z value used by C++ client
+            // Get the actual z value (use zM if z is 0)
             int actualZ = tileData.Z;
-            if (actualZ == 0)
+            if (actualZ == 0 && tileData.ZM != 0)
             {
                 actualZ = tileData.ZM;
             }
             
-            // Layer priority: layer 0 (front) gets highest base value
-            // Using larger multiplier to ensure layers don't overlap
-            int layerPriority = (7 - tileData.Layer) * 1000000;
+            // Ensure actualZ is in valid range (0-255 as uint8_t)
+            actualZ = Mathf.Clamp(actualZ, 0, 255);
             
-            // Within layer, sort by z value
-            // C++ client uses uint8_t (0-255) for z values
-            int depthPriority = actualZ * 1000;
+            // Layer base: layer 7 = 0, layer 0 = 7000
+            // This ensures background layers render first
+            int layerBase = (7 - tileData.Layer) * 1000;
             
-            // Use insertion order as tiebreaker (approximated by negative Y)
-            // This maintains the order tiles were added to the multimap
-            int tiebreaker = -tileData.Y;
-            
-            // Final sorting order
-            return layerPriority + depthPriority + tiebreaker;
+            // Within each layer, sort by z value
+            return layerBase + actualZ;
         }
     }
     
