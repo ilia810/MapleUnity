@@ -1,16 +1,2 @@
-=== MapleUnity Debug Log - Started at 2025-07-26 17:48:05 ===
-=== Total Entries: 6 ===
+=== MapleUnity Debug Log - Started at 2025-07-26 19:17:45 ===
 
-17:48:02.668 [LOG] Game systems initialized - Debug log capture enabled
-
-17:48:02.959 [LOG] [EditorDebugLogCapture] Started capturing logs
-
-17:48:03.432 [LOG] Debug log saved to: C:\Users\me\MapleUnity\debug-log.txt (2 entries)
-
-17:48:05.207 [LOG] [EditorDebugLogCapture] Stopped capturing logs
-
-17:48:05.208 [LOG] [EditorDebugLogCapture] Saved 2 log entries to C:\Users\me\MapleUnity\debug-log.txt
-
-17:48:05.227 [LOG] Debug log saved to: C:\Users\me\MapleUnity\debug-log.txt (5 entries)
-
-=== Log Saved at 2025-07-26 17:48:05 ===
