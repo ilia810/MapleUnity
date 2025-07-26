@@ -1,2 +1,28 @@
-=== MapleUnity Debug Log - Started at 2025-07-26 19:17:45 ===
+=== MapleUnity Debug Log - Started at 2025-07-26 19:19:42 ===
+=== Total Entries: 12 ===
 
+19:17:45.711 [LOG] Game systems initialized - Debug log capture enabled
+
+19:17:45.797 [LOG] Loading NPC 1032003
+
+19:17:45.797 [LOG] Loading NPC 9000041
+
+19:17:45.797 [LOG] Loading NPC 9000040
+
+19:17:45.797 [LOG] Loading NPC 9100101
+
+19:17:45.797 [LOG] Loading NPC 9010003
+
+19:17:45.797 [LOG] Loading NPC 9250044
+
+19:17:46.053 [LOG] [EditorDebugLogCapture] Started capturing logs
+
+19:19:42.739 [LOG] Debug log saved to: C:\Users\me\MapleUnity\debug-log.txt (8 entries)
+
+19:19:42.842 [LOG] [EditorDebugLogCapture] Stopped capturing logs
+
+19:19:42.844 [LOG] [EditorDebugLogCapture] Saved 2 log entries to C:\Users\me\MapleUnity\debug-log.txt
+
+19:19:42.867 [LOG] Debug log saved to: C:\Users\me\MapleUnity\debug-log.txt (11 entries)
+
+=== Log Saved at 2025-07-26 19:19:42 ===

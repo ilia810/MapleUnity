@@ -69,8 +69,10 @@ namespace MapleClient.SceneGeneration
             mapTile.tileSet = tileData.TileSet;
             mapTile.variant = tileData.Variant;
             mapTile.tileNumber = tileData.No;
-            mapTile.zOrder = tileData.Z;
-            mapTile.zModifier = tileData.ZM;
+            mapTile.layer = tileData.Layer;
+            mapTile.z = tileData.Z;
+            mapTile.zM = tileData.ZM;
+            mapTile.sortingOrder = renderer.sortingOrder;
             
             // Create sprite object
             GameObject spriteObj = new GameObject("Sprite");
@@ -140,18 +142,24 @@ namespace MapleClient.SceneGeneration
         
         private int CalculateSortingOrder(TileData tileData)
         {
-            // Calculate sorting order based on layer and Z value
-            // Layer 0 is the bottom layer, layer 7 is the top
-            // Each layer gets 1000 sorting order units
-            int layerOrder = tileData.Layer * 1000;
+            // Based on C++ client research:
+            // - Layer 7 is the far background, layer 0 is the front-most tile layer
+            // - Tiles are sorted primarily by their z and zM values from the data
+            // - Y position is only used as a tiebreaker, not as primary sort
             
-            // Within each layer, use Z value for fine-grained sorting
-            int zOrder = tileData.Z + tileData.ZM;
+            // Layer priority: layer 0 (front) gets highest base value
+            int layerPriority = (7 - tileData.Layer) * 100000;
             
-            // Base order puts tiles behind objects (-5000) but above backgrounds
-            int baseOrder = -5000;
+            // Depth priority: combine map depth offset (zM) and tile image depth (z)
+            // zM has higher priority than z
+            int depthPriority = tileData.ZM * 1000 + tileData.Z * 100;
             
-            return baseOrder + layerOrder + zOrder;
+            // Use Y as tiebreaker only (higher Y = more in front)
+            // Note: In MapleStory, Y increases downward, so we negate it
+            int yPriority = -tileData.Y;
+            
+            // Final sorting order
+            return layerPriority + depthPriority + yPriority;
         }
     }
     
@@ -163,7 +171,9 @@ namespace MapleClient.SceneGeneration
         public string tileSet;
         public string variant;
         public int tileNumber;
-        public int zOrder;
-        public int zModifier;
+        public int layer;
+        public int z;           // Base depth from tile image
+        public int zM;          // Map-specific depth offset
+        public int sortingOrder; // Final calculated sorting order
     }
 }
