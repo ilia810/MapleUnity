@@ -3,6 +3,7 @@ using MapleClient.GameLogic;
 using MapleClient.GameLogic.Core;
 using MapleClient.GameLogic.Interfaces;
 using System.Collections.Generic;
+using PortalType = MapleClient.GameLogic.PortalType;
 
 namespace MapleClient.Tests.GameLogic
 {
@@ -17,7 +18,7 @@ namespace MapleClient.Tests.GameLogic
         {
             mapLoader = new TestMapLoader();
             inputProvider = new TestInputProvider();
-            gameWorld = new GameWorld(mapLoader, inputProvider);
+            gameWorld = new GameWorld(inputProvider, mapLoader);
         }
 
         [Test]

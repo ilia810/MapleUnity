@@ -1,0 +1,559 @@
+Thanks for the detailed update. I’ll now create a continuation report outlining the remaining migration tasks to fully port the MapleStory client into Unity. This will build on your current architecture and TDD foundation, specifying subsystems like networking, skills, NPCs, quests, and more.
+
+I’ll let you know as soon as the report is ready for review.
+
+
+# Plan for Completing MapleStory Unity Client Migration (Advanced Features)
+
+## Introduction
+
+The MapleStory Unity client now has a solid foundation with core gameplay implemented (movement, combat, inventory, UI, multiple maps, etc.). The next phase is to **migrate the remaining advanced features** from the original MapleStory v83 client. We will continue using the established **three-layer architecture** (GameLogic, GameData, GameView) with strict TDD and clear interfaces. All new systems will be developed test-first to maintain reliability (write tests, implement minimal code, then refactor). We will preserve the **event-driven communication** between layers (logic emits events, Unity layer listens) to keep game logic decoupled from presentation, and enforce boundaries via assembly definitions as before.
+
+Below we outline each missing feature and how to implement it in the Unity client, ensuring it matches the original client’s behavior. These features were identified as “planned” or missing in the project roadmap, and include additional systems (chat, trading, guilds, etc.) not yet implemented. For each feature, we describe the required **GameLogic** (core rules and data), **GameData** (external data or network), **GameView** (Unity visuals/UI) changes, and how to approach development with TDD. Short bullet lists are used to break down key steps and tests for clarity.
+
+## 1. Networking Integration (v83 Server Connection)
+
+Implementing networking is critical for features that involve multiplayer interactions (party, trading, chat, etc.). The client will connect to a MapleStory v83 server (e.g. HeavenMS) using TCP sockets with the MapleStory packet protocol. We will treat networking as part of the **GameData layer** (external system) while exposing an interface to the GameLogic:
+
+* **Design an `INetworkClient` interface in GameLogic** with methods for sending game actions (e.g. `SendChat(message)`, `RequestMove(direction)`) and events for incoming data (e.g. `OnChatReceived`, `OnMobSpawned`). This decouples game logic from the actual socket implementation. The GameLogic layer can remain unaware of packet structures – it just uses high-level methods/events.
+* **Implement a NetworkClient in GameData** that handles the low-level socket connection and MapleStory packet encoding/decoding. It will translate incoming packets into high-level events or data objects for the logic layer. For example, when a chat message packet arrives, it triggers `OnChatReceived(sender, message)` event; when the player’s movement is acknowledged or other players move, it triggers an event or calls a method in logic to update state.
+* **TDD Approach:** We can write unit tests for GameLogic’s integration with the network by using a **mock network client**. For instance, create a dummy INetworkClient that records outgoing messages or allows injecting incoming events. Write tests such as: when the player sends a chat (`GameWorld.SendChat("hello")`), the network client’s `SendChat` is called with the correct data; or when a mock `OnMobSpawned` event is raised, the GameWorld properly adds a new Monster to the state. This ensures the logic responds correctly to network events without needing a real server.
+* **Connection Handling:** On the Unity side (GameView), initialize the real NetworkClient (in GameData) on startup and attempt to connect to the server (using IP/port configured). Provide UI feedback for connection status (could be a simple “Connecting...” message or a retry on failure). If connection fails, perhaps allow offline mode (with AI controlling monsters, etc.), but primary goal is online play. Once connected, the GameData network client will start dispatching events to the GameLogic.
+* **Security & Protocol:** MapleStory uses packet encryption (e.g. AES or custom) and opcodes. We should reuse or integrate a MapleStory v83 protocol implementation if available (perhaps from the original client or HeavenClient). This code will live in GameData. We won’t dive deep into protocol specifics here, but ensure to keep it encapsulated – GameLogic should use **domain events** (like “mob spawned”) not raw packet logic.
+* **Integration Test:** After implementing, write a play mode test or do a manual test where the client connects to a test server. Verify that actions in the client (moving, attacking, chatting) result in appropriate server responses and vice versa. For example, logging in (if applicable) and entering a map should spawn other players/mobs as sent by server. These interactions confirm that networking is functioning end-to-end.
+
+By integrating networking, the Unity client will be truly multiplayer-capable, aligning with the original MapleStory client. All subsequent features (skills, parties, etc.) will tie into this network layer to send/receive updates.
+
+## 2. Full NX Asset Loading
+
+Currently, the project likely uses a basic or partial NX asset loader (perhaps just enough for map layouts). MapleStory’s NX files contain **all game data**: maps, mobs, items, skills, textures, audio, etc. We need to extend asset loading to support all relevant data, ensuring the client can access the full range of MapleStory content:
+
+* **Expand the Data Layer for NX:** Build on the `NxMapLoader` (or equivalent) in GameData to create a more comprehensive **NXDataManager**. This manager will load various NX files (e.g. `Map.nx`, `Mob.nx`, `Item.nx`, `Skill.nx`, `Character.nx` for sprites, etc.). It can provide methods like `GetMapData(mapId)`, `GetMobData(mobId)`, `GetItemData(itemId)`, etc., returning plain data objects (DTOs) defined in GameLogic layer (e.g. `ItemInfo`, `MobStats` structs).
+* **Asset Types to Load:** Key data to extract from NX:
+
+  * **Map data:** Full map layout (platforms, portals, background images, NPC spawns, monster spawns, etc.). The MapLoader should populate all these details. The GameLogic `MapData` structure can be expanded to include NPC spawn points, monster spawn points, map background image reference, music name, etc.
+  * **Item database:** Every item’s properties (name, type, stats, etc.), needed for inventory, equips, and shop functionality. Likely stored in an `Item.nx` or similar. Load these into a dictionary for quick lookup by item ID.
+  * **Mob (Monster) data:** Monster stats (HP, attack, etc.), their sprite or animation identifiers, and possibly attack patterns. Load from `Mob.nx`.
+  * **Skills data:** Skill definitions for all classes, including damage, mana cost, cooldown, effects. Load from `Skill.nx`.
+  * **Character sprites and animations:** The `Character.nx` (or similarly named) contains player character sprites (for each equip item, hair style, etc.). We will use this for character customization and animation frames.
+  * **Sounds and Music:** NX may include sound effects and background music files (often MapleStory assets are in separate .wz files, but if converted to NX they might be included). Ensure we can load/play these (possibly via Unity’s audio if we convert them to AudioClip at runtime).
+* **Lazy Loading vs Preload:** Loading all NX data at startup could be heavy. We might design the data manager to load certain data on demand. For example, load a map’s data when entering the map, load item data as needed when an item is encountered. We should however load critical global data (like item and skill dictionaries) at start or in a loading screen so gameplay isn’t interrupted. Unity’s Addressables or Resources could help, but since NX is a custom format, we’ll handle it manually.
+* **Testing:** Testing asset loading is tricky as it involves large data files. We can abstract the NX reading behind interfaces to allow testing with a **mock data source**. For instance, have an `IAssetProvider` interface that `NXDataManager` implements. In tests, use a `DummyAssetProvider` that returns predefined data (e.g., for a given mapId returns a small MapData with one platform, or for an itemId returns a dummy item). Write tests for logic that uses these assets: e.g., when GameWorld loads a map, after calling `LoadMap(id)` the map’s name or background matches what the data provider gave. We can also test that certain required data is present (if a map expects NPCs, the data manager yields those NPC definitions). The goal is to ensure the *integration* of data and logic is correct without relying on actual NX files in unit tests.
+* **Unity Integration:** Once the NX loading is implemented, the visual layer should start using real assets:
+
+  * Map backgrounds: Instead of solid colors or placeholders, instantiate Sprites or Tilemaps from the loaded textures.
+  * Character sprites: Use the loaded frames for player animation (walk, jump, attack frames).
+  * Monster sprites: Likewise, display proper monster images from the data.
+  * Items: Use item icons from NX for inventory UI, and item drop sprites for ground items.
+  * Skills: Preload skill effect sprites/animations from NX for use in the skill system.
+  * Audio: Load background music per map (e.g., if MapData says BGM = "Elinia", load that audio) and sound effects for skills/attacks.
+* **Performance:** Ensure that heavy assets are only loaded when needed and possibly unloaded when not in use to save memory. Unity’s garbage collector and Resources can handle some unloading if we drop references. We might implement a simple caching in NXDataManager (e.g., cache the last N loaded maps or frequently used assets).
+* **Validation:** After implementing, test in-game by moving through various maps, opening the inventory (icons should show), using skills (if implemented) to see effects, etc. This is largely a content integration task – success is when the Unity client’s visuals and data match MapleStory’s content closely.
+
+Completing full NX asset loading will unlock the use of **authentic MapleStory assets** in the Unity client, providing the correct look and feel of the game.
+
+## 3. Skills and Abilities System
+
+MapleStory’s skill system is complex: each character class has multiple skills that can be leveled up, consume MP, deal damage or apply effects, etc. We will introduce a **Skill system** in the GameLogic layer to handle casting skills, and integrate it with both data (skill definitions) and visuals (animations/effects). Key tasks:
+
+* **Skill Data Definitions:** Using the asset loader above, obtain skill info from NX or a predefined source. Define a `SkillInfo` data structure (fields might include skill ID, name, MP cost, damage formula or attack power, cooldown, range, etc.). Also note if the skill is buff/debuff or an attack. These definitions reside in GameLogic (as plain data classes), filled by GameData when the game starts or when a character acquires a skill.
+* **Player Skills Structure:** In the Player logic class, add a structure to hold the player’s learned skills and their current levels. For example, a dictionary of skillId -> currentLevel (and perhaps current cooldown timer if a skill is on cooldown). The Player or a new `SkillManager` logic class will handle using skills:
+
+  * Method e.g. `Player.UseSkill(skillId)` which checks conditions: is skill learned, is not on cooldown, player has enough MP, etc. Then applies the skill effect.
+  * For attack skills: determine affected targets (if it’s an area attack or single target). This might involve checking nearby monsters in GameWorld within skill range.
+  * Calculate damage based on skill info and player’s stats. Reduce monster HP accordingly (or notify server via network if in multiplayer).
+  * Deduct MP from the player, set the skill on cooldown (start a timer).
+  * If the skill grants a buff (e.g. a self-buff or party buff), apply a status effect (we’ll cover status effects separately, but essentially add a Buff to the player or others).
+* **Cooldown and Timing:** The logic update loop should reduce cooldown timers each tick so that after the specified time the skill becomes usable again. Similarly, if a skill has a duration (like a buff lasts 60 seconds), handle that in the status effect system.
+* **TDD – Skill Usage:** Write tests for various skill behaviors:
+
+  * **MP Consumption:** Given a player with a certain MP and a skill that costs X MP, after `UseSkill`, the player’s MP is reduced by X (or the skill fails if not enough MP).
+  * **Damage Calculation:** If a skill is supposed to deal Y damage, simulate a scenario with a monster at known HP, use the skill, and assert the monster’s HP decreased by the expected amount (or to zero and monster marked dead if damage >= HP).
+  * **Cooldown Enforcement:** Call `UseSkill` twice in quick succession (in the test, without advancing time) and ensure the second call fails or is ignored due to cooldown. Advance the game logic time by the cooldown duration and ensure the skill can be used again.
+  * **Buff Application:** If a skill grants a buff, test that after using the skill, the player’s state reflects the buff (e.g. increased attack stat, or a buff list contains that buff).
+  * Use dependency injection as needed: e.g., inject a fake `IDamageCalculator` if complex, or stub the current time to test cooldown expiry. The tests focus on logic outcomes with deterministic inputs.
+* **Integration with Networking:** If connected to a server, skill usage should send a packet (e.g., “use skill X at position Y”). The server usually handles actual damage and responses (especially in MapleStory, the server is authoritative). Our client logic can still perform a *predicted* outcome (e.g., show the attack animation immediately for responsiveness) but ultimately will update HP based on server packets. We should design the Skill system to work in both offline (solo test mode) and online:
+
+  * In **offline/test mode**, the client can apply damage directly to monsters (which are client-controlled).
+  * In **online mode**, the client upon `UseSkill` will inform the server and perhaps immediately trigger a local animation. The actual HP deduction of monsters will come from a server message. So the Monster logic may need to have a flag for “isServerControlled”. We can simulate this in tests by having the network stub immediately callback with a damage event.
+* **Visual Implementation:**
+
+  * **Animations:** Each skill typically has an animation (for the character and sometimes a projectile or effect). We will integrate this by having the GameView listen for a “skill used” event. For example, when Player logic successfully uses a skill, emit an event `SkillUsed(skillId, targetPos)` or similar. A `SkillView` component can handle this: play the corresponding Unity animation on the character (perhaps using an Animator or switching sprite frames) and spawn any effect prefab (like an energy bolt or explosion). Use the assets loaded from NX for authenticity: e.g. use the correct skill effect sprite sheet.
+  * **Sound:** Many skills have sound effects. The logic or the SkillView can trigger playing the associated sound (via AudioManager). These sounds should be loaded as part of the skill data.
+  * **UI Feedback:** If a skill is on cooldown, the UI (skill icon) might show a cooldown overlay. Implement this by having the logic raise an event or the UI query the cooldown remaining. For example, each frame the Skill UI panel could request cooldown info from the player’s SkillManager to update a fill or timer on the icon.
+* **Testing Visuals:** While unit testing the actual visuals is difficult, we should at least have **integration tests** for the skill flow. For instance, a play mode test where we simulate pressing a skill key (or call the input event directly) and then verify that:
+
+  * The player’s state changed (MP down, cooldown set).
+  * A game object for the skill effect was spawned in the scene (we can find it by tag or name).
+  * The monster’s HP bar or state is reduced after a short delay (if we simulate server or do offline).
+    This ensures the wiring from input -> logic -> network/logic -> visual is working.
+
+Implementing the skills system will greatly enrich gameplay, allowing the use of abilities and magic as in MapleStory. We keep the system flexible and data-driven, so new skills from the database can be added without hardcoding behavior (potentially leveraging a scripting or formula system for damage).
+
+## 4. NPCs and Shops
+
+**Non-Player Characters (NPCs)** populate MapleStory’s towns and dungeons, offering quests, dialogue, and shop services. We will implement NPCs in our client so that maps feel alive and players can interact with them. Additionally, the **Shop system** will allow buying/selling items through NPCs (or potentially player shops, though MapleStory v83 mainly had NPC shops).
+
+* **NPC Representation (Logic):** Introduce an `NPC` class in GameLogic, likely a subclass of a base `MapEntity` or similar (since NPCs have a position on the map). NPC data (ID, name, dialog scripts, shop inventory, quest roles, etc.) will be loaded via the data layer:
+
+  * Extend Map loading to also include NPC spawn points. The NX data for a map includes NPC IDs and coordinates. When GameWorld loads a map, it should create NPC objects for each spawn.
+  * NPC logic might be minimal (NPCs usually don’t move or do complex actions in MapleStory). But we should store an identifier to know which NPC it is, and possibly a reference to what interactions they offer (quest or shop).
+* **Dialogue System:** When the player “talks” to an NPC (by standing near and pressing the interact key), we trigger a dialogue. In the logic layer, this could be a method like `GameWorld.TalkToNpc(npcId)` or `Player.Interact(npc)`. The actual dialogue content (script) might be too large to encode fully in logic. Instead, we could treat dialogue as data-driven:
+
+  * Store NPC dialogues in external data (perhaps the NX has text, or use a JSON/YAML for quest text). The GameData layer can fetch the lines of dialogue or menu options for a given NPC.
+  * The logic can then pass this to the UI via an event, e.g., `OnNPCDialogue(npcId, dialogueLines)` or `OnNPCDialogueOption(npcId, options)` if the NPC has choices (like “Buy/Sell” for a shop, or quest accept/decline).
+  * The UI (GameView) will display a dialogue box with the text and options. The UI will need to handle player input to advance the dialogue or make a choice.
+  * When the player makes a selection (e.g., chooses “Buy” in a shop or accepts a quest), that input goes back into logic (e.g., `GameWorld.SelectNPCOption(npcId, optionId)`), which then triggers the next logical action (open shop interface, mark quest accepted, etc.).
+* **Shop System:** For NPCs that are merchants:
+
+  * **Data:** Each shop NPC has an inventory of items for sale (with prices). This data should come from the game data (likely NX has a shop.wz or NPC section listing their goods and prices). We will load that into a structure like `ShopCatalog` mapping NPC -> list of ItemIDs and prices.
+  * **Logic:** When a player chooses “Buy” on a shop NPC, we open a **ShopSession** in logic. This could be a simple state in the GameWorld or a dedicated `ShopManager` class. The ShopSession knows which NPC’s shop is open and provides the list of items and prices. The player can then attempt to buy or sell:
+
+    * Buying an item: check if player has enough currency (mesos), and if inventory has space. If so, deduct mesos, add the item to inventory. In online mode, also send a purchase request to the server and wait for confirmation (to prevent hacking, server ultimately decides).
+    * Selling an item: remove item from inventory, add mesos (usually at a fraction of price). Also send to server if online.
+    * All these operations occur in logic (inventory updates, currency updates) so they are covered by tests.
+  * **UI:** Create a Shop UI panel (GameView) that appears when a shop opens. It should list items (name, price, maybe icon) – those data come from logic’s ShopSession (logic can provide item info via item database). The UI will allow the player to select an item and click “Buy” or “Sell” (if an item from inventory is selected for selling). Those actions call into logic (e.g., `GameWorld.BuyItem(itemId)`).
+  * **TDD – NPC & Shop:** Write tests for:
+
+    * NPC loading: after loading a map that has NPCs, `GameWorld.NPCs` list contains expected NPC ids at correct positions.
+    * Shop logic: Given a player with certain mesos and inventory space, when `BuyItem(itemId)` is called for an affordable item, the item is added to inventory and mesos reduced appropriately. Test that buying with insufficient funds fails (no inventory change, maybe an error flag set).
+    * Dialogue: This is more of an integration test – simulate triggering an NPC talk, and ensure the dialogue event is produced with the correct first line or options. We might create a dummy NPC data with a simple dialogue script for testing.
+    * Selling: Place an item in player inventory, call `SellItem(itemId)`, ensure item is removed and mesos increased by the correct amount. This can be tested in logic without UI.
+  * **Networking Consideration:** In online mode, the client should not *immediately* add item on buy until confirmed by server (to avoid desync if server says no). The design could be:
+
+    * Player requests buy -> client UI maybe shows a pending state -> server responds with success or failure -> then client logic updates inventory/mesos accordingly. For simplicity in offline mode, we assume success.
+    * We can abstract this by having GameLogic’s `BuyItem` either perform it instantly (offline) or request via `INetworkClient` (online). Possibly decide based on whether a network connection is active. Alternatively, always request server, but in tests we bypass by faking an immediate confirmation.
+    * We should ensure our design allows both flows. Perhaps have the logic always go through an “await confirmation” state, which in offline mode is immediate.
+* **Quest NPCs:** (This crosses into Quest system, but mentioning here) NPC interactions might also include quests. For such NPCs, instead of a shop, the options might be “Accept quest” or dialogue about the quest. The Quest system (discussed next) will tie into this – selecting a quest option triggers quest logic.
+
+By implementing NPCs and shops, maps will have interactive characters and players can trade with merchants. This adds life to towns and allows players to acquire items as in the original game. All interactions are handled via well-defined logic methods and data, making them testable and consistent.
+
+## 5. Quest System
+
+The Quest system allows players to undertake missions given by NPCs, track progress (e.g. kill X monsters, collect Y items), and receive rewards. We will introduce a **QuestManager** in the GameLogic layer to handle quest state, and ensure it integrates with NPC interactions, item/monster events, and network.
+
+* **Quest Data:** Define a `QuestInfo` structure in logic to describe a quest (quest ID, name, description text, objectives, reward items/exp, etc.). This information will come from data (likely an NX file or external source that lists all quests). The GameData layer should provide quest definitions on request or load a whole quest database at startup for quick access.
+* **Quest State Management:** In the Player’s data (or a separate QuestManager tied to the player), maintain a list of **active quests** and their progress. For each quest, track progress counters for objectives (e.g. 2/10 monsters killed). Also track **completed quests** to avoid repeat or for story progression.
+* **Starting a Quest:** This usually occurs via NPC dialogue. When an NPC offers a quest, and the player accepts, the logic should:
+
+  * Add a new entry in active quests (initialize progress 0, etc.).
+  * Possibly send a packet to server indicating quest acceptance (so the server can also track it).
+  * Trigger an event for UI to show that a new quest is started (could flash a quest notifier or update a quest log UI).
+* **Progress Updates:** As the player plays:
+
+  * If a quest objective is “kill X of monster Y,” then whenever a monster is killed, logic should check active quests for any that require that monster. Increment the count and fire an event like `OnQuestProgress(questId, newCount)` so the UI (quest log or a small notifier) can update. Similarly for item collection quests: when player picks up an item, update if it’s part of a quest.
+  * If the quest requires talking to an NPC or reaching a location, those triggers can be invoked when appropriate (e.g., when player enters a specific map or interacts with the NPC after completing prerequisites).
+* **Completing a Quest:** When all objectives are met:
+
+  * Mark the quest as completed in logic and remove from active quests (or mark as completed but still active until turned in, depending on MapleStory’s mechanics – some quests require returning to NPC to finish).
+  * If immediate completion is allowed, grant rewards: add experience, items, mesos, etc., to the player as specified by the quest rewards (ensuring to use Inventory’s add item, etc., which are tested).
+  * If the quest requires turning in at NPC, then set a flag that it’s ready to complete. The NPC interaction logic will detect that and present a “Complete Quest” option when talking to that NPC, which when selected will give rewards and finalize the quest.
+  * Send a quest completion packet to server if online.
+  * Fire an event `OnQuestCompleted(questId)` that UI can catch to maybe display a “Quest Completed!” message or update the quest log UI.
+* **Quest UI:** Implement a simple Quest Log window (accessible via a key, often “Q” in games):
+
+  * It can list current active quests with their progress and completed quests.
+  * Selecting a quest shows its description and objectives.
+  * This UI will subscribe to quest events to update in real-time (e.g. if progress changes or quest completed).
+  * Also, NPC dialogue should reflect quest state: if a quest is available, NPC’s menu shows it; if quest in progress, maybe NPC reminds you of progress; if ready to complete, NPC offers completion.
+* **TDD – Quest System:** Write tests for quest logic thoroughly:
+
+  * Accepting a quest: Simulate an NPC offering quest ID X, call something like `QuestManager.AcceptQuest(X)`. Assert that the quest now appears in active quests list with progress zero.
+  * Progress increment: Set up a quest requiring 3 of item Y. Simulate the player picking up that item (call an Inventory method or directly call a QuestManager method that would be triggered by such an event). Do it 3 times and assert that after the third, the quest is marked complete or ready to complete.
+  * Rewards: Simulate completing a quest with an exp reward and item reward. Before completion, note player exp and inventory count. After completion, ensure exp increased and item added to inventory. Use a fake or test implementation of Inventory if needed to isolate from UI.
+  * Edge cases: Accepting a quest when already have max active quests (if MapleStory limits number of quests), or trying to accept a quest that’s already completed (should not add again). These rules can be encoded in QuestManager and tested.
+* **Integration with Other Systems:**
+
+  * The quest system will hook into combat and item pickup events from the logic. We might implement this via the event system or direct calls. For example, when a monster dies, GameWorld/Monster logic can call `QuestManager.NotifyMonsterKilled(monsterId)`; when an item is picked, `QuestManager.NotifyItemCollected(itemId)`. QuestManager then handles whether these matter.
+  * Networking: In an online setting, the server often also keeps track of quest progress to prevent cheating. The client might still track for convenience, but authoritative updates might come from server. Possibly the server could send a packet when a quest is updated or completed. We should be prepared to handle an incoming “quest complete” packet by updating the client state accordingly.
+  * In offline mode, our client can handle all quest logic itself.
+* **NPC integration:** As mentioned, ensure that when interacting with NPCs, the options presented depend on quest availability. We might maintain a mapping of NPC -> quests they start or end (from quest data). When `TalkToNpc(npcId)` happens, the logic checks if that NPC has any quests:
+
+  * If the player meets the prerequisites (level, previous quest done, etc.) and hasn’t taken it, then include an option “Accept \[QuestName]”.
+  * If the player has completed the requirements of a quest tied to that NPC, include “Complete \[QuestName]”.
+  * If a quest is in progress or not available, NPC just gives normal dialogue.
+  * This conditional logic can be unit tested by simulating various states (no quest, quest available, quest in progress, etc.) and calling an NPC interaction method that returns a list of dialogue options, then checking that the expected options are present.
+
+With the quest system implemented, the Unity client will support the rich mission-based gameplay of MapleStory – players can undertake quests for rewards and story, just like the original client.
+
+## 6. Party System (Multiplayer Parties)
+
+The Party system allows players to form a group of up to 6 members to hunt together and share experience. In the client, the party is largely a representation of data coming from the server, with some UI to display members and their HP/MP. We’ll implement a **PartyManager** in GameLogic to track the player’s party and integrate it with network messages and UI.
+
+* **Party Data Structure:** Define a `Party` class or struct in GameLogic with fields:
+
+  * Party ID
+  * A list of PartyMember entries (each containing player ID, name, level, job, current HP/MP, maybe their location channel/map if needed).
+  * Possibly a leader ID (to know who is the party leader).
+  * Our local player’s role (for convenience, but we can derive if our ID == leader ID).
+* **Joining/Leaving Parties:** In MapleStory, party actions are usually initiated by the player (invite, accept, leave) but ultimately handled by server. Our client needs to respond to server commands:
+
+  * **Invite Flow:** If another player invites our player to a party, the server will send a packet. The client should show a prompt (UI popup: “PlayerX invites you to a party Accept/Decline”). We handle this by having the network trigger an event like `OnPartyInvite(fromPlayerId, fromPlayerName)` that the logic (or directly the UI) picks up. We can have logic store an “invite pending” state if needed. If the user accepts, send a packet back to server to accept. This likely doesn’t require heavy logic, mostly network->UI->network, but we keep logic in the loop for testability (e.g., have a method like `PartyManager.AcceptInvite(invite)` that calls network to respond).
+  * **Party Creation/Update:** When the player creates a party or accepts an invite, the server will send the current party roster. We then instantiate a Party object in logic, fill it with members data, and mark the local player as in a party. Fire an event `OnPartyJoined` or `OnPartyUpdated`.
+  * **Party Member Updates:** Whenever a member’s info changes (HP/MP moves, level up, someone leaves or new member added), the server sends a packet. Update the Party object accordingly and fire events:
+
+    * Member joined/left events (to update UI list).
+    * Member HP/MP update events (for the UI to update health bars).
+  * **Leaving Party:** If the player leaves or disbands, clear the Party data in logic (set to null or empty). Fire `OnPartyLeft` event so UI can hide the party frame.
+* **Party UI:** Design a Party HUD element (usually on the side of the screen in MapleStory) that shows each member’s name, HP, MP, etc.
+
+  * This UI should be created or shown whenever the player is in a party, and destroyed/hidden when not in a party.
+  * It listens to party events: when party updates, rebuild the list of members displayed; when a member’s HP changes, update their bar (this could also be polled each frame from the Party data, but event-driven is efficient).
+  * The party UI might also highlight the leader or show their job icons (optional polish).
+* **Party Commands:** Provide UI or hotkeys for leaving party or inviting players (though inviting likely by clicking a player in game or via a command – which may be outside scope of our client unless we implement a right-click context on other players). Possibly not needed to implement fully for migration, but the client should at least handle incoming invites and party info.
+* **TDD – Party Logic:** Since party is heavily network-driven, we test it by simulating network events:
+
+  * Test creating a party: call something like `PartyManager.OnPartyCreated(partyData)` with a dummy Party info (members list including our player). Assert that after this, the logic indicates we are in a party and the party has correct members.
+  * Test member join: start from a base party of N members, call a method simulating a new member added, and check that the Party data now has N+1 and an event was fired.
+  * Test leave: simulate our player leaving (party disband) via a network event or by calling a method; verify Party is null and `OnPartyLeft` is triggered.
+  * Test HP update: given a party with a member, call a function as if a network packet updated that member’s HP. Verify the Party data changed and an event for member HP update was fired with the new value.
+  * We might also test that duplicate events (like receiving the full party list vs incremental updates) are handled gracefully (e.g., rebuilding the list doesn’t duplicate members).
+* **Coordination with Other Systems:** Party ties into few other things:
+
+  * **Experience Share:** In MapleStory, party members share EXP if in the same map. The actual calculation is server side, but the client might show exp distribution or show when a party member gains EXP. Our logic could simply trust the server’s exp packets and update the player’s exp. If we want, we can implement a local simulation for offline: e.g. if a monster dies and we have a party, split exp in logic. But since the server usually handles it, we might skip this detail or just note it.
+  * **Party Quest or Quest Sharing:** v83 had Party Quests which are special dungeons. Supporting that would just be combination of party and quests, not much extra in client beyond maybe a UI countdown or stage info if any. Possibly out of scope, but our architecture can handle it since quests already exist.
+* **Networking:** The heavy lifting is on server, but ensure to integrate:
+
+  * When the user initiates leaving party (via a UI button), call `INetworkClient.LeaveParty()`.
+  * When inviting, call `INetworkClient.InvitePlayer(targetName)` etc.
+  * Most logic updates come from server responses which we simulate via the events described.
+  * The network interface might define callbacks like `OnPartyCreated`, `OnPartyMemberJoined`, etc., which the PartyManager subscribes to.
+
+Implementing the party system will allow the Unity client to properly display and manage party information, enabling cooperative play experiences consistent with MapleStory. It’s primarily a synchronization and UI feature, but our logic layer ensures we handle it methodically and testably.
+
+## 7. Chat System
+
+The chat system enables players to communicate in-game (general chat, whispers, party/guild chat, etc.). This feature is mostly a UI and networking concern, but we should still route it through our architecture for consistency:
+
+* **Chat Manager (Logic):** Introduce a `ChatManager` in GameLogic to handle incoming and outgoing messages. Its responsibilities:
+
+  * Provide an API `SendChatMessage(string text, ChatType type, targetPlayer)` which passes the message to network (for local echo, we can also immediately add it to the chat log).
+  * Receive incoming chat events (from network) and store them or dispatch events to the UI. For example, `OnChatMessageReceived(type, sender, text)` event.
+  * Maintain a log or buffer of recent messages (could be a simple list of strings or a more structured list of ChatMessage objects containing sender, type, content, timestamp). This could help if we want to implement chat history or scrolling in UI.
+  * Possibly handle filtering (for example, if we want to filter out certain messages or implement a client-side mute, but that might be extra).
+* **Chat Types:** MapleStory has different chat channels – general map chat, whisper (private message), party chat, guild chat, maybe others like shout/megaphone. We should support at least:
+
+  * **All / Map chat:** visible to players on the same map.
+  * **Whisper:** private between two players.
+  * **Party chat:** visible to party members.
+  * **Guild chat:** visible to guild members.
+  * **System messages:** notices from server (like “Welcome” or errors).
+  * Represent this in ChatType enum and handle each appropriately (the UI might color them differently).
+* **UI – Chat Window:** Implement a chat box UI at the bottom of the screen:
+
+  * A scrolling text area to display messages.
+  * An input field where the player can type messages. Pressing Enter focuses the chat input, and sending sends the message.
+  * Possibly tabs or filters for different channels (Map/Whisper/Party/Guild). MapleStory’s UI typically has one box with all, but with prefixes like “\[Party]”.
+  * Show speaker name and message, maybe color code or add channel tag.
+  * For whispers, possibly open a separate small window or just denote in main chat.
+  * Also allow clicking on a player’s name to e.g. initiate a whisper or other actions, though that’s a nice-to-have.
+* **Integration:**
+
+  * The GameView will capture chat input. For example, if Enter is pressed and the chat UI is not focused, focus it; if already focused and user presses Enter or a Send button, take the text and call `ChatManager.SendChatMessage(text, currentChannel)`.
+  * When ChatManager receives a message (e.g., `OnChatMessageReceived` event from network), it adds to log and also triggers a UI update event. The UI can subscribe or simply pull from the log periodically. More simply, when a new message arrives, we can append it to the UI text list.
+  * For private messages, the UI might need to alert the user (MapleStory highlights the tab or plays a sound).
+* **TDD – Chat:** Testing the chat logic can be done by simulating send and receive:
+
+  * Test sending: call `SendChatMessage("hello", MapChat)` on ChatManager with a mock network client. Verify that the network client was instructed to send the correct packet or method (this requires a fake INetworkClient, as earlier).
+  * Test receiving: simulate a call from network like `ChatManager.OnChatReceived(ChatType.Party, "Alice", "hi")`. Then assert that the chat log now contains a message with "Alice: hi" of type Party. Also, if we implement an event, verify that an `OnChatMessage` event was fired.
+  * Test log size: if we cap the log to e.g. 100 messages, add 101 messages via a loop and ensure the oldest dropped off.
+  * Multi-channel: send a party message and a guild message, ensure they are recorded distinctly (maybe with a channel property).
+* **Network Implementation:** The NetworkClient will parse chat packets:
+
+  * A general chat message packet will include the sender and text (and channel type if applicable). It should call `ChatManager.OnChatReceived(type, sender, text)`.
+  * Whisper packets might be separate; ensure those call the same method with type Whisper.
+  * Outgoing: when ChatManager calls `SendChatMessage`, the network layer should package it into the correct packet format (with channel code, target if whisper).
+* **Anti-Spam & Input Constraints:** Could implement basic constraints like message length limit or cooldown on sending to prevent spam (MapleStory had a few seconds delay between messages). This could be done in ChatManager (e.g., store timestamp of last message, if new message too soon, either queue it or drop it). This is optional, but we can note it.
+* **Visual Feedback:** Possibly play a small sound on receiving a message or flash the chat window if minimized (MapleStory does this on whisper). We can include these as polish after core functionality.
+
+The chat system will allow communication exactly as the original client, enhancing the multiplayer experience. By keeping logic (message handling) separate from UI, we can easily test it and ensure it works under various conditions (even headless or in test mode, we could simulate chat exchange).
+
+## 8. Character Customization and Appearance
+
+Character customization in MapleStory involves choosing gender, face, hair, skin color at creation, and then changing appearance by equipping different items (clothes, weapons, etc.). Our client’s character should reflect equipped items and choices, requiring a system to manage the character’s visual composition.
+
+* **Character Appearance Data:** MapleStory avatars are rendered by layering sprites for each body part (hair, face, top, bottom, weapon, etc.). The NX data (specifically `Character.nx` or similar) provides sprite frames for each equip item and body part. We need to leverage that:
+
+  * Create a data structure that maps equip slot -> sprite/frame. For example, if the player equips item 1002850 (a specific hat), the data gives the coordinates or frames to draw that hat on the character’s head.
+  * Each item in the item database should indicate if it’s wearable and which slot (hat, top, bottom, etc.), and provide references to the sprite assets for that item (which we loaded in the asset manager).
+* **Applying Equips (Logic):** The Player logic already has an Inventory and probably an `EquipItem(itemId)` method or similar. We will ensure that equipping an item updates the player’s appearance state:
+
+  * In Player class, maintain a dictionary of equipped items per slot (or explicit fields like `equippedHat`, `equippedTop`, etc.).
+  * When an equip change happens (either by player manually equipping or as part of initial character setup), update these fields and then fire an event `OnEquipmentChanged(slot, itemId)` or a general `OnAppearanceChanged`.
+  * Stats: Also apply any stat boosts from equipment to the player’s attributes in logic (e.g., +5 STR from a shirt). That can be handled during equip as well.
+  * Character creation: Provide a way to set initial appearance. Perhaps when first launching (if we allow creating a character), one could pick hair/face etc. For now, we might assume a default or a pre-configured character. If needed, implement a CharacterCreation UI (select from a few preset options) that sets the initial equip items (e.g. basic hair ID, face ID as “items” with special categories).
+* **Visual Assembly:** In the GameView, the `PlayerView` needs to display the character composed of multiple sprites:
+
+  * Instead of one SpriteRenderer for the whole character, we use multiple, one for each layer (hair, face, body, weapon, etc.) so they can be drawn on top of each other correctly. Organize them under the Player GameObject.
+  * Alternatively, use Unity’s sorting or a single skinned mesh if 3D, but since MapleStory is 2D sprites, multiple SpriteRenderers is fine.
+  * When the player’s appearance changes, the PlayerView should update the sprite of the affected part. For example, if `OnEquipmentChanged(slot, newItemId)` event is received, the PlayerView will look up the corresponding sprite frame (which we loaded into, say, a dictionary of \<itemId, Sprite>) and assign it to the SpriteRenderer for that slot.
+  * The asset loading system should have extracted these Sprites from the NX. Possibly we pre-extract all sprites for the character’s current equips at load time.
+  * For animations: MapleStory character sprites have multiple frames for walking, jumping, etc., for each equip combination. It might be complex to animate each layer. A simpler approach is:
+
+    * Use a preset set of animations (e.g. a generic body animation) and ensure each equipment layer has corresponding frames. MapleStory’s art is designed such that each frame of an animation has matching parts for each equip.
+    * We can use the frame index of the base body animation to set all other SpriteRenderers to the corresponding frame for that part. For example, if in frame 3 of “walk” animation, set bodySpriteRenderer.sprite = bodyWalkFrame3, hatSpriteRenderer.sprite = hatWalkFrame3, etc. These frames would have been loaded from NX if available.
+    * Implementing this fully might be very involved. Initially, we could simplify by only showing idle frame for equips (no animation), or have limited animations, then later refine.
+* **TDD – Equip Logic:** Ensure the logic of equipping is correct:
+
+  * Test equipping an item: give player an item in inventory, call `EquipItem(itemId)`, assert that item is now in the equipped slot and removed from inventory (if MapleStory does that; Maple typically moves item from inventory “Equip” tab to equipped state).
+  * Test stat changes: if that item gives +Defense, after equip the Player’s defense stat in logic should increase by that amount. On unequip, stat reverts.
+  * Test appearance event: verify that equipping triggers an `AppearanceChanged` event with the correct slot info (this could use a listener in test or a flag on Player).
+  * Inventory limits: test that equipping something when that slot is filled automatically unequips current item (MapleStory allows only one equip per slot). Ensure logic handles it (unequip current item to inventory, then equip new one).
+  * Edge: equipping an item the character cannot wear (wrong class or level too low) – logic should prevent it and maybe emit an error event.
+* **Integration Test:** In play mode, simulate picking up an equipable item from a monster drop, then equipping it:
+
+  * The player’s visual sprite should change to reflect the new item. For example, pick up a new hat, equip it, and see the character sprite now has that hat.
+  * The test could verify by reading the Sprite name on the head SpriteRenderer, comparing it to expected.
+* **Character Creation:** If implementing a creation screen, we can test it by choosing options and starting the game, ensuring the Player is initialized with those choices. But this might be an offline configuration step rather than an in-game feature for now.
+
+With character customization in place, players will see their avatar change appearance as they equip items, which is a core aspect of MapleStory’s charm. Our architecture cleanly separates the equip logic (in Player/Inventory classes) from the rendering (PlayerView reacting to events), keeping it manageable and testable.
+
+## 9. Sound and Music Integration
+
+Sound effects and background music are essential for MapleStory’s atmosphere. We will integrate sound such that it adheres to our layered design: game logic triggers sound events, and the Unity GameView layer plays the actual audio.
+
+* **Audio Data:** The MapleStory assets include background music (BGM) for each map and numerous sound effects (for skills, UI clicks, monster cries, etc.). In the NX asset loading step, we should extract these audio files (which might be MP3 or WAV data inside the NX). Unity can’t directly play from NX, so we might need to convert them into an AudioClip:
+
+  * Possibly write a small loader that takes sound binary from NX and creates `AudioClip` at runtime (Unity has API for that).
+  * Alternatively, if the original MapleStory-Client had these assets extracted, we could include them as resources. But assuming we use NX, we handle it programmatically.
+* **Audio Manager:** In the GameView layer (Unity side), create an `AudioManager` component or class. This can handle playing music and sound:
+
+  * It should maintain an AudioSource for BGM (looping music) and maybe a pool of AudioSources for sound effects (to allow overlapping sounds).
+  * Provide methods like `PlayBGM(string bgmName)` and `PlaySound(string soundName)` for various uses. It will look up the corresponding AudioClip (either preloaded or lazy loaded from data).
+  * Optionally manage volume settings (volume control, mute toggling).
+* **Triggers from Logic:** The logic layer should not directly play sounds, but it knows *when* sound-worthy events happen. We can approach this in two ways:
+
+  1. **Event-based:** Have logic events indicate when something occurs that has a sound. e.g., `OnAttackExecuted` event carries maybe the attack/skill info, and the AudioManager (or a listener in GameView) knows to play a “slash” sound. Similarly `OnMonsterDies` could trigger a “pop” sound, `OnItemPicked` triggers a pickup sound, etc. This is simple: we already have events for many gameplay actions; the AudioManager just needs to subscribe and map events to sounds.
+  2. **Direct calls via interface:** Introduce an interface `IAudioService` in GameLogic. The logic can call methods like `PlaySoundEffect(name)` on it. In production, the GameView implements this by tying to AudioManager; in tests, we can have a dummy implementation that records what would be played (to assert that correct sounds would be triggered). This approach is a bit more invasive (logic calling an interface), but it can be clean if used sparingly for well-defined cues.
+
+  * We might use a combination: important, infrequent sounds via events (which is effectively decoupled already), and background music via direct trigger when map changes.
+* **Background Music:** Each map has a BGM track. When `GameWorld.LoadMap` completes, after logic sets the new map, we can have logic or data include the BGM identifier. The GameView’s map loader or GameManager can catch the map load completion and call AudioManager.PlayBGM for that map’s track:
+
+  * Ensure any currently playing BGM is faded out or stopped, then play the new one looping.
+  * Possibly allow an option to disable BGM or lower volume separate from sound effects (common in games).
+* **Sound Effects:** Identify key actions that need sound:
+
+  * Player attacking (sword swish or skill-specific sound).
+  * Player getting hit (sound + maybe a damage grunt).
+  * Monster death or attack sounds.
+  * Picking up item or mesos.
+  * UI sounds: opening inventory, clicking a button, leveling up, etc.
+  * We will map these to sound asset names and ensure our AudioManager can play them.
+* **TDD – Sound:** Testing sound playback itself is not needed (Unity’s audio is well-tested). Instead, test that logic triggers the appropriate calls:
+
+  * If using an interface: provide a MockAudioService to Player/World in a test. Simulate an action (e.g., call Player.Attack or Skill use) and assert that `PlaySoundEffect("slash")` was invoked on the mock service.
+  * If using events: we can attach a test listener to the event. For example, subscribe to OnAttackExecuted, perform an attack, and verify the event carried the expected sound name. Or simpler, just trust mapping; event presence is enough.
+  * We can also test that map loading triggers BGM change by checking that after `LoadMap(mapX)`, the logic has a field for bgmName (if we include one) or that an event OnMapChanged includes the BGM info.
+* **Volume/Settings:** Possibly out of scope, but we can have a simple global setting for volume that the AudioManager reads (maybe from PlayerPrefs or a config file). Ensure AudioManager uses it.
+* **Performance:** Loading many sounds at once can be heavy. We might only load BGM on demand (when needed) and sound effects either on demand or preload commonly used ones. Unity can stream longer audio (like BGM) if needed.
+
+By integrating sound, the Unity client will greatly enhance the user experience to match the original – background music per area and sound effects for actions make the game feel complete. This system is largely within GameView but triggered by logic events, keeping our separation intact.
+
+## 10. Visual Effects and Animations
+
+Beyond static sprites, MapleStory is full of effects (e.g., spell animations, hit effects, portal swirls) and animated sprites (monsters moving, NPC blinking, etc.). We need to implement the **Effects system** and improve the **Animation handling** for characters and monsters to fully mirror MapleStory’s look.
+
+* **Animation Controller (Characters & Monsters):** We should extend our PlayerView and MonsterView to handle sprite animations:
+
+  * We can use Unity’s Animator with a custom AnimationClip for each action (walk, jump, attack, etc.), or we can manually swap sprites each frame (which might be simpler given we have frame data from NX).
+  * Given MapleStory animations are frame-based, an efficient approach is to have a **Sprite Animation component** in GameView:
+
+    * Configure it with a list of sprite frames (loaded from NX) for a specific animation and a frame timing (MapleStory often animates at \~100ms per frame or varies).
+    * It could be a script that on Update, advances a frame timer and swaps the sprite on a SpriteRenderer.
+    * We attach multiple such components or a single one with state handling to the player and monster objects.
+  * The logic will dictate animation state changes via events or state variables. For instance, the Player logic might have a state (standing, walking, jumping, attacking, taking damage, etc.). After each logic update, it can raise an event or the GameView can query the state:
+
+    * If player.state changed from standing to walking, trigger the walk animation.
+    * If attacking, play attack animation once, then return to idle.
+    * If monster HP <= 0, trigger death animation and then remove the monster after it finishes.
+  * This likely means we implement something like an `AnimationStateController` in GameView that listens to logic events (`OnStateChanged` or similar) or checks certain flags each frame.
+* **Special Effects (Skill effects, Buff auras, Portals, etc.):** These are typically one-off animations or particle effects that appear in the world:
+
+  * We can prepare **prefabs or particle systems** for some effects (e.g., the portal effect might be a prefab with an Animator).
+  * For skill effects that are 2D sprites (like an explosion image sequence), we might handle them similar to animations:
+
+    * When a skill is used (logic event), spawn an **Effect object** in the scene at the specified position. This Effect object can have a Sprite Animation component that cycles through the frames (loaded from NX) and destroys itself after completion.
+    * The mapping from skill or effect ID to the actual visuals can be defined in a data file or scriptable object (or just as part of SkillInfo linking to an effect name).
+  * Buffs could have a visual indicator (like an icon above character’s head or a glow effect). We can implement a simple one: e.g., if a character has an active buff, instantiate a small icon or change their outline color. This can be managed by the CharacterView checking the player’s active buffs list and showing/removing icons accordingly.
+  * Damage indicators: MapleStory shows damage numbers when hits occur. We can implement this as spawning floating text. For example, when a monster takes damage, logic event `OnDamageDealt(amount, critical, target)` is fired. GameView catches it and spawns a floating text at the monster’s position that floats up and fades.
+* **TDD – Animation:** Testing visuals is tricky, but we can ensure that logic triggers are working:
+
+  * Test that when Player changes state to walking (perhaps by calling Player.MoveRight and update), an event or state variable is set. We could have a unit test verifying that `player.IsWalking` becomes true when velocity != 0, etc. Then assume the view will pick that up.
+  * Test that when Monster dies, it triggers an event that would lead to a death animation. Possibly logic can have `OnMonsterDied(monsterId)` event which we test is raised when HP <= 0.
+  * For effects, test that using a skill triggers an event `OnSkillEffect(skillId, targetPosition)` for the view to catch. This ensures the hook for visual is present.
+* **Polish Considerations:**
+
+  * Ensure animations are smooth and timed as per MapleStory. For instance, jumping has a particular pose sequence, ladder climbing cycles frames while moving, etc. Fine-tuning might be needed by comparing to the original or adjusting frame durations.
+  * We might incorporate Unity’s ParticleSystem for some effects like explosions or sparkles if recreating sprite frames is too onerous, but using MapleStory’s own sprites is more authentic.
+  * Optimize effect objects: too many might cause slowdowns, so destroy them when done and consider object pooling for very frequent ones (like damage numbers).
+* **Integration:** With animations and effects in place, the game will feel much more alive:
+
+  * The player and monsters will no longer just slide or teleport to new positions but animate properly.
+  * Special actions will have visual feedback (casting spells looks flashy, taking damage shows numbers, using a portal plays an animation, etc.).
+  * All these remain loosely coupled – the logic never needs to know *how* an animation is shown, it only signals that something happened (moved, attacked, died), and the view layer handles the rest.
+
+Completing the effects and animations brings the visual fidelity of the Unity client on par with the original game, creating a satisfying user experience. It also signals that our migration is nearly feature-complete visually and functionally.
+
+## 11. Full Item Database Integration
+
+We touched on loading all item data in the NX loading section, but it’s worth emphasizing the importance of a complete item database in the client:
+
+* **Item Definitions:** Ensure that **every item ID** that exists in MapleStory v83 is accounted for in our data. This includes equipment, use items (potions, scrolls), etc. The data for each item includes:
+
+  * Name, description (for tooltips),
+  * Item type (equip, use, etc.),
+  * Stats bonuses if any (for equips),
+  * Requirements (level, class to equip),
+  * Etc.
+  * This likely comes from `Item.nx` or similar. We parse it and create a large dictionary as mentioned.
+* **Inventory & Equip logic revision:** With full data, our Inventory system can be improved:
+
+  * Validate using items: if a potion has a cooldown or is only usable once, enforce that.
+  * If certain items are stackable (potions stack to 100, etc.), ensure our inventory allows stacking and tests cover it.
+  * Scrolling (upgrading items with scrolls) – MapleStory had scroll items that upgrade equips with a success chance. This might be beyond scope unless original client did it. If needed, we could implement a simplified version: use scroll item -> have chance to increase equip’s stat or destroy item. This involves random chance and updating item data (maybe skip deep details unless required).
+  * Drop and pickup already implemented, but ensure that item drop visually shows the correct item sprite from the database (e.g., if a Red Potion drops, the ground sprite is a red potion image).
+* **UI Tooltips:** With full item data, implement item tooltips in UI:
+
+  * When hovering an item in inventory, show a tooltip panel with the item’s name, stats, description, etc. These values come from the item database.
+  * This requires a UI component to follow the cursor and display info; logic can provide the item info easily since it’s static data.
+  * Test by simulating a hover event in a play test, verifying that correct text appears.
+* **Shops and Drops:** Now that all items exist, NPC shops can sell the correct items with correct prices (from data), and monsters can drop their actual loot table items. We may need to integrate monster loot data (in NX likely) so that when a monster dies, if simulating offline, we can generate item drops realistically. In online, server will tell the drops, but we still need item database to display them correctly.
+* **Storage (if applicable):** MapleStory has a storage NPC where you can bank items. If original client had that, it’s basically another inventory for storage. Possibly not needed, but if implementing: treat like another inventory with its own UI and logic.
+* **TDD – Items:** We had tests for inventory, we should extend:
+
+  * Test stacking: add 50 potions to inventory, then another 60 of same potion, ensure it results in two stacks (100 and 10) if max stack is 100.
+  * Test equip requirement: try equipping an item with level requirement higher than player’s level, ensure the logic refuses (perhaps returns false or triggers an event “cannot equip”).
+  * Test using an item: e.g., a potion that restores 50 HP. Give player 1 potion item, have player at HP 100/150, call `UseItem(potionId)`, assert HP becomes 150 (capped at max) and the item is consumed (inventory count decreases). If an item has a cooldown (e.g., some buffs), ensure subsequent use within cooldown is prevented.
+  * Test drop generation (if we implement offline drop logic): kill a monster in logic, have a loot table defined, ensure an item appears in world drops with correct ID and that picking it up adds to inventory.
+* **Collaboration with Network:**
+
+  * Many item-related actions are server-authoritative (especially trades, drops, etc.). Our client should reflect what server says. We still implement logic for offline and to respond instantly, but always reconcile with server data to avoid exploits (for example, after a trade, the server will send final inventories).
+  * The item database itself can be identical on client and server, ensuring consistency in item stats displayed.
+* **Trade system (coming next) and guild items:** Full item data also supports trading (to show item details in trade window) and any guild-related items (like guild emblem customization, which v83 might not have much of).
+
+By fully integrating the item database, we ensure the Unity client knows about every item and its properties, which is crucial for a seamless MMO experience. The game will behave consistently with MapleStory’s item mechanics and provide all necessary information to the player.
+
+## 12. Trading System
+
+Trading allows two players to exchange items and mesos securely. In the client, a **Trade Window** UI is used to manage this process, and logic must coordinate the trade state with the server.
+
+* **Trade Session Logic:** Create a `TradeSession` class in GameLogic (or in the Player/Party context) that is instantiated when a trade is initiated:
+
+  * Contains the two participants’ identifiers (one is the local player, other is the trade partner).
+  * Each side has a list of items offered (item ID and quantity) and a mesos amount offered.
+  * A state flag for each side whether they have **accepted/locked** the trade and a final **confirmed** state.
+  * The trade proceeds as:
+
+    1. One player invites to trade (likely by clicking another player and choosing trade, or via command). In our client, this may come as a network event “X wants to trade with you” similar to party invites. The UI should prompt “Accept trade with X?”. If accepted, server confirms and opens trade on both.
+    2. Both players see the trade window. Initially empty offers.
+    3. Each can add items (drag from inventory into trade slot) or mesos. When they do, the client should send a packet to server “offer item ID X, quantity Y” or “offer Z mesos”.
+    4. The server will broadcast the updated offer to both clients. Our logic, upon receiving such update, will add the item to the TradeSession for that side and fire an event for UI to update (show the item in partner’s offer list, etc.). We might also optimistically show our own offer immediately when we add, but server confirmation ensures no hacking.
+    5. When a player is satisfied with the offer, they click “Lock” or “Accept”. At this point MapleStory shows a lock icon and you can’t change your offer (until both lock then trade finalizes). We will handle this by a method `LockTrade()` that sets our side’s state to locked and sends a lock packet. The UI will reflect that (maybe grey out our offer).
+    6. When both sides locked, server sends a final confirmation or a second accept step (MapleStory has two-step accept: lock and then confirm if I recall correctly). The client likely has an “Trade OK” button after lock. We simulate it similarly: after both locked, allow a “Confirm” that sends final confirmation.
+    7. If both confirm, server completes trade: removes items from each inventory and gives the other’s items/mesos. Then sends a success packet. Our client on receiving that should apply the changes to the inventory (which we might have already removed when offering? Actually MapleStory removes the item from your inventory view once you put it in trade offer, but technically you still own it until trade completes. We can mirror that behavior by removing it from the displayed inventory but keeping a record in TradeSession).
+    8. If any side cancels, or closes window, server aborts trade and returns items.
+  * We can simplify the above by focusing on key states: **offering items** and **accepting trade**.
+* **Inventory Interaction:**
+
+  * When a player offers an item to trade, we should temporarily mark that item as in trade (not available in inventory for other uses). Possibly remove it from Inventory data into a TradeSession field. If trade is canceled, return it to inventory.
+  * Ensure logic prevents using or dropping an item that’s currently in a trade offer.
+* **Trade UI:** A window with two panels (ours and partner’s offers), each showing item icons and quantities, plus a field for mesos offered:
+
+  * The UI needs to allow dragging items from inventory to offer (implement drag-and-drop or a simpler “add to trade” button from inventory).
+  * A text field or button to input mesos.
+  * An “Accept” or “Lock” button.
+  * A “Cancel” button to abort trade.
+  * Visual indicators when locked (e.g., lock icon or grayed out).
+  * When trade completes, auto-close the window and maybe show a small “Trade completed” message.
+* **TDD – Trade:** Test the trade logic in isolation by simulating the sequence:
+
+  * Offer item: given a TradeSession with local player and partner, call something like `OfferItem(itemId, qty)` on the logic. If we simulate no server, directly call the logic that would normally be triggered by server for our own offer too (or assume immediate reflection). Assert that the TradeSession now lists that item in our offers, and the item was removed from Inventory.
+  * Offer mesos: similar, call `OfferMesos(amount)`, check TradeSession state and that player’s mesos (temporary) is deducted or at least marked.
+  * Lock and unlock: call `LockTrade()` for our side, check state. Simulate partner lock via a method, ensure that triggers an event like `OnTradePartnerLocked`.
+  * Confirm trade: simulate both sides confirming, then verify that the items ended up in the appropriate inventory. This might require setting up two Inventory instances (one for each player) in test and verifying the transfer.
+  * Cancel trade: simulate adding items, then simulate a cancel event, ensure items returned to inventory and TradeSession cleared.
+  * We may use a dummy network layer in tests to call the appropriate logic methods as if packets arrived (like `TradeManager.PartnerAddedItem(itemId)` etc.).
+* **Network:**
+
+  * The client should mostly react to network commands here. So design an interface in `INetworkClient` for trade actions (invite, accept, offer item, etc.), and matching callbacks:
+
+    * Methods: `SendTradeInvite(playerId)`, `SendTradeOffer(itemId, qty)`, `SendTradeLock()`, `SendTradeConfirm()`, `SendTradeCancel()`.
+    * Callbacks: `OnTradeInviteReceived(fromPlayer)`, `OnTradeStart(partnerId)`, `OnTradeOfferUpdated(side, itemId, qty)`, `OnTradeLockUpdated(side)`, `OnTradeEnd(success)` etc.
+  * The TradeSession logic can be part of `GameWorld` or a `TradeManager` that listens to these callbacks and updates state accordingly.
+  * Because trade is sensitive (duping bugs if mishandled), ensure the client’s representation strictly follows server messages.
+* **Edge Cases:**
+
+  * If partner disconnects during trade, server cancels it – handle an OnTradeEnd(failed) by showing a message “Trade canceled - partner disconnected.”
+  * If inventory is full for receiving items, the trade might fail or items drop – MapleStory either fails trade or drops excess items. Our client should be ready to handle a failure message.
+  * Multiple trade requests: If you get two invites at once or invite while trading – likely server prevents it, but ensure we don’t allow multiple sessions concurrently in logic.
+* **UI/UX:** Test manually that items show up correctly on both sides during a trade (may need two clients in multiplayer or a test harness). Check that you cannot edit offer after locking (UI disables drag), and after completion inventories update.
+
+With trading implemented, players can exchange goods, which is a core social feature in MMOs. Our approach keeps the trade state and rules in the logic (easy to test) and uses events to drive the UI. The network integration ensures we stay in sync with the server’s version of the trade.
+
+## 13. Guild System
+
+Guilds are persistent player organizations. In MapleStory, a guild has a name, emblem, members with ranks, and a guild chat channel. The client’s responsibilities for guilds are mostly displaying guild information and facilitating guild chat; all permanent guild data is stored on the server. We will implement a minimal guild system support:
+
+* **Guild Data Model:** In GameLogic, add a `Guild` object associated with the Player (since the client really only cares about the guild of the local player and perhaps guildmates online):
+
+  * Guild ID, name, emblem (if any, v83 had simple emblems), notice/message of the day.
+  * Member list might not be fully sent to the client except maybe for online members or when opening a guild UI. But if needed, we could store a list of `GuildMember` with name, rank, online status.
+  * The player’s own guild rank.
+* **Displaying Guild Info:**
+
+  * **Overhead names:** MapleStory typically displays guild name below character names. Our GameView can do this: if Player has a guild, the PlayerView should create a Text mesh or UI element near the character to show the guild name (and maybe guild emblem as an icon).
+  * Same for other players: when we get data of another player (via network spawn of another user), it will include guild info, so we should create their name label including guild. This likely requires our GameLogic representation of other players (if any) to store guild name, which the network can provide when another player enters view.
+* **Guild Chat:** Already covered under chat system – it’s just another channel. Ensure ChatManager handles type = Guild appropriately (if player is in a guild).
+* **Guild UI:** MapleStory has a guild window showing all members, their ranks, and options to invite or leave. Implementing full guild management UI is extensive and perhaps not needed for minimum migration, but we can implement a basic view:
+
+  * If the player presses a Guild key or menu, open a Guild Panel that lists the guild’s members (if the server provides that info on request).
+  * The UI could have a simple list with names and ranks, maybe an option to leave guild or see guild notice.
+  * Without server support, this might be static; with server, typically you’d request guild info and then fill it.
+* **Joining/Leaving Guild:**
+
+  * When the player is invited to a guild or joins one, the server will send a packet with guild info. We handle that by creating/updating the Guild object in logic and firing an event `OnGuildJoined` (with guild name etc.) so UI can update (e.g., show guild name on screen).
+  * If leaving or being kicked, server sends update – logic clears the Guild object and UI removes guild name displays.
+  * If guild info (like member list) changes (someone joins, leaves, leader changes), server might send updates if the guild window is open. The client can update the Guild model accordingly and refresh UI list.
+* **TDD – Guild:** Since guild is mostly passive data from server, testing is minimal:
+
+  * Test that when a guild join event is processed (e.g., call `Player.SetGuild("GuildName", guildId)`), the player’s Guild property is set and an event fires.
+  * Test that guild name shows in overhead: this might be an integration test verifying that after setting guild, the PlayerView created a guild name label with the correct text.
+  * Test guild chat: ensure sending a guild message goes through ChatManager as type=Guild (we did that) and that receiving one prints with guild tag or at least goes to chat window.
+* **Guild Emblem:** v83 had guild emblems (small icons). If we want to support it:
+
+  * Guild emblem graphic might be stored as an item or separate data. If available, we can load it and display next to guild name in overhead.
+  * This is a minor detail and could be added if data is easily accessible.
+* **Permissions & Ranks:** Managing ranks (junior/master, etc.) and inviting/kicking is largely done through UI sending commands to server, and server updating. We might not implement client-side beyond showing rank titles or enabling the invite button if player is master. For migration completeness, showing rank in guild window is enough.
+
+With basic guild support, the Unity client will display guild affiliations and handle guild communications, fulfilling the social aspect of guilds in MapleStory. This likely completes the feature parity with the original client.
+
+## 14. Testing & QA for Remaining Features
+
+With all these new systems, our test suite will expand significantly. We must maintain the **TDD discipline** throughout, meaning each feature above comes with unit tests and integration tests. By the end, we should have:
+
+* **Unit Tests:** covering the logic of each new system (skills, quests, trading, etc.) in isolation. These tests ensure rules are implemented correctly.
+* **Integration Tests:** new play mode tests for end-to-end scenarios:
+
+  * e.g., **Quest Integration Test:** simulate killing monsters and picking items in a play mode test to complete a quest and verify the quest UI updates and reward is applied.
+  * **Party Integration Test:** have a fake second player object join the map (or simulate via network stub) to see if party UI shows both members, then simulate that player taking damage and see if our UI updates their HP bar.
+  * **Trade Integration Test:** this is hard without two players; possibly simulate by running two GameWorld instances in a test or by calling methods to mimic both sides. Verify that item counts in inventory after trade match expected outcome.
+  * **Skill Integration Test:** use a powerful skill on a monster in play mode, verify monster dies and drop appears, etc.
+* **Performance Tests:** With added systems, ensure the game still runs at good performance. Use Unity’s profiler or write tests (if possible) to spawn many entities (monsters, effects) and see that frame rate stays acceptable. Check memory for leaks (no uncollected asset references after leaving a map, etc.).
+* **User Testing:** It’s wise to do some manual testing following a checklist (the project likely has `TEST_CHECKLIST.md` as mentioned). Update that checklist to include:
+
+  * Connect to server, test chat between two players, party invite, guild chat.
+  * Try a quest from start to finish.
+  * Fight monsters with different skills, ensure everything looks right.
+  * Trade between two players (maybe two clients).
+  * Edge cases like disconnect during trade, etc.
+  * The manual test will catch any user experience issues or minor bugs not covered by automated tests.
+
+By maintaining thorough tests, we ensure that adding these advanced features doesn’t break existing functionality (regressions). The 40+ tests we started with will likely grow to double or more, but that’s expected given the complexity added. Each test reinforces confidence in the stability of the feature set.
+
+## Conclusion
+
+Completing the remaining features of the MapleStory client in Unity is a substantial but achievable task. By adhering to the same architecture and TDD approach that served well so far, we can implement each system in a modular, tested way. We have outlined how to integrate **networking** for real server play, fully load **game data** from NX files, and implement all major gameplay systems: **skills**, **NPC interactions with shops**, **quests**, **parties**, **chat**, **character customization**, **sound and animations**, a full **item database**, **status effects/buffs**, **trading**, and **guilds**.
+
+Throughout this phase, we remain consistent with the clean separation of concerns – core game logic in engine-agnostic code, Unity handling only the rendering/input, and data services providing content via interfaces. Events and interfaces will connect these parts so that, for example, logic triggers a visual effect or a network message triggers a logic update, without tight coupling.
+
+By the end of this migration, the Unity client should achieve **feature parity with the original MapleStory v83 client**, meaning players can do everything they expect: play together online, use all skills, complete quests, join guilds, trade items, and enjoy the full MapleStory experience, now on a modern, maintainable Unity codebase. All of this will be backed by a comprehensive test suite ensuring the game remains stable and true to MapleStory’s mechanics. With careful implementation and testing, the MapleUnity project will succeed in recreating MapleStory in Unity, providing a platform for future expansions or modifications with confidence in its architectural robustness and test coverage.

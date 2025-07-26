@@ -17,6 +17,13 @@ namespace MapleClient.GameData
                 CreateMockMapData();
             }
         }
+        
+        public MockNxFile(string fileName)
+        {
+            rootNode = new NxNode("root");
+            // Create mock data based on file name
+            CreateMockDataForFile(fileName);
+        }
 
         public INxNode GetNode(string path)
         {
@@ -128,6 +135,26 @@ namespace MapleClient.GameData
             stringImgNode.AddChild(streetNameNode);
             stringImgNode.AddChild(mapNameNode);
             (rootNode as NxNode).AddChild(stringImgNode);
+        }
+        
+        private void CreateMockDataForFile(string fileName)
+        {
+            // Create appropriate mock data based on file name
+            switch (fileName.ToLower())
+            {
+                case "map.nx":
+                    CreateMockMapData();
+                    break;
+                case "string.nx":
+                    // Create string data if needed
+                    break;
+                case "item.nx":
+                    // Create item data if needed
+                    break;
+                default:
+                    // Create minimal structure
+                    break;
+            }
         }
     }
 }

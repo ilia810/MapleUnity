@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MapleClient.GameLogic;
 using MapleClient.GameLogic.Interfaces;
+using PortalType = MapleClient.GameLogic.PortalType;
 
 namespace MapleClient.GameData
 {
@@ -42,15 +43,26 @@ namespace MapleClient.GameData
             
             // Try to find map node
             var mapPath = $"Map/Map{mapCategory}/{mapIdStr}.img";
+            UnityEngine.Debug.Log($"Looking for map at path: {mapPath}");
             var mapNode = mapNx.GetNode(mapPath);
             
             if (mapNode == null)
             {
                 // Try without category for mock data
-                mapNode = mapNx.GetNode($"Map/Map0/{mapIdStr}.img");
+                mapPath = $"Map/Map0/{mapIdStr}.img";
+                UnityEngine.Debug.Log($"First path failed, trying: {mapPath}");
+                mapNode = mapNx.GetNode(mapPath);
                 if (mapNode == null)
                 {
-                    return null;
+                    // Try without "Map/" prefix
+                    mapPath = $"Map{mapCategory}/{mapIdStr}.img";
+                    UnityEngine.Debug.Log($"Second path failed, trying: {mapPath}");
+                    mapNode = mapNx.GetNode(mapPath);
+                    if (mapNode == null)
+                    {
+                        UnityEngine.Debug.LogError($"Failed to find map node for {mapId}");
+                        return null;
+                    }
                 }
             }
 
@@ -106,8 +118,13 @@ namespace MapleClient.GameData
         {
             var footholdNode = mapNode["foothold"];
             if (footholdNode == null)
+            {
+                UnityEngine.Debug.LogWarning("No foothold node found in map");
                 return;
+            }
 
+            UnityEngine.Debug.Log($"Loading platforms from foothold node with {footholdNode.Children.Count()} layers");
+            
             int platformId = 1;
             foreach (var layerNode in footholdNode.Children)
             {
@@ -129,9 +146,13 @@ namespace MapleClient.GameData
                             Y2 = y2,
                             Type = PlatformType.Normal
                         });
+                        
+                        UnityEngine.Debug.Log($"Platform {platformId-1}: ({x1},{y1}) to ({x2},{y2})");
                     }
                 }
             }
+            
+            UnityEngine.Debug.Log($"Loaded {mapData.Platforms.Count} platforms from foothold data");
         }
 
         private void LoadPortals(INxNode mapNode, MapData mapData)

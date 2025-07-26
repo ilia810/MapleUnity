@@ -13,9 +13,11 @@ namespace MapleClient.GameData
     {
         string Name { get; }
         object Value { get; }
+        INxNode Parent { get; }
         IEnumerable<INxNode> Children { get; }
         INxNode this[string childName] { get; }
         T GetValue<T>();
         bool HasChild(string name);
+        INxNode GetNode(string path);
     }
 }

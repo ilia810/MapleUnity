@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MapleClient.GameLogic.Interfaces;
+using MapleClient.GameLogic.Skills;
 
 namespace MapleClient.GameLogic.Core
 {
@@ -9,8 +10,12 @@ namespace MapleClient.GameLogic.Core
     {
         private readonly IMapLoader mapLoader;
         private readonly IInputProvider inputProvider;
+        private readonly INetworkClient networkClient;
+        private readonly IAssetProvider assetProvider;
         private MapData currentMap;
         private Player player;
+        private SkillManager skillManager;
+        private List<Player> players; // Other players in the world
         private List<Monster> monsters;
         private List<DroppedItem> droppedItems;
         private Combat combat;
@@ -19,6 +24,8 @@ namespace MapleClient.GameLogic.Core
         public MapData CurrentMap => currentMap;
         public int CurrentMapId => currentMap?.MapId ?? -1;
         public Player Player => player;
+        public SkillManager SkillManager => skillManager;
+        public IReadOnlyList<Player> Players => players; // All players including local
         public IReadOnlyList<Monster> Monsters => monsters;
         public IReadOnlyList<DroppedItem> DroppedItems => droppedItems;
 
@@ -27,18 +34,49 @@ namespace MapleClient.GameLogic.Core
         public event Action<Monster> MonsterDied;
         public event Action<int, int> ItemPickedUp;
         public event Action<DroppedItem> ItemDropped;
+        public event Action<ChatMessage> OnChatMessageReceived;
 
-        public GameWorld(IMapLoader mapLoader, IInputProvider inputProvider = null)
+        public GameWorld(IInputProvider inputProvider, IMapLoader mapLoader, INetworkClient networkClient = null, IAssetProvider assetProvider = null)
         {
             this.mapLoader = mapLoader;
             this.inputProvider = inputProvider;
+            this.networkClient = networkClient;
+            this.assetProvider = assetProvider;
             this.player = new Player();
+            this.players = new List<Player>();
             this.monsters = new List<Monster>();
             this.droppedItems = new List<DroppedItem>();
             this.combat = new Combat();
             
+            // Initialize skill manager if asset provider is available
+            if (assetProvider != null)
+            {
+                this.skillManager = new SkillManager(player, assetProvider, networkClient);
+            }
+            
             // Listen for player landed event
             this.player.Landed += OnPlayerLanded;
+            
+            // Subscribe to network events if available
+            if (networkClient != null)
+            {
+                SubscribeToNetworkEvents();
+            }
+        }
+
+        private void SubscribeToNetworkEvents()
+        {
+            networkClient.OnPlayerJoin += HandlePlayerJoin;
+            networkClient.OnPlayerMove += HandlePlayerMove;
+            networkClient.OnPlayerLeave += HandlePlayerLeave;
+            networkClient.OnMobSpawn += HandleMobSpawn;
+            networkClient.OnMobDespawn += HandleMobDespawn;
+            networkClient.OnMobMove += HandleMobMove;
+            networkClient.OnItemDrop += HandleItemDrop;
+            networkClient.OnItemPickup += HandleItemPickup;
+            networkClient.OnChatMessage += HandleChatMessage;
+            networkClient.OnPlayerHpMpUpdate += HandlePlayerHpMpUpdate;
+            networkClient.OnMapChange += HandleMapChange;
         }
 
         public void LoadMap(int mapId)
@@ -56,6 +94,9 @@ namespace MapleClient.GameLogic.Core
             // Handle input
             if (inputProvider != null && player != null)
             {
+                var previousPosition = player.Position;
+                var wasJumping = player.IsJumping;
+                
                 // Movement - handle both inputs independently
                 player.MoveLeft(inputProvider.IsLeftPressed);
                 player.MoveRight(inputProvider.IsRightPressed);
@@ -64,12 +105,26 @@ namespace MapleClient.GameLogic.Core
                 if (inputProvider.IsJumpPressed)
                 {
                     player.Jump();
+                    if (!wasJumping && player.IsJumping && networkClient != null)
+                    {
+                        networkClient.SendJump();
+                    }
                 }
 
                 // Attack
                 if (inputProvider.IsAttackPressed)
                 {
                     combat.PerformBasicAttack(player, monsters, 100); // 100 pixel range
+                    if (networkClient != null)
+                    {
+                        networkClient.SendAttack(0, new byte[0]); // Basic attack
+                    }
+                }
+                
+                // Send movement updates to network
+                if (networkClient != null && (previousPosition.X != player.Position.X || previousPosition.Y != player.Position.Y))
+                {
+                    networkClient.SendMove(player.Position.X, player.Position.Y, new byte[0]);
                 }
 
                 // Crouch
@@ -107,6 +162,12 @@ namespace MapleClient.GameLogic.Core
             {
                 player.UpdatePhysics(deltaTime, currentMap);
             }
+            
+            // Update skill manager
+            if (skillManager != null)
+            {
+                skillManager.Update(deltaTime);
+            }
 
             // Update monsters
             foreach (var monster in monsters.Where(m => !m.IsDead))
@@ -121,7 +182,14 @@ namespace MapleClient.GameLogic.Core
             UpdateDroppedItems(deltaTime);
 
             // Check for item pickups
-            CheckItemPickups();
+            if (networkClient != null)
+            {
+                CheckItemPickupsForNetwork();
+            }
+            else
+            {
+                CheckItemPickups();
+            }
 
             // Remove dead monsters (in a real game, we'd handle this differently)
             monsters.RemoveAll(m => m.IsDead);
@@ -275,6 +343,146 @@ namespace MapleClient.GameLogic.Core
                         }
                     }
                     break;
+                }
+            }
+        }
+
+        // Network event handlers
+        private void HandlePlayerJoin(int id, string name, int job, float x, float y)
+        {
+            // Don't add our own player again
+            if (player != null && player.Id == id) return;
+            
+            var newPlayer = new Player
+            {
+                Id = id,
+                Name = name,
+                Position = new Vector2(x, y)
+            };
+            players.Add(newPlayer);
+        }
+        
+        private void HandlePlayerMove(int id, float x, float y, byte[] movementData)
+        {
+            var targetPlayer = players.FirstOrDefault(p => p.Id == id);
+            if (targetPlayer != null)
+            {
+                targetPlayer.Position = new Vector2(x, y);
+            }
+        }
+        
+        private void HandlePlayerLeave(int id)
+        {
+            players.RemoveAll(p => p.Id == id);
+        }
+        
+        private void HandleMobSpawn(int id, int mobId, float x, float y)
+        {
+            var spawn = new MonsterSpawn { MonsterId = mobId, X = (int)x, Y = (int)y };
+            var template = new MonsterTemplate
+            {
+                MonsterId = mobId,
+                Name = $"Monster_{mobId}",
+                MaxHP = 100,
+                PhysicalDamage = 10,
+                PhysicalDefense = 5,
+                Speed = 50,
+                DropTable = new List<DropInfo>()
+            };
+
+            var monster = new Monster(template, new Vector2(x, y));
+            monster.Id = id;
+            monster.Died += OnMonsterDied;
+            monster.ItemDropped += OnItemDropped;
+            monsters.Add(monster);
+            
+            MonsterSpawned?.Invoke(monster);
+        }
+        
+        private void HandleMobDespawn(int id)
+        {
+            monsters.RemoveAll(m => m.Id == id);
+        }
+        
+        private void HandleMobMove(int id, float x, float y)
+        {
+            var monster = monsters.FirstOrDefault(m => m.Id == id);
+            if (monster != null)
+            {
+                monster.Position = new Vector2(x, y);
+            }
+        }
+        
+        private void HandleItemDrop(int objectId, int itemId, float x, float y)
+        {
+            var droppedItem = new DroppedItem(itemId, 1, new Vector2(x, y));
+            droppedItem.ObjectId = objectId;
+            droppedItems.Add(droppedItem);
+            ItemDropped?.Invoke(droppedItem);
+        }
+        
+        private void HandleItemPickup(int objectId)
+        {
+            droppedItems.RemoveAll(item => item.ObjectId == objectId);
+        }
+        
+        private void HandleChatMessage(ChatMessage message)
+        {
+            OnChatMessageReceived?.Invoke(message);
+        }
+        
+        private void HandlePlayerHpMpUpdate(int hp, int mp)
+        {
+            if (player != null)
+            {
+                player.SetHPMP(hp, mp);
+            }
+        }
+        
+        private void HandleMapChange(int mapId, NetworkMapData mapData)
+        {
+            // Load the new map
+            LoadMap(mapId);
+            
+            // Update player position from server data
+            if (player != null && mapData != null)
+            {
+                player.Position = new Vector2(mapData.PlayerSpawnX, mapData.PlayerSpawnY);
+            }
+        }
+        
+        public void SendChatMessage(string message, ChatType type = ChatType.All)
+        {
+            if (networkClient != null)
+            {
+                networkClient.SendChat(message, type);
+            }
+        }
+        
+        public void InitializePlayer(int id, string name, int hp, int mp, int maxHp, int maxMp, float x, float y)
+        {
+            player.Id = id;
+            player.Name = name;
+            player.MaxHP = maxHp;
+            player.MaxMP = maxMp;
+            player.SetHPMP(hp, mp);
+            player.Position = new Vector2(x, y);
+            
+            // Add to players list
+            players.Clear();
+            players.Add(player);
+        }
+        
+        private void CheckItemPickupsForNetwork()
+        {
+            if (player == null || networkClient == null) return;
+
+            foreach (var item in droppedItems)
+            {
+                var distance = Vector2.Distance(player.Position, item.Position);
+                if (distance <= ItemPickupRange && item.ObjectId > 0)
+                {
+                    networkClient.SendPickupItem(item.ObjectId);
                 }
             }
         }

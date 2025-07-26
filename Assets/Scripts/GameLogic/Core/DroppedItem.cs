@@ -2,6 +2,7 @@ namespace MapleClient.GameLogic.Core
 {
     public class DroppedItem
     {
+        public int ObjectId { get; set; }
         public int ItemId { get; }
         public int Quantity { get; }
         public Vector2 Position { get; set; }

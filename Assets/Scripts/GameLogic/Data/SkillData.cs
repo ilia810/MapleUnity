@@ -1,3 +1,5 @@
+using MapleClient.GameLogic.Interfaces;
+
 namespace MapleClient.GameLogic
 {
     public class SkillData
@@ -13,13 +15,5 @@ namespace MapleClient.GameLogic
         public int TargetCount { get; set; }
         public float Duration { get; set; }
         public int DamagePercent { get; set; }
-    }
-
-    public enum SkillType
-    {
-        Active,
-        Passive,
-        Buff,
-        Summon
     }
 }

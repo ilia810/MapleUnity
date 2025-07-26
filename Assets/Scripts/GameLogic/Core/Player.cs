@@ -1,17 +1,24 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using MapleClient.GameLogic.Data;
 
 namespace MapleClient.GameLogic.Core
 {
     public class Player
     {
         public event Action Landed;
-        private const float MoveSpeed = 125f;
-        private const float ClimbSpeed = 100f;
-        private const float JumpPower = 555f;
-        private const float Gravity = 2000f;
-        private const float MaxFallSpeed = 670f;
+        
+        // Player dimensions (in units)
+        private const float PLAYER_HEIGHT = 0.6f; // 60 pixels / 100
+        private const float PLAYER_WIDTH = 0.3f;  // 30 pixels / 100
+        
+        // Movement state
+        private float actualWalkSpeed;
+        private float actualJumpPower;
 
+        public int Id { get; set; }
+        public string Name { get; set; } = "Player";
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
         public bool IsGrounded { get; set; }
@@ -25,6 +32,21 @@ namespace MapleClient.GameLogic.Core
         private int maxHp = 100;
         private int mp = 50;
         private int maxMp = 50;
+        
+        // Character stats
+        public int STR { get; set; } = 15;
+        public int DEX { get; set; } = 15;
+        public int INT { get; set; } = 15;
+        public int LUK { get; set; } = 15;
+        public int WeaponAttack { get; set; } = 20;
+        public int MagicAttack { get; set; } = 0;
+        public int WeaponDefense { get; set; } = 10;
+        public int MagicDefense { get; set; } = 10;
+        public int Accuracy { get; set; } = 100;
+        public int Avoidability { get; set; } = 0;
+        public int Speed { get; set; } = 100;
+        public int JumpPower { get; set; } = 120;
+        public int JobId { get; set; } = 0; // Beginner
 
         private bool isMovingLeft;
         private bool isMovingRight;
@@ -38,6 +60,24 @@ namespace MapleClient.GameLogic.Core
             Velocity = Vector2.Zero;
             IsGrounded = false; // Start not grounded to let gravity work
             State = PlayerState.Standing;
+            
+            // Initialize movement speeds based on stats
+            UpdateMovementSpeeds();
+        }
+        
+        public Player(int id, string name, int level, int jobId)
+        {
+            Id = id;
+            Name = name;
+            this.level = level;
+            JobId = jobId;
+            Position = Vector2.Zero;
+            Velocity = Vector2.Zero;
+            IsGrounded = false;
+            State = PlayerState.Standing;
+            
+            // Initialize movement speeds based on stats
+            UpdateMovementSpeeds();
         }
 
         public void MoveLeft(bool active)
@@ -63,18 +103,20 @@ namespace MapleClient.GameLogic.Core
 
             if (isMovingLeft && !isMovingRight)
             {
-                Velocity = new Vector2(-MoveSpeed, Velocity.Y);
+                Velocity = new Vector2(-actualWalkSpeed, Velocity.Y);
                 State = PlayerState.Walking;
             }
             else if (isMovingRight && !isMovingLeft)
             {
-                Velocity = new Vector2(MoveSpeed, Velocity.Y);
+                Velocity = new Vector2(actualWalkSpeed, Velocity.Y);
                 State = PlayerState.Walking;
             }
             else
             {
-                Velocity = new Vector2(0, Velocity.Y);
-                if (IsGrounded && State == PlayerState.Walking)
+                // Apply friction when stopping
+                float newVelocityX = MaplePhysics.ApplyFriction(Velocity.X, 0.016f); // 60 FPS deltaTime
+                Velocity = new Vector2(newVelocityX, Velocity.Y);
+                if (IsGrounded && State == PlayerState.Walking && System.Math.Abs(newVelocityX) < 1f)
                 {
                     State = PlayerState.Standing;
                 }
@@ -87,13 +129,13 @@ namespace MapleClient.GameLogic.Core
             {
                 // Jump off ladder
                 StopClimbing();
-                Velocity = new Vector2(Velocity.X, JumpPower);
+                Velocity = new Vector2(Velocity.X, actualJumpPower);
                 IsJumping = true;
                 State = PlayerState.Jumping;
             }
             else if (IsGrounded && State != PlayerState.Crouching)
             {
-                Velocity = new Vector2(Velocity.X, JumpPower);
+                Velocity = new Vector2(Velocity.X, actualJumpPower);
                 IsJumping = true;
                 IsGrounded = false;
                 State = PlayerState.Jumping;
@@ -112,11 +154,7 @@ namespace MapleClient.GameLogic.Core
             // Apply gravity if not grounded
             if (!IsGrounded)
             {
-                var newVelocityY = Velocity.Y - (Gravity * deltaTime);
-                if (newVelocityY < -MaxFallSpeed)
-                {
-                    newVelocityY = -MaxFallSpeed;
-                }
+                var newVelocityY = MaplePhysics.ApplyGravity(Velocity.Y, deltaTime);
                 Velocity = new Vector2(Velocity.X, newVelocityY);
             }
 
@@ -129,14 +167,19 @@ namespace MapleClient.GameLogic.Core
                 var platformBelow = GetPlatformBelow(newPosition, mapData);
                 if (platformBelow != null)
                 {
-                    var platformY = platformBelow.GetYAtX(newPosition.X);
-                    if (!float.IsNaN(platformY))
+                    // Platform Y is in pixels, convert to units
+                    var platformYPixels = platformBelow.GetYAtX(newPosition.X * 100f);
+                    if (!float.IsNaN(platformYPixels))
                     {
-                        // Check if we're falling through the platform
-                        if (Position.Y >= platformY && newPosition.Y <= platformY)
+                        var platformY = platformYPixels / 100f;
+                        // Check if we're falling through the platform (account for player height)
+                        var playerBottom = newPosition.Y - PLAYER_HEIGHT / 2;
+                        var prevPlayerBottom = Position.Y - PLAYER_HEIGHT / 2;
+                        
+                        if (prevPlayerBottom >= platformY && playerBottom <= platformY)
                         {
-                            // Land on platform
-                            newPosition = new Vector2(newPosition.X, platformY);
+                            // Land on platform - position player so their bottom touches the platform
+                            newPosition = new Vector2(newPosition.X, platformY + PLAYER_HEIGHT / 2);
                             Velocity = new Vector2(Velocity.X, 0);
                             
                             bool wasInAir = !IsGrounded;
@@ -174,13 +217,17 @@ namespace MapleClient.GameLogic.Core
             if (mapData?.Platforms == null)
                 return null;
 
+            // Convert position to pixels for platform comparison (use player's bottom)
+            float posX = position.X * 100f;
+            float posY = (position.Y - PLAYER_HEIGHT / 2) * 100f; // Player's bottom position
+
             // Find all platforms that the player could land on
             var candidatePlatforms = mapData.Platforms
                 .Where(p => p.Type == PlatformType.Normal || p.Type == PlatformType.OneWay)
-                .Where(p => position.X >= p.X1 && position.X <= p.X2)
-                .Select(p => new { Platform = p, Y = p.GetYAtX(position.X) })
+                .Where(p => posX >= p.X1 && posX <= p.X2)
+                .Select(p => new { Platform = p, Y = p.GetYAtX(posX) })
                 .Where(p => !float.IsNaN(p.Y))
-                .Where(p => p.Y <= position.Y + 50) // Look for platforms within reasonable range
+                .Where(p => p.Y <= posY + 50) // Look for platforms within reasonable range (in pixels)
                 .OrderByDescending(p => p.Y);
 
             return candidatePlatforms.FirstOrDefault()?.Platform;
@@ -197,15 +244,32 @@ namespace MapleClient.GameLogic.Core
             baseDamage = damage;
         }
 
-        public int HP => hp;
-        public int MaxHP => maxHp;
-        public int MP => mp;
-        public int MaxMP => maxMp;
-        public int Level => level;
+        public int CurrentHP => hp;
+        public int MaxHP
+        {
+            get => maxHp;
+            set => maxHp = value;
+        }
+        public int CurrentMP
+        {
+            get => mp;
+            set => mp = System.Math.Max(0, System.Math.Min(value, maxMp));
+        }
+        public int MaxMP
+        {
+            get => maxMp;
+            set => maxMp = value;
+        }
+        public int Level
+        {
+            get => level;
+            set => level = value;
+        }
         
         // Inventory
         private Inventory inventory = new Inventory();
         public Inventory Inventory => inventory;
+        private Dictionary<EquipSlot, int> equippedItems = new Dictionary<EquipSlot, int>();
 
         public void TakeDamage(int damage)
         {
@@ -225,6 +289,13 @@ namespace MapleClient.GameLogic.Core
         public void RestoreMana(int amount)
         {
             mp = System.Math.Min(maxMp, mp + amount);
+        }
+        
+        // For network synchronization
+        public void SetHPMP(int newHp, int newMp)
+        {
+            hp = System.Math.Max(0, System.Math.Min(newHp, maxHp));
+            mp = System.Math.Max(0, System.Math.Min(newMp, maxMp));
         }
 
         public bool UseItem(int itemId)
@@ -331,11 +402,11 @@ namespace MapleClient.GameLogic.Core
 
             if (isClimbingUp && !isClimbingDown)
             {
-                Velocity = new Vector2(0, ClimbSpeed);
+                Velocity = new Vector2(0, MaplePhysics.ClimbSpeed);
             }
             else if (isClimbingDown && !isClimbingUp)
             {
-                Velocity = new Vector2(0, -ClimbSpeed);
+                Velocity = new Vector2(0, -MaplePhysics.ClimbSpeed);
             }
             else
             {
@@ -367,6 +438,37 @@ namespace MapleClient.GameLogic.Core
             }
 
             Position = newPosition;
+        }
+        
+        public Dictionary<EquipSlot, int> GetEquippedItems()
+        {
+            return new Dictionary<EquipSlot, int>(equippedItems);
+        }
+        
+        public void EquipItem(int itemId, EquipSlot slot)
+        {
+            equippedItems[slot] = itemId;
+        }
+        
+        public void UnequipItem(EquipSlot slot)
+        {
+            if (equippedItems.ContainsKey(slot))
+            {
+                equippedItems.Remove(slot);
+            }
+        }
+        
+        // Update movement speeds based on character stats
+        private void UpdateMovementSpeeds()
+        {
+            actualWalkSpeed = MaplePhysics.GetWalkSpeed(Speed);
+            actualJumpPower = MaplePhysics.GetJumpPower(JumpPower);
+        }
+        
+        // Call this when Speed or JumpPower stats change
+        public void OnStatsChanged()
+        {
+            UpdateMovementSpeeds();
         }
     }
 }

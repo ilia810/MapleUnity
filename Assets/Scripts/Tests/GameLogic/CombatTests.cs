@@ -42,7 +42,7 @@ namespace MapleClient.GameLogic.Tests
             var testMap = new MapData { MapId = 100000000 };
             mapLoader.AddMap(100000000, testMap);
             
-            gameWorld = new GameWorld(mapLoader);
+            gameWorld = new GameWorld(new FakeInputProvider(), mapLoader);
             gameWorld.LoadMap(100000000);
         }
 

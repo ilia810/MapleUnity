@@ -14,6 +14,7 @@ namespace MapleClient.GameLogic.Core
         private float patrolOriginX;
         private bool movingRight = true;
 
+        public int Id { get; set; }
         public int MonsterId => template.MonsterId;
         public string Name => template.Name;
         public int HP { get; private set; }
@@ -21,7 +22,7 @@ namespace MapleClient.GameLogic.Core
         public Vector2 Position 
         { 
             get => position; 
-            private set => position = value; 
+            set => position = value; 
         }
         public bool IsDead { get; private set; }
         public MonsterTemplate Template => template;

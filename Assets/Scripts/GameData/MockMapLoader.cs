@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MapleClient.GameLogic;
 using MapleClient.GameLogic.Interfaces;
+using PortalType = MapleClient.GameLogic.PortalType;
 
 namespace MapleClient.GameData
 {

@@ -1,83 +1,77 @@
 using UnityEngine;
 using MapleClient.GameLogic.Core;
+using MapleClient.GameLogic.Interfaces;
 
 namespace MapleClient.GameView
 {
     public class PlayerView : MonoBehaviour
     {
         private Player player;
-        private SpriteRenderer spriteRenderer;
+        private MapleCharacterRenderer characterRenderer;
+        private ICharacterDataProvider characterData;
 
         private void Awake()
         {
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            if (spriteRenderer == null)
+            // The character renderer will handle all sprite rendering
+            characterRenderer = GetComponent<MapleCharacterRenderer>();
+            if (characterRenderer == null)
             {
-                spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
-                // Create a simple colored square as placeholder
-                var texture = new Texture2D(32, 64);
-                var pixels = new Color[32 * 64];
-                for (int i = 0; i < pixels.Length; i++)
-                {
-                    pixels[i] = Color.blue;
-                }
-                texture.SetPixels(pixels);
-                texture.Apply();
-                
-                spriteRenderer.sprite = Sprite.Create(texture, new Rect(0, 0, 32, 64), new Vector2(0.5f, 0));
+                characterRenderer = gameObject.AddComponent<MapleCharacterRenderer>();
             }
+            
+            // Add a collider for visualization (Unity physics isn't used, this is just visual)
+            BoxCollider2D collider = gameObject.AddComponent<BoxCollider2D>();
+            collider.size = new Vector2(0.3f, 0.6f); // Match player dimensions
+            collider.offset = new Vector2(0, 0);
+            collider.isTrigger = true; // Don't interfere with game logic
         }
 
         public void SetPlayer(Player player)
         {
             this.player = player;
+            
+            // Initialize character renderer with player data
+            if (characterRenderer != null && characterData != null)
+            {
+                characterRenderer.Initialize(player, characterData);
+                
+                // Set default appearance (can be customized later)
+                characterRenderer.SetCharacterAppearance(0, 20000, 30000);
+            }
+        }
+        
+        public void SetCharacterDataProvider(ICharacterDataProvider provider)
+        {
+            this.characterData = provider;
+            
+            // If player is already set, initialize the renderer
+            if (player != null && characterRenderer != null)
+            {
+                characterRenderer.Initialize(player, characterData);
+            }
         }
 
         private void Update()
         {
+            // The MapleCharacterRenderer handles all visual updates
+            // We just need to handle any additional effects or UI elements here
+            
+            // Sync position with game logic
             if (player != null)
             {
-                // Update position - convert from game logic coordinates to Unity coordinates
-                transform.position = new Vector3(player.Position.X / 100f, player.Position.Y / 100f, 0);
+                var newPos = new UnityEngine.Vector3(
+                    player.Position.X / 100f,
+                    player.Position.Y / 100f,
+                    0f
+                );
                 
-                // Flip sprite based on movement direction
-                if (player.Velocity.X < 0)
-                    spriteRenderer.flipX = true;
-                else if (player.Velocity.X > 0)
-                    spriteRenderer.flipX = false;
+                // Debug movement issues
+                if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
+                {
+                    Debug.Log($"Player State: {player.State}, Velocity: {player.Velocity}, Grounded: {player.IsGrounded}, Speed stat: {player.Speed}");
+                }
                 
-                // Update visual based on player state
-                UpdateVisualState();
-            }
-        }
-        
-        private void UpdateVisualState()
-        {
-            // Simple visual feedback based on state
-            switch (player.State)
-            {
-                case PlayerState.Walking:
-                    spriteRenderer.color = Color.green;
-                    transform.localScale = Vector3.one;
-                    break;
-                case PlayerState.Jumping:
-                    spriteRenderer.color = Color.yellow;
-                    transform.localScale = Vector3.one;
-                    break;
-                case PlayerState.Crouching:
-                    spriteRenderer.color = Color.magenta;
-                    transform.localScale = new Vector3(1f, 0.5f, 1f); // Make shorter when crouching
-                    break;
-                case PlayerState.Climbing:
-                    spriteRenderer.color = Color.cyan;
-                    transform.localScale = Vector3.one;
-                    spriteRenderer.flipX = false; // Always face forward on ladder
-                    break;
-                case PlayerState.Standing:
-                default:
-                    spriteRenderer.color = Color.blue;
-                    transform.localScale = Vector3.one;
-                    break;
+                transform.position = newPos;
             }
         }
     }

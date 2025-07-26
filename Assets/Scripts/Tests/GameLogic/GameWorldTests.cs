@@ -22,7 +22,7 @@ namespace MapleClient.GameLogic.Tests
             };
             fakeMapLoader.AddMap(100000000, testMapData);
             
-            var gameWorld = new GameWorld(fakeMapLoader);
+            var gameWorld = new GameWorld(new FakeInputProvider(), fakeMapLoader);
             
             // Act
             gameWorld.LoadMap(100000000);
@@ -41,7 +41,7 @@ namespace MapleClient.GameLogic.Tests
             var initialMap = new MapData { MapId = 100000000, Name = "Initial Map" };
             fakeMapLoader.AddMap(100000000, initialMap);
             
-            var gameWorld = new GameWorld(fakeMapLoader);
+            var gameWorld = new GameWorld(new FakeInputProvider(), fakeMapLoader);
             gameWorld.LoadMap(100000000);
             
             // Act
@@ -66,7 +66,7 @@ namespace MapleClient.GameLogic.Tests
             testMap.Platforms.Add(new Platform { Id = 2, X1 = 300, Y1 = 150, X2 = 500, Y2 = 150, Type = PlatformType.Normal });
             fakeMapLoader.AddMap(100000000, testMap);
             
-            var gameWorld = new GameWorld(fakeMapLoader);
+            var gameWorld = new GameWorld(new FakeInputProvider(), fakeMapLoader);
             
             // Act
             gameWorld.LoadMap(100000000);
@@ -85,7 +85,7 @@ namespace MapleClient.GameLogic.Tests
             var testMap = new MapData { MapId = 100000000, Name = "Event Test Map" };
             fakeMapLoader.AddMap(100000000, testMap);
             
-            var gameWorld = new GameWorld(fakeMapLoader);
+            var gameWorld = new GameWorld(new FakeInputProvider(), fakeMapLoader);
             MapData loadedMap = null;
             gameWorld.MapLoaded += (map) => loadedMap = map;
             

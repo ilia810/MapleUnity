@@ -2,6 +2,7 @@ using NUnit.Framework;
 using MapleClient.GameLogic.Core;
 using MapleClient.GameLogic;
 using MapleClient.GameLogic.Interfaces;
+using PortalType = MapleClient.GameLogic.PortalType;
 
 namespace MapleClient.Tests.GameLogic
 {
@@ -15,7 +16,7 @@ namespace MapleClient.Tests.GameLogic
         {
             inputProvider = new SimulatedInputProvider();
             var mapLoader = new SimpleMapLoader();
-            gameWorld = new GameWorld(mapLoader, inputProvider);
+            gameWorld = new GameWorld(inputProvider, mapLoader);
             gameWorld.LoadMap(1);
         }
         

@@ -1,9 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 using MapleClient.GameLogic.Core;
 using MapleClient.GameLogic.Interfaces;
+using MapleClient.GameLogic.Skills;
 using MapleClient.GameData;
 using MapleClient.GameView.UI;
+using GameData.Network;
+using GameData;
 
 namespace MapleClient.GameView
 {
@@ -12,35 +16,68 @@ namespace MapleClient.GameView
         private GameWorld gameWorld;
         private IMapLoader mapLoader;
         private IInputProvider inputProvider;
+        private IAssetProvider assetProvider;
+        private MapleStoryNetworkClient networkClient;
+        
+        [Header("Network Settings")]
+        [SerializeField] private bool useNetworking = false;
+        [SerializeField] private string serverHost = "localhost";
+        [SerializeField] private int loginPort = 8484;
 
         [SerializeField] private PlayerView playerViewPrefab;
         private PlayerView currentPlayerView;
         
         private Dictionary<Monster, MonsterView> monsterViews = new Dictionary<Monster, MonsterView>();
         private Dictionary<DroppedItem, DroppedItemView> droppedItemViews = new Dictionary<DroppedItem, DroppedItemView>();
+        private Dictionary<Player, PlayerView> otherPlayerViews = new Dictionary<Player, PlayerView>();
+        
+        private MapRenderer mapRenderer;
         
         public Player Player => gameWorld?.Player;
+        public SkillManager SkillManager => gameWorld?.SkillManager;
 
         private void Start()
         {
+            // Add test component temporarily
+            gameObject.AddComponent<MapleClient.GameData.TestReNX>();
+            
             InitializeGame();
         }
 
         private void InitializeGame()
         {
+            // Initialize asset provider
+            assetProvider = new NXDataManager();
+            assetProvider.Initialize();
+            
             // Initialize data layer
             mapLoader = new NxMapLoader(); // Now uses NX file data (or mock data if files not found)
             
             // Initialize input
             inputProvider = new UnityInputProvider();
             
+            // Initialize map renderer
+            GameObject mapRendererObject = new GameObject("MapRenderer");
+            mapRenderer = mapRendererObject.AddComponent<MapRenderer>();
+            mapRenderer.Initialize(assetProvider);
+            
+            // Initialize network if enabled
+            if (useNetworking)
+            {
+                networkClient = new MapleStoryNetworkClient();
+                networkClient.OnError += OnNetworkError;
+                networkClient.OnConnected += OnNetworkConnected;
+                networkClient.OnDisconnected += OnNetworkDisconnected;
+            }
+            
             // Initialize game logic
-            gameWorld = new GameWorld(mapLoader, inputProvider);
+            gameWorld = new GameWorld(inputProvider, mapLoader, useNetworking ? networkClient : null, assetProvider);
             gameWorld.MapLoaded += OnMapLoaded;
             gameWorld.MonsterSpawned += OnMonsterSpawned;
             gameWorld.MonsterDied += OnMonsterDied;
             gameWorld.ItemDropped += OnItemDropped;
             gameWorld.ItemPickedUp += OnItemPickedUp;
+            gameWorld.OnChatMessageReceived += OnChatMessageReceived;
             
             // Listen to player events
             gameWorld.Player.Landed += OnPlayerLanded;
@@ -48,8 +85,20 @@ namespace MapleClient.GameView
             // Create UI
             CreateUI();
             
-            // Load initial map (Henesys)
-            gameWorld.LoadMap(100000000);
+            // Start the game
+            if (useNetworking)
+            {
+                // Connect to server
+                ConnectToServer();
+            }
+            else
+            {
+                // Start in offline mode - spawn at origin
+                gameWorld.InitializePlayer(1, "Player", 100, 100, 100, 100, 0, 2);
+                
+                // Load initial map (Henesys)
+                gameWorld.LoadMap(100000000);
+            }
         }
 
         private void Update()
@@ -57,6 +106,13 @@ namespace MapleClient.GameView
             if (gameWorld != null)
             {
                 gameWorld.Update(Time.deltaTime);
+                UpdateOtherPlayers();
+            }
+            
+            // Process network events on main thread
+            if (networkClient != null)
+            {
+                networkClient.ProcessMainThreadActions();
             }
         }
 
@@ -67,18 +123,33 @@ namespace MapleClient.GameView
             // Clean up old map visuals
             CleanupMapVisuals();
             
+            // Render the map using actual MapleStory assets
+            if (mapRenderer != null)
+            {
+                mapRenderer.RenderMap(mapData);
+            }
+            
             // Create visual representation
             if (currentPlayerView == null)
             {
                 GameObject playerObject = new GameObject("Player");
                 currentPlayerView = playerObject.AddComponent<PlayerView>();
+                currentPlayerView.SetCharacterDataProvider(assetProvider.CharacterData);
                 currentPlayerView.SetPlayer(gameWorld.Player);
                 
-                // Position player at spawn point
+                // Position player at spawn point (convert from pixels to units)
                 var spawnPortal = mapData.Portals.Find(p => p.Type == GameLogic.PortalType.Spawn);
                 if (spawnPortal != null)
                 {
-                    gameWorld.Player.Position = new GameLogic.Vector2(spawnPortal.X, spawnPortal.Y);
+                    // Add some height offset to ensure player spawns above ground
+                    gameWorld.Player.Position = new GameLogic.Vector2(spawnPortal.X / 100f, (spawnPortal.Y / 100f) + 1f);
+                    Debug.Log($"Spawning player at portal: ({spawnPortal.X / 100f}, {(spawnPortal.Y / 100f) + 1f})");
+                }
+                else
+                {
+                    Debug.Log("No spawn portal found, using default position");
+                    // Spawn player above ground level
+                    gameWorld.Player.Position = new GameLogic.Vector2(0, 5);
                 }
                 
                 // Setup camera to follow player
@@ -94,13 +165,10 @@ namespace MapleClient.GameView
                 }
             }
             
-            // Create platform visuals
-            CreatePlatformVisuals(mapData);
+            // Platform, ladder and portal visuals are now handled by MapRenderer
+            // which uses actual MapleStory sprites from NX files
             
-            // Create ladder visuals
-            CreateLadderVisuals(mapData);
-            
-            // Create portal visuals
+            // Still create portal interaction zones
             CreatePortalVisuals(mapData);
         }
         
@@ -255,6 +323,12 @@ namespace MapleClient.GameView
             {
                 canvas.gameObject.AddComponent<SkillMenu>();
             }
+            
+            // Add SkillBar
+            if (canvas.GetComponent<SkillBar>() == null)
+            {
+                canvas.gameObject.AddComponent<SkillBar>();
+            }
         }
 
         private void OnPlayerLanded()
@@ -311,8 +385,93 @@ namespace MapleClient.GameView
             droppedItemViews.Clear();
         }
 
+        // Network event handlers
+        private void OnNetworkConnected(string message)
+        {
+            Debug.Log($"Network connected: {message}");
+            
+            // If we have login UI, enable login
+            // For now, auto-login for testing
+            if (networkClient != null)
+            {
+                networkClient.SendLogin("test", "test");
+            }
+        }
+        
+        private void OnNetworkDisconnected(string message)
+        {
+            Debug.Log($"Network disconnected: {message}");
+        }
+        
+        private void OnNetworkError(string error)
+        {
+            Debug.LogError($"Network error: {error}");
+        }
+        
+        private void OnChatMessageReceived(GameLogic.Interfaces.ChatMessage message)
+        {
+            // TODO: Display in chat UI
+            Debug.Log($"[{message.Type}] {message.Sender}: {message.Message}");
+        }
+        
+        // Other player management
+        private void UpdateOtherPlayers()
+        {
+            // Remove views for players that left
+            var playersToRemove = new List<Player>();
+            foreach (var kvp in otherPlayerViews)
+            {
+                if (!gameWorld.Players.Contains(kvp.Key))
+                {
+                    playersToRemove.Add(kvp.Key);
+                }
+            }
+            
+            foreach (var player in playersToRemove)
+            {
+                if (otherPlayerViews.TryGetValue(player, out PlayerView view))
+                {
+                    otherPlayerViews.Remove(player);
+                    Destroy(view.gameObject);
+                }
+            }
+            
+            // Add views for new players
+            foreach (var player in gameWorld.Players)
+            {
+                if (player != gameWorld.Player && !otherPlayerViews.ContainsKey(player))
+                {
+                    GameObject playerObject = Instantiate(playerViewPrefab.gameObject);
+                    playerObject.name = $"OtherPlayer_{player.Name}";
+                    PlayerView view = playerObject.GetComponent<PlayerView>();
+                    view.SetPlayer(player);
+                    otherPlayerViews[player] = view;
+                }
+            }
+        }
+        
+        public void ConnectToServer()
+        {
+            if (networkClient != null && !networkClient.IsConnected)
+            {
+                networkClient.Connect(serverHost, loginPort);
+            }
+        }
+        
         private void OnDestroy()
         {
+            // Disconnect network
+            if (networkClient != null)
+            {
+                networkClient.Disconnect();
+            }
+            
+            // Shutdown asset provider
+            if (assetProvider != null)
+            {
+                assetProvider.Shutdown();
+            }
+            
             if (gameWorld != null)
             {
                 gameWorld.MapLoaded -= OnMapLoaded;
@@ -320,6 +479,7 @@ namespace MapleClient.GameView
                 gameWorld.MonsterDied -= OnMonsterDied;
                 gameWorld.ItemDropped -= OnItemDropped;
                 gameWorld.ItemPickedUp -= OnItemPickedUp;
+                gameWorld.OnChatMessageReceived -= OnChatMessageReceived;
                 
                 if (gameWorld.Player != null)
                 {

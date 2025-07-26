@@ -163,14 +163,14 @@ namespace MapleClient.GameView.UI
             if (player == null) return;
 
             // Update HP
-            float hpPercent = (float)player.HP / player.MaxHP;
+            float hpPercent = (float)player.CurrentHP / player.MaxHP;
             hpFill.fillAmount = hpPercent;
-            hpText.text = $"HP: {player.HP}/{player.MaxHP}";
+            hpText.text = $"HP: {player.CurrentHP}/{player.MaxHP}";
 
             // Update MP
-            float mpPercent = (float)player.MP / player.MaxMP;
+            float mpPercent = (float)player.CurrentMP / player.MaxMP;
             mpFill.fillAmount = mpPercent;
-            mpText.text = $"MP: {player.MP}/{player.MaxMP}";
+            mpText.text = $"MP: {player.CurrentMP}/{player.MaxMP}";
 
             // Update Level
             levelText.text = $"Level {player.Level}";

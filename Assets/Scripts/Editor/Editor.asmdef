@@ -5,7 +5,8 @@
         "GameLogic",
         "GameLogic.Tests",
         "GameView",
-        "GameData"
+        "GameData",
+        "SceneGeneration"
     ],
     "includePlatforms": [
         "Editor"

@@ -20,7 +20,7 @@ namespace MapleClient.GameLogic.Tests
         {
             // Arrange
             player.TakeDamage(50); // Reduce HP
-            int initialHP = player.HP;
+            int initialHP = player.CurrentHP;
             
             player.Inventory.AddItem(2000000, 1); // Red Potion
 
@@ -29,7 +29,7 @@ namespace MapleClient.GameLogic.Tests
 
             // Assert
             Assert.That(used, Is.True);
-            Assert.That(player.HP, Is.EqualTo(initialHP + 50)); // Red potion heals 50 HP
+            Assert.That(player.CurrentHP, Is.EqualTo(initialHP + 50)); // Red potion heals 50 HP
             Assert.That(player.Inventory.GetItemCount(2000000), Is.EqualTo(0));
         }
 
@@ -44,7 +44,7 @@ namespace MapleClient.GameLogic.Tests
             player.UseItem(2000000);
 
             // Assert
-            Assert.That(player.HP, Is.EqualTo(player.MaxHP));
+            Assert.That(player.CurrentHP, Is.EqualTo(player.MaxHP));
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace MapleClient.GameLogic.Tests
 
             // Assert
             Assert.That(used, Is.False);
-            Assert.That(player.HP, Is.EqualTo(player.MaxHP));
+            Assert.That(player.CurrentHP, Is.EqualTo(player.MaxHP));
         }
 
         [Test]
@@ -63,7 +63,7 @@ namespace MapleClient.GameLogic.Tests
         {
             // Arrange
             player.UseMana(30);
-            int initialMP = player.MP;
+            int initialMP = player.CurrentMP;
             
             player.Inventory.AddItem(2000001, 1); // Orange Potion (MP)
 
@@ -72,7 +72,7 @@ namespace MapleClient.GameLogic.Tests
 
             // Assert
             Assert.That(used, Is.True);
-            Assert.That(player.MP, Is.EqualTo(initialMP + 30));
+            Assert.That(player.CurrentMP, Is.EqualTo(initialMP + 30));
             Assert.That(player.Inventory.GetItemCount(2000001), Is.EqualTo(0));
         }
 
