@@ -96,11 +96,13 @@ namespace MapleClient.SceneGeneration
             {
                 renderer.sprite = sprite;
                 
-                // In C++ client: rlt = pos - center - origin
-                // Since our sprites now have bottom-left pivot (0,0), we need to subtract origin
-                // Origin is in pixels, so convert to Unity units
-                float offsetX = -origin.x / 100f;  // Subtract origin.x
-                float offsetY = -origin.y / 100f;  // Subtract origin.y
+                // C++ client: draws at pos - origin
+                // With top-left pivot, we need to consider coordinate system differences:
+                // - MapleStory: Y+ is down, origin from top-left, subtract origin = move up+left
+                // - Unity: Y+ is up, pivot at top-left
+                // Since tile Y is already inverted by CoordinateConverter, origin.y behavior is inverted too
+                float offsetX = -origin.x / 100f;  // Move left by origin.x
+                float offsetY = origin.y / 100f;   // Move up by origin.y (inverted due to coordinate flip)
                 
                 renderer.transform.localPosition = new Vector3(offsetX, offsetY, 0);
                 

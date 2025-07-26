@@ -253,8 +253,9 @@ namespace MapleClient.GameData
                     
                     // In C++ client, origin is NOT used as sprite pivot
                     // Instead, origin is subtracted from position during drawing
-                    // So we create sprites with bottom-left pivot (0,0) to match MapleStory
-                    Vector2 pivot = new Vector2(0f, 0f); // Bottom-left pivot
+                    // MapleStory uses top-left origin, but Unity uses bottom-left for (0,0) pivot
+                    // So we use top-left pivot (0,1) to match MapleStory's coordinate system
+                    Vector2 pivot = new Vector2(0f, 1f); // Top-left pivot
                     
                     // Create sprite with proper pixels per unit for MapleStory
                     // MapleStory uses 100 pixels = 1 game unit
