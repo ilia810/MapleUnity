@@ -88,16 +88,46 @@ namespace MapleClient.SceneGeneration
         
         private void LoadTileSprite(TileData tileData, SpriteRenderer renderer)
         {
-            // Use the specialized tile sprite loader
-            var sprite = nxManager.GetTileSprite(tileData.TileSet, tileData.Variant, tileData.No);
+            // Use the specialized tile sprite loader with origin
+            var (sprite, origin) = nxManager.GetTileSpriteWithOrigin(tileData.TileSet, tileData.Variant, tileData.No);
             
             if (sprite != null)
             {
                 renderer.sprite = sprite;
+                
+                // Apply origin offset to the tile position
+                // In MapleStory, the origin defines where the tile's anchor point is
+                // The tile is positioned such that this origin point sits at the tile's coordinates
+                // For example, a tile with origin (45,30) will have its (45,30) pixel at the tile position
+                if (origin != Vector2.zero)
+                {
+                    // The sprite is already created with the origin as its pivot in SpriteLoader
+                    // But we need to offset the position to account for the difference between
+                    // the default center pivot and the actual origin
+                    
+                    // Calculate the offset from center to origin
+                    float centerX = sprite.rect.width / 2f;
+                    float centerY = sprite.rect.height / 2f;
+                    float offsetX = (centerX - origin.x) / 100f;  // Convert pixels to Unity units
+                    float offsetY = (origin.y - centerY) / 100f;  // Y is flipped in Unity
+                    
+                    // Apply offset to the sprite object
+                    renderer.transform.localPosition = new Vector3(offsetX, offsetY, 0);
+                    
+                    if (Random.Range(0, 20) == 0) // Log some tiles with origins
+                    {
+                        Debug.Log($"Tile {tileData.TileSet}/{tileData.Variant}/{tileData.No} has origin ({origin.x},{origin.y}), sprite size ({sprite.rect.width},{sprite.rect.height}), offset ({offsetX},{offsetY})");
+                    }
+                }
+                
+                // Store origin in tileData for debugging
+                tileData.OriginX = (int)origin.x;
+                tileData.OriginY = (int)origin.y;
+                
                 // More detailed logging
                 if (Random.Range(0, 50) == 0) // Log 1 in 50 tiles to avoid spam
                 {
-                    Debug.Log($"Loaded tile L{tileData.Layer}: {tileData.TileSet}/{tileData.Variant}/{tileData.No} at ({tileData.X},{tileData.Y})");
+                    Debug.Log($"Loaded tile L{tileData.Layer}: {tileData.TileSet}/{tileData.Variant}/{tileData.No} at ({tileData.X},{tileData.Y}) origin ({origin.x},{origin.y})");
                 }
             }
             else

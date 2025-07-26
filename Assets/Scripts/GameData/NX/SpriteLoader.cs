@@ -298,18 +298,43 @@ namespace MapleClient.GameData
             var originNode = node["origin"];
             if (originNode != null)
             {
-                var x = originNode["x"]?.GetValue<int>() ?? 0;
-                var y = originNode["y"]?.GetValue<int>() ?? 0;
-                return new Vector2(x, y);
+                // The RealNxNode automatically converts Point types to Vector2
+                var value = originNode.Value;
+                if (value is Vector2 vec2)
+                {
+                    Debug.Log($"Found origin as Vector2: {vec2}");
+                    return vec2;
+                }
+                
+                // Fallback: Try as child nodes with x/y
+                var xNode = originNode["x"];
+                var yNode = originNode["y"];
+                if (xNode != null && yNode != null)
+                {
+                    try
+                    {
+                        var x = xNode.GetValue<int>();
+                        var y = yNode.GetValue<int>();
+                        Debug.Log($"Found origin from x/y nodes: ({x}, {y})");
+                        return new Vector2(x, y);
+                    }
+                    catch { }
+                }
             }
             
-            // Check parent for origin
-            var parentOrigin = node.Parent?["origin"];
-            if (parentOrigin != null)
+            // Check parent for origin (some nodes store origin at parent level)
+            if (node.Parent != null)
             {
-                var x = parentOrigin["x"]?.GetValue<int>() ?? 0;
-                var y = parentOrigin["y"]?.GetValue<int>() ?? 0;
-                return new Vector2(x, y);
+                var parentOrigin = node.Parent["origin"];
+                if (parentOrigin != null)
+                {
+                    var value = parentOrigin.Value;
+                    if (value is Vector2 vec2)
+                    {
+                        Debug.Log($"Found origin on parent as Vector2: {vec2}");
+                        return vec2;
+                    }
+                }
             }
             
             return Vector2.zero;

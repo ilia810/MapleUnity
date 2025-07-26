@@ -613,6 +613,59 @@ namespace GameData
         }
         
         /// <summary>
+        /// Get a tile sprite with origin information
+        /// </summary>
+        public (Sprite sprite, Vector2 origin) GetTileSpriteWithOrigin(string tileSet, string variant, int no)
+        {
+            // Handle empty tileset - C++ client appends .img to tS value
+            // So empty tS becomes ".img"
+            string actualTileSet = string.IsNullOrEmpty(tileSet) ? "" : tileSet;
+            
+            // Tiles are stored in Map.nx under Tile/{tileSet}.img/{variant}/{no}
+            string[] possiblePaths = {
+                $"Tile/{actualTileSet}.img/{variant}/{no}",     // Standard path (empty tS becomes Tile/.img)
+                $"Tile/{actualTileSet}/{variant}/{no}",         // Without .img
+            };
+            
+            foreach (var path in possiblePaths)
+            {
+                var node = dataManager.GetNode("map", path);
+                if (node != null)
+                {
+                    Debug.Log($"Found tile sprite at path: {path}");
+                    var sprite = SpriteLoader.LoadSprite(node, path);
+                    var origin = SpriteLoader.GetOrigin(node);
+                    if (sprite != null) return (sprite, origin);
+                }
+            }
+            
+            // Try fallback tile numbers for missing variants
+            if (no > 0)
+            {
+                // For missing tile numbers, try variant 0 as fallback
+                string[] fallbackPaths = {
+                    $"Tile/{actualTileSet}.img/{variant}/0",
+                    $"Tile/{actualTileSet}/{variant}/0",
+                };
+                
+                foreach (var path in fallbackPaths)
+                {
+                    var node = dataManager.GetNode("map", path);
+                    if (node != null)
+                    {
+                        Debug.LogWarning($"Using fallback tile {actualTileSet}/{variant}/0 for missing {no}");
+                        var sprite = SpriteLoader.LoadSprite(node, path);
+                        var origin = SpriteLoader.GetOrigin(node);
+                        if (sprite != null) return (sprite, origin);
+                    }
+                }
+            }
+            
+            Debug.LogWarning($"Tile sprite not found: {actualTileSet}/{variant}/{no}");
+            return (null, Vector2.zero);
+        }
+        
+        /// <summary>
         /// Get a tile sprite
         /// </summary>
         public Sprite GetTileSprite(string tileSet, string variant, int no)

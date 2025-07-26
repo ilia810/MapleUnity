@@ -1,0 +1,129 @@
+Thanks for the clarification. I’ll begin by comparing tile rendering between the Unity and C++ clients for Henesys (map 100000000), focusing on visual mismatches and metadata discrepancies. I’ll also investigate how tile origins and grid alignment may affect rendering, and assess how NX metadata might be accessed and applied inconsistently in the Unity version.
+
+I’ll let you know once I have a detailed analysis and actionable insights.
+
+
+# Henesys Tile Rendering Issue Summary
+
+## Issue Description
+
+The Unity implementation of the MapleStory client is rendering the Henesys map (ID 100000000) with incorrect tiles. The user reports several discrepancies compared to the original C++ client:
+
+* Ground tiles seem “somewhat right,” but the upper and lower parts of the tile map don’t align properly.
+* Some platforms show a *“half stone half grass”* tile, which is wrong (these tiles have a grassy top and stony bottom that look out of place).
+* Overall rendering is “better but still not 100%” accurate when compared to the official C++ client.
+
+## Key Discoveries
+
+### 1. Tileset is Per-Layer, Not Per-Map
+
+MapleStory’s map data is organized into numbered layers (0 through 7), and **each layer has its own tileset** specified by the `tS` property in that layer’s info node. Initially, the Unity code wasn’t accounting for this layering, which led to using an incorrect or default tileset for all tiles. Through debugging (including reading the MapleStory data format), we found for Henesys:
+
+* **Layer 0:** `tS = "woodMarble"` (contains \~236 tiles)
+* **Layer 1:** `tS = "woodMarble"` (contains \~623 tiles)
+* **Layers 2-7:** `tS` is empty (no tiles in those layers)
+
+This means both ground and platform tiles in Henesys are supposed to use the **“woodMarble”** tileset (at least according to the data files). The total tile count (\~859 tiles across layers 0 and 1) matches expectations. Unity’s extraction code has been updated to iterate through each layer 0-7, reading each layer’s `info/tS` value and gathering that layer’s tile nodes. This corrects the earlier assumption that a single tileset applies to the whole map.
+
+### 2. The C++ Client Tile Loading Process
+
+In the original (C++) MapleStory client or similar implementations, the tile loading follows the WZ (NX) data structure closely. Essentially, the game takes the layer’s tileset name and appends “.img” to form the path in the data. Then for each tile entry, it looks up the sprite by variant (`u`) and tile number (`no`) under that tileset. For example, the logic (in pseudocode) is roughly:
+
+```cpp
+// Determine the tileset image name for this layer
+std::string tilesetImg = src["info"]["tS"] + ".img";
+
+// Load the tile image by tileset, variant, and number
+spriteNode = Map["Tile"][tilesetImg][ src["u"] ][ src["no"] ];
+```
+
+This corresponds to the MapleStory data layout, where the Map.wz (or Map.nx) file has a top-level `Tile` directory containing subdirectories for each tileset (e.g. `woodMarble.img`), which in turn contain sub-folders for each variant category (`bsc`, `edU`, `edD`, etc.), which then contain numbered canvas nodes for each tile image. In short, **the layer’s `tS` value chooses which tileset directory to use, and `u` and `no` pick the specific tile image within that set**.
+
+### 3. *woodMarble* Tileset Contents
+
+We inspected the contents of the **woodMarble** tileset to understand what tiles it provides. The woodMarble tileset images are 90×60 pixel tiles (the standard MapleStory tile size) and include various categories of tile pieces:
+
+* **bsc** (basic ground tiles): 5 tiles (IDs 0–4)
+* **edD** (edge-down tiles): 2 tiles (IDs 0–1)
+* **edU** (edge-up tiles): 2 tiles (0–1)
+* **enH0**/**enH1** (end pieces horizontal): 4 tiles each (0–3)
+* **enV0**/**enV1** (end pieces vertical): 2 tiles each (0–1)
+* **slLU** (slope left-up): 1 tile (ID 0)
+* (Additional slope variants like slRU, slLD, slRD are present with 1–2 tiles each, though not explicitly listed in the original summary.)
+
+These counts were confirmed by examining the MapleStory data for *woodMarble* – for example, the XML data shows canvases 0–4 under *bsc* (5 basic tiles) and 0–1 under *edD* and *edU* (2 edge tiles each). All tiles in this set have dimensions around 90×60, and some have small variations in width/height for edge pieces. Importantly, many of these tiles have associated metadata such as origin offsets and foothold alignment vectors (for example, an *enH0* tile has an origin of (0,33) in the image data to align it properly). This metadata ensures tiles line up seamlessly in the original client.
+
+## Changes Implemented
+
+Based on the above discoveries, several fixes were made in the Unity project to address the tile rendering issues:
+
+### 1. Fixed Layer-Based Tile Extraction
+
+**File:** `MapDataExtractor.cs` – The tile extraction logic was rewritten to iterate through each map layer 0 to 7, instead of looking for tiles only at the top map level. Now the code checks each layer node in the NX data, reads that layer’s `info/tS` property, and then extracts all tile entries under that layer’s `tile` node. Each extracted tile is tagged with its layer number. This ensures that we capture tiles from all layers and use the correct tileset for each one. Previously, tiles with no `tS` field were being skipped; with this change, we use the layer’s tileset (or a default if necessary) so no valid tiles are missed.
+
+### 2. Fixed Tile Sorting Order
+
+**File:** `TileGenerator.cs` – We adjusted the sorting order logic for rendering tiles so that tiles from different layers don’t intermix incorrectly. The new scheme gives each layer a distinct sorting range (on the Z-axis or sorting order value). Specifically, **each layer is allocated 1000 sorting order units, and within a layer we add the tile’s own Z value** (and Z modifier) for fine ordering. Layer 0 (ground) starts at a base order (e.g. –5000), layer 1 at –4000, layer 2 at –3000, and so on. This way, a tile from layer 1 will always render above any tile from layer 0, etc., reflecting MapleStory’s layering. This fix prevents, for example, platform tiles (layer 1) from accidentally appearing beneath ground tiles (layer 0).
+
+### 3. Fixed Empty Tileset Handling
+
+**File:** `NXDataManagerSingleton.cs` – In MapleStory data, an empty `tS` string is considered valid and implies a default “.img” tileset container. The C++ client handles this by appending “.img” even if `tS` is blank. We updated our sprite loading code to mimic this behavior. Now, when `tile.TileSet` is an empty string, we treat it as `“.img”` and look up tiles in the `Tile/.img` directory. This change allows tiles from maps with no explicit tileset name to still be loaded properly. (In practice, Henesys’s layers did specify *woodMarble*, so this fix is more for completeness and other maps. However, we did see cases where some tile entries had no `tS` field individually, expecting the layer’s default to be used.)
+
+### 4. Added Debug Tools
+
+To facilitate troubleshooting and ensure correctness, we introduced several editor debug utilities (in the `Assets/Scripts/Editor` folder):
+
+* **AnalyzeHenesysTileUsage.cs** – Scans the Henesys map data and prints out which tile variants are used in each layer and how many, to ensure we’re loading the expected tiles.
+* **PreviewWoodMarbleTiles.cs** – A tool to preview all sprites in the *woodMarble* tileset, to visually verify their appearance (grass vs. stone portions, etc.).
+* **CheckTileOrigins.cs** – Iterates through tile data to log each tile’s origin offset and foothold data, helping check if we need to apply positional offsets in Unity for proper alignment.
+* **DebugTileAlignment.cs** – Renders a grid or guides in the scene to check if tiles align to a 30×30 grid (since 90×60 tiles often align on half sizes) and highlights any misalignments. It can also adjust tile GameObjects post-creation to snap them if needed.
+
+These tools were crucial in comparing the Unity-generated map against the expected layout from the C++ client.
+
+## Remaining Issues
+
+Despite the above fixes, the Henesys map rendering in Unity still isn’t a pixel-perfect match to the original. The primary issues remaining are visual and likely related to subtle data handling:
+
+### 1. Visual Mismatch in Tile Appearance
+
+The tileset name **“woodMarble”** suggests this set contains a mix of wood and marble/stone textures. The user’s observation of “half stone half grass” tiles on some platforms indicates that the sprites being used have grassy tops with stone bottoms. Two possibilities exist here:
+
+* **Intended Tiles but Unexpected Look:** It could be that *woodMarble* genuinely uses those mixed tiles (perhaps Henesys has grassy-topped stone platform edges in the data). In this case, the Unity client might actually be using the correct tile images, but they appear wrong to the user because we expect pure stone. We should confirm via screenshots or Maple data whether Henesys platforms are supposed to have a grass fringe on top. If not, then indeed the wrong images are chosen.
+* **Tile Misalignment or Clipping:** If tile origin offsets or positioning aren’t handled exactly as in MapleStory, a tile could be placed slightly off, revealing a portion of another tile or leaving a gap. For example, an edge tile that should tuck under a ground tile might instead overlay it, showing a grass edge where it shouldn’t. This would make a correct tile look incorrect. The presence of origin vectors in the data (e.g., an *enH0* edge piece with origin (0,33)) hints that the engine positions that tile 33 pixels higher than its coordinate. If our Unity code doesn’t replicate that offset, the tile will sit too low, and the grassy top might show visibly instead of being hidden under a ground tile above.
+* **Wrong Tile Selection:** It’s possible our tile indexing is slightly off (e.g., using wrong `no` or `u` for a given position). If, say, an edge tile number is wrong, we might place a grassy-edge tile where a stone-edge tile was expected. This could be a logic bug when converting Maple’s data to Unity tile objects.
+* **Incorrect Tileset Usage:** We discovered layers 0 and 1 use *woodMarble* according to data, but the visual evidence suggests Henesys ground might actually use a different tileset that is more uniformly grey stone. It’s possible that *woodMarble* was misidentified or that Henesys’s data is trickier. In fact, internal notes suggest Henesys could be using the **“wood”** tileset (which despite its name may contain plain grey stone blocks) for its ground/platforms. If our implementation stuck with *woodMarble*, we might be drawing the wrong art. We need to verify if *wood* tileset exists and contains the expected graphics, and whether the Henesys map’s data could be pointing to it (perhaps via an empty `tS` that our code defaulted to *woodMarble* but should have been *wood*). This is a critical point to double-check.
+
+### 2. Possible Root Causes and Next Investigations
+
+To resolve the above mismatches, we are considering a few key areas to investigate:
+
+1. **Tile Origin and Pivot Handling:** Ensure that each tile’s origin offset (the `origin` vector in the data) is applied when positioning the sprite in Unity. MapleStory often uses these offsets so that, for example, an edge tile with origin (0,33) is drawn with a 33-pixel overlap under the tile above it. Unity’s tile placement might require adjusting the tile’s GameObject position or the Sprite’s pivot to account for this. We have the origin data available in the NX (as seen in the woodMarble XML, many tiles have non-zero origin Y offsets), but currently the Unity code uses the tile’s (X,Y) coordinates directly as world position without additional offsets. Incorporating these offsets could fix the alignment of half-tiles (so the “grass” part tucks under the adjacent tile correctly).
+2. **Tile Grid Alignment:** Henesys tiles might be expected to align on a specific grid. Given the base tile size 90×60, many tiles likely snap to a 30×30 sub-grid (since 90 and 60 are multiples of 30). We suspect that ensuring all tiles start at coordinates that are multiples of 15 or 30 (depending on half-tiles) could be important. We will verify if there’s a consistent grid or pattern in the original (e.g., ground tiles might all sit at Y coordinates that are multiples of 30). If our conversion to Unity coordinates introduces any half-unit offsets or floating precision issues, that could cause cumulative misalignments.
+3. **Tileset Verification:** We will double-check the actual art that Henesys is supposed to use. This may involve programmatically searching the MapleStory data for grey stone tile sets. We’ve created a debug option “**Find Grey Stone Tilesets**” which scans all tile images for predominantly grey pixels. Early hints pointed to names like *DeepgrassySoil* or others. If we find a better candidate tileset, we might adjust the tileset name for Henesys layers. (Notably, if the Maple data’s `info/tS` for layer 0 is actually blank, our code might have defaulted to *woodMarble* incorrectly; the correct default might have been *wood*. This needs verification in the WZ data.)
+4. **Consistency with C++ Logic:** We should ensure our Unity implementation of tile selection (how we pick `variant` and `no`) exactly mirrors the logic of the C++ client or the MapleStory data. For instance, MapleStory might use certain fallback rules for missing tiles (we have some coded, such as using a variant’s 0 image if a specific number is missing, or using a previous tile for edges). It’s important that if *woodMarble* or *wood* lacks a particular tile image, we fall back in the same way, otherwise a tile could be blank or substituted from another set (our code does attempt fallbacks like using DeepgrassySoil if certain tiles are missing). Any discrepancy could result in visual differences.
+5. **Tile Layer Opacity/Blending:** (Less likely) If any tiles are meant to be partially transparent or overlayed (e.g., decorative grasses), we should confirm we didn’t misclassify a tile layer as ground when it was an overlay, though in Henesys this is probably not the issue.
+
+In summary, the evidence suggests the *data is being correctly read* (we have the right number of tiles in roughly the correct positions now), but some **tile art or alignment metadata is not being handled exactly right in Unity**. This results in tiles that are technically placed but look wrong.
+
+## Debug Information Available
+
+To tackle the remaining issues, we have a wealth of debug output and logs:
+
+* **C++ Client Logs**: We instrumented a version of the C++ client (or used a MapleStory data explorer) to log tile loading. It confirms which tileset and tile IDs are used for each position. For example, it showed the client loading “woodMarble.img” for Henesys and the sequences of tile variants (useful for cross-checking Unity’s output).
+* **Unity Console Logs**: With our enhanced logging, when generating Henesys in Unity we print out messages such as “Layer 0 has tS: 'woodMarble'” and “Found tile node in layer 0 with N tiles…” for each layer. We also log the first few tiles added (with their TileSet/Variant/No and coordinates) to see if they match expectations. This console output confirms that layers 0 and 1 are being processed and that the tile entries (e.g., `Tile_L0_woodMarble_bsc_4` meaning layer0, tileset woodMarble, category bsc, tile 4) are created in the scene.
+* **Scene Hierarchy Inspection**: In the Unity editor, we can inspect the generated GameObjects. Tiles are organized under GameObjects named `TileSet_woodMarble` (and `TileSet_.img` if any empty-set tiles), and each tile has a name encoding its layer and identifiers (as noted above). This makes it easy to pick a suspicious tile in the scene and see exactly which variant it is, then cross-reference that with MapleStory’s data to see if it’s the expected one.
+* **Visual Comparison**: We have screenshots from the C++ client for Henesys to compare against the Unity-rendered scene. Differences like the half-grass tiles are being annotated. This helps pinpoint if an entire category of tile is wrong (e.g., all platform edge tiles) or just specific instances.
+* **Transparent Texture Warnings**: The Unity console may show warnings about “transparent texture not fully opaque” for some tile sprites. We determined these are benign and related to how some PNGs are extracted (some tiles have translucent pixels on edges). They do not affect the core rendering logic and can be addressed later, separate from the alignment issue.
+
+## Next Steps for the Researcher
+
+To reach 100% accuracy in Henesys tile rendering, the following steps are recommended:
+
+1. **Screenshot Comparison**: Do a detailed side-by-side comparison of Henesys in the official client vs. Unity. Identify specific tiles or areas that look different (e.g., a particular platform or ground section). Note the coordinates and tile IDs from Unity’s debug (we can print tile (X,Y) positions and IDs) and confirm what those should be in the official data. This will tell us if we’re using the wrong tile image or just misplacing the right one.
+2. **Verify Tileset Choice**: Double-check the WZ/NX data for Henesys’s tile layers. If `info/tS` for layer 0 or 1 is blank or points to an unexpected name, adjust our code accordingly. If our earlier inference about the “wood” tileset is correct, switch layer 0 (and/or 1) to use `wood` and see if the ground looks correct (grey stone). The debug tool to find grey tilesets can help identify the proper tileset name. We should update `MapDataExtractor` or a data override to force the suspected correct tileset and test the visual result.
+3. **Apply Origin Offsets**: Modify the tile placement in `TileGenerator` to account for origin. One approach is to store the origin from the NX data in `TileData` and then adjust `tile.transform.position` by that amount (converted to Unity units) when creating the tile. We might also need to adjust the sprite’s pivot so that the origin is honored. After implementing, test if the previously misaligned tiles (like those half-grass platform tops) now seamlessly overlap/underlap as expected.
+4. **Enforce Tile Grid**: Use the `DebugTileAlignment` tool to snap all tiles to a grid and see if things line up. If some tiles still look off-grid, investigate why. It could reveal if any tile’s X or Y is being computed incorrectly (e.g., an off-by-one in conversion). Ensuring a consistent grid (where intended) will likely fix small gaps or overlaps.
+5. **Match C++ Fallback Logic**: Review our `GetTileSprite` logic against MapleStory’s behavior. For any tile that isn’t found, ensure we try the same fallbacks (e.g., using variant 0 or previous tile for edges). It may help to log when a fallback is used, to catch if we’re unintentionally pulling a tile from a wrong set (the log at  shows we currently fallback among DeepgrassySoil, brownBrick, etc., which might not include *woodMarble* – we may need to add similar logic if woodMarble misses something).
+6. **Integrate NX Handling into Unity**: In the long term, consider migrating all NX (WZ) data handling entirely into C# within Unity. Currently, we rely on the `NXDataManager` and its wrappers, which may be a black box for some behaviors. By having full control (or at least deeply understanding that library), we can ensure no metadata is ignored. This could involve using or writing a MapleStory data parser in C# where we can explicitly fetch things like origin, or even directly reading the .wz/.nx files. This step is more about maintainability and transparency, but it will help in diagnosing issues like this since nothing is hidden in an external DLL.
+
+By following these steps, we should be able to pinpoint the exact cause of the remaining tile discrepancies and achieve a faithful reproduction of Henesys in Unity. The groundwork of correctly extracting all tiles and sorting them is done; now it’s about fine-tuning the rendering to match MapleStory’s quirks and data nuances. With the tileset and layering issues understood, we are close to closing the gap and delivering a visually accurate Henesys scene.

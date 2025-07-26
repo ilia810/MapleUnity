@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
+using MapleClient.SceneGeneration;
 
 namespace MapleClient.Editor
 {

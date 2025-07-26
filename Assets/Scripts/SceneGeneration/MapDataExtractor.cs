@@ -327,7 +327,9 @@ namespace MapleClient.SceneGeneration
                     Y = tile["y"]?.GetValue<int>() ?? 0,
                     Z = tile["z"]?.GetValue<int>() ?? 0,
                     ZM = tile["zM"]?.GetValue<int>() ?? 0,
-                    Layer = layer
+                    Layer = layer,
+                    OriginX = 0,  // Will be populated when loading the sprite
+                    OriginY = 0   // Will be populated when loading the sprite
                 };
                 
                 // In MapleStory, empty tileset is valid - it becomes ".img" in C++ client
@@ -537,5 +539,7 @@ namespace MapleClient.SceneGeneration
         public int Z { get; set; }            // z order
         public int ZM { get; set; }           // z modifier
         public int Layer { get; set; }        // layer number (0-7)
+        public int OriginX { get; set; }      // origin x offset from tile data
+        public int OriginY { get; set; }      // origin y offset from tile data
     }
 }
