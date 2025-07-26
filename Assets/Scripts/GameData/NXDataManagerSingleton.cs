@@ -196,6 +196,15 @@ namespace GameData
         /// </summary>
         public Sprite GetObjectSprite(string objPath)
         {
+            var (sprite, _) = GetObjectSpriteWithOrigin(objPath);
+            return sprite;
+        }
+        
+        /// <summary>
+        /// Get an object sprite with origin information
+        /// </summary>
+        public (Sprite sprite, Vector2 origin) GetObjectSpriteWithOrigin(string objPath)
+        {
             // Objects are in Map.nx/Obj/
             // objPath comes in like "Obj/guide.img/common/sign/0"
             
@@ -223,7 +232,8 @@ namespace GameData
                     if (IsImageNode(node))
                     {
                         var sprite = SpriteLoader.LoadSprite(node, path);
-                        if (sprite != null) return sprite;
+                        var origin = SpriteLoader.GetOrigin(node);
+                        if (sprite != null) return (sprite, origin);
                     }
                     // If we got a container node, it might have the actual sprite as a child
                     else if (node.Children.Any())
@@ -233,7 +243,8 @@ namespace GameData
                         if (firstChild != null && IsImageNode(firstChild))
                         {
                             var sprite = SpriteLoader.LoadSprite(firstChild, path);
-                            if (sprite != null) return sprite;
+                            var origin = SpriteLoader.GetOrigin(firstChild);
+                            if (sprite != null) return (sprite, origin);
                         }
                         
                         // Sometimes the sprite is nested deeper, try to find any image node
@@ -241,14 +252,15 @@ namespace GameData
                         if (imageNode != null)
                         {
                             var sprite = SpriteLoader.LoadSprite(imageNode, path);
-                            if (sprite != null) return sprite;
+                            var origin = SpriteLoader.GetOrigin(imageNode);
+                            if (sprite != null) return (sprite, origin);
                         }
                     }
                 }
             }
             
             Debug.LogWarning($"Object sprite not found for: {objPath}");
-            return null;
+            return (null, Vector2.zero);
         }
         
         private INxNode FindFirstImageNode(INxNode node)
@@ -799,10 +811,19 @@ namespace GameData
         /// </summary>
         public Sprite GetNPCSprite(string npcId)
         {
+            var (sprite, _) = GetNPCSpriteWithOrigin(npcId);
+            return sprite;
+        }
+        
+        /// <summary>
+        /// Get an NPC sprite with origin information
+        /// </summary>
+        public (Sprite sprite, Vector2 origin) GetNPCSpriteWithOrigin(string npcId)
+        {
             if (string.IsNullOrEmpty(npcId))
             {
                 Debug.LogWarning("Empty NPC ID provided");
-                return null;
+                return (null, Vector2.zero);
             }
             
             // NPCs are in Npc.nx/{npcId}.img/stand/0
@@ -824,7 +845,8 @@ namespace GameData
                     if (IsImageNode(node))
                     {
                         var sprite = SpriteLoader.LoadSprite(node, path);
-                        if (sprite != null) return sprite;
+                        var origin = SpriteLoader.GetOrigin(node);
+                        if (sprite != null) return (sprite, origin);
                     }
                     // If we got a container node, find the image
                     else if (node.Children.Any())
@@ -833,14 +855,15 @@ namespace GameData
                         if (imageNode != null)
                         {
                             var sprite = SpriteLoader.LoadSprite(imageNode, path);
-                            if (sprite != null) return sprite;
+                            var origin = SpriteLoader.GetOrigin(imageNode);
+                            if (sprite != null) return (sprite, origin);
                         }
                     }
                 }
             }
             
             Debug.LogWarning($"NPC sprite not found for ID: {npcId}");
-            return null;
+            return (null, Vector2.zero);
         }
         
         /// <summary>

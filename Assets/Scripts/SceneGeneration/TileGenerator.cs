@@ -115,7 +115,7 @@ namespace MapleClient.SceneGeneration
                 {
                     Debug.Log($"Tile L{tileData.Layer} {tileData.Variant}/{tileData.No}: " +
                              $"pos=({tileData.X},{tileData.Y}), origin=({origin.x},{origin.y}), " +
-                             $"offset=({offsetX},{offsetY}), z={tileData.Z}, zM={tileData.ZM}");
+                             $"z={tileData.Z}, zM={tileData.ZM}");
                 }
             }
             else

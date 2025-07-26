@@ -103,10 +103,21 @@ namespace MapleClient.SceneGeneration
                 spritePath += $"/{objData.L2}";
             
             // Load sprite from NX
-            var sprite = nxManager.GetObjectSprite(spritePath);
+            var (sprite, origin) = nxManager.GetObjectSpriteWithOrigin(spritePath);
             if (sprite != null)
             {
                 renderer.sprite = sprite;
+                
+                // Apply origin offset just like tiles do
+                // C++ client: draws at pos - origin
+                // With top-left pivot, we need to consider coordinate system differences:
+                // - MapleStory: Y+ is down, origin from top-left, subtract origin = move up+left
+                // - Unity: Y+ is up, pivot at top-left
+                // Since Y is already inverted by CoordinateConverter, origin.y behavior is inverted too
+                float offsetX = -origin.x / 100f;  // Move left by origin.x
+                float offsetY = origin.y / 100f;   // Move up by origin.y (inverted due to coordinate flip)
+                
+                renderer.transform.localPosition = new Vector3(offsetX, offsetY, 0);
             }
             else
             {

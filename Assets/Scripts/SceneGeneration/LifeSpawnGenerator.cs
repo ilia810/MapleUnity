@@ -66,8 +66,13 @@ namespace MapleClient.SceneGeneration
             collider.size = new Vector2(0.6f, 1f);
             collider.isTrigger = true;
             
-            // Add sprite renderer (will be populated later with actual NPC sprite)
-            SpriteRenderer renderer = npcObj.AddComponent<SpriteRenderer>();
+            // Create sprite object (like tiles do)
+            GameObject spriteObj = new GameObject("Sprite");
+            spriteObj.transform.parent = npcObj.transform;
+            spriteObj.transform.localPosition = Vector3.zero;
+            
+            // Add sprite renderer to the sprite object
+            SpriteRenderer renderer = spriteObj.AddComponent<SpriteRenderer>();
             renderer.sortingLayerName = "NPCs";
             // Use Y position for sorting order (higher Y = further back)
             renderer.sortingOrder = -Mathf.RoundToInt(npc.Y);
@@ -110,11 +115,22 @@ namespace MapleClient.SceneGeneration
         {
             // Try to load NPC sprite from NX data
             var nxManager = NXDataManagerSingleton.Instance;
-            var npcSprite = nxManager.GetNPCSprite(npcId);
+            var (npcSprite, origin) = nxManager.GetNPCSpriteWithOrigin(npcId);
             
             if (npcSprite != null)
             {
                 renderer.sprite = npcSprite;
+                
+                // Apply origin offset just like tiles do
+                // C++ client: draws at pos - origin
+                // With top-left pivot, we need to consider coordinate system differences:
+                // - MapleStory: Y+ is down, origin from top-left, subtract origin = move up+left
+                // - Unity: Y+ is up, pivot at top-left
+                // Since Y is already inverted by CoordinateConverter, origin.y behavior is inverted too
+                float offsetX = -origin.x / 100f;  // Move left by origin.x
+                float offsetY = origin.y / 100f;   // Move up by origin.y (inverted due to coordinate flip)
+                
+                renderer.transform.localPosition = new Vector3(offsetX, offsetY, 0);
             }
             else
             {
