@@ -56,12 +56,9 @@ namespace MapleClient.SceneGeneration
             tile.transform.parent = parent;
             
             // Set position
+            // In C++ client, tiles are drawn at their exact position without z-axis manipulation
+            // Sorting is handled entirely by sortingOrder, not z position
             Vector3 position = CoordinateConverter.ToUnityPosition(tileData.X, tileData.Y, 0);
-            
-            // Use Z value for depth sorting
-            float zOrder = -tileData.Z * 0.01f; // Negative so higher Z values appear behind
-            position.z = zOrder;
-            
             tile.transform.position = position;
             
             // Add tile component
@@ -99,39 +96,21 @@ namespace MapleClient.SceneGeneration
             {
                 renderer.sprite = sprite;
                 
-                // Apply origin offset to the tile position
-                // In MapleStory, the origin defines where the tile's anchor point is
-                // The tile is positioned such that this origin point sits at the tile's coordinates
-                // For example, a tile with origin (45,30) will have its (45,30) pixel at the tile position
-                if (origin != Vector2.zero)
-                {
-                    // The sprite is already created with the origin as its pivot in SpriteLoader
-                    // But we need to offset the position to account for the difference between
-                    // the default center pivot and the actual origin
-                    
-                    // Calculate the offset from center to origin
-                    float centerX = sprite.rect.width / 2f;
-                    float centerY = sprite.rect.height / 2f;
-                    float offsetX = (centerX - origin.x) / 100f;  // Convert pixels to Unity units
-                    float offsetY = (origin.y - centerY) / 100f;  // Y is flipped in Unity
-                    
-                    // Apply offset to the sprite object
-                    renderer.transform.localPosition = new Vector3(offsetX, offsetY, 0);
-                    
-                    if (Random.Range(0, 20) == 0) // Log some tiles with origins
-                    {
-                        Debug.Log($"Tile {tileData.TileSet}/{tileData.Variant}/{tileData.No} has origin ({origin.x},{origin.y}), sprite size ({sprite.rect.width},{sprite.rect.height}), offset ({offsetX},{offsetY})");
-                    }
-                }
+                // The sprite is already created with the origin as its pivot point in SpriteLoader
+                // No additional offset needed - the pivot handles the positioning correctly
+                // Setting localPosition to zero ensures the sprite renders at the tile position
+                renderer.transform.localPosition = Vector3.zero;
                 
                 // Store origin in tileData for debugging
                 tileData.OriginX = (int)origin.x;
                 tileData.OriginY = (int)origin.y;
                 
-                // More detailed logging
-                if (Random.Range(0, 50) == 0) // Log 1 in 50 tiles to avoid spam
+                // Debug logging
+                if (Random.Range(0, 100) == 0) // Log 1 in 100 tiles to avoid spam
                 {
-                    Debug.Log($"Loaded tile L{tileData.Layer}: {tileData.TileSet}/{tileData.Variant}/{tileData.No} at ({tileData.X},{tileData.Y}) origin ({origin.x},{origin.y})");
+                    Debug.Log($"Tile L{tileData.Layer} {tileData.Variant}/{tileData.No}: " +
+                             $"pos=({tileData.X},{tileData.Y}), origin=({origin.x},{origin.y}), " +
+                             $"z={tileData.Z}, zM={tileData.ZM}");
                 }
             }
             else
@@ -144,24 +123,32 @@ namespace MapleClient.SceneGeneration
         
         private int CalculateSortingOrder(TileData tileData)
         {
-            // Based on C++ client research:
-            // - Layer 7 is the far background, layer 0 is the front-most tile layer
-            // - Tiles are sorted primarily by their z and zM values from the data
-            // - Y position is only used as a tiebreaker, not as primary sort
+            // Based on C++ client implementation:
+            // - Tiles use z value for sorting, with zM as fallback when z is 0
+            // - Layer 7 is background, layer 0 is foreground
+            // - Within a layer, tiles are sorted by their depth value
+            
+            // Get the actual z value used by C++ client
+            int actualZ = tileData.Z;
+            if (actualZ == 0)
+            {
+                actualZ = tileData.ZM;
+            }
             
             // Layer priority: layer 0 (front) gets highest base value
-            int layerPriority = (7 - tileData.Layer) * 100000;
+            // Using larger multiplier to ensure layers don't overlap
+            int layerPriority = (7 - tileData.Layer) * 1000000;
             
-            // Depth priority: combine map depth offset (zM) and tile image depth (z)
-            // zM has higher priority than z
-            int depthPriority = tileData.ZM * 1000 + tileData.Z * 100;
+            // Within layer, sort by z value
+            // C++ client uses uint8_t (0-255) for z values
+            int depthPriority = actualZ * 1000;
             
-            // Use Y as tiebreaker only (higher Y = more in front)
-            // Note: In MapleStory, Y increases downward, so we negate it
-            int yPriority = -tileData.Y;
+            // Use insertion order as tiebreaker (approximated by negative Y)
+            // This maintains the order tiles were added to the multimap
+            int tiebreaker = -tileData.Y;
             
             // Final sorting order
-            return layerPriority + depthPriority + yPriority;
+            return layerPriority + depthPriority + tiebreaker;
         }
     }
     
