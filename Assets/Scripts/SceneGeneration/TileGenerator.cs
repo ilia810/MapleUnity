@@ -72,7 +72,6 @@ namespace MapleClient.SceneGeneration
             mapTile.layer = tileData.Layer;
             mapTile.z = tileData.Z;
             mapTile.zM = tileData.ZM;
-            mapTile.sortingOrder = renderer.sortingOrder;
             
             // Create sprite object
             GameObject spriteObj = new GameObject("Sprite");
@@ -83,6 +82,9 @@ namespace MapleClient.SceneGeneration
             SpriteRenderer renderer = spriteObj.AddComponent<SpriteRenderer>();
             renderer.sortingLayerName = "Tiles"; // Tiles should be on their own layer
             renderer.sortingOrder = CalculateSortingOrder(tileData);
+            
+            // Set the sorting order on the MapTile component after renderer is created
+            mapTile.sortingOrder = renderer.sortingOrder;
             
             // Load sprite
             LoadTileSprite(tileData, renderer);
