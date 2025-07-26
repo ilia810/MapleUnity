@@ -1,16 +1,76 @@
-=== MapleUnity Debug Log - Started at 2025-07-26 21:40:40 ===
-=== Total Entries: 6 ===
+=== MapleUnity Debug Log - Started at 2025-07-26 23:28:04 ===
+=== Total Entries: 36 ===
 
-21:40:39.126 [LOG] Game systems initialized - Debug log capture enabled
+23:28:02.600 [LOG] Game systems initialized - Debug log capture enabled
 
-21:40:39.407 [LOG] [EditorDebugLogCapture] Started capturing logs
+23:28:02.667 [LOG] Loading NPC 9010000
 
-21:40:40.104 [LOG] Debug log saved to: C:\Users\me\MapleUnity\debug-log.txt (2 entries)
+23:28:02.667 [LOG] Loading NPC 9010002
 
-21:40:40.195 [LOG] [EditorDebugLogCapture] Stopped capturing logs
+23:28:02.668 [LOG] Loading NPC 1012109
 
-21:40:40.196 [LOG] [EditorDebugLogCapture] Saved 2 log entries to C:\Users\me\MapleUnity\debug-log.txt
+23:28:02.668 [LOG] Loading NPC 1012108
 
-21:40:40.214 [LOG] Debug log saved to: C:\Users\me\MapleUnity\debug-log.txt (5 entries)
+23:28:02.668 [LOG] Loading NPC 1012106
 
-=== Log Saved at 2025-07-26 21:40:40 ===
+23:28:02.668 [LOG] Loading NPC 1012003
+
+23:28:02.668 [LOG] Loading NPC 9201142
+
+23:28:02.668 [LOG] Loading NPC 9250156
+
+23:28:02.668 [LOG] Loading NPC 9250123
+
+23:28:02.668 [LOG] Loading NPC 9250121
+
+23:28:02.668 [LOG] Loading NPC 1010100
+
+23:28:02.668 [LOG] Loading NPC 2041017
+
+23:28:02.668 [LOG] Loading NPC 9000069
+
+23:28:02.668 [LOG] Loading NPC 9201118
+
+23:28:02.668 [LOG] Loading NPC 9010022
+
+23:28:02.668 [LOG] Loading NPC 1103001
+
+23:28:02.668 [LOG] Loading NPC 9000017
+
+23:28:02.669 [LOG] Loading NPC 9201088
+
+23:28:02.669 [LOG] Loading NPC 9250042
+
+23:28:02.669 [LOG] Loading NPC 1012000
+
+23:28:02.669 [LOG] Loading NPC 9010009
+
+23:28:02.669 [LOG] Loading NPC 9201022
+
+23:28:02.669 [LOG] Loading NPC 9201001
+
+23:28:02.669 [LOG] Loading NPC 9010010
+
+23:28:02.669 [LOG] Loading NPC 9000021
+
+23:28:02.669 [LOG] Loading NPC 9209001
+
+23:28:02.669 [LOG] Loading NPC 9200000
+
+23:28:02.669 [LOG] Loading NPC 1012111
+
+23:28:02.669 [LOG] Loading NPC 9209000
+
+23:28:02.669 [LOG] Loading NPC 9000036
+
+23:28:02.914 [LOG] [EditorDebugLogCapture] Started capturing logs
+
+23:28:04.264 [LOG] Debug log saved to: C:\Users\me\MapleUnity\debug-log.txt (32 entries)
+
+23:28:04.331 [LOG] [EditorDebugLogCapture] Stopped capturing logs
+
+23:28:04.332 [LOG] [EditorDebugLogCapture] Saved 2 log entries to C:\Users\me\MapleUnity\debug-log.txt
+
+23:28:04.354 [LOG] Debug log saved to: C:\Users\me\MapleUnity\debug-log.txt (35 entries)
+
+=== Log Saved at 2025-07-26 23:28:04 ===

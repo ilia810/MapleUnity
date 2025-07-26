@@ -125,27 +125,28 @@ namespace MapleClient.SceneGeneration
             {
                 renderer.sprite = sprite;
                 
-                // Apply origin offset just like tiles do
-                // C++ client: draws at pos - origin
-                // With top-left pivot, we need to consider coordinate system differences:
-                // - MapleStory: Y+ is down, origin from top-left, subtract origin = move up+left
-                // - Unity: Y+ is up, pivot at top-left
-                // Since Y is already inverted by CoordinateConverter, origin.y behavior is inverted too
-                float offsetX = -origin.x / 100f;  // Move left by origin.x
-                float offsetY = origin.y / 100f;   // Move up by origin.y (inverted due to coordinate flip)
+                // IMPORTANT: Objects have inconsistent origins (bottom, center, etc.)
+                // We need to position the sprite so its origin point aligns with the world position
+                // With top-left pivot (0,1), we calculate the offset needed
+                
+                float spriteHeight = sprite.texture.height;
+                float spriteWidth = sprite.texture.width;
+                
+                // In MapleStory coordinates (Y+ down), origin.y from top
+                // In Unity (Y+ up), we need to position sprite so origin aligns with parent position
+                // With top-left pivot, sprite draws from its top-left corner
+                // So we need to offset by -origin.x and -(spriteHeight - origin.y)
+                float offsetX = -origin.x / 100f;
+                float offsetY = -(spriteHeight - origin.y) / 100f;
                 
                 renderer.transform.localPosition = new Vector3(offsetX, offsetY, 0);
                 
-                // Debug logging to understand the offset issue
-                if (sprite.texture != null)
-                {
-                    float spriteHeight = sprite.texture.height;
-                    Debug.Log($"OBJECT SPRITE DEBUG: {objData.ObjName} - " +
-                             $"Origin({origin.x},{origin.y}) - " +
-                             $"SpriteSize({sprite.texture.width}x{sprite.texture.height}) - " +
-                             $"Offset({offsetX},{offsetY}) - " +
-                             $"MapY={objData.Y}");
-                }
+                // Debug logging
+                Debug.Log($"OBJECT SPRITE DEBUG: {objData.ObjName} - " +
+                         $"Origin({origin.x},{origin.y}) - " +
+                         $"SpriteSize({spriteWidth}x{spriteHeight}) - " +
+                         $"Offset({offsetX},{offsetY}) - " +
+                         $"Origin type: {GetOriginType(origin, spriteWidth, spriteHeight)}");
             }
             else
             {
@@ -200,6 +201,33 @@ namespace MapleClient.SceneGeneration
             
             // Everything else uses raw position (decorative objects like signs, flowers, etc.)
             return false;
+        }
+        
+        private string GetOriginType(Vector2 origin, float width, float height)
+        {
+            float tolerance = 5f; // 5 pixel tolerance
+            
+            // Check common origin positions
+            if (Mathf.Abs(origin.x) < tolerance && Mathf.Abs(origin.y) < tolerance)
+                return "top-left";
+            else if (Mathf.Abs(origin.x - width/2) < tolerance && Mathf.Abs(origin.y) < tolerance)
+                return "top-center";
+            else if (Mathf.Abs(origin.x - width) < tolerance && Mathf.Abs(origin.y) < tolerance)
+                return "top-right";
+            else if (Mathf.Abs(origin.x) < tolerance && Mathf.Abs(origin.y - height/2) < tolerance)
+                return "middle-left";
+            else if (Mathf.Abs(origin.x - width/2) < tolerance && Mathf.Abs(origin.y - height/2) < tolerance)
+                return "center";
+            else if (Mathf.Abs(origin.x - width) < tolerance && Mathf.Abs(origin.y - height/2) < tolerance)
+                return "middle-right";
+            else if (Mathf.Abs(origin.x) < tolerance && Mathf.Abs(origin.y - height) < tolerance)
+                return "bottom-left";
+            else if (Mathf.Abs(origin.x - width/2) < tolerance && Mathf.Abs(origin.y - height) < tolerance)
+                return "bottom-center";
+            else if (Mathf.Abs(origin.x - width) < tolerance && Mathf.Abs(origin.y - height) < tolerance)
+                return "bottom-right";
+            else
+                return $"custom({origin.x},{origin.y})";
         }
         
         private void AddClimbableComponent(GameObject obj, bool isLadder)
