@@ -207,7 +207,7 @@ namespace MapleClient.Editor
             }
         }
         
-        private void CheckMultipleTiles(INxDataManager dataManager)
+        private void CheckMultipleTiles(NXDataManager dataManager)
         {
             string[] testPaths = {
                 "Tile/woodMarble.img/bsc/0",
