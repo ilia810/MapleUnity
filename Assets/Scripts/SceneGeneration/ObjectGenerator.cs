@@ -65,6 +65,9 @@ namespace MapleClient.SceneGeneration
                 Debug.Log($"Object {objData.ObjName} not snapping to foothold (floating/hanging object)");
             }
             
+            // Log specific examples for debugging
+            Debug.Log($"OBJECT EXAMPLE: {objData.ObjName} - Layer {objData.Layer} - Pos({objData.X},{adjustedY}) - L0:{objData.L0} L1:{objData.L1} L2:{objData.L2}");
+            
             // Set position with Z ordering
             Vector3 position = CoordinateConverter.ToUnityPosition(objData.X, adjustedY, 0);
             
@@ -132,6 +135,17 @@ namespace MapleClient.SceneGeneration
                 float offsetY = origin.y / 100f;   // Move up by origin.y (inverted due to coordinate flip)
                 
                 renderer.transform.localPosition = new Vector3(offsetX, offsetY, 0);
+                
+                // Debug logging to understand the offset issue
+                if (sprite.texture != null)
+                {
+                    float spriteHeight = sprite.texture.height;
+                    Debug.Log($"OBJECT SPRITE DEBUG: {objData.ObjName} - " +
+                             $"Origin({origin.x},{origin.y}) - " +
+                             $"SpriteSize({sprite.texture.width}x{sprite.texture.height}) - " +
+                             $"Offset({offsetX},{offsetY}) - " +
+                             $"MapY={objData.Y}");
+                }
             }
             else
             {
