@@ -53,9 +53,16 @@ namespace MapleClient.SceneGeneration
             
             // Check if this object should snap to footholds (ground-based objects)
             float adjustedY = objData.Y;
-            if (ShouldSnapToFoothold(objData) && FootholdManager.Instance != null)
+            bool shouldSnap = ShouldSnapToFoothold(objData);
+            if (shouldSnap && FootholdManager.Instance != null)
             {
+                float originalY = objData.Y;
                 adjustedY = FootholdManager.Instance.GetYBelow(objData.X, objData.Y);
+                Debug.Log($"Object {objData.ObjName} foothold adjustment: Y {originalY} -> {adjustedY} (diff: {adjustedY - originalY})");
+            }
+            else if (!shouldSnap)
+            {
+                Debug.Log($"Object {objData.ObjName} not snapping to foothold (floating/hanging object)");
             }
             
             // Set position with Z ordering
@@ -163,36 +170,21 @@ namespace MapleClient.SceneGeneration
         
         private bool ShouldSnapToFoothold(ObjectData objData)
         {
+            // Based on C++ client analysis:
+            // ONLY reactor objects snap to footholds
+            // Regular decorative objects use their raw positions
+            
             string objName = objData.ObjName.ToLower();
             
-            // Objects that should snap to ground/footholds
+            // Only reactor-type objects should snap to footholds
             if (objName.Contains("reactor")) return true;
-            if (objName.Contains("chest")) return true;
-            if (objName.Contains("box")) return true;
-            if (objName.Contains("gate")) return true;
-            if (objName.Contains("lever")) return true;
-            if (objName.Contains("switch")) return true;
             
-            // Objects that are typically ground-based
-            if (objName.Contains("flower")) return true;
-            if (objName.Contains("bush")) return true;
-            if (objName.Contains("rock")) return true;
-            if (objName.Contains("stone")) return true;
-            if (objName.Contains("pot")) return true;
-            if (objName.Contains("barrel")) return true;
-            if (objName.Contains("crate")) return true;
+            // Some specific interactive objects that might be reactors
+            // (these would need to be verified against actual map data)
+            if (objName.Contains("chest") && objName.Contains("treasure")) return true;
+            if (objName.Contains("lever") && objName.Contains("activate")) return true;
             
-            // Signs and posts that stand on ground
-            if (objName.Contains("sign") && !objName.Contains("hanging")) return true;
-            if (objName.Contains("post")) return true;
-            if (objName.Contains("board") && !objName.Contains("hanging")) return true;
-            
-            // Seats/benches are ground-based
-            if (objName.Contains("seat")) return true;
-            if (objName.Contains("chair")) return true;
-            if (objName.Contains("bench")) return true;
-            
-            // Default: don't snap to foothold (for hanging objects, floating decorations, etc.)
+            // Everything else uses raw position (decorative objects like signs, flowers, etc.)
             return false;
         }
         
