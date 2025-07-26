@@ -63,6 +63,10 @@ namespace MapleClient.SceneGeneration
             // Create root GameObject
             GameObject mapRoot = new GameObject($"Map_{mapId}");
             
+            // Add FootholdManager component and initialize it
+            FootholdManager footholdManager = mapRoot.AddComponent<FootholdManager>();
+            footholdManager.Initialize(mapData.Footholds ?? new List<Foothold>());
+            
             // Generate backgrounds
             if (mapData.Backgrounds != null && mapData.Backgrounds.Count > 0)
             {

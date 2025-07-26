@@ -41,11 +41,15 @@ namespace MapleClient.SceneGeneration
             GameObject npcObj = new GameObject($"NPC_{npc.Id}");
             npcObj.transform.parent = parent;
             
-            // Set position - NPCs should sit ON footholds, not be embedded in them
-            // The Y position from data is the foothold position, NPCs need to be placed above it
-            Vector3 position = CoordinateConverter.ToUnityPosition(npc.X, npc.Y, -0.5f);
-            // Offset Y position to place NPC on top of foothold (not embedded)
-            position.y += 0.1f; // Small offset to ensure NPC is above ground
+            // Get foothold-adjusted Y position like the C++ client does
+            float adjustedY = npc.Y;
+            if (FootholdManager.Instance != null)
+            {
+                adjustedY = FootholdManager.Instance.GetYBelow(npc.X, npc.Y);
+            }
+            
+            // Set position using the foothold-adjusted Y
+            Vector3 position = CoordinateConverter.ToUnityPosition(npc.X, adjustedY, -0.5f);
             npcObj.transform.position = position;
             
             // Add NPC component
@@ -86,8 +90,15 @@ namespace MapleClient.SceneGeneration
             GameObject spawnObj = new GameObject($"MonsterSpawn_{monster.Id}");
             spawnObj.transform.parent = parent;
             
-            // Set position
-            Vector3 position = CoordinateConverter.ToUnityPosition(monster.X, monster.Y, -0.5f);
+            // Get foothold-adjusted Y position like the C++ client does
+            float adjustedY = monster.Y;
+            if (FootholdManager.Instance != null)
+            {
+                adjustedY = FootholdManager.Instance.GetYBelow(monster.X, monster.Y);
+            }
+            
+            // Set position using the foothold-adjusted Y
+            Vector3 position = CoordinateConverter.ToUnityPosition(monster.X, adjustedY, -0.5f);
             spawnObj.transform.position = position;
             
             // Add spawn component

@@ -51,8 +51,15 @@ namespace MapleClient.SceneGeneration
             GameObject obj = new GameObject($"Object_{objData.ObjName}");
             obj.transform.parent = parent;
             
+            // Check if this object should snap to footholds (ground-based objects)
+            float adjustedY = objData.Y;
+            if (ShouldSnapToFoothold(objData) && FootholdManager.Instance != null)
+            {
+                adjustedY = FootholdManager.Instance.GetYBelow(objData.X, objData.Y);
+            }
+            
             // Set position with Z ordering
-            Vector3 position = CoordinateConverter.ToUnityPosition(objData.X, objData.Y, 0);
+            Vector3 position = CoordinateConverter.ToUnityPosition(objData.X, adjustedY, 0);
             
             // Use Z value for depth sorting within the layer
             float zOrder = -objData.Z * 0.01f; // Negative so higher Z values appear behind
@@ -152,6 +159,41 @@ namespace MapleClient.SceneGeneration
                 // Reactor (interactive object)
                 obj.AddComponent<ReactorObject>();
             }
+        }
+        
+        private bool ShouldSnapToFoothold(ObjectData objData)
+        {
+            string objName = objData.ObjName.ToLower();
+            
+            // Objects that should snap to ground/footholds
+            if (objName.Contains("reactor")) return true;
+            if (objName.Contains("chest")) return true;
+            if (objName.Contains("box")) return true;
+            if (objName.Contains("gate")) return true;
+            if (objName.Contains("lever")) return true;
+            if (objName.Contains("switch")) return true;
+            
+            // Objects that are typically ground-based
+            if (objName.Contains("flower")) return true;
+            if (objName.Contains("bush")) return true;
+            if (objName.Contains("rock")) return true;
+            if (objName.Contains("stone")) return true;
+            if (objName.Contains("pot")) return true;
+            if (objName.Contains("barrel")) return true;
+            if (objName.Contains("crate")) return true;
+            
+            // Signs and posts that stand on ground
+            if (objName.Contains("sign") && !objName.Contains("hanging")) return true;
+            if (objName.Contains("post")) return true;
+            if (objName.Contains("board") && !objName.Contains("hanging")) return true;
+            
+            // Seats/benches are ground-based
+            if (objName.Contains("seat")) return true;
+            if (objName.Contains("chair")) return true;
+            if (objName.Contains("bench")) return true;
+            
+            // Default: don't snap to foothold (for hanging objects, floating decorations, etc.)
+            return false;
         }
         
         private void AddClimbableComponent(GameObject obj, bool isLadder)
