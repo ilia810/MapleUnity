@@ -3,6 +3,7 @@ using UnityEditor;
 using GameData;
 using System.Reflection;
 using System.Linq;
+using MapleClient.GameData;
 
 namespace MapleClient.Editor
 {
