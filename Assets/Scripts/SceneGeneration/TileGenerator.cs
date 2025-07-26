@@ -61,6 +61,12 @@ namespace MapleClient.SceneGeneration
             Vector3 position = CoordinateConverter.ToUnityPosition(tileData.X, tileData.Y, 0);
             tile.transform.position = position;
             
+            // Debug: Log positions for comparison with objects
+            if (Random.Range(0, 100) == 0) // Sample logging
+            {
+                Debug.Log($"TILE POSITION: {tileData.TileSet}/{tileData.Variant}/{tileData.No} - MapPos({tileData.X},{tileData.Y}) -> UnityPos({position.x},{position.y},{position.z})");
+            }
+            
             // Add tile component
             MapTile mapTile = tile.AddComponent<MapTile>();
             mapTile.tileSet = tileData.TileSet;

@@ -77,6 +77,9 @@ namespace MapleClient.SceneGeneration
             
             obj.transform.position = position;
             
+            // Debug: Log the actual Unity position
+            Debug.Log($"OBJECT POSITION: {objData.ObjName} - MapPos({objData.X},{adjustedY}) -> UnityPos({position.x},{position.y},{position.z})");
+            
             // Add object component
             MapObject mapObj = obj.AddComponent<MapObject>();
             mapObj.objectSet = objData.ObjName;
@@ -125,28 +128,27 @@ namespace MapleClient.SceneGeneration
             {
                 renderer.sprite = sprite;
                 
-                // IMPORTANT: Objects have inconsistent origins (bottom, center, etc.)
-                // We need to position the sprite so its origin point aligns with the world position
-                // With top-left pivot (0,1), we calculate the offset needed
-                
-                float spriteHeight = sprite.texture.height;
-                float spriteWidth = sprite.texture.width;
-                
-                // In MapleStory coordinates (Y+ down), origin.y from top
-                // In Unity (Y+ up), we need to position sprite so origin aligns with parent position
-                // With top-left pivot, sprite draws from its top-left corner
-                // So we need to offset by -origin.x and -(spriteHeight - origin.y)
-                float offsetX = -origin.x / 100f;
-                float offsetY = -(spriteHeight - origin.y) / 100f;
+                // Use the EXACT same logic as tiles (which work correctly)
+                float offsetX = -origin.x / 100f;  // Move left by origin.x
+                float offsetY = origin.y / 100f;   // Move up by origin.y (inverted due to coordinate flip)
                 
                 renderer.transform.localPosition = new Vector3(offsetX, offsetY, 0);
                 
                 // Debug logging
+                float spriteHeight = sprite.texture.height;
+                float spriteWidth = sprite.texture.width;
+                
+                // Calculate where the bottom of the sprite will be
+                Vector3 parentWorldPos = obj.transform.position;
+                float spriteBottomY = parentWorldPos.y + offsetY - (spriteHeight / 100f);
+                
                 Debug.Log($"OBJECT SPRITE DEBUG: {objData.ObjName} - " +
                          $"Origin({origin.x},{origin.y}) - " +
                          $"SpriteSize({spriteWidth}x{spriteHeight}) - " +
                          $"Offset({offsetX},{offsetY}) - " +
-                         $"Origin type: {GetOriginType(origin, spriteWidth, spriteHeight)}");
+                         $"Origin type: {GetOriginType(origin, spriteWidth, spriteHeight)} - " +
+                         $"ParentY={parentWorldPos.y:F2} - " +
+                         $"SpriteBottomY={spriteBottomY:F2}");
             }
             else
             {
