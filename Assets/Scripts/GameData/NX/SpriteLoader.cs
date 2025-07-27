@@ -288,7 +288,7 @@ namespace MapleClient.GameData
         public static Vector2 GetOrigin(INxNode node)
         {
             // Debug: Log node hierarchy to understand structure
-            Debug.Log($"GetOrigin for node: {node.Name}, Path: {node.GetPath()}");
+            Debug.Log($"GetOrigin for node: {node.Name}");
             
             var originNode = node["origin"];
             if (originNode != null)
