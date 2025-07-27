@@ -203,59 +203,234 @@ namespace MapleClient.GameData
                 node = node.ResolveOutlink(dataManager);
             }
             
-            // Check if this node has image data
+            
+            // For objects, the structure is often:
+            // Obj/guide.img/common/post/0 (container node with origin)
+            //   └── 0 (child node with actual image data)
+            
+            // Check if THIS node is the container with origin
+            Vector2 origin = Vector2.zero;
+            INxNode imageNode = node;
+            INxNode containerNode = node; // Keep reference to original container
+            
+            // First, check if this node has an origin child
+            var originNode = node["origin"];
+            if (originNode != null && originNode.Value is Vector2 vec)
+            {
+                origin = vec;
+            }
+            
+            // Check if this node has image data directly
             var value = node.Value;
-            if (value == null || !(value is byte[])) 
+            bool hasDirectImageData = (value != null && value is byte[]);
+            
+            if (!hasDirectImageData)
             {
                 // Try GetValue<byte[]>
                 try
                 {
                     var imageData = node.GetValue<byte[]>();
-                    if (imageData == null || imageData.Length == 0)
-                        return null;
+                    hasDirectImageData = (imageData != null && imageData.Length > 0);
                 }
                 catch
+                {
+                    hasDirectImageData = false;
+                }
+            }
+            
+            // If no direct image data, look for child nodes with image data
+            if (!hasDirectImageData)
+            {
+                // For objects, check if there's a "0" child with the actual image
+                var imageChild = node["0"] ?? node["1"] ?? node["canvas"];
+                if (imageChild != null)
+                {
+                    // The origin stays at the container level, but image comes from child
+                    imageNode = imageChild;
+                    
+                    // If we didn't find origin at container level, check the image node
+                    // BUT ALSO check the parent container if the child has no origin
+                    if (origin == Vector2.zero)
+                    {
+                        var imageOrigin = imageChild["origin"];
+                        if (imageOrigin != null && imageOrigin.Value is Vector2 imgVec)
+                        {
+                            origin = imgVec;
+                        }
+                        else
+                        {
+                            // Check parent node for origin (container pattern)
+                            var parentOrigin = containerNode["origin"];
+                            if (parentOrigin != null && parentOrigin.Value is Vector2 parentVec)
+                            {
+                                origin = parentVec;
+                            }
+                        }
+                    }
+                }
+                else
                 {
                     return null;
                 }
             }
-            
-            // This node has image data - get origin from the SAME node
-            Vector2 origin = Vector2.zero;
-            
-            // First try direct origin property
-            var originNode = node["origin"];
-            if (originNode != null)
+            else
             {
-                var originValue = originNode.Value;
-                if (originValue is Vector2 vec2)
+                // This node has image data directly (like tiles)
+                // Origin should be at this same level
+            }
+            
+            // If we still haven't found an origin and this is a different node than the original
+            // check the image node for origin (for cases where origin is with the image data)
+            if (origin == Vector2.zero && imageNode != node)
+            {
+                var imgOriginNode = imageNode["origin"];
+                if (imgOriginNode != null)
                 {
-                    origin = vec2;
-                    Debug.Log($"Found origin as Vector2 on image node: {vec2}");
+                    var originValue = imgOriginNode.Value;
+                    if (originValue is Vector2 vec2)
+                    {
+                        origin = vec2;
+                    }
                 }
             }
             
-            // If no origin found, it might be stored differently
-            if (origin == Vector2.zero)
+            // Method 2: Check parent node for origin (common pattern for objects)
+            if (origin == Vector2.zero && imageNode.Parent != null)
             {
-                // Check if there's a canvas child that has the origin
-                var canvasNode = node["canvas"];
-                if (canvasNode != null)
+                var parentOrigin = imageNode.Parent["origin"];
+                if (parentOrigin != null && parentOrigin.Value is Vector2 parentVec)
                 {
-                    var canvasOrigin = canvasNode["origin"];
-                    if (canvasOrigin != null && canvasOrigin.Value is Vector2 canvasVec)
+                    origin = parentVec;
+                }
+            }
+            
+            // Method 3: For NX nodes, properties might be stored differently
+            // Try using reflection to access the underlying NX node's properties
+            if (origin == Vector2.zero && imageNode is RealNxNode realNode)
+            {;
+                
+                // Get the underlying NX node
+                var nxNodeField = realNode.GetType().GetField("nxNode", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                if (nxNodeField != null)
+                {
+                    var nxNode = nxNodeField.GetValue(realNode);
+                    if (nxNode != null)
                     {
-                        origin = canvasVec;
-                        Debug.Log($"Found origin on canvas node: {canvasVec}");
+                        
+                        // For NX bitmap/canvas nodes, origin might be a direct property
+                        var nxType = nxNode.GetType();
+                        
+                        // Check all properties on the NX node
+                        var properties = nxType.GetProperties();
+                        foreach (var prop in properties)
+                        {
+                            if (prop.Name.ToLower().Contains("origin"))
+                            {
+                                var propValue = prop.GetValue(nxNode);
+                                if (propValue != null)
+                                {
+                                    // Found origin property
+                                }
+                            }
+                        }
+                        
+                        // The NX library might store canvas properties including origin
+                        // Check if this node has Canvas-related data
+                        var canvasProperty = nxType.GetProperty("Canvas");
+                        if (canvasProperty != null)
+                        {
+                            var canvas = canvasProperty.GetValue(nxNode);
+                            if (canvas != null)
+                            {
+                                var canvasType = canvas.GetType();
+                                var originProp = canvasType.GetProperty("Origin") ?? canvasType.GetProperty("origin");
+                                if (originProp != null)
+                                {
+                                    var originVal = originProp.GetValue(canvas);
+                                    if (originVal != null)
+                                    {
+                                        // Convert to Vector2
+                                        var originValType = originVal.GetType();
+                                        if (originValType.Name == "Point")
+                                        {
+                                            var x = (int)(originValType.GetProperty("X")?.GetValue(originVal) ?? 0);
+                                            var y = (int)(originValType.GetProperty("Y")?.GetValue(originVal) ?? 0);
+                                            origin = new Vector2(x, y);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // If still no origin found, try C++ wrapper as last resort
+            if (origin == Vector2.zero && dataManager != null)
+            {
+                // Build path for C++ wrapper
+                string nxFile = "Map.nx"; // Default to Map.nx for objects
+                string nodePath = "";
+                
+                // Method 1: Extract from the name parameter if it contains full path
+                if (name.Contains("/"))
+                {
+                    nodePath = name;
+                    // Remove any .nx prefix if present
+                    if (nodePath.StartsWith("Map.nx/"))
+                    {
+                        nodePath = nodePath.Substring(7);
+                    }
+                    else if (name.Contains(".nx/"))
+                    {
+                        var parts = name.Split(new[] { ".nx/" }, StringSplitOptions.None);
+                        if (parts.Length >= 2)
+                        {
+                            nxFile = parts[0] + ".nx";
+                            nodePath = parts[1];
+                        }
+                    }
+                }
+                else
+                {
+                    // Method 2: Build from node hierarchy
+                    var currentNode = containerNode;
+                    var pathParts = new List<string>();
+                    
+                    // Walk up the tree to build the full path
+                    while (currentNode != null)
+                    {
+                        if (!string.IsNullOrEmpty(currentNode.Name))
+                        {
+                            pathParts.Insert(0, currentNode.Name);
+                        }
+                        currentNode = currentNode.Parent;
+                    }
+                    
+                    // Remove the NX file name if it's at the beginning
+                    if (pathParts.Count > 0 && pathParts[0].EndsWith(".nx"))
+                    {
+                        nxFile = pathParts[0];
+                        pathParts.RemoveAt(0);
+                    }
+                    
+                    nodePath = string.Join("/", pathParts);
+                }
+                
+                if (!string.IsNullOrEmpty(nodePath))
+                {
+                    var cppOrigin = CppNxSpriteLoader.GetSpriteOrigin(nxFile, nodePath);
+                    if (cppOrigin.HasValue)
+                    {
+                        origin = cppOrigin.Value;
                     }
                 }
             }
             
             // Now create the sprite
-            var sprite = ConvertNodeToSprite(node, name);
+            var sprite = ConvertNodeToSprite(imageNode, name);
             if (sprite == null) return null;
             
-            Debug.Log($"Loaded sprite {name} with origin {origin} from same node");
             return new SpriteWithOrigin(sprite, origin);
         }
         
@@ -338,7 +513,6 @@ namespace MapleClient.GameData
                 
                 if (texture.LoadImage(imageData))
                 {
-                    Debug.Log($"Successfully loaded texture for {name}: {texture.width}x{texture.height}");
                     
                     // Sample first few pixels to check if it's solid color
                     if (texture.width > 0 && texture.height > 0)
@@ -423,8 +597,6 @@ namespace MapleClient.GameData
                 node = node.ResolveOutlink(dataManager);
             }
             
-            // Debug: Log node hierarchy to understand structure
-            Debug.Log($"GetOrigin for node: {node.Name}");
             
             var originNode = node["origin"];
             if (originNode != null)
@@ -433,7 +605,6 @@ namespace MapleClient.GameData
                 var value = originNode.Value;
                 if (value is Vector2 vec2)
                 {
-                    Debug.Log($"Found origin as Vector2: {vec2}");
                     return vec2;
                 }
                 
@@ -446,7 +617,6 @@ namespace MapleClient.GameData
                     {
                         var x = xNode.GetValue<int>();
                         var y = yNode.GetValue<int>();
-                        Debug.Log($"Found origin from x/y nodes: ({x}, {y})");
                         return new Vector2(x, y);
                     }
                     catch { }
@@ -462,7 +632,6 @@ namespace MapleClient.GameData
                     var value = parentOrigin.Value;
                     if (value is Vector2 vec2)
                     {
-                        Debug.Log($"Found origin on parent as Vector2: {vec2}");
                         return vec2;
                     }
                 }
@@ -477,13 +646,11 @@ namespace MapleClient.GameData
                     var value = grandparentOrigin.Value;
                     if (value is Vector2 vec2)
                     {
-                        Debug.Log($"Found origin on grandparent as Vector2: {vec2}");
                         return vec2;
                     }
                 }
             }
             
-            Debug.Log($"No origin found for node: {node.Name}, returning (0,0)");
             return Vector2.zero;
         }
         

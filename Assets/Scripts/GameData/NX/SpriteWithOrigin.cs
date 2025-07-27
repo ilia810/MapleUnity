@@ -10,6 +10,12 @@ namespace MapleClient.GameData
         public Sprite Sprite { get; set; }
         public Vector2 Origin { get; set; }
         
+        public SpriteWithOrigin()
+        {
+            Sprite = null;
+            Origin = Vector2.zero;
+        }
+        
         public SpriteWithOrigin(Sprite sprite, Vector2 origin)
         {
             Sprite = sprite;

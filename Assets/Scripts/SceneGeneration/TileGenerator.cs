@@ -61,11 +61,6 @@ namespace MapleClient.SceneGeneration
             Vector3 position = CoordinateConverter.ToUnityPosition(tileData.X, tileData.Y, 0);
             tile.transform.position = position;
             
-            // Debug: Log positions for comparison with objects
-            if (Random.Range(0, 100) == 0) // Sample logging
-            {
-                Debug.Log($"TILE POSITION: {tileData.TileSet}/{tileData.Variant}/{tileData.No} - MapPos({tileData.X},{tileData.Y}) -> UnityPos({position.x},{position.y},{position.z})");
-            }
             
             // Add tile component
             MapTile mapTile = tile.AddComponent<MapTile>();
@@ -83,7 +78,7 @@ namespace MapleClient.SceneGeneration
             
             // Add sprite renderer
             SpriteRenderer renderer = spriteObj.AddComponent<SpriteRenderer>();
-            renderer.sortingLayerName = "Tiles"; // Tiles should be on their own layer
+            renderer.sortingLayerName = "Default"; // All map elements on same layer for proper sorting
             renderer.sortingOrder = CalculateSortingOrder(tileData);
             
             // Set the sorting order on the MapTile component after renderer is created
@@ -116,13 +111,6 @@ namespace MapleClient.SceneGeneration
                 tileData.OriginX = (int)origin.x;
                 tileData.OriginY = (int)origin.y;
                 
-                // Debug logging
-                if (Random.Range(0, 100) == 0) // Log 1 in 100 tiles to avoid spam
-                {
-                    Debug.Log($"Tile L{tileData.Layer} {tileData.Variant}/{tileData.No}: " +
-                             $"pos=({tileData.X},{tileData.Y}), origin=({origin.x},{origin.y}), " +
-                             $"z={tileData.Z}, zM={tileData.ZM}");
-                }
             }
             else
             {
@@ -134,8 +122,8 @@ namespace MapleClient.SceneGeneration
         
         private int CalculateSortingOrder(TileData tileData)
         {
-            // C++ client: Each layer has its own multimap<uint8_t, Tile>
-            // Layers are drawn in order (7 to 0), tiles within layer sorted by z
+            // C++ client: Layers are drawn 0 to 7 (0 first/back, 7 last/front)
+            // Within each layer, sorted by z value (lower z draws first)
             
             // Get the actual z value (use zM if z is 0)
             int actualZ = tileData.Z;
@@ -147,12 +135,13 @@ namespace MapleClient.SceneGeneration
             // Ensure actualZ is in valid range (0-255 as uint8_t)
             actualZ = Mathf.Clamp(actualZ, 0, 255);
             
-            // Layer base: layer 7 = 0, layer 0 = 7000
-            // This ensures background layers render first
-            int layerBase = (7 - tileData.Layer) * 1000;
+            // Layer base: layer 0 = 0, layer 7 = 7000
+            // This ensures lower layers render behind higher layers
+            int layerBase = tileData.Layer * 1000;
             
             // Within each layer, sort by z value
-            return layerBase + actualZ;
+            // Objects are drawn before tiles in C++, so offset tiles slightly
+            return layerBase + actualZ + 500; // +500 to ensure tiles draw after objects
         }
     }
     

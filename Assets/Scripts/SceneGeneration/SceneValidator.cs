@@ -145,12 +145,39 @@ namespace MapleClient.SceneGeneration
         
         private void ValidateBackgrounds(GameObject mapRoot, ValidationReport report)
         {
-            var backgrounds = mapRoot.GetComponentsInChildren<ParallaxLayer>();
+            // Check for the new viewport-based background system
+            var bgManager = mapRoot.GetComponentInChildren<DynamicBackgroundManager>();
+            if (bgManager == null)
+            {
+                report.warnings.Add("No DynamicBackgroundManager found - backgrounds may not render");
+                report.backgroundCount = 0;
+                return;
+            }
+            
+            var backgrounds = mapRoot.GetComponentsInChildren<ViewportBackgroundLayer>();
             report.backgroundCount = backgrounds.Length;
             
             if (backgrounds.Length == 0)
             {
                 report.warnings.Add("No background layers found - map may appear empty");
+            }
+            else
+            {
+                // Check for Type 3 backgrounds (should have at least one for sky/base color)
+                bool hasFullScreenBg = false;
+                foreach (var bg in backgrounds)
+                {
+                    if (bg.backgroundData != null && bg.backgroundData.Type == 3)
+                    {
+                        hasFullScreenBg = true;
+                        break;
+                    }
+                }
+                
+                if (!hasFullScreenBg)
+                {
+                    report.warnings.Add("No Type 3 (full screen) background found - map may lack base color/sky");
+                }
             }
         }
         

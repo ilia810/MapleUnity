@@ -132,16 +132,23 @@ namespace MapleClient.SceneGeneration
             {
                 renderer.sprite = npcSprite;
                 
-                // Apply origin offset just like tiles do
-                // C++ client: draws at pos - origin
-                // With top-left pivot, we need to consider coordinate system differences:
-                // - MapleStory: Y+ is down, origin from top-left, subtract origin = move up+left
-                // - Unity: Y+ is up, pivot at top-left
-                // Since Y is already inverted by CoordinateConverter, origin.y behavior is inverted too
-                float offsetX = -origin.x / 100f;  // Move left by origin.x
-                float offsetY = origin.y / 100f;   // Move up by origin.y (inverted due to coordinate flip)
+                // Apply origin offset
+                // For NPCs, the origin is typically at the bottom-center of the sprite
+                // This is where the NPC should touch the ground
+                float offsetX = -origin.x / 100f;  // Center horizontally
+                float offsetY = origin.y / 100f;   // Offset from top
+                
+                // Since we're using top-left pivot, we need to adjust so the sprite's
+                // origin point (usually bottom-center) aligns with the foothold
+                float spriteHeight = npcSprite.bounds.size.y;
+                
+                // The NPC position is where the origin should be (at foothold)
+                // So we need to move the sprite up by (height - origin.y)
+                offsetY = (origin.y / 100f) - spriteHeight;
                 
                 renderer.transform.localPosition = new Vector3(offsetX, offsetY, 0);
+                
+                Debug.Log($"NPC {npcId}: origin({origin.x},{origin.y}), sprite height={spriteHeight*100}px, offset=({offsetX},{offsetY})");
             }
             else
             {

@@ -58,15 +58,7 @@ namespace MapleClient.SceneGeneration
             {
                 float originalY = objData.Y;
                 adjustedY = FootholdManager.Instance.GetYBelow(objData.X, objData.Y);
-                Debug.Log($"Object {objData.ObjName} foothold adjustment: Y {originalY} -> {adjustedY} (diff: {adjustedY - originalY})");
             }
-            else if (!shouldSnap)
-            {
-                Debug.Log($"Object {objData.ObjName} not snapping to foothold (floating/hanging object)");
-            }
-            
-            // Log specific examples for debugging
-            Debug.Log($"OBJECT EXAMPLE: {objData.ObjName} - Layer {objData.Layer} - Pos({objData.X},{adjustedY}) - L0:{objData.L0} L1:{objData.L1} L2:{objData.L2}");
             
             // Set position with Z ordering
             Vector3 position = CoordinateConverter.ToUnityPosition(objData.X, adjustedY, 0);
@@ -76,9 +68,6 @@ namespace MapleClient.SceneGeneration
             position.z = zOrder;
             
             obj.transform.position = position;
-            
-            // Debug: Log the actual Unity position
-            Debug.Log($"OBJECT POSITION: {objData.ObjName} - MapPos({objData.X},{adjustedY}) -> UnityPos({position.x},{position.y},{position.z})");
             
             // Add object component
             MapObject mapObj = obj.AddComponent<MapObject>();
@@ -142,13 +131,6 @@ namespace MapleClient.SceneGeneration
                 Vector3 parentWorldPos = renderer.transform.parent.parent.position; // sprite -> object -> position
                 float spriteBottomY = parentWorldPos.y + offsetY - (spriteHeight / 100f);
                 
-                Debug.Log($"OBJECT SPRITE DEBUG: {objData.ObjName} - " +
-                         $"Origin({origin.x},{origin.y}) - " +
-                         $"SpriteSize({spriteWidth}x{spriteHeight}) - " +
-                         $"Offset({offsetX},{offsetY}) - " +
-                         $"Origin type: {GetOriginType(origin, spriteWidth, spriteHeight)} - " +
-                         $"ParentY={parentWorldPos.y:F2} - " +
-                         $"SpriteBottomY={spriteBottomY:F2}");
             }
             else
             {
@@ -255,31 +237,32 @@ namespace MapleClient.SceneGeneration
         
         private string GetSortingLayer(int layer)
         {
-            // Map layer numbers to sorting layers
-            switch (layer)
-            {
-                case 0:
-                case 1:
-                case 2:
-                    return "Background";
-                case 3:
-                case 4:
-                case 5:
-                    return "Objects";
-                case 6:
-                case 7:
-                    return "Foreground";
-                default:
-                    return "Objects";
-            }
+            // All objects and tiles should be on the same sorting layer
+            // to ensure proper interleaving based on their numeric order
+            return "Default";
         }
         
         private int CalculateSortingOrder(ObjectData objData)
         {
-            // Calculate sorting order based on layer and Z value
-            int baseOrder = objData.Layer * 1000;
-            int zOrder = objData.Z + objData.ZM;
-            return baseOrder + zOrder;
+            // C++ client: Layers are drawn 0 to 7 (0 first/back, 7 last/front)
+            // Objects are drawn before tiles within each layer
+            
+            // Get the actual z value
+            int actualZ = objData.Z;
+            if (objData.ZM != 0)
+            {
+                actualZ += objData.ZM; // ZM is additive for objects
+            }
+            
+            // Ensure actualZ is in valid range (0-255 as uint8_t)
+            actualZ = Mathf.Clamp(actualZ, 0, 255);
+            
+            // Layer base: layer 0 = 0, layer 7 = 7000
+            int layerBase = objData.Layer * 1000;
+            
+            // Within each layer, sort by z value
+            // Objects draw before tiles, so no offset needed
+            return layerBase + actualZ;
         }
     }
     

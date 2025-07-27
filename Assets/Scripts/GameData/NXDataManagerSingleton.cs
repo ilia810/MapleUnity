@@ -227,22 +227,46 @@ namespace GameData
                 if (node != null)
                 {
                     Debug.Log($"Found object at path: {path}");
+                    Debug.Log($"  Node type: {node.GetType().Name}, IsImageNode: {IsImageNode(node)}");
                     
                     // Check if this is directly an image node
                     if (IsImageNode(node))
                     {
                         var result = SpriteLoader.LoadSpriteWithOrigin(node, path, dataManager);
-                        if (result != null) return (result.Sprite, result.Origin);
+                        if (result != null) 
+                        {
+                            return (result.Sprite, result.Origin);
+                        }
                     }
                     // If we got a container node, it might have the actual sprite as a child
                     else if (node.Children.Any())
                     {
+                        // IMPORTANT: For objects, the container node often has the origin
+                        // while the child node has the image data
+                        Vector2 containerOrigin = Vector2.zero;
+                        var containerOriginNode = node["origin"];
+                        if (containerOriginNode != null && containerOriginNode.Value is Vector2 vec)
+                        {
+                            containerOrigin = vec;
+                            Debug.Log($"  Found origin at container level: {containerOrigin}");
+                        }
+                        
                         // For objects, sprites are often directly under the node
                         var firstChild = node.Children.FirstOrDefault();
                         if (firstChild != null && IsImageNode(firstChild))
                         {
+                            // Use LoadSpriteWithOrigin to try to get origin from the child first
                             var result = SpriteLoader.LoadSpriteWithOrigin(firstChild, path, dataManager);
-                            if (result != null) return (result.Sprite, result.Origin);
+                            if (result != null) 
+                            {
+                                // If child had no origin but container did, use container's origin
+                                if (result.Origin == Vector2.zero && containerOrigin != Vector2.zero)
+                                {
+                                    Debug.Log($"  Using container origin {containerOrigin} instead of child origin {result.Origin}");
+                                    return (result.Sprite, containerOrigin);
+                                }
+                                return (result.Sprite, result.Origin);
+                            }
                         }
                         
                         // Sometimes the sprite is nested deeper, try to find any image node
@@ -250,7 +274,16 @@ namespace GameData
                         if (imageNode != null)
                         {
                             var result = SpriteLoader.LoadSpriteWithOrigin(imageNode, path, dataManager);
-                            if (result != null) return (result.Sprite, result.Origin);
+                            if (result != null)
+                            {
+                                // If child had no origin but container did, use container's origin
+                                if (result.Origin == Vector2.zero && containerOrigin != Vector2.zero)
+                                {
+                                    Debug.Log($"  Using container origin {containerOrigin} instead of nested image origin {result.Origin}");
+                                    return (result.Sprite, containerOrigin);
+                                }
+                                return (result.Sprite, result.Origin);
+                            }
                         }
                     }
                 }
@@ -946,41 +979,31 @@ namespace GameData
             }
             
             Debug.Log($"Found node: {node.Name}");
-            Debug.Log($"Node type: {node.GetType().Name}");
-            Debug.Log($"Has Value: {node.Value != null}");
-            Debug.Log($"Value type: {node.Value?.GetType().Name ?? "null"}");
             
             // Try to get value as byte[]
             try
             {
                 var bytes = node.GetValue<byte[]>();
-                Debug.Log($"GetValue<byte[]> returned: {(bytes != null ? $"{bytes.Length} bytes" : "null")}");
             }
             catch (Exception e)
             {
-                Debug.Log($"GetValue<byte[]> failed: {e.Message}");
             }
             
             // Check children
-            Debug.Log($"Children count: {node.Children.Count()}");
             if (node.Children.Any())
             {
-                Debug.Log("First 5 children:");
                 int count = 0;
                 foreach (var child in node.Children)
                 {
-                    Debug.Log($"  - {child.Name} (Value: {child.Value != null}, Type: {child.Value?.GetType().Name ?? "null"})");
                     if (count++ >= 5) break;
                 }
             }
             
             // Check for image-related properties
             var originNode = node["origin"];
-            Debug.Log($"Has origin: {originNode != null}");
             
             var widthNode = node["width"];
             var heightNode = node["height"];
-            Debug.Log($"Has width/height: {widthNode != null}/{heightNode != null}");
         }
         
         /// <summary>

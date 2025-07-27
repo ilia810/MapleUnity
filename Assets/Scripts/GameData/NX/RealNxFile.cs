@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using reNX;
@@ -94,11 +95,7 @@ namespace MapleClient.GameData
             }
             catch (Exception ex)
             {
-                // Only log errors for important paths to reduce spam
-                if (!path.Contains("/") || path.StartsWith("00002") || path.StartsWith("00012"))
-                {
-                    Debug.LogError($"RealNxFile.GetNode: Exception for path '{path}': {ex.Message}");
-                }
+                // Silently handle exceptions
                 return null;
             }
         }
@@ -114,12 +111,10 @@ namespace MapleClient.GameData
             {
                 if (bitmap == null)
                 {
-                    UnityEngine.Debug.LogError($"ExtractPngFromBitmap: bitmap is null for {nodeName}");
                     return null;
                 }
                 
                 var bitmapType = bitmap.GetType();
-                UnityEngine.Debug.Log($"ExtractPngFromBitmap: Processing {bitmapType.FullName} for {nodeName}");
                 
                 // Method 1: Check if this bitmap already has PNG data
                 var pngDataProperty = bitmapType.GetProperty("PngData");
@@ -128,14 +123,12 @@ namespace MapleClient.GameData
                     var pngData = pngDataProperty.GetValue(bitmap) as byte[];
                     if (pngData != null && pngData.Length > 0)
                     {
-                        UnityEngine.Debug.Log($"ExtractPngFromBitmap: Found PngData property with {pngData.Length} bytes");
                         return pngData;
                     }
                 }
                 
                 // Method 2: Try to find and use Save method
                 var saveMethods = bitmapType.GetMethods().Where(m => m.Name == "Save").ToArray();
-                UnityEngine.Debug.Log($"ExtractPngFromBitmap: Found {saveMethods.Length} Save methods");
                 
                 // Look for Save(Stream, ImageFormat)
                 var saveMethod = saveMethods.FirstOrDefault(m => 
@@ -148,7 +141,6 @@ namespace MapleClient.GameData
                 
                 if (saveMethod != null)
                 {
-                    UnityEngine.Debug.Log($"ExtractPngFromBitmap: Found Save method with correct signature");
                     
                     using (var ms = new System.IO.MemoryStream())
                     {
@@ -174,43 +166,32 @@ namespace MapleClient.GameData
                                     if (pngData.Length > 8 && pngData[0] == 0x89 && pngData[1] == 0x50 && 
                                         pngData[2] == 0x4E && pngData[3] == 0x47)
                                     {
-                                        UnityEngine.Debug.Log($"ExtractPngFromBitmap: Successfully extracted valid PNG: {pngData.Length} bytes from {nodeName}");
                                         return pngData;
                                     }
                                     else
                                     {
-                                        UnityEngine.Debug.LogError($"ExtractPngFromBitmap: Invalid PNG header for {nodeName}. First 8 bytes: {string.Join(" ", pngData.Take(8).Select(b => b.ToString("X2")))}");
                                     }
                                 }
                                 catch (Exception saveEx)
                                 {
-                                    UnityEngine.Debug.LogError($"ExtractPngFromBitmap: Error during save for {nodeName}: {saveEx.Message}");
-                                    if (saveEx.InnerException != null)
-                                    {
-                                        UnityEngine.Debug.LogError($"ExtractPngFromBitmap: Inner save error: {saveEx.InnerException.Message}");
-                                    }
                                 }
                             }
                             else
                             {
-                                UnityEngine.Debug.LogError($"ExtractPngFromBitmap: Png format property value is null for {nodeName}");
                             }
                         }
                         else
                         {
-                            UnityEngine.Debug.LogError($"ExtractPngFromBitmap: Could not find Png property on ImageFormat type for {nodeName}");
                         }
                     }
                 }
                 else
                 {
-                    UnityEngine.Debug.LogWarning($"ExtractPngFromBitmap: No suitable Save method found for {nodeName}, trying alternative approach");
                 }
                 
                 // Method 3: Alternative approach - pixel-by-pixel extraction
                 try
                 {
-                    UnityEngine.Debug.Log($"ExtractPngFromBitmap: Trying pixel-by-pixel extraction for {nodeName}");
                     
                     // Get Width and Height
                     var widthProp = bitmapType.GetProperty("Width");
@@ -221,7 +202,6 @@ namespace MapleClient.GameData
                         int width = (int)widthProp.GetValue(bitmap);
                         int height = (int)heightProp.GetValue(bitmap);
                         
-                        UnityEngine.Debug.Log($"ExtractPngFromBitmap: Bitmap dimensions: {width}x{height} for {nodeName}");
                         
                         if (width > 0 && height > 0 && width < 4096 && height < 4096) // Sanity check
                         {
@@ -229,7 +209,6 @@ namespace MapleClient.GameData
                             var getPixelMethod = bitmapType.GetMethod("GetPixel");
                             if (getPixelMethod != null)
                             {
-                                UnityEngine.Debug.Log($"ExtractPngFromBitmap: Found GetPixel method, extracting pixels for {nodeName}");
                                 
                                 // Create a Unity Texture2D and extract pixels
                                 var texture = new UnityEngine.Texture2D(width, height, UnityEngine.TextureFormat.ARGB32, false);
@@ -264,7 +243,6 @@ namespace MapleClient.GameData
                                                 // Log first pixel for debugging
                                                 if (x == 0 && y == 0)
                                                 {
-                                                    UnityEngine.Debug.Log($"ExtractPngFromBitmap: First pixel color: R={r}, G={g}, B={b}, A={a}");
                                                 }
                                                 }
                                             }
@@ -274,7 +252,6 @@ namespace MapleClient.GameData
                                             // Log only first pixel error to avoid spam
                                             if (x == 0 && y == 0)
                                             {
-                                                UnityEngine.Debug.LogError($"ExtractPngFromBitmap: GetPixel failed for {nodeName}: {pixelEx.Message}");
                                             }
                                             // Set default pixel
                                             texture.SetPixel(x, height - 1 - y, UnityEngine.Color.clear);
@@ -288,44 +265,32 @@ namespace MapleClient.GameData
                                 
                                 if (pngData != null && pngData.Length > 0)
                                 {
-                                    UnityEngine.Debug.Log($"ExtractPngFromBitmap: Pixel-by-pixel extraction succeeded for {nodeName}: {pngData.Length} bytes");
                                     return pngData;
                                 }
                                 else
                                 {
-                                    UnityEngine.Debug.LogError($"ExtractPngFromBitmap: Pixel-by-pixel extraction produced null/empty data for {nodeName}");
                                 }
                             }
                             else
                             {
-                                UnityEngine.Debug.LogError($"ExtractPngFromBitmap: No GetPixel method found for {nodeName}");
                             }
                         }
                         else
                         {
-                            UnityEngine.Debug.LogError($"ExtractPngFromBitmap: Invalid dimensions {width}x{height} for {nodeName}");
                         }
                     }
                     else
                     {
-                        UnityEngine.Debug.LogError($"ExtractPngFromBitmap: Could not find Width/Height properties for {nodeName}");
                     }
                 }
                 catch (Exception altEx)
                 {
-                    UnityEngine.Debug.LogError($"ExtractPngFromBitmap: Alternative extraction failed for {nodeName}: {altEx.Message}");
                 }
             }
             catch (Exception ex)
             {
-                UnityEngine.Debug.LogError($"ExtractPngFromBitmap: Failed to extract PNG from bitmap {nodeName}: {ex.Message}");
-                if (ex.InnerException != null)
-                {
-                    UnityEngine.Debug.LogError($"ExtractPngFromBitmap: Inner exception: {ex.InnerException.Message}");
-                }
             }
             
-            UnityEngine.Debug.LogError($"ExtractPngFromBitmap: All extraction methods failed for {nodeName}");
             return null;
         }
     }
@@ -361,14 +326,12 @@ namespace MapleClient.GameData
                 var nodeTypeName = nxNode.GetType().Name;
                 if (nodeTypeName == "NXBitmapNode" || nodeTypeName.Contains("Bitmap"))
                 {
-                    UnityEngine.Debug.Log($"RealNxNode.Value: Detected bitmap node type: {nodeTypeName} for {nxNode.Name}");
                     var valueProperty = nxNode.GetType().GetProperty("Value");
                     if (valueProperty != null)
                     {
                         var bitmap = valueProperty.GetValue(nxNode);
                         if (bitmap != null)
                         {
-                            UnityEngine.Debug.Log($"RealNxNode.Value: Found bitmap value of type {bitmap.GetType().FullName}");
                             var pngData = RealNxFile.ExtractPngFromBitmap(bitmap, nxNode.Name);
                             if (pngData != null && pngData.Length > 0)
                             {
@@ -377,7 +340,6 @@ namespace MapleClient.GameData
                         }
                         else
                         {
-                            UnityEngine.Debug.LogWarning($"RealNxNode.Value: Bitmap node but Value property returned null for {nxNode.Name}");
                         }
                     }
                 }
@@ -428,11 +390,6 @@ namespace MapleClient.GameData
                             }
                             catch (Exception ex)
                             {
-                                UnityEngine.Debug.LogWarning($"Failed to get value from node {nxNode.Name}: {ex.Message}");
-                                if (ex.InnerException != null)
-                                {
-                                    UnityEngine.Debug.LogError($"Inner exception: {ex.InnerException.Message}\nStack: {ex.InnerException.StackTrace}");
-                                }
                             }
                         }
                     }
@@ -520,7 +477,6 @@ namespace MapleClient.GameData
                                             // Check if it's a bitmap type
                                             if (genArgs[0].Name == "Bitmap" || genArgs[0].FullName.Contains("Drawing.Bitmap") || genArgs[0].Name.Contains("Bitmap"))
                                             {
-                                                UnityEngine.Debug.Log($"RealNxNode.Value: Found bitmap child '{child.Name}' with generic type {genArgs[0].FullName}");
                                                 
                                                 // Get the Value property
                                                 var valueProperty = childType.GetProperty("Value");
@@ -529,26 +485,21 @@ namespace MapleClient.GameData
                                                     var bitmap = valueProperty.GetValue(child);
                                                     if (bitmap != null)
                                                     {
-                                                        UnityEngine.Debug.Log($"RealNxNode.Value: Got bitmap value from child '{child.Name}'");
                                                         var pngData = RealNxFile.ExtractPngFromBitmap(bitmap, child.Name);
                                                         if (pngData != null && pngData.Length > 0)
                                                         {
-                                                            UnityEngine.Debug.Log($"RealNxNode.Value: Container bitmap extracted: {pngData.Length} bytes from child '{child.Name}'");
                                                             return pngData;
                                                         }
                                                         else
                                                         {
-                                                            UnityEngine.Debug.LogWarning($"RealNxNode.Value: ExtractPngFromBitmap returned null or empty for child '{child.Name}'");
                                                         }
                                                     }
                                                     else
                                                     {
-                                                        UnityEngine.Debug.LogWarning($"RealNxNode.Value: Bitmap value is null for child '{child.Name}'");
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    UnityEngine.Debug.LogWarning($"RealNxNode.Value: No Value property found on bitmap child '{child.Name}'");
                                                 }
                                             }
                                         }
@@ -560,19 +511,13 @@ namespace MapleClient.GameData
                             catch (Exception childEx)
                             {
                                 // Log child processing error with details
-                                UnityEngine.Debug.LogError($"Container child processing error for {child.Name}: {childEx.Message}");
-                                if (childEx.InnerException != null)
-                                {
-                                    UnityEngine.Debug.LogError($"Inner: {childEx.InnerException.Message}");
-                                }
                             }
                         }
                     }
                 }
                 catch (Exception containerEx)
                 {
-                    // Container handling failed
-                    UnityEngine.Debug.LogError($"Container handling error: {containerEx.Message}\nInner: {containerEx.InnerException?.Message}\nStack: {containerEx.StackTrace}");
+                    // Container handling failed silently
                 }
                 
                 return null;
@@ -587,14 +532,335 @@ namespace MapleClient.GameData
                 if (childrenCache == null)
                 {
                     childrenCache = new Dictionary<string, INxNode>();
+                    
+                    // First, add all real children
                     foreach (var child in nxNode)
                     {
                         var childNode = new RealNxNode(child);
                         childNode.Parent = this;
                         childrenCache[child.Name] = childNode;
                     }
+                    
+                    // ALWAYS check for origin on bitmap nodes, regardless of whether they have children
+                    TryAddVirtualOriginNode();
                 }
                 return childrenCache.Values;
+            }
+        }
+        
+        private void TryAddVirtualOriginNode()
+        {
+            // Skip if we already have an origin child
+            if (childrenCache.ContainsKey("origin"))
+                return;
+                
+            var nodeType = nxNode.GetType();
+            var nodeTypeName = nodeType.Name;
+            
+            // DEBUG: Log what type we're checking
+            if (Name == "0" || Name == "1" || Name == "post" || Name == "sign")
+            {
+                UnityEngine.Debug.Log($"[TryAddVirtualOriginNode] Checking node '{Name}' of type: {nodeTypeName}");
+                
+                // Also log if this node has any bitmap children
+                try
+                {
+                    int bitmapChildCount = 0;
+                    foreach (var child in nxNode)
+                    {
+                        if (child.GetType().Name.Contains("Bitmap"))
+                            bitmapChildCount++;
+                    }
+                    if (bitmapChildCount > 0)
+                    {
+                        UnityEngine.Debug.Log($"  Node has {bitmapChildCount} bitmap children");
+                    }
+                }
+                catch { }
+            }
+            
+            // Check if this node has image data by checking if Value returns byte[]
+            bool isImageNode = false;
+            try
+            {
+                var value = this.Value; // Use our own Value property which handles the conversion
+                if (value is byte[] imageData && imageData.Length > 0)
+                {
+                    isImageNode = true;
+                    if (Name == "0" || Name == "1")
+                    {
+                        UnityEngine.Debug.Log($"  Node has image data (byte[{imageData.Length}]), treating as image node");
+                    }
+                }
+            }
+            catch { }
+            
+            // Also check by type name
+            if (!isImageNode && (nodeTypeName.Contains("Bitmap") || nodeTypeName.Contains("Canvas")))
+            {
+                isImageNode = true;
+                if (Name == "0" || Name == "1")
+                {
+                    UnityEngine.Debug.Log($"  Node type contains Bitmap/Canvas, treating as image node");
+                }
+            }
+            
+            // NEW: Also check if this is a container node with bitmap children
+            bool isContainerWithBitmap = false;
+            if (!isImageNode)
+            {
+                try
+                {
+                    foreach (var child in nxNode)
+                    {
+                        if (child.GetType().Name.Contains("Bitmap"))
+                        {
+                            isContainerWithBitmap = true;
+                            if (Name == "0" || Name == "1")
+                            {
+                                UnityEngine.Debug.Log($"  Node is container with bitmap child, checking for origin");
+                            }
+                            break;
+                        }
+                    }
+                }
+                catch { }
+            }
+            
+            if (isImageNode || isContainerWithBitmap)
+            {
+                
+                // Try multiple approaches to find the origin
+                
+                // DEBUG: Log that we're searching for origin
+                if (Name == "0" || Name == "1")
+                {
+                    UnityEngine.Debug.Log($"  Searching for origin on image node '{Name}'...");
+                }
+                
+                // Approach 1: Look for Origin property (public or non-public)
+                var originProperty = nodeType.GetProperty("Origin", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                if (originProperty == null)
+                {
+                    originProperty = nodeType.GetProperty("origin", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                }
+                
+                if (originProperty != null)
+                {
+                    try
+                    {
+                        var originValue = originProperty.GetValue(nxNode);
+                        if (originValue != null)
+                        {
+                            childrenCache["origin"] = new VirtualOriginNode(originValue);
+                            return;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Silently continue to next approach
+                    }
+                }
+                
+                // Approach 2: Look for origin in fields (sometimes properties are backed by fields)
+                var allFields = nodeType.GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                
+                
+                foreach (var field in allFields)
+                {
+                    if (field.Name.ToLower().Contains("origin"))
+                    {
+                        try
+                        {
+                            var originValue = field.GetValue(nxNode);
+                            if (originValue != null)
+                            {
+                                childrenCache["origin"] = new VirtualOriginNode(originValue);
+                                return;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Silently continue to next field
+                        }
+                    }
+                }
+                
+                // Approach 3: Check if node has a Canvas property that contains origin
+                var canvasProperty = nodeType.GetProperty("Canvas");
+                if (canvasProperty != null)
+                {
+                    try
+                    {
+                        var canvas = canvasProperty.GetValue(nxNode);
+                        if (canvas != null)
+                        {
+                            var canvasType = canvas.GetType();
+                            // Look for origin in canvas
+                            var canvasOriginProp = canvasType.GetProperty("Origin") ?? canvasType.GetProperty("origin");
+                            if (canvasOriginProp != null)
+                            {
+                                var originValue = canvasOriginProp.GetValue(canvas);
+                                if (originValue != null)
+                                {
+                                    childrenCache["origin"] = new VirtualOriginNode(originValue);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Silently continue to next approach
+                    }
+                }
+                
+                // Approach 4: Check base classes
+                var baseType = nodeType.BaseType;
+                while (baseType != null && baseType != typeof(object))
+                {
+                    
+                    var baseOriginProp = baseType.GetProperty("Origin", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    if (baseOriginProp != null)
+                    {
+                        try
+                        {
+                            var originValue = baseOriginProp.GetValue(nxNode);
+                            if (originValue != null)
+                            {
+                                childrenCache["origin"] = new VirtualOriginNode(originValue);
+                                return;
+                            }
+                        }
+                        catch { }
+                    }
+                    
+                    baseType = baseType.BaseType;
+                }
+                
+                // Approach 5: Try to access NX-specific properties
+                // The NX format stores canvas info which includes origin
+                if (nodeTypeName == "NXCanvasNode" || nodeTypeName.Contains("Canvas"))
+                {
+                    
+                    // Try accessing Width/Height which are often alongside origin
+                    var widthProp = nodeType.GetProperty("Width");
+                    var heightProp = nodeType.GetProperty("Height");
+                    if (widthProp != null && heightProp != null)
+                    {
+                        
+                        // Look for X/Y properties (sometimes origin is stored as X,Y)
+                        var xProp = nodeType.GetProperty("X") ?? nodeType.GetProperty("OriginX");
+                        var yProp = nodeType.GetProperty("Y") ?? nodeType.GetProperty("OriginY");
+                        
+                        if (xProp != null && yProp != null)
+                        {
+                            try
+                            {
+                                var x = xProp.GetValue(nxNode);
+                                var y = yProp.GetValue(nxNode);
+                                if (x != null && y != null)
+                                {
+                                    var originPoint = new System.Drawing.Point(Convert.ToInt32(x), Convert.ToInt32(y));
+                                    childrenCache["origin"] = new VirtualOriginNode(originPoint);
+                                    return;
+                                }
+                            }
+                            catch { }
+                        }
+                    }
+                }
+                
+                // Approach 6: For container nodes with bitmap children, check if origin is in the data
+                if (isContainerWithBitmap)
+                {
+                    // The container node might have origin data that's not exposed as a child
+                    // Try to access it through the internal structure
+                    
+                    // DEBUG: Log all children to understand structure
+                    if (Name == "0" || Name == "1")
+                    {
+                        UnityEngine.Debug.Log($"  Container node children:");
+                        foreach (var child in nxNode)
+                        {
+                            UnityEngine.Debug.Log($"    - {child.Name} ({child.GetType().Name})");
+                        }
+                    }
+                    
+                    // Try accessing through indexer with different keys
+                    string[] possibleKeys = { "origin", "Origin", "_origin", "offset" };
+                    foreach (var key in possibleKeys)
+                    {
+                        try
+                        {
+                            // Use the NXNode's indexer directly
+                            var indexerProp = nodeType.GetProperty("Item", new Type[] { typeof(string) });
+                            if (indexerProp != null)
+                            {
+                                var result = indexerProp.GetValue(nxNode, new object[] { key });
+                                if (result != null)
+                                {
+                                    UnityEngine.Debug.Log($"  Found property via indexer['{key}']: {result.GetType().Name}");
+                                    // This might be another NXNode with the origin value
+                                    var resultType = result.GetType();
+                                    if (resultType.Name.Contains("NXNode"))
+                                    {
+                                        // Try to get its value
+                                        var getMethod = resultType.GetMethod("Get", Type.EmptyTypes);
+                                        if (getMethod != null)
+                                        {
+                                            var value = getMethod.Invoke(result, null);
+                                            if (value != null)
+                                            {
+                                                UnityEngine.Debug.Log($"    Value: {value} (type: {value.GetType().Name})");
+                                                childrenCache["origin"] = new VirtualOriginNode(value);
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        catch { }
+                    }
+                }
+                
+                // Approach 7: Check if this node has NX property children that weren't enumerated
+                // Sometimes NX nodes have properties stored as pseudo-children
+                try
+                {
+                    // Use reflection to find a method that might give us properties
+                    var getPropertyMethod = nodeType.GetMethod("GetProperty", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    if (getPropertyMethod != null)
+                    {
+                        var originProp = getPropertyMethod.Invoke(nxNode, new object[] { "origin" });
+                        if (originProp != null)
+                        {
+                            // This might be an NXProperty node, try to get its value
+                            var propType = originProp.GetType();
+                            var valueProp = propType.GetProperty("Value");
+                            if (valueProp != null)
+                            {
+                                var originValue = valueProp.GetValue(originProp);
+                                if (originValue != null)
+                                {
+                                    childrenCache["origin"] = new VirtualOriginNode(originValue);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Silently continue
+                }
+                
+                // DEBUG: Log if no origin found
+                if (Name == "0" || Name == "1")
+                {
+                    UnityEngine.Debug.Log($"  No origin found for image node '{Name}'");
+                }
             }
         }
 
@@ -697,5 +963,84 @@ namespace MapleClient.GameData
         }
 
         // Removed - bitmap conversion is handled by SpriteLoader
+    }
+
+    /// <summary>
+    /// Virtual node to represent origin data that wasn't exposed as a child node by reNX
+    /// </summary>
+    public class VirtualOriginNode : INxNode
+    {
+        private readonly object originValue;
+        private Vector2? convertedValue;
+
+        public string Name => "origin";
+        public INxNode Parent { get; set; }
+        
+        public object Value 
+        { 
+            get 
+            {
+                if (convertedValue.HasValue)
+                    return convertedValue.Value;
+                    
+                // Convert the origin value to Vector2
+                if (originValue != null)
+                {
+                    var valueType = originValue.GetType();
+                    if (valueType.Name == "Point")
+                    {
+                        var xProp = valueType.GetProperty("X");
+                        var yProp = valueType.GetProperty("Y");
+                        if (xProp != null && yProp != null)
+                        {
+                            var x = Convert.ToInt32(xProp.GetValue(originValue));
+                            var y = Convert.ToInt32(yProp.GetValue(originValue));
+                            convertedValue = new Vector2(x, y);
+                            return convertedValue.Value;
+                        }
+                    }
+                    else if (originValue is Vector2 vec)
+                    {
+                        convertedValue = vec;
+                        return vec;
+                    }
+                }
+                
+                return Vector2.zero;
+            }
+            set { /* Read-only */ }
+        }
+
+        public IEnumerable<INxNode> Children => Enumerable.Empty<INxNode>();
+
+        public VirtualOriginNode(object originValue)
+        {
+            this.originValue = originValue ?? throw new ArgumentNullException(nameof(originValue));
+        }
+
+        public INxNode this[string childName] => null;
+        
+        public T GetValue<T>()
+        {
+            var val = Value;
+            if (val == null)
+                return default(T);
+                
+            if (val is T typedValue)
+                return typedValue;
+                
+            try
+            {
+                return (T)Convert.ChangeType(val, typeof(T));
+            }
+            catch
+            {
+                return default(T);
+            }
+        }
+
+        public bool HasChild(string name) => false;
+        
+        public INxNode GetNode(string path) => string.IsNullOrEmpty(path) ? this : null;
     }
 }
