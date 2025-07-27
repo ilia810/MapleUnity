@@ -167,6 +167,7 @@ namespace MapleClient.SceneGeneration
         public Bounds vrBounds { get; set; }
         private Transform cameraTransform;
         private Vector3 lastCameraPosition;
+        private float updateThreshold = 0.1f; // Only update when camera moves more than this
         
         private void Start()
         {
@@ -181,12 +182,12 @@ namespace MapleClient.SceneGeneration
         {
             if (cameraTransform == null) return;
             
-            // Track camera movement
+            // Only update if camera has moved significantly
             Vector3 currentCameraPos = cameraTransform.position;
-            if (currentCameraPos != lastCameraPosition)
+            if (Vector3.Distance(currentCameraPos, lastCameraPosition) > updateThreshold)
             {
                 lastCameraPosition = currentCameraPos;
-                // Background layers will update themselves
+                // Background layers will check their own update needs
             }
         }
     }
@@ -210,7 +211,8 @@ namespace MapleClient.SceneGeneration
         private int verticalTiles;
         
         private List<GameObject> activeTiles = new List<GameObject>();
-        private Queue<GameObject> tilePool = new Queue<GameObject>();
+        private Vector3 lastUpdatePosition;
+        private float updateThreshold = 0.5f; // Only update when moved enough
         
         // Parallax rates
         private float parallaxRateX;
@@ -231,10 +233,13 @@ namespace MapleClient.SceneGeneration
             parallaxRateX = backgroundData.RX / 100f;
             parallaxRateY = backgroundData.RY / 100f;
             
+            // No need to create tile pool - we'll use the singleton
+            
             // Calculate tiles needed based on background type
             CalculateTileCount();
             
             // Create initial tiles
+            lastUpdatePosition = cameraTransform.position;
             UpdateTiling();
         }
         
@@ -286,8 +291,13 @@ namespace MapleClient.SceneGeneration
         {
             if (cameraTransform == null || tileSprite == null) return;
             
-            // Update tiling based on camera position
-            UpdateTiling();
+            // Only update if camera has moved enough
+            float movedDistance = Vector3.Distance(cameraTransform.position, lastUpdatePosition);
+            if (movedDistance > updateThreshold)
+            {
+                lastUpdatePosition = cameraTransform.position;
+                UpdateTiling();
+            }
         }
         
         private void UpdateTiling()
@@ -358,11 +368,10 @@ namespace MapleClient.SceneGeneration
                 baseY = transform.position.y + (cameraPos.y - transform.position.y) * parallaxRateY;
             }
             
-            // Clear existing tiles
+            // Return existing tiles to pool
             foreach (var tile in activeTiles)
             {
-                tile.SetActive(false);
-                tilePool.Enqueue(tile);
+                BackgroundTilePool.Instance.ReturnTile(tile, tileSprite);
             }
             activeTiles.Clear();
             
@@ -378,43 +387,24 @@ namespace MapleClient.SceneGeneration
                     float tileY = baseY + (y * tileHeight);
                     tile.transform.position = new Vector3(tileX, tileY, transform.position.z);
                     
-                    tile.SetActive(true);
-                    activeTiles.Add(tile);
+                    if (tile != null)
+                    {
+                        activeTiles.Add(tile);
+                    }
                 }
             }
         }
         
         private GameObject GetOrCreateTile()
         {
-            GameObject tile;
+            string sortingLayerName = isForeground ? "Foreground" : "Background";
+            float alpha = backgroundData.A / 255f;
+            bool flipX = backgroundData.F != 0;
             
-            if (tilePool.Count > 0)
+            GameObject tile = BackgroundTilePool.Instance.GetTile(tileSprite, sortingLayerName, sortingOrder, alpha, flipX);
+            if (tile != null)
             {
-                tile = tilePool.Dequeue();
-            }
-            else
-            {
-                tile = new GameObject($"Tile");
                 tile.transform.parent = transform;
-                
-                var renderer = tile.AddComponent<SpriteRenderer>();
-                renderer.sprite = tileSprite;
-                renderer.sortingLayerName = "Default";
-                renderer.sortingOrder = sortingOrder;
-                
-                // Apply alpha if needed
-                if (backgroundData.A < 255)
-                {
-                    Color color = renderer.color;
-                    color.a = backgroundData.A / 255f;
-                    renderer.color = color;
-                }
-                
-                // Apply flip if needed
-                if (backgroundData.F != 0)
-                {
-                    tile.transform.localScale = new Vector3(-1, 1, 1);
-                }
             }
             
             return tile;

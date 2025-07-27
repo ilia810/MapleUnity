@@ -242,7 +242,16 @@ namespace MapleClient.GameData
                     partName.StartsWith("arm") || partName.Contains("hand") || partName.Contains("Hand"))
                 {
                     Debug.Log($"Found body part '{partName}' at: {path}/{partName}");
-                    var sprite = SpriteLoader.LoadSprite(partNode, $"{path}/{partName}");
+                    
+                    // Get the origin for this body part
+                    Vector2 origin = Vector2.zero;
+                    var originNode = partNode["origin"];
+                    if (originNode != null && originNode.Value is Vector2 vec)
+                    {
+                        origin = vec;
+                    }
+                    
+                    var sprite = SpriteLoader.ConvertCharacterNodeToSprite(partNode, $"{path}/{partName}", origin);
                     if (sprite != null)
                     {
                         // For now, return the first valid body part sprite

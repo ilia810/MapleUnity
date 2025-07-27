@@ -215,7 +215,10 @@ namespace MapleClient.GameLogic.Core
         private Platform GetPlatformBelow(Vector2 position, MapData mapData)
         {
             if (mapData?.Platforms == null)
+            {
+                // No platforms available - this should be logged by the GameView layer
                 return null;
+            }
 
             // Convert position to pixels for platform comparison (use player's bottom)
             float posX = position.X * 100f;

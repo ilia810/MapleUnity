@@ -10,18 +10,23 @@ namespace MapleClient.GameLogic.Core
         private const float PIXELS_TO_UNITS = 100f;
         
         // Movement constants (units per second, adjusted for Unity scale)
-        public const float WalkSpeed = 3.0f; // Increased for better feel
+        // MapleStory v83 typical walk speed is ~125 pixels/second at 100% speed
+        // In Unity units: 125 pixels / 100 = 1.25 units/second base
+        public const float WalkSpeed = 1.25f; // Base walk speed in units/second
         public const float WalkForce = 140f / PIXELS_TO_UNITS;
-        public const float WalkDrag = 800f; // Reduced for smoother movement
+        public const float WalkDrag = 80f / PIXELS_TO_UNITS; // Friction when stopping
         
         // Jump constants
-        public const float JumpSpeed = 8.0f; // Increased for proper jumping
-        public const float DoubleJumpSpeed = 8.0f;
+        // MapleStory v83 jump velocity is ~555 pixels/second at 120% jump
+        // Base jump at 100% would be ~462 pixels/second = 4.62 units/second
+        public const float JumpSpeed = 5.55f; // Jump velocity in units/second  
+        public const float DoubleJumpSpeed = 5.55f;
         public const float DoubleJumpModifier = 0.7f; // Second jump is 70% of first
         
         // Gravity and falling
-        public const float Gravity = 25f; // Adjusted for good game feel
-        public const float MaxFallSpeed = 10f; // Reasonable falling speed
+        // MapleStory v83 gravity is ~2000 pixels/second² = 20 units/second²
+        public const float Gravity = 20f; // Gravity acceleration in units/second²
+        public const float MaxFallSpeed = 6.7f; // Terminal velocity ~670 pixels/second
         public const float FallDrag = 0f; // No air resistance in MapleStory
         
         // Climbing

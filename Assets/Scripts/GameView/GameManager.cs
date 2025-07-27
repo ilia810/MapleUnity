@@ -32,6 +32,7 @@ namespace MapleClient.GameView
         private Dictionary<Player, PlayerView> otherPlayerViews = new Dictionary<Player, PlayerView>();
         
         private MapRenderer mapRenderer;
+        private SimplePlatformBridge platformBridge;
         
         public Player Player => gameWorld?.Player;
         public SkillManager SkillManager => gameWorld?.SkillManager;
@@ -60,6 +61,10 @@ namespace MapleClient.GameView
             GameObject mapRendererObject = new GameObject("MapRenderer");
             mapRenderer = mapRendererObject.AddComponent<MapRenderer>();
             mapRenderer.Initialize(assetProvider);
+            
+            // Initialize platform bridge for physics
+            GameObject platformBridgeObject = new GameObject("PlatformBridge");
+            platformBridge = platformBridgeObject.AddComponent<SimplePlatformBridge>();
             
             // Initialize network if enabled
             if (useNetworking)
@@ -129,6 +134,13 @@ namespace MapleClient.GameView
                 mapRenderer.RenderMap(mapData);
             }
             
+            // Initialize platform bridge
+            if (platformBridge != null)
+            {
+                // Extract platforms from the Unity scene
+                platformBridge.ExtractPlatformsFromScene(mapData);
+            }
+            
             // Create visual representation
             if (currentPlayerView == null)
             {
@@ -137,20 +149,18 @@ namespace MapleClient.GameView
                 currentPlayerView.SetCharacterDataProvider(assetProvider.CharacterData);
                 currentPlayerView.SetPlayer(gameWorld.Player);
                 
-                // Position player at spawn point (convert from pixels to units)
-                var spawnPortal = mapData.Portals.Find(p => p.Type == GameLogic.PortalType.Spawn);
-                if (spawnPortal != null)
-                {
-                    // Add some height offset to ensure player spawns above ground
-                    gameWorld.Player.Position = new GameLogic.Vector2(spawnPortal.X / 100f, (spawnPortal.Y / 100f) + 1f);
-                    Debug.Log($"Spawning player at portal: ({spawnPortal.X / 100f}, {(spawnPortal.Y / 100f) + 1f})");
-                }
-                else
-                {
-                    Debug.Log("No spawn portal found, using default position");
-                    // Spawn player above ground level
-                    gameWorld.Player.Position = new GameLogic.Vector2(0, 5);
-                }
+                // Add fallback renderer to ensure player is always visible
+                playerObject.AddComponent<PlayerFallbackRenderer>();
+                
+                // Add debug visual component temporarily
+                playerObject.AddComponent<PlayerDebugVisual>();
+                
+                // Add text debugger to find "12345678" issue
+                playerObject.AddComponent<PlayerTextDebugger>();
+                
+                // Player position is already set by GameWorld's PlayerSpawnManager
+                Debug.Log($"Player spawned at: ({gameWorld.Player.Position.X}, {gameWorld.Player.Position.Y})");
+                Debug.Log($"Player GameObject position: {playerObject.transform.position}");
                 
                 // Setup camera to follow player
                 Camera mainCamera = Camera.main;

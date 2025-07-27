@@ -46,11 +46,22 @@ namespace MapleClient.Editor
                     {
                         float footholdY = FootholdManager.Instance.GetYBelow(npcWorldPos.x, npcWorldPos.y + 10f);
                         Debug.Log($"  Foothold Y: {footholdY:F2}");
+                        Debug.Log($"  NPC Y position: {npcWorldPos.y:F2}");
                         
-                        float gap = spriteBottomY - footholdY;
-                        if (Mathf.Abs(gap) > 0.01f)
+                        // Expected: NPC Y should be foothold Y - 1 pixel (0.01 units)
+                        float expectedNpcY = CoordinateConverter.ToUnityPosition(0, footholdY - 1, 0).y;
+                        float positionDiff = npcWorldPos.y - expectedNpcY;
+                        
+                        if (Mathf.Abs(positionDiff) > 0.01f)
                         {
-                            Debug.LogWarning($"  GAP: NPC is {gap:F2} units {(gap > 0 ? "above" : "below")} the foothold!");
+                            Debug.LogWarning($"  POSITION ERROR: NPC Y is off by {positionDiff:F2} units");
+                        }
+                        
+                        // Check sprite bottom
+                        float gap = spriteBottomY - (footholdY * 0.01f); // Convert foothold to Unity units
+                        if (Mathf.Abs(gap) > 0.02f) // Allow 2 pixel tolerance
+                        {
+                            Debug.LogWarning($"  SPRITE GAP: Bottom is {gap:F2} units {(gap > 0 ? "above" : "below")} the foothold!");
                         }
                     }
                 }

@@ -221,16 +221,15 @@ namespace MapleClient.GameData
             var texture = sprite.texture;
             if (texture == null) return null;
             
-            // For now, return a simple SpriteData with texture info
-            // In a real implementation, we'd extract the actual pixel data
+            // Create SpriteData - ImageData can be null for Unity-only rendering
             return new SpriteData
             {
                 Width = (int)sprite.rect.width,
                 Height = (int)sprite.rect.height,
-                OriginX = (int)sprite.pivot.x,
-                OriginY = (int)sprite.pivot.y,
+                OriginX = (int)(sprite.pivot.x * sprite.rect.width),
+                OriginY = (int)(sprite.pivot.y * sprite.rect.height),
                 Name = sprite.name,
-                ImageData = texture.EncodeToPNG() // This requires texture to be readable
+                ImageData = null // We'll use Unity sprites directly, no need to encode
             };
         }
     }

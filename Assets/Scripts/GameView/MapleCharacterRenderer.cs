@@ -4,6 +4,7 @@ using UnityEngine;
 using MapleClient.GameLogic.Core;
 using MapleClient.GameLogic.Interfaces;
 using MapleClient.GameLogic.Data;
+using MapleClient.GameData;
 
 namespace MapleClient.GameView
 {
@@ -46,16 +47,26 @@ namespace MapleClient.GameView
             this.characterData = characterData;
             
             CreateSpriteRenderers();
-            UpdateAppearance();
+            
+            // Initialize sprites immediately
+            UpdateSprites();
+            
+            // Debug sprite positioning
+            Debug.Log($"MapleCharacterRenderer initialized at: {transform.position}");
+            Debug.Log($"  Parent (PlayerView) position: {transform.parent?.position ?? Vector3.zero}");
+            Debug.Log($"  Local position: {transform.localPosition}");
+            Debug.Log($"  Body renderer position: {bodyRenderer.transform.position}, local: {bodyRenderer.transform.localPosition}");
             
             // Test loading a sprite and explore NX structure
             Debug.Log("Testing character sprite loading...");
             ExploreNxStructure();
             
-            var testBody = characterData.GetBodySprite(0, CharacterState.Stand, 0);
+            // Test direct sprite loading
+            var testBody = NXAssetLoader.Instance.LoadCharacterBody(0, "stand1", 0);
             if (testBody != null)
             {
-                Debug.Log($"Successfully loaded body sprite: {testBody.Width}x{testBody.Height}");
+                Debug.Log($"Successfully loaded body sprite: {testBody.name} ({testBody.rect.width}x{testBody.rect.height})");
+                Debug.Log($"  Sprite pivot: {testBody.pivot}, pixels per unit: {testBody.pixelsPerUnit}");
             }
             else
             {
@@ -91,12 +102,19 @@ namespace MapleClient.GameView
         private SpriteRenderer CreateSpriteLayer(string layerName, int sortingOrder)
         {
             GameObject layerObj = new GameObject(layerName);
-            layerObj.transform.parent = transform;
+            layerObj.transform.SetParent(transform, false); // Use SetParent with worldPositionStays = false
             layerObj.transform.localPosition = Vector3.zero;
+            layerObj.transform.localScale = Vector3.one;
+            layerObj.transform.localRotation = Quaternion.identity;
             
             SpriteRenderer renderer = layerObj.AddComponent<SpriteRenderer>();
             renderer.sortingLayerName = "Player";
             renderer.sortingOrder = sortingOrder;
+            
+            // Enable the renderer
+            renderer.enabled = true;
+            
+            Debug.Log($"Created sprite layer: {layerName} with sorting order {sortingOrder} on layer 'Player' at local position {layerObj.transform.localPosition}");
             
             return renderer;
         }
@@ -105,8 +123,8 @@ namespace MapleClient.GameView
         {
             if (player == null) return;
             
-            // Update position
-            transform.position = new Vector3(player.Position.X / 100f, player.Position.Y / 100f, 0);
+            // DON'T update position here - PlayerView handles that
+            // The character renderer is a child of PlayerView GameObject
             
             // Update animation state
             CharacterState newState = GetCharacterState();
@@ -133,7 +151,9 @@ namespace MapleClient.GameView
                 UpdateSprites();
             }
             
-            // Flip sprites based on direction
+            // Flip sprites based on direction - fixed logic
+            // In MapleStory, positive X velocity means facing right (no flip)
+            // Negative X velocity means facing left (flip)
             bool flipX = player.Velocity.X < 0;
             SetFlipX(flipX);
         }
@@ -155,6 +175,46 @@ namespace MapleClient.GameView
             }
         }
         
+        private string ConvertStateToAnimationName(CharacterState state)
+        {
+            // Based on C++ client Stance.cpp, animation names are different
+            switch (state)
+            {
+                case CharacterState.Stand: return "stand1"; // C++ uses stand1/stand2
+                case CharacterState.Walk: return "walk1"; // C++ uses walk1/walk2
+                case CharacterState.Jump: return "jump";
+                case CharacterState.Fall: return "jump"; // Fall uses jump animation
+                case CharacterState.Alert: return "alert";
+                case CharacterState.Prone: return "prone";
+                case CharacterState.Fly: return "fly";
+                case CharacterState.Ladder: return "ladder";
+                case CharacterState.Rope: return "rope";
+                case CharacterState.Attack1: return "stabO1"; // Stab one-hand
+                case CharacterState.Attack2: return "swingO1"; // Swing one-hand
+                case CharacterState.Skill: return "skill";
+                default: return "stand1";
+            }
+        }
+        
+        private string ConvertExpressionToName(CharacterExpression expression)
+        {
+            switch (expression)
+            {
+                case CharacterExpression.Default: return "default";
+                case CharacterExpression.Blink: return "blink";
+                case CharacterExpression.Hit: return "hit";
+                case CharacterExpression.Smile: return "smile";
+                case CharacterExpression.Troubled: return "troubled";
+                case CharacterExpression.Cry: return "cry";
+                case CharacterExpression.Angry: return "angry";
+                case CharacterExpression.Bewildered: return "bewildered";
+                case CharacterExpression.Stunned: return "stunned";
+                case CharacterExpression.Vomit: return "vomit";
+                case CharacterExpression.Oops: return "oops";
+                default: return "default";
+            }
+        }
+        
         private void UpdateSprites()
         {
             // Update body parts
@@ -169,24 +229,35 @@ namespace MapleClient.GameView
         
         private void UpdateBodySprite()
         {
-            var bodySpriteData = characterData.GetBodySprite(skinColor, currentState, currentFrame);
-            if (bodySpriteData != null)
+            // Load body sprite directly from asset loader
+            string stateName = ConvertStateToAnimationName(currentState);
+            var bodySprite = NXAssetLoader.Instance.LoadCharacterBody(skinColor, stateName, currentFrame);
+            
+            if (bodySprite != null)
             {
-                bodyRenderer.sprite = ConvertToUnitySprite(bodySpriteData);
+                bodyRenderer.sprite = bodySprite;
+                Debug.Log($"Body sprite loaded: {bodySprite.name} ({bodySprite.rect.width}x{bodySprite.rect.height})");
+                Debug.Log($"Body renderer active: {bodyRenderer.enabled}, GameObject active: {bodyRenderer.gameObject.activeSelf}");
+                Debug.Log($"Body renderer position: {bodyRenderer.transform.position}, sorting layer: {bodyRenderer.sortingLayerName}");
             }
-            else if (bodyRenderer.sprite == null)
+            else
             {
                 // Create a simple colored sprite as fallback
+                Debug.LogWarning($"No body sprite found for skin:{skinColor} state:{stateName} frame:{currentFrame}. Creating fallback.");
                 bodyRenderer.sprite = CreateColoredSprite(Color.blue, 32, 48, "Body");
+                Debug.Log($"Fallback sprite created. Renderer enabled: {bodyRenderer.enabled}");
             }
         }
         
         private void UpdateHeadSprite()
         {
-            var headSpriteData = characterData.GetHeadSprite(skinColor, currentState, currentFrame);
-            if (headSpriteData != null)
+            // Load head sprite directly from asset loader
+            string stateName = ConvertStateToAnimationName(currentState);
+            var headSprite = NXAssetLoader.Instance.LoadCharacterHead(skinColor, stateName, currentFrame);
+            
+            if (headSprite != null)
             {
-                headRenderer.sprite = ConvertToUnitySprite(headSpriteData);
+                headRenderer.sprite = headSprite;
             }
         }
         
@@ -194,20 +265,24 @@ namespace MapleClient.GameView
         {
             // Face expressions could change based on context
             CharacterExpression expression = CharacterExpression.Default;
+            string expressionName = ConvertExpressionToName(expression);
             
-            var faceSpriteData = characterData.GetFaceSprite(faceId, expression);
-            if (faceSpriteData != null)
+            var faceSprite = NXAssetLoader.Instance.LoadFace(faceId, expressionName);
+            if (faceSprite != null)
             {
-                faceRenderer.sprite = ConvertToUnitySprite(faceSpriteData);
+                faceRenderer.sprite = faceSprite;
             }
         }
         
         private void UpdateHairSprite()
         {
-            var hairSpriteData = characterData.GetHairSprite(hairId, currentState, currentFrame);
-            if (hairSpriteData != null)
+            // Load hair sprite directly from asset loader
+            string stateName = ConvertStateToAnimationName(currentState);
+            var hairSprite = NXAssetLoader.Instance.LoadHair(hairId, stateName, currentFrame);
+            
+            if (hairSprite != null)
             {
-                hairRenderer.sprite = ConvertToUnitySprite(hairSpriteData);
+                hairRenderer.sprite = hairSprite;
             }
         }
         
@@ -223,40 +298,87 @@ namespace MapleClient.GameView
                 
                 if (itemId <= 0) continue;
                 
-                var equipSprite = characterData.GetEquipSprite(itemId, currentState, currentFrame);
-                if (equipSprite == null || equipSprite.Sprite == null) continue;
+                // Load equipment sprites directly from asset loader
+                string stateName = ConvertStateToAnimationName(currentState);
+                string category = GetEquipmentCategory(itemId);
+                var equipSprite = NXAssetLoader.Instance.LoadEquipment(itemId, category, stateName, currentFrame);
                 
-                var unitySprite = ConvertToUnitySprite(equipSprite.Sprite);
-                if (unitySprite == null) continue;
+                if (equipSprite == null) continue;
                 
                 // Assign to appropriate renderer based on equipment slot
                 switch (slot)
                 {
                     case EquipSlot.Hat:
-                        hatRenderer.sprite = unitySprite;
+                        hatRenderer.sprite = equipSprite;
                         break;
                     case EquipSlot.Top:
-                        topRenderer.sprite = unitySprite;
+                        topRenderer.sprite = equipSprite;
                         break;
                     case EquipSlot.Bottom:
-                        bottomRenderer.sprite = unitySprite;
+                        bottomRenderer.sprite = equipSprite;
                         break;
                     case EquipSlot.Shoes:
-                        shoesRenderer.sprite = unitySprite;
+                        shoesRenderer.sprite = equipSprite;
                         break;
                     case EquipSlot.Glove:
-                        gloveRenderer.sprite = unitySprite;
+                        gloveRenderer.sprite = equipSprite;
                         break;
                     case EquipSlot.Cape:
-                        capeRenderer.sprite = unitySprite;
+                        capeRenderer.sprite = equipSprite;
                         break;
                     case EquipSlot.Weapon:
-                        weaponRenderer.sprite = unitySprite;
+                        weaponRenderer.sprite = equipSprite;
                         break;
                     case EquipSlot.Shield:
-                        shieldRenderer.sprite = unitySprite;
+                        shieldRenderer.sprite = equipSprite;
                         break;
                 }
+            }
+        }
+        
+        private string GetEquipmentCategory(int itemId)
+        {
+            // MapleStory equipment categories based on item ID ranges
+            int subtype = (itemId / 1000) % 100;
+            
+            switch (subtype)
+            {
+                case 0: return "Cap"; // Hats
+                case 1: return "FaceAccessory"; // Face accessories
+                case 2: return "EyeAccessory"; // Eye accessories
+                case 3: return "Earring"; // Earrings
+                case 4: return "Coat"; // Top/Overall
+                case 5: return "Longcoat"; // Overall
+                case 6: return "Pants"; // Bottom
+                case 7: return "Shoes"; // Shoes
+                case 8: return "Glove"; // Gloves
+                case 9: return "Shield"; // Shields
+                case 10: return "Cape"; // Capes
+                case 11: return "Ring"; // Rings
+                case 12: return "Pendant"; // Pendants
+                case 13: return "Belt"; // Belts
+                case 14: return "Medal"; // Medals
+                case 30:
+                case 31:
+                case 32:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 38:
+                case 39:
+                case 40:
+                case 41:
+                case 42:
+                case 43:
+                case 44:
+                case 45:
+                case 46:
+                case 47:
+                case 48:
+                case 49: return "Weapon"; // Various weapon types
+                default: return "Etc";
             }
         }
         
@@ -291,28 +413,6 @@ namespace MapleClient.GameView
             UpdateAppearance();
         }
         
-        private Sprite ConvertToUnitySprite(SpriteData spriteData)
-        {
-            if (spriteData == null || spriteData.ImageData == null) return null;
-            
-            // Create texture from byte array
-            Texture2D texture = new Texture2D(spriteData.Width, spriteData.Height, TextureFormat.ARGB32, false);
-            texture.LoadImage(spriteData.ImageData);
-            texture.filterMode = FilterMode.Point; // Pixel perfect for MapleStory sprites
-            
-            // Create sprite from texture
-            Vector2 pivot = new Vector2(
-                spriteData.OriginX / (float)spriteData.Width,
-                spriteData.OriginY / (float)spriteData.Height
-            );
-            
-            return Sprite.Create(
-                texture,
-                new Rect(0, 0, texture.width, texture.height),
-                pivot,
-                100f // Pixels per unit
-            );
-        }
         
         private Sprite CreateColoredSprite(Color color, int width, int height, string name)
         {

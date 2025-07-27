@@ -141,6 +141,13 @@ namespace MapleClient.SceneGeneration
             }
             
             boundsComponent.SetBounds(bounds);
+            
+            // Configure camera for MapleStory rendering
+            Camera mainCamera = Camera.main;
+            if (mainCamera != null)
+            {
+                GameView.RenderingConfiguration.ConfigureCamera(mainCamera);
+            }
         }
         
         #if UNITY_EDITOR

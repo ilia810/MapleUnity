@@ -46,6 +46,8 @@ namespace MapleClient.SceneGeneration
             if (FootholdManager.Instance != null)
             {
                 adjustedY = FootholdManager.Instance.GetYBelow(npc.X, npc.Y);
+                // C++ client subtracts 1 pixel from foothold Y
+                adjustedY -= 1;
             }
             
             // Set position using the foothold-adjusted Y
@@ -95,6 +97,8 @@ namespace MapleClient.SceneGeneration
             if (FootholdManager.Instance != null)
             {
                 adjustedY = FootholdManager.Instance.GetYBelow(monster.X, monster.Y);
+                // C++ client subtracts 1 pixel from foothold Y
+                adjustedY -= 1;
             }
             
             // Set position using the foothold-adjusted Y
@@ -132,23 +136,14 @@ namespace MapleClient.SceneGeneration
             {
                 renderer.sprite = npcSprite;
                 
-                // Apply origin offset
-                // For NPCs, the origin is typically at the bottom-center of the sprite
-                // This is where the NPC should touch the ground
-                float offsetX = -origin.x / 100f;  // Center horizontally
-                float offsetY = origin.y / 100f;   // Offset from top
-                
-                // Since we're using top-left pivot, we need to adjust so the sprite's
-                // origin point (usually bottom-center) aligns with the foothold
-                float spriteHeight = npcSprite.bounds.size.y;
-                
-                // The NPC position is where the origin should be (at foothold)
-                // So we need to move the sprite up by (height - origin.y)
-                offsetY = (origin.y / 100f) - spriteHeight;
+                // Apply origin offset - use the SAME logic as tiles and objects
+                // C++ client: draws at pos - origin
+                float offsetX = -origin.x / 100f;  // Move left by origin.x
+                float offsetY = origin.y / 100f;   // Move up by origin.y (inverted due to coordinate flip)
                 
                 renderer.transform.localPosition = new Vector3(offsetX, offsetY, 0);
                 
-                Debug.Log($"NPC {npcId}: origin({origin.x},{origin.y}), sprite height={spriteHeight*100}px, offset=({offsetX},{offsetY})");
+                Debug.Log($"NPC {npcId}: origin({origin.x},{origin.y}), offset=({offsetX},{offsetY})");
             }
             else
             {

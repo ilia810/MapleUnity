@@ -126,5 +126,13 @@ namespace MapleClient.SceneGeneration
         {
             return footholdById.TryGetValue(id, out var fh) ? fh : null;
         }
+        
+        /// <summary>
+        /// Get all footholds in the map
+        /// </summary>
+        public List<Foothold> GetAllFootholds()
+        {
+            return footholds;
+        }
     }
 }

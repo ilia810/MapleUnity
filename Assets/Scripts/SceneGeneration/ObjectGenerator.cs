@@ -60,13 +60,8 @@ namespace MapleClient.SceneGeneration
                 adjustedY = FootholdManager.Instance.GetYBelow(objData.X, objData.Y);
             }
             
-            // Set position with Z ordering
+            // Set position - keep all objects at Z=0 to prevent Z-fighting
             Vector3 position = CoordinateConverter.ToUnityPosition(objData.X, adjustedY, 0);
-            
-            // Use Z value for depth sorting within the layer
-            float zOrder = -objData.Z * 0.01f; // Negative so higher Z values appear behind
-            position.z = zOrder;
-            
             obj.transform.position = position;
             
             // Add object component
@@ -92,7 +87,7 @@ namespace MapleClient.SceneGeneration
             
             // Add sprite renderer
             SpriteRenderer renderer = spriteObj.AddComponent<SpriteRenderer>();
-            renderer.sortingLayerName = GetSortingLayer(objData.Layer);
+            renderer.sortingLayerName = "Objects";
             renderer.sortingOrder = CalculateSortingOrder(objData);
             
             // Load sprite
@@ -237,9 +232,8 @@ namespace MapleClient.SceneGeneration
         
         private string GetSortingLayer(int layer)
         {
-            // All objects and tiles should be on the same sorting layer
-            // to ensure proper interleaving based on their numeric order
-            return "Default";
+            // Objects should use the Objects sorting layer
+            return "Objects";
         }
         
         private int CalculateSortingOrder(ObjectData objData)

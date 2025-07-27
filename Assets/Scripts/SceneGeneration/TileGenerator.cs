@@ -78,7 +78,7 @@ namespace MapleClient.SceneGeneration
             
             // Add sprite renderer
             SpriteRenderer renderer = spriteObj.AddComponent<SpriteRenderer>();
-            renderer.sortingLayerName = "Default"; // All map elements on same layer for proper sorting
+            renderer.sortingLayerName = "Tiles";
             renderer.sortingOrder = CalculateSortingOrder(tileData);
             
             // Set the sorting order on the MapTile component after renderer is created
@@ -140,8 +140,8 @@ namespace MapleClient.SceneGeneration
             int layerBase = tileData.Layer * 1000;
             
             // Within each layer, sort by z value
-            // Objects are drawn before tiles in C++, so offset tiles slightly
-            return layerBase + actualZ + 500; // +500 to ensure tiles draw after objects
+            // Objects are drawn before tiles in C++, so tiles need higher sorting order
+            return layerBase + actualZ + 256; // Small offset to ensure tiles draw after objects at same z
         }
     }
     

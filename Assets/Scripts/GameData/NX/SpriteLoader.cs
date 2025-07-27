@@ -585,6 +585,82 @@ namespace MapleClient.GameData
         }
         
         /// <summary>
+        /// Convert NX node data to Unity Sprite with character-specific pivot handling
+        /// </summary>
+        public static Sprite ConvertCharacterNodeToSprite(INxNode node, string name, Vector2 origin)
+        {
+            try
+            {
+                // Get image data as byte array
+                byte[] imageData = null;
+                
+                var value = node.Value;
+                if (value != null && value is byte[] bytes)
+                {
+                    imageData = bytes;
+                }
+                
+                if (imageData == null)
+                {
+                    try
+                    {
+                        imageData = node.GetValue<byte[]>();
+                    }
+                    catch { }
+                }
+                
+                if (imageData == null || imageData.Length == 0)
+                {
+                    return null;
+                }
+                
+                // Create texture from PNG data
+                var texture = new Texture2D(2, 2, TextureFormat.ARGB32, false);
+                texture.name = name;
+                
+                if (texture.LoadImage(imageData))
+                {
+                    // Set texture settings for pixel art
+                    texture.filterMode = FilterMode.Point;
+                    texture.wrapMode = TextureWrapMode.Clamp;
+                    
+                    // For character sprites, the origin point is the anchor point
+                    // Convert MapleStory origin (from top-left) to Unity pivot (0-1 range from bottom-left)
+                    Vector2 pivot = new Vector2(
+                        origin.x / texture.width,
+                        1.0f - (origin.y / texture.height) // Flip Y because Unity uses bottom-left origin
+                    );
+                    
+                    // Clamp pivot to valid range
+                    pivot.x = Mathf.Clamp01(pivot.x);
+                    pivot.y = Mathf.Clamp01(pivot.y);
+                    
+                    Debug.Log($"Character sprite {name}: size={texture.width}x{texture.height}, origin={origin}, pivot={pivot}");
+                    
+                    // Create sprite with character-specific pivot
+                    var sprite = Sprite.Create(
+                        texture,
+                        new Rect(0, 0, texture.width, texture.height),
+                        pivot,
+                        100f // pixels per unit
+                    );
+                    
+                    return sprite;
+                }
+                else
+                {
+                    UnityEngine.Object.Destroy(texture);
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Failed to convert character node to sprite: {name} - {e.Message}");
+                return null;
+            }
+        }
+        
+        /// <summary>
         /// Get origin/pivot point from NX data
         /// </summary>
         public static Vector2 GetOrigin(INxNode node, NXDataManager dataManager = null)

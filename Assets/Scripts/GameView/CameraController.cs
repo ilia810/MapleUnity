@@ -6,7 +6,7 @@ namespace MapleClient.GameView
     {
         public Transform target;
         public float smoothSpeed = 0.125f;
-        public Vector3 offset = new Vector3(0, 2, -10);
+        public Vector3 offset = new Vector3(0, 0, -10); // No Y offset for accurate positioning
         
         // Map bounds
         private float mapLeft, mapRight, mapTop, mapBottom;
@@ -23,7 +23,18 @@ namespace MapleClient.GameView
             
             // Set orthographic camera for 2D
             cam.orthographic = true;
-            cam.orthographicSize = 8f; // Larger view to see more of the map
+            
+            // MapleStory uses 1024x768 viewport
+            // With 100 pixels per unit, orthographicSize should be height/2/100 = 768/2/100 = 3.84
+            cam.orthographicSize = 3.84f;
+            
+            // Configure camera for pixel-perfect rendering
+            cam.nearClipPlane = -100f;
+            cam.farClipPlane = 100f;
+            
+            // Clear flags and background
+            cam.clearFlags = CameraClearFlags.SolidColor;
+            cam.backgroundColor = new Color(0.5f, 0.7f, 1f); // Light blue sky color
         }
 
         private void LateUpdate()

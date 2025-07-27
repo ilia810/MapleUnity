@@ -12,6 +12,7 @@ namespace MapleClient.GameLogic.Core
         private readonly IInputProvider inputProvider;
         private readonly INetworkClient networkClient;
         private readonly IAssetProvider assetProvider;
+        private readonly PlayerSpawnManager spawnManager;
         private MapData currentMap;
         private Player player;
         private SkillManager skillManager;
@@ -42,6 +43,7 @@ namespace MapleClient.GameLogic.Core
             this.inputProvider = inputProvider;
             this.networkClient = networkClient;
             this.assetProvider = assetProvider;
+            this.spawnManager = new PlayerSpawnManager();
             this.player = new Player();
             this.players = new List<Player>();
             this.monsters = new List<Monster>();
@@ -210,11 +212,11 @@ namespace MapleClient.GameLogic.Core
                 }
             }
 
-            // Position player at spawn portal
-            var spawnPortal = currentMap?.Portals?.Find(p => p.Type == PortalType.Spawn);
-            if (spawnPortal != null)
+            // Use PlayerSpawnManager to find spawn point and position player
+            if (currentMap != null)
             {
-                player.Position = new Vector2(spawnPortal.X, spawnPortal.Y);
+                var spawnPoint = spawnManager.FindSpawnPoint(currentMap);
+                spawnManager.SpawnPlayer(player, spawnPoint);
             }
 
             MapLoaded?.Invoke(currentMap);
@@ -335,12 +337,14 @@ namespace MapleClient.GameLogic.Core
                         // Position player at target portal or spawn
                         if (!string.IsNullOrEmpty(portal.TargetPortalName))
                         {
-                            var targetPortal = targetMap.Portals.Find(p => p.Name == portal.TargetPortalName);
+                            var targetPortal = currentMap.Portals.Find(p => p.Name == portal.TargetPortalName);
                             if (targetPortal != null)
                             {
-                                player.Position = new Vector2(targetPortal.X, targetPortal.Y);
+                                var spawnPoint = new Vector2(targetPortal.X, targetPortal.Y);
+                                spawnManager.SpawnPlayer(player, spawnPoint);
                             }
                         }
+                        // else InitializePlayerAtSpawn was already called in OnMapLoaded
                     }
                     break;
                 }
