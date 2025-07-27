@@ -12,9 +12,61 @@ namespace MapleClient.GameData
     public static class SpriteLoader
     {
         private static Dictionary<string, Sprite> spriteCache = new Dictionary<string, Sprite>();
+        private static Dictionary<string, SpriteWithOrigin> spriteWithOriginCache = new Dictionary<string, SpriteWithOrigin>();
         
         /// <summary>
-        /// Load a sprite from an NX node
+        /// Load sprite and origin together from the same node
+        /// </summary>
+        public static SpriteWithOrigin LoadSpriteWithOrigin(INxNode node, string path = null, NXDataManager dataManager = null)
+        {
+            if (node == null) return null;
+            
+            string cacheKey = path ?? node.Name;
+            if (spriteWithOriginCache.TryGetValue(cacheKey, out var cached))
+            {
+                return cached;
+            }
+            
+            // Find the actual image node and load both sprite and origin from it
+            var result = LoadSpriteAndOriginFromNode(node, cacheKey, dataManager);
+            if (result != null)
+            {
+                spriteWithOriginCache[cacheKey] = result;
+                return result;
+            }
+            
+            // Try common child nodes
+            string[] imageChildNames = { "canvas", "0", "source" };
+            foreach (var childName in imageChildNames)
+            {
+                var childNode = node[childName];
+                if (childNode != null)
+                {
+                    result = LoadSpriteAndOriginFromNode(childNode, cacheKey, dataManager);
+                    if (result != null)
+                    {
+                        spriteWithOriginCache[cacheKey] = result;
+                        return result;
+                    }
+                }
+            }
+            
+            // Try numbered frames
+            if (node.Children.Any())
+            {
+                var firstChild = node.Children.FirstOrDefault();
+                if (firstChild != null && int.TryParse(firstChild.Name, out _))
+                {
+                    return LoadSpriteWithOrigin(firstChild, path + "/" + firstChild.Name, dataManager);
+                }
+            }
+            
+            Debug.LogWarning($"Could not find sprite data at: {path}");
+            return null;
+        }
+        
+        /// <summary>
+        /// Load a sprite from an NX node (for backward compatibility)
         /// </summary>
         public static Sprite LoadSprite(INxNode node, string path = null, NXDataManager dataManager = null)
         {
@@ -136,6 +188,75 @@ namespace MapleClient.GameData
             }
             
             return frames.Count > 0 ? frames.ToArray() : null;
+        }
+        
+        /// <summary>
+        /// Load sprite and origin from the same image node
+        /// </summary>
+        private static SpriteWithOrigin LoadSpriteAndOriginFromNode(INxNode node, string name, NXDataManager dataManager)
+        {
+            if (node == null) return null;
+            
+            // Resolve any outlinks
+            if (dataManager != null)
+            {
+                node = node.ResolveOutlink(dataManager);
+            }
+            
+            // Check if this node has image data
+            var value = node.Value;
+            if (value == null || !(value is byte[])) 
+            {
+                // Try GetValue<byte[]>
+                try
+                {
+                    var imageData = node.GetValue<byte[]>();
+                    if (imageData == null || imageData.Length == 0)
+                        return null;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            
+            // This node has image data - get origin from the SAME node
+            Vector2 origin = Vector2.zero;
+            
+            // First try direct origin property
+            var originNode = node["origin"];
+            if (originNode != null)
+            {
+                var originValue = originNode.Value;
+                if (originValue is Vector2 vec2)
+                {
+                    origin = vec2;
+                    Debug.Log($"Found origin as Vector2 on image node: {vec2}");
+                }
+            }
+            
+            // If no origin found, it might be stored differently
+            if (origin == Vector2.zero)
+            {
+                // Check if there's a canvas child that has the origin
+                var canvasNode = node["canvas"];
+                if (canvasNode != null)
+                {
+                    var canvasOrigin = canvasNode["origin"];
+                    if (canvasOrigin != null && canvasOrigin.Value is Vector2 canvasVec)
+                    {
+                        origin = canvasVec;
+                        Debug.Log($"Found origin on canvas node: {canvasVec}");
+                    }
+                }
+            }
+            
+            // Now create the sprite
+            var sprite = ConvertNodeToSprite(node, name);
+            if (sprite == null) return null;
+            
+            Debug.Log($"Loaded sprite {name} with origin {origin} from same node");
+            return new SpriteWithOrigin(sprite, origin);
         }
         
         /// <summary>
