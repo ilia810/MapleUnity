@@ -139,7 +139,7 @@ namespace MapleClient.SceneGeneration
                 float spriteWidth = sprite.texture.width;
                 
                 // Calculate where the bottom of the sprite will be
-                Vector3 parentWorldPos = obj.transform.position;
+                Vector3 parentWorldPos = renderer.transform.parent.parent.position; // sprite -> object -> position
                 float spriteBottomY = parentWorldPos.y + offsetY - (spriteHeight / 100f);
                 
                 Debug.Log($"OBJECT SPRITE DEBUG: {objData.ObjName} - " +
