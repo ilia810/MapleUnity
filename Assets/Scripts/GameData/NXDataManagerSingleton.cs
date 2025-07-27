@@ -231,8 +231,8 @@ namespace GameData
                     // Check if this is directly an image node
                     if (IsImageNode(node))
                     {
-                        var sprite = SpriteLoader.LoadSprite(node, path);
-                        var origin = SpriteLoader.GetOrigin(node);
+                        var sprite = SpriteLoader.LoadSprite(node, path, dataManager);
+                        var origin = SpriteLoader.GetOrigin(node, dataManager);
                         if (sprite != null) return (sprite, origin);
                     }
                     // If we got a container node, it might have the actual sprite as a child
@@ -242,8 +242,8 @@ namespace GameData
                         var firstChild = node.Children.FirstOrDefault();
                         if (firstChild != null && IsImageNode(firstChild))
                         {
-                            var sprite = SpriteLoader.LoadSprite(firstChild, path);
-                            var origin = SpriteLoader.GetOrigin(firstChild);
+                            var sprite = SpriteLoader.LoadSprite(firstChild, path, dataManager);
+                            var origin = SpriteLoader.GetOrigin(firstChild, dataManager);
                             if (sprite != null) return (sprite, origin);
                         }
                         
@@ -251,24 +251,24 @@ namespace GameData
                         var imageNode = FindFirstImageNode(node);
                         if (imageNode != null)
                         {
-                            var sprite = SpriteLoader.LoadSprite(imageNode, path);
+                            var sprite = SpriteLoader.LoadSprite(imageNode, path, dataManager);
                             
                             // For objects, try to find origin at various levels
                             Vector2 origin = Vector2.zero;
                             
                             // Try the image node itself
-                            origin = SpriteLoader.GetOrigin(imageNode);
+                            origin = SpriteLoader.GetOrigin(imageNode, dataManager);
                             
                             // If no origin found, try the container node (e.g., the "0" level)
                             if (origin == Vector2.zero && imageNode.Parent != null)
                             {
-                                origin = SpriteLoader.GetOrigin(imageNode.Parent);
+                                origin = SpriteLoader.GetOrigin(imageNode.Parent, dataManager);
                             }
                             
                             // If still no origin, try the path node (e.g., the "post" level)
                             if (origin == Vector2.zero && node != null)
                             {
-                                origin = SpriteLoader.GetOrigin(node);
+                                origin = SpriteLoader.GetOrigin(node, dataManager);
                             }
                             
                             if (sprite != null) return (sprite, origin);
@@ -663,8 +663,8 @@ namespace GameData
                 if (node != null)
                 {
                     Debug.Log($"Found tile sprite at path: {path}");
-                    var sprite = SpriteLoader.LoadSprite(node, path);
-                    var origin = SpriteLoader.GetOrigin(node);
+                    var sprite = SpriteLoader.LoadSprite(node, path, dataManager);
+                    var origin = SpriteLoader.GetOrigin(node, dataManager);
                     if (sprite != null) return (sprite, origin);
                 }
             }
@@ -684,8 +684,8 @@ namespace GameData
                     if (node != null)
                     {
                         Debug.LogWarning($"Using fallback tile {actualTileSet}/{variant}/0 for missing {no}");
-                        var sprite = SpriteLoader.LoadSprite(node, path);
-                        var origin = SpriteLoader.GetOrigin(node);
+                        var sprite = SpriteLoader.LoadSprite(node, path, dataManager);
+                        var origin = SpriteLoader.GetOrigin(node, dataManager);
                         if (sprite != null) return (sprite, origin);
                     }
                 }
@@ -862,8 +862,8 @@ namespace GameData
                     // Check if this is directly an image node
                     if (IsImageNode(node))
                     {
-                        var sprite = SpriteLoader.LoadSprite(node, path);
-                        var origin = SpriteLoader.GetOrigin(node);
+                        var sprite = SpriteLoader.LoadSprite(node, path, dataManager);
+                        var origin = SpriteLoader.GetOrigin(node, dataManager);
                         if (sprite != null) return (sprite, origin);
                     }
                     // If we got a container node, find the image
@@ -872,8 +872,8 @@ namespace GameData
                         var imageNode = FindFirstImageNode(node);
                         if (imageNode != null)
                         {
-                            var sprite = SpriteLoader.LoadSprite(imageNode, path);
-                            var origin = SpriteLoader.GetOrigin(imageNode);
+                            var sprite = SpriteLoader.LoadSprite(imageNode, path, dataManager);
+                            var origin = SpriteLoader.GetOrigin(imageNode, dataManager);
                             if (sprite != null) return (sprite, origin);
                         }
                     }

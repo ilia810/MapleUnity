@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using GameData;
 
 namespace MapleClient.GameData
 {
@@ -15,9 +16,15 @@ namespace MapleClient.GameData
         /// <summary>
         /// Load a sprite from an NX node
         /// </summary>
-        public static Sprite LoadSprite(INxNode node, string path = null)
+        public static Sprite LoadSprite(INxNode node, string path = null, NXDataManager dataManager = null)
         {
             if (node == null) return null;
+            
+            // Resolve any outlinks to get the actual sprite data
+            if (dataManager != null)
+            {
+                node = node.ResolveOutlink(dataManager);
+            }
             
             string nodePath = path ?? node.Name;
             
@@ -285,8 +292,16 @@ namespace MapleClient.GameData
         /// <summary>
         /// Get origin/pivot point from NX data
         /// </summary>
-        public static Vector2 GetOrigin(INxNode node)
+        public static Vector2 GetOrigin(INxNode node, NXDataManager dataManager = null)
         {
+            if (node == null) return Vector2.zero;
+            
+            // Resolve any outlinks to get the actual data node
+            if (dataManager != null)
+            {
+                node = node.ResolveOutlink(dataManager);
+            }
+            
             // Debug: Log node hierarchy to understand structure
             Debug.Log($"GetOrigin for node: {node.Name}");
             
