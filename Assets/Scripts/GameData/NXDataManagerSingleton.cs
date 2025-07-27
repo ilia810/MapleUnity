@@ -252,7 +252,25 @@ namespace GameData
                         if (imageNode != null)
                         {
                             var sprite = SpriteLoader.LoadSprite(imageNode, path);
-                            var origin = SpriteLoader.GetOrigin(imageNode);
+                            
+                            // For objects, try to find origin at various levels
+                            Vector2 origin = Vector2.zero;
+                            
+                            // Try the image node itself
+                            origin = SpriteLoader.GetOrigin(imageNode);
+                            
+                            // If no origin found, try the container node (e.g., the "0" level)
+                            if (origin == Vector2.zero && imageNode.Parent != null)
+                            {
+                                origin = SpriteLoader.GetOrigin(imageNode.Parent);
+                            }
+                            
+                            // If still no origin, try the path node (e.g., the "post" level)
+                            if (origin == Vector2.zero && node != null)
+                            {
+                                origin = SpriteLoader.GetOrigin(node);
+                            }
+                            
                             if (sprite != null) return (sprite, origin);
                         }
                     }

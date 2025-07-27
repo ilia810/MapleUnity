@@ -287,6 +287,9 @@ namespace MapleClient.GameData
         /// </summary>
         public static Vector2 GetOrigin(INxNode node)
         {
+            // Debug: Log node hierarchy to understand structure
+            Debug.Log($"GetOrigin for node: {node.Name}, Path: {node.GetPath()}");
+            
             var originNode = node["origin"];
             if (originNode != null)
             {
@@ -329,6 +332,22 @@ namespace MapleClient.GameData
                 }
             }
             
+            // Check grandparent for origin (objects might store origin at container level)
+            if (node.Parent != null && node.Parent.Parent != null)
+            {
+                var grandparentOrigin = node.Parent.Parent["origin"];
+                if (grandparentOrigin != null)
+                {
+                    var value = grandparentOrigin.Value;
+                    if (value is Vector2 vec2)
+                    {
+                        Debug.Log($"Found origin on grandparent as Vector2: {vec2}");
+                        return vec2;
+                    }
+                }
+            }
+            
+            Debug.Log($"No origin found for node: {node.Name}, returning (0,0)");
             return Vector2.zero;
         }
         
