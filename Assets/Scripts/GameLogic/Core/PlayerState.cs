@@ -7,6 +7,10 @@ namespace MapleClient.GameLogic.Core
         Jumping,
         Crouching,
         Climbing,
-        Attacking
+        Attacking,
+        DoubleJumping,
+        FlashJumping,
+        Swimming,
+        Falling
     }
 }

@@ -7,7 +7,7 @@ namespace MapleClient.GameView
     {
         public bool IsLeftPressed => Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A);
         public bool IsRightPressed => Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
-        public bool IsJumpPressed => Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.LeftAlt);
+        public bool IsJumpPressed => Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftAlt);
         public bool IsAttackPressed => Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.Z);
         public bool IsUpPressed => Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W);
         public bool IsDownPressed => Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S);

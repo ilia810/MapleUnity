@@ -8,7 +8,16 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(find:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(git push:*)",
+      "Bash(mkdir:*)",
+      "Bash(git reset:*)",
+      "Bash(dir:*)",
+      "Bash(powershell:*)",
+      "Bash(Unity.exe:*)",
+      "Bash(mv:*)",
+      "Bash(move:*)",
+      "Bash(Unity:*)"
     ],
     "deny": []
   }

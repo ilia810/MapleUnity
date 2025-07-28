@@ -144,5 +144,70 @@ namespace MapleClient.GameLogic.Tests
             // Assert
             Assert.That(player.Position.X, Is.GreaterThan(initialX));
         }
+
+        [Test]
+        public void HorizontalMovement_AcceleratesGradually()
+        {
+            // Arrange
+            player.Speed = 100;
+            player.IsGrounded = true;
+            player.Velocity = new Vector2(0, 0);
+            
+            // Act - apply one frame of acceleration
+            player.MoveRight(true);
+            player.UpdatePhysics(1f/60f, testMap);
+
+            // Assert - velocity should increase by acceleration * deltaTime
+            // 1000 units/s² * (1/60)s = 16.667 units/s
+            float expectedVelocity = 10f * (1f/60f);
+            Assert.That(player.Velocity.X, Is.EqualTo(expectedVelocity).Within(0.001f));
+        }
+
+        [Test]
+        public void HorizontalMovement_StopsGraduallyWithFriction()
+        {
+            // Arrange
+            player.Speed = 100;
+            player.IsGrounded = true;
+            player.Velocity = new Vector2(1.25f, 0); // Max walk speed
+            
+            // Act - release movement key
+            player.MoveRight(false);
+            player.UpdatePhysics(1f/60f, testMap);
+
+            // Assert - velocity should decrease by friction * deltaTime
+            float expectedVelocity = 1.25f - (10f * (1f/60f));
+            Assert.That(player.Velocity.X, Is.EqualTo(expectedVelocity).Within(0.001f));
+        }
+
+        [Test]
+        public void Jump_InitialVelocity_MatchesMapleStory()
+        {
+            // Arrange
+            player.JumpPower = 100; // 100% jump stat
+            player.IsGrounded = true;
+            
+            // Act
+            player.Jump();
+
+            // Assert - should be 5.55 units/s (555 pixels/s)
+            Assert.That(player.Velocity.Y, Is.EqualTo(5.55f).Within(0.001f));
+        }
+
+        [Test]
+        public void Gravity_MatchesMapleStoryRate()
+        {
+            // Arrange
+            player.IsGrounded = false;
+            player.Velocity = new Vector2(0, 0);
+            
+            // Act - apply one frame of gravity
+            player.UpdatePhysics(1f/60f, testMap);
+
+            // Assert - velocity should decrease by gravity * deltaTime
+            // 2000 units/s² * (1/60)s = 33.333 units/s
+            float expectedVelocity = -20f * (1f/60f);
+            Assert.That(player.Velocity.Y, Is.EqualTo(expectedVelocity).Within(0.001f));
+        }
     }
 }

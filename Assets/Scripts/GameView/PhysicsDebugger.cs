@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using MapleClient.GameLogic.Core;
+using MapleClient.GameLogic.Interfaces;
+using System.Collections.Generic;
 
 namespace MapleClient.GameView
 {
@@ -18,9 +20,16 @@ namespace MapleClient.GameView
         [SerializeField] private Vector2 displayPosition = new Vector2(10, 10);
         
         private GameWorld gameWorld;
+        private Player player;
         private PhysicsDebugStats lastStats;
         private float updateInterval = 0.5f; // Update display every 0.5 seconds
         private float lastUpdateTime;
+        
+        // Movement state tracking
+        private PlayerState lastPlayerState;
+        private MapleClient.GameLogic.Vector2 lastPlayerVelocity;
+        private bool lastGroundedState;
+        private List<IMovementModifier> lastModifiers = new List<IMovementModifier>();
         
         // Performance tracking
         private float[] frameTimes = new float[60];
@@ -43,6 +52,10 @@ namespace MapleClient.GameView
                 if (fieldInfo != null)
                 {
                     gameWorld = fieldInfo.GetValue(gameManager) as GameWorld;
+                    if (gameWorld != null)
+                    {
+                        player = gameWorld.Player;
+                    }
                 }
             }
             
@@ -148,6 +161,103 @@ namespace MapleClient.GameView
             float interpolation = gameWorld.GetPhysicsInterpolationFactor();
             debugText += $"\nInterpolation Factor: {interpolation:F3}";
             
+            // Player movement state
+            if (player != null)
+            {
+                debugText += "\n\n=== Player Movement ===\n";
+                debugText += $"  State: {player.State}";
+                if (player.State != lastPlayerState)
+                {
+                    debugText += " [CHANGED]";
+                    lastPlayerState = player.State;
+                }
+                debugText += "\n";
+                
+                var velocity = player.Velocity;
+                debugText += $"  Velocity: ({velocity.X:F2}, {velocity.Y:F2})";
+                float speed = Mathf.Sqrt(velocity.X * velocity.X + velocity.Y * velocity.Y);
+                debugText += $" | Speed: {speed:F2}\n";
+                
+                debugText += $"  Grounded: {(player.IsGrounded ? "YES" : "NO")}";
+                if (player.IsGrounded != lastGroundedState)
+                {
+                    debugText += " [CHANGED]";
+                    lastGroundedState = player.IsGrounded;
+                }
+                debugText += "\n";
+                
+                debugText += $"  Position: ({player.Position.X:F2}, {player.Position.Y:F2})\n";
+                
+                // Movement modifiers
+                var modifiers = player.GetActiveModifiers();
+                if (modifiers.Count > 0)
+                {
+                    debugText += "\n  Active Modifiers:\n";
+                    foreach (var modifier in modifiers)
+                    {
+                        debugText += $"    - {modifier.Id}";
+                        if (modifier.SpeedMultiplier != 1f)
+                            debugText += $" (Speed x{modifier.SpeedMultiplier:F1})";
+                        if (modifier.JumpMultiplier != 1f)
+                            debugText += $" (Jump x{modifier.JumpMultiplier:F1})";
+                        if (modifier.FrictionMultiplier != 1f)
+                            debugText += $" (Friction x{modifier.FrictionMultiplier:F1})";
+                        if (modifier.Duration > 0)
+                            debugText += $" [{modifier.Duration:F1}s]";
+                        debugText += "\n";
+                    }
+                }
+                
+                // Movement capabilities
+                debugText += "\n  Capabilities:\n";
+                debugText += $"    Walk Speed: {player.GetModifiedWalkSpeed():F2}\n";
+                debugText += $"    Jump Power: {player.GetModifiedJumpPower():F2}\n";
+                
+                // Special movement states
+                if (player.State == PlayerState.Climbing)
+                {
+                    var ladder = player.GetCurrentLadder();
+                    if (ladder != null)
+                    {
+                        debugText += $"\n  Climbing Ladder at X: {ladder.X}\n";
+                    }
+                }
+                
+                // Check for special abilities
+                var hasDoubleJump = typeof(Player).GetField("hasDoubleJump", 
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                    ?.GetValue(player) as bool? ?? false;
+                var hasFlashJump = typeof(Player).GetField("hasFlashJump", 
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                    ?.GetValue(player) as bool? ?? false;
+                var flashJumpCooldown = typeof(Player).GetField("flashJumpCooldown", 
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                    ?.GetValue(player) as float? ?? 0f;
+                    
+                if (hasDoubleJump || hasFlashJump)
+                {
+                    debugText += "\n  Special Abilities:\n";
+                    if (hasDoubleJump)
+                        debugText += "    - Double Jump [ENABLED]\n";
+                    if (hasFlashJump)
+                    {
+                        debugText += "    - Flash Jump [ENABLED]";
+                        if (flashJumpCooldown > 0)
+                            debugText += $" (Cooldown: {flashJumpCooldown:F1}s)";
+                        debugText += "\n";
+                    }
+                }
+            }
+            
+            // Platform detection rays visualization
+            if (showDebugOverlay && player != null)
+            {
+                DrawMovementDebugVisuals();
+            }
+            
+            // Adjust debug rect size based on content
+            debugRect.height = debugText.Split('\n').Length * 20 + 40;
+            
             // Draw background
             GUI.Box(debugRect, "");
             
@@ -170,6 +280,87 @@ namespace MapleClient.GameView
             Debug.Log($"Accuracy: {(stats.StepsPerSecond / PhysicsUpdateManager.TARGET_FPS) * 100:F1}%");
             Debug.Log($"Active Physics Objects: {stats.ActiveObjectCount}");
             Debug.Log($"Average Frame Time: {stats.AverageFrameTime * 1000:F2}ms");
+        }
+        
+        private void DrawMovementDebugVisuals()
+        {
+            if (player == null) return;
+            
+            Vector3 playerPos = new Vector3(player.Position.X, player.Position.Y, 0);
+            
+            // Draw ground check ray
+            Debug.DrawRay(playerPos - Vector3.up * 0.3f, Vector3.down * 0.5f, 
+                player.IsGrounded ? Color.green : Color.red);
+            
+            // Draw movement direction
+            if (Mathf.Abs(player.Velocity.X) > 0.01f)
+            {
+                Vector3 velocityDir = new Vector3(player.Velocity.X, 0, 0).normalized;
+                Debug.DrawRay(playerPos, velocityDir * 0.5f, Color.blue);
+            }
+            
+            // Draw jump trajectory prediction (if jumping)
+            if (!player.IsGrounded && player.Velocity.Y > 0)
+            {
+                Vector3 startPos = playerPos;
+                Vector3 velocity = new Vector3(player.Velocity.X, player.Velocity.Y, 0);
+                float gravity = MaplePhysics.Gravity / 100f;
+                float timeStep = 0.1f;
+                
+                for (int i = 0; i < 10; i++)
+                {
+                    Vector3 nextPos = startPos + velocity * timeStep;
+                    velocity.y -= gravity * timeStep;
+                    
+                    Debug.DrawLine(startPos, nextPos, new Color(1f, 1f, 0f, 1f - i * 0.1f));
+                    startPos = nextPos;
+                    
+                    if (velocity.y < 0) break;
+                }
+            }
+            
+            // Draw platform detection area
+            float checkDistance = 1f;
+            Vector3 leftCheck = playerPos + Vector3.left * 0.15f;
+            Vector3 rightCheck = playerPos + Vector3.right * 0.15f;
+            
+            Debug.DrawLine(leftCheck, leftCheck + Vector3.down * checkDistance, 
+                new Color(0.5f, 0.5f, 1f, 0.5f));
+            Debug.DrawLine(rightCheck, rightCheck + Vector3.down * checkDistance, 
+                new Color(0.5f, 0.5f, 1f, 0.5f));
+            
+            // Draw modifier effect areas
+            var modifiers = player.GetActiveModifiers();
+            foreach (var modifier in modifiers)
+            {
+                if (modifier.Id == "slippery_surface")
+                {
+                    // Draw ice effect area
+                    DrawCircle(playerPos + Vector3.down * 0.3f, 0.3f, new Color(0.5f, 0.8f, 1f, 0.3f));
+                }
+                else if (modifier.SpeedMultiplier > 1f)
+                {
+                    // Draw speed boost effect
+                    DrawCircle(playerPos, 0.4f, new Color(0.5f, 1f, 0.5f, 0.3f));
+                }
+            }
+        }
+        
+        private void DrawCircle(Vector3 center, float radius, Color color)
+        {
+            int segments = 16;
+            float angleStep = 360f / segments;
+            
+            for (int i = 0; i < segments; i++)
+            {
+                float angle1 = i * angleStep * Mathf.Deg2Rad;
+                float angle2 = (i + 1) * angleStep * Mathf.Deg2Rad;
+                
+                Vector3 point1 = center + new Vector3(Mathf.Cos(angle1), Mathf.Sin(angle1), 0) * radius;
+                Vector3 point2 = center + new Vector3(Mathf.Cos(angle2), Mathf.Sin(angle2), 0) * radius;
+                
+                Debug.DrawLine(point1, point2, color);
+            }
         }
     }
 }

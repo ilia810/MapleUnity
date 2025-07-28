@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using MapleClient.GameLogic.Interfaces;
 
 namespace MapleClient.GameLogic.Core
 {
-    public class Monster
+    public class Monster : IPhysicsObject
     {
         private readonly MonsterTemplate template;
         private static readonly Random random = new Random();
@@ -13,6 +14,20 @@ namespace MapleClient.GameLogic.Core
         private float patrolRange;
         private float patrolOriginX;
         private bool movingRight = true;
+        private bool isGrounded = false;
+        
+        // IPhysicsObject implementation
+        private static int nextPhysicsId = 1000; // Start at 1000 to avoid conflicts with players
+        private int physicsId;
+        
+        public int PhysicsId => physicsId;
+        public bool UseGravity => true; // Monsters are affected by gravity
+        public bool IsPhysicsActive => !IsDead; // Only active when alive
+        public Vector2 Velocity 
+        { 
+            get => velocity; 
+            set => velocity = value; 
+        }
 
         public int Id { get; set; }
         public int MonsterId => template.MonsterId;
@@ -34,11 +49,13 @@ namespace MapleClient.GameLogic.Core
         public Monster(MonsterTemplate template, Vector2 spawnPosition)
         {
             this.template = template ?? throw new ArgumentNullException(nameof(template));
+            this.physicsId = nextPhysicsId++;
             this.position = spawnPosition;
             this.patrolOriginX = spawnPosition.X;
             this.HP = template.MaxHP;
             this.IsDead = false;
             this.movementPattern = MovementPattern.Stationary;
+            this.velocity = Vector2.Zero;
         }
 
         public void TakeDamage(int damage)
@@ -85,24 +102,72 @@ namespace MapleClient.GameLogic.Core
             if (IsDead)
                 return;
 
+            // Movement pattern updates velocity but doesn't apply physics
+            UpdateMovementPattern();
+        }
+        
+        // IPhysicsObject implementation
+        public void UpdatePhysics(float fixedDeltaTime, MapData mapData)
+        {
+            if (IsDead)
+                return;
+            
+            // Apply gravity if not grounded
+            if (!isGrounded && UseGravity)
+            {
+                velocity = new Vector2(velocity.X, MaplePhysics.ApplyGravity(velocity.Y, fixedDeltaTime));
+            }
+            
+            // Update position
+            var newPosition = position + velocity * fixedDeltaTime;
+            
+            // Simple ground collision (monsters don't use platforms for now)
+            // This will be expanded later for proper platform collision
+            if (mapData != null && velocity.Y <= 0)
+            {
+                // For now, just check if we're below spawn height
+                if (newPosition.Y <= patrolOriginX)
+                {
+                    newPosition = new Vector2(newPosition.X, patrolOriginX);
+                    velocity = new Vector2(velocity.X, 0);
+                    isGrounded = true;
+                }
+                else
+                {
+                    isGrounded = false;
+                }
+            }
+            
+            position = newPosition;
+        }
+        
+        public void OnTerrainCollision(Vector2 collisionPoint, Vector2 collisionNormal)
+        {
+            // Handle terrain collision
+            if (collisionNormal.Y > 0.7f) // Ground collision
+            {
+                isGrounded = true;
+                velocity = new Vector2(velocity.X, 0);
+            }
+        }
+        
+        private void UpdateMovementPattern()
+        {
             switch (movementPattern)
             {
                 case MovementPattern.Patrol:
-                    UpdatePatrolMovement(deltaTime);
+                    UpdatePatrolMovement();
                     break;
                 case MovementPattern.Stationary:
                 default:
-                    velocity = Vector2.Zero;
+                    velocity = new Vector2(0, velocity.Y); // Keep Y velocity for gravity
                     break;
             }
-
-            // Update position
-            position += velocity * deltaTime;
         }
 
-        private void UpdatePatrolMovement(float deltaTime)
+        private void UpdatePatrolMovement()
         {
-            var speed = template.Speed;
+            var speed = template.Speed / 100f; // Convert pixels/s to units/s
             
             // Check if we've reached patrol boundary
             if (movingRight && position.X >= patrolOriginX + patrolRange)
@@ -114,8 +179,8 @@ namespace MapleClient.GameLogic.Core
                 movingRight = true;
             }
 
-            // Set velocity based on direction
-            velocity = new Vector2(movingRight ? speed : -speed, 0);
+            // Set horizontal velocity based on direction, preserve Y velocity
+            velocity = new Vector2(movingRight ? speed : -speed, velocity.Y);
         }
     }
 

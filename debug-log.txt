@@ -1,1436 +1,428 @@
-=== MapleUnity Debug Log - Started at 2025-07-28 08:58:17 ===
-=== Total Entries: 715 ===
+=== MapleUnity Debug Log - Started at 2025-07-28 22:12:40 ===
+=== Total Entries: 211 ===
 
-08:57:22.350 [LOG] Game systems initialized - Debug log capture enabled
+22:12:35.328 [LOG] Game systems initialized - Debug log capture enabled
 
-08:57:22.550 [LOG] Initializing NXDataManager with path: C:\HeavenClient\MapleStory-Client\nx
+22:12:35.375 [LOG] Physics configured for 60 FPS:
 
-08:57:22.584 [LOG] NXDataManager initialized successfully
+22:12:35.375 [LOG]   Fixed Timestep: 0.01667 seconds (60.0 FPS)
 
-08:57:22.589 [LOG] Looking for map at path: Map/Map1/100000000.img
+22:12:35.375 [LOG]   Maximum Delta Time: 0.067 seconds
 
-08:57:22.590 [LOG] First path failed, trying: Map/Map0/100000000.img
+22:12:35.375 [LOG]   Unity Physics: Disabled (using custom physics)
 
-08:57:22.591 [LOG] Loading platforms from foothold node with 1 layers
+22:12:35.375 [LOG] Physics configured for 60 FPS:
 
-08:57:22.591 [LOG] Platform 1: (-1500,0) to (1500,0)
+22:12:35.376 [LOG]   Fixed Timestep: 0.01667 seconds (60.0 FPS)
 
-08:57:22.591 [LOG] Platform 2: (-300,150) to (300,150)
+22:12:35.376 [LOG]   Maximum Delta Time: 0.067 seconds
 
-08:57:22.591 [LOG] Loaded 2 platforms from foothold data
+22:12:35.376 [LOG]   Unity Physics: Disabled (using custom physics)
 
-08:57:22.601 [LOG] Map loaded: Henesys (ID: 100000000)
+22:12:35.780 [LOG] [GameManager] FPS locked to 60 - Target: 60, VSync: 1
 
-08:57:22.603 [LOG] Rendering map: Henesys (ID: 100000000)
+22:12:35.781 [LOG] Initializing NXDataManager with path: C:\HeavenClient\MapleStory-Client\nx
 
-08:57:22.604 [LOG] Found map node for 100000000
+22:12:35.819 [LOG] NXDataManager initialized successfully
 
-08:57:22.607 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+22:12:35.867 [LOG] Looking for map at path: Map/Map1/100000000.img
 
-08:57:22.611 [LOG] Loading map background: grassySoil
+22:12:35.867 [LOG] First path failed, trying: Map/Map0/100000000.img
 
-08:57:22.613 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
+22:12:35.868 [LOG] Loading platforms from foothold node with 1 layers
 
-08:57:22.613 [WARNING] Node type: RealNxNode, Has children: True
+22:12:35.868 [LOG] foothold [1 children]
 
-08:57:22.613 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
+22:12:35.868 [LOG]   0 [1 children]
 
-08:57:22.614 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
+22:12:35.869 [LOG]     0 [4 children]
 
-08:57:22.615 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+22:12:35.869 [LOG]       1 [4 children]
 
-08:57:22.615 [LOG] Loading map background: grassySoil
+22:12:35.869 [LOG]         -> Foothold data: (-800,20) to (800,20)
 
-08:57:22.615 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
+22:12:35.869 [LOG]         x1 [0 children]
 
-08:57:22.616 [WARNING] Node type: RealNxNode, Has children: True
+22:12:35.869 [LOG]         y1 [0 children]
 
-08:57:22.616 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
+22:12:35.869 [LOG]         x2 [0 children]
 
-08:57:22.616 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
+22:12:35.870 [LOG]         y2 [0 children]
 
-08:57:22.616 [LOG] Loading map background: grassySoil
+22:12:35.870 [LOG]       2 [4 children]
 
-08:57:22.616 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
+22:12:35.870 [LOG]         -> Foothold data: (-400,-150) to (-200,-150)
 
-08:57:22.616 [WARNING] Node type: RealNxNode, Has children: True
+22:12:35.870 [LOG]         x1 [0 children]
 
-08:57:22.616 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
+22:12:35.870 [LOG]         y1 [0 children]
 
-08:57:22.616 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
+22:12:35.870 [LOG]         x2 [0 children]
 
-08:57:22.616 [LOG] Loading map background: grassySoil
+22:12:35.870 [LOG]         y2 [0 children]
 
-08:57:22.616 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
+22:12:35.870 [LOG]       3 [4 children]
 
-08:57:22.616 [WARNING] Node type: RealNxNode, Has children: True
+22:12:35.871 [LOG]         -> Foothold data: (200,-150) to (400,-150)
 
-08:57:22.616 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
+22:12:35.871 [LOG]         x1 [0 children]
 
-08:57:22.617 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
+22:12:35.871 [LOG]         y1 [0 children]
 
-08:57:22.617 [LOG] Loading map background: grassySoil
+22:12:35.871 [LOG]         x2 [0 children]
 
-08:57:22.617 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
+22:12:35.871 [LOG]         y2 [0 children]
 
-08:57:22.617 [WARNING] Node type: RealNxNode, Has children: True
+22:12:35.871 [LOG]       4 [4 children]
 
-08:57:22.617 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
+22:12:35.872 [LOG]         -> Foothold data: (-100,-300) to (100,-300)
 
-08:57:22.617 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
+22:12:35.872 [LOG]         x1 [0 children]
 
-08:57:22.618 [LOG] Loading map background: grassySoil
+22:12:35.872 [LOG]         y1 [0 children]
 
-08:57:22.618 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
+22:12:35.872 [LOG]         x2 [0 children]
 
-08:57:22.618 [WARNING] Node type: RealNxNode, Has children: True
+22:12:35.872 [LOG]         y2 [0 children]
 
-08:57:22.618 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
+22:12:35.872 [LOG]   Layer 0 has 1 groups
 
-08:57:22.618 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
+22:12:35.872 [LOG]     Group 0 has 4 children
 
-08:57:22.618 [LOG] Loading map background: grassySoil
+22:12:35.873 [LOG] Platform 1: (-800,20) to (800,20)
 
-08:57:22.618 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
+22:12:35.873 [LOG] Platform 2: (-400,-150) to (-200,-150)
 
-08:57:22.619 [WARNING] Node type: RealNxNode, Has children: True
+22:12:35.873 [LOG] Platform 3: (200,-150) to (400,-150)
 
-08:57:22.619 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
+22:12:35.873 [LOG] Platform 4: (-100,-300) to (100,-300)
 
-08:57:22.619 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
+22:12:35.873 [LOG] Loaded 4 platforms from foothold data
 
-08:57:22.619 [LOG] Loading map background: grassySoil
+22:12:35.884 [LOG] Map loaded: Henesys (ID: 100000000)
 
-08:57:22.619 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
+22:12:35.887 [LOG] Rendering map: Henesys (ID: 100000000)
 
-08:57:22.619 [WARNING] Node type: RealNxNode, Has children: True
+22:12:35.888 [LOG] Found map node for 100000000
 
-08:57:22.619 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
+22:12:35.891 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
 
-08:57:22.620 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
+22:12:35.899 [LOG] Loading map background: grassySoil
 
-08:57:22.620 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+22:12:35.901 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
 
-08:57:22.621 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+22:12:35.901 [WARNING] Node type: RealNxNode, Has children: True
 
-08:57:22.622 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+22:12:35.901 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
 
-08:57:22.673 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+22:12:35.902 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
 
-08:57:22.674 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+22:12:35.903 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
 
-08:57:22.675 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+22:12:35.903 [LOG] Loading map background: grassySoil
 
-08:57:22.779 [LOG] Tiles rendered: 859, Platforms in mapData: 2
+22:12:35.903 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
 
-08:57:22.779 [LOG] Rendering 2 collision platforms
+22:12:35.903 [WARNING] Node type: RealNxNode, Has children: True
 
-08:57:22.780 [LOG] Rendering 2 platforms from MapData
+22:12:35.904 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
 
-08:57:22.785 [LOG] [PLATFORM_DEBUG] Created platform: Platform_1 at (0.00, 0.00, 0.00) with collider size: (30.00, 0.10)
+22:12:35.904 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
 
-08:57:22.785 [LOG] [PLATFORM_DEBUG] Created platform: Platform_2 at (0.00, 1.50, 0.00) with collider size: (6.00, 0.10)
+22:12:35.904 [LOG] Loading map background: grassySoil
 
-08:57:22.786 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+22:12:35.904 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
 
-08:57:22.787 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+22:12:35.904 [WARNING] Node type: RealNxNode, Has children: True
 
-08:57:22.791 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+22:12:35.904 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
 
-08:57:22.791 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+22:12:35.904 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
 
-08:57:22.794 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+22:12:35.905 [LOG] Loading map background: grassySoil
 
-08:57:22.794 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+22:12:35.905 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
 
-08:57:22.794 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+22:12:35.905 [WARNING] Node type: RealNxNode, Has children: True
 
-08:57:22.807 [WARNING] Texture 0 is completely transparent! PNG data might be corrupted.
+22:12:35.905 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
 
-08:57:22.807 [LOG]   Image dimensions: 48x22
+22:12:35.905 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
 
-08:57:22.807 [LOG]   PNG data size: 1039 bytes
+22:12:35.906 [LOG] Loading map background: grassySoil
 
-08:57:22.808 [LOG]   First 16 bytes: 89 50 4E 47 0D 0A 1A 0A 00 00 00 0D 49 48 44 52
+22:12:35.906 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
 
-08:57:22.810 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+22:12:35.906 [WARNING] Node type: RealNxNode, Has children: True
 
-08:57:22.810 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+22:12:35.906 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
 
-08:57:22.812 [LOG] Map bounds - Left: -1000, Right: 1000, Top: 1000, Bottom: -1000
+22:12:35.906 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
 
-08:57:22.812 [LOG] Camera position: (0.00, 0.00, -10.00)
+22:12:35.906 [LOG] Loading map background: grassySoil
 
-08:57:22.813 [LOG] MapData already has 2 platforms loaded
+22:12:35.906 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
 
-08:57:22.814 [LOG] [PLATFORM_DEBUG] Player Rigidbody2D created with gravity scale: 2
+22:12:35.907 [WARNING] Node type: RealNxNode, Has children: True
 
-08:57:22.814 [LOG] Simple player created at: (-4.4, 0.8)
+22:12:35.907 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
 
-08:57:22.816 [LOG] Loading NPC 2041017
+22:12:35.907 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
 
-08:57:22.816 [LOG] Loading NPC 9000069
+22:12:35.907 [LOG] Loading map background: grassySoil
 
-08:57:22.816 [LOG] Loading NPC 9250042
+22:12:35.907 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
 
-08:57:22.816 [LOG] Loading NPC 9010010
+22:12:35.907 [WARNING] Node type: RealNxNode, Has children: True
 
-08:57:22.827 [LOG] === Testing NX Structure ===
+22:12:35.907 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
 
-08:57:22.828 [LOG] Loaded: C:\HeavenClient\MapleStory-Client\nx\Character.nx
+22:12:35.908 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
 
-08:57:22.828 [LOG] Root node type: reNX.NXProperties.NXNode
+22:12:35.908 [LOG] Loading map background: grassySoil
 
-08:57:22.828 [LOG] Found 00002000.img, type: reNX.NXProperties.NXNode
+22:12:35.908 [WARNING] No image data found for sprite: background/grassySoil (value type: null)
 
-08:57:22.828 [LOG] Total children in 00002000.img: 255
+22:12:35.908 [WARNING] Node type: RealNxNode, Has children: True
 
-08:57:22.828 [LOG] First 20 children of 00002000.img:
+22:12:35.908 [WARNING] Underlying NX node type: reNX.NXProperties.NXNode
 
-08:57:22.828 [LOG] - 'Awakening' (type: NXNode)
+22:12:35.909 [WARNING] Could not find sprite data at: background/grassySoil (has 2 children)
 
-08:57:22.828 [LOG] - 'Earthquake' (type: NXNode)
+22:12:35.910 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
 
-08:57:22.828 [LOG] - 'OnixBlessing' (type: NXNode)
+22:12:35.910 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
 
-08:57:22.828 [LOG] - 'airstrike' (type: NXNode)
+22:12:35.911 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
 
-08:57:22.828 [LOG] - 'alert' (type: NXNode)
+22:12:35.972 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
 
-08:57:22.828 [LOG] - 'alert2' (type: NXNode)
+22:12:35.972 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
 
-08:57:22.828 [LOG] - 'alert3' (type: NXNode)
+22:12:35.973 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
 
-08:57:22.828 [LOG] - 'alert4' (type: NXNode)
+22:12:36.101 [LOG] Tiles rendered: 859, Platforms in mapData: 4
 
-08:57:22.828 [LOG] - 'alert5' (type: NXNode)
+22:12:36.102 [LOG] Rendering 4 collision platforms
 
-08:57:22.828 [LOG] - 'alert6' (type: NXNode)
+22:12:36.102 [LOG] Creating 4 invisible collision platforms from MapData
 
-08:57:22.828 [LOG] - 'alert7' (type: NXNode)
+22:12:36.102 [LOG] [Platform Data] ID: 1, X: [-800, 800], Y: [20, 20]
 
-08:57:22.828 [LOG] - 'assassination' (type: NXNode)
+22:12:36.103 [LOG] [Platform Data] ID: 2, X: [-400, -200], Y: [-150, -150]
 
-08:57:22.829 [LOG] - 'assassinationS' (type: NXNode)
+22:12:36.103 [LOG] [Platform Data] ID: 3, X: [200, 400], Y: [-150, -150]
 
-08:57:22.829 [LOG] - 'assaulter' (type: NXNode)
+22:12:36.103 [LOG] [Platform Data] ID: 4, X: [-100, 100], Y: [-300, -300]
 
-08:57:22.829 [LOG] - 'avenger' (type: NXNode)
+22:12:36.104 [LOG] [COLLISION_DEBUG] Created invisible collision platform: Platform_1_Collision at (0.00, -0.20, 0.00) with collider size: (16.00, 0.50)
 
-08:57:22.829 [LOG] - 'backspin' (type: NXNode)
+22:12:36.104 [LOG] [COLLISION_DEBUG] Created invisible collision platform: Platform_2_Collision at (-3.00, 1.50, 0.00) with collider size: (2.00, 0.50)
 
-08:57:22.829 [LOG] - 'backstep' (type: NXNode)
+22:12:36.104 [LOG] [COLLISION_DEBUG] Created invisible collision platform: Platform_3_Collision at (3.00, 1.50, 0.00) with collider size: (2.00, 0.50)
 
-08:57:22.829 [LOG] - 'bamboo' (type: NXNode)
+22:12:36.104 [LOG] [COLLISION_DEBUG] Created invisible collision platform: Platform_4_Collision at (0.00, 3.00, 0.00) with collider size: (2.00, 0.50)
 
-08:57:22.829 [LOG] - 'blade' (type: NXNode)
+22:12:36.106 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
 
-08:57:22.829 [LOG] - 'blast' (type: NXNode)
+22:12:36.106 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
 
-08:57:22.829 [LOG] 
+22:12:36.110 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+
+22:12:36.110 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+
+22:12:36.113 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+
+22:12:36.113 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+
+22:12:36.113 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+
+22:12:36.128 [WARNING] Texture 0 is completely transparent! PNG data might be corrupted.
+
+22:12:36.129 [LOG]   Image dimensions: 48x22
+
+22:12:36.129 [LOG]   PNG data size: 1039 bytes
+
+22:12:36.130 [LOG]   First 16 bytes: 89 50 4E 47 0D 0A 1A 0A 00 00 00 0D 49 48 44 52
+
+22:12:36.132 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+
+22:12:36.132 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+
+22:12:36.133 [LOG] Map bounds - Left: -1000, Right: 1000, Top: 1000, Bottom: -1000
+
+22:12:36.134 [LOG] Camera position: (0.00, 0.00, -10.00)
+
+22:12:36.134 [LOG] MapData already has 4 platforms loaded
+
+22:12:36.136 [LOG] [SimplePlayerController] Created as kinematic visual controller
+
+22:12:36.138 [LOG] Simple player created at: (-4.4, 0.8)
+
+22:12:36.139 [LOG] [SimpleCameraFollow] Camera force reset to: (-4.40, 0.80, -10.00), target at: (-4.40, 0.80, 0.00)
+
+22:12:36.139 [LOG] [GameManager] Camera follow setup complete. Target: Player, Camera position: (-4.40, 0.80, -10.00)
+
+22:12:36.142 [LOG] Loading NPC 9010000
+
+22:12:36.142 [LOG] Loading NPC 1012109
+
+22:12:36.142 [LOG] Loading NPC 1012003
+
+22:12:36.142 [LOG] Loading NPC 9250156
+
+22:12:36.142 [LOG] Loading NPC 9250136
+
+22:12:36.142 [LOG] Loading NPC 9250123
+
+22:12:36.142 [LOG] Loading NPC 1010100
+
+22:12:36.143 [LOG] Loading NPC 9250120
+
+22:12:36.143 [LOG] Loading NPC 2041017
+
+22:12:36.143 [LOG] Loading NPC 9201118
+
+22:12:36.143 [LOG] Loading NPC 9010022
+
+22:12:36.143 [LOG] Loading NPC 1103001
+
+22:12:36.143 [LOG] Loading NPC 9000017
+
+22:12:36.143 [LOG] Loading NPC 9201088
+
+22:12:36.143 [LOG] Loading NPC 9250042
+
+22:12:36.143 [LOG] Loading NPC 1012000
+
+22:12:36.143 [LOG] Loading NPC 9000020
+
+22:12:36.143 [LOG] Loading NPC 9010009
+
+22:12:36.143 [LOG] Loading NPC 9201022
+
+22:12:36.143 [LOG] Loading NPC 9201001
+
+22:12:36.143 [LOG] Loading NPC 9010010
+
+22:12:36.144 [LOG] Loading NPC 9000021
+
+22:12:36.144 [LOG] Loading NPC 9209001
+
+22:12:36.144 [LOG] Loading NPC 9209008
+
+22:12:36.144 [LOG] Loading NPC 9200000
+
+22:12:36.144 [LOG] Loading NPC 9209000
+
+22:12:36.144 [LOG] Loading NPC 9000036
+
+22:12:36.156 [LOG] === Testing NX Structure ===
+
+22:12:36.156 [LOG] Loaded: C:\HeavenClient\MapleStory-Client\nx\Character.nx
+
+22:12:36.156 [LOG] Root node type: reNX.NXProperties.NXNode
+
+22:12:36.156 [LOG] Found 00002000.img, type: reNX.NXProperties.NXNode
+
+22:12:36.156 [LOG] Total children in 00002000.img: 255
+
+22:12:36.156 [LOG] First 20 children of 00002000.img:
+
+22:12:36.156 [LOG] - 'Awakening' (type: NXNode)
+
+22:12:36.156 [LOG] - 'Earthquake' (type: NXNode)
+
+22:12:36.156 [LOG] - 'OnixBlessing' (type: NXNode)
+
+22:12:36.156 [LOG] - 'airstrike' (type: NXNode)
+
+22:12:36.156 [LOG] - 'alert' (type: NXNode)
+
+22:12:36.157 [LOG] - 'alert2' (type: NXNode)
+
+22:12:36.157 [LOG] - 'alert3' (type: NXNode)
+
+22:12:36.157 [LOG] - 'alert4' (type: NXNode)
+
+22:12:36.157 [LOG] - 'alert5' (type: NXNode)
+
+22:12:36.157 [LOG] - 'alert6' (type: NXNode)
+
+22:12:36.157 [LOG] - 'alert7' (type: NXNode)
+
+22:12:36.157 [LOG] - 'assassination' (type: NXNode)
+
+22:12:36.157 [LOG] - 'assassinationS' (type: NXNode)
+
+22:12:36.157 [LOG] - 'assaulter' (type: NXNode)
+
+22:12:36.157 [LOG] - 'avenger' (type: NXNode)
+
+22:12:36.157 [LOG] - 'backspin' (type: NXNode)
+
+22:12:36.157 [LOG] - 'backstep' (type: NXNode)
+
+22:12:36.157 [LOG] - 'bamboo' (type: NXNode)
+
+22:12:36.157 [LOG] - 'blade' (type: NXNode)
+
+22:12:36.158 [LOG] - 'blast' (type: NXNode)
+
+22:12:36.158 [LOG] 
 Exploring first child 'Awakening':
 
-08:57:22.829 [LOG]   - '0'
+22:12:36.158 [LOG]   - '0'
 
-08:57:22.829 [LOG]   - '1'
+22:12:36.158 [LOG]   - '1'
 
-08:57:22.829 [LOG]   - '2'
+22:12:36.158 [LOG]   - '2'
 
-08:57:22.829 [LOG]   - '3'
+22:12:36.158 [LOG]   - '3'
 
-08:57:22.829 [LOG] stand node not found under 00002000.img (v83 uses stand1)
+22:12:36.158 [LOG] stand node not found under 00002000.img (v83 uses stand1)
 
-08:57:22.829 [LOG] Found stand1 node!
+22:12:36.159 [LOG] Found stand1 node!
 
-08:57:22.829 [LOG] Found frame 0 of stand1
+22:12:36.159 [LOG] Found frame 0 of stand1
 
-08:57:22.829 [LOG] Found body part, type: reNX.NXProperties.NXBitmapNode
+22:12:36.159 [LOG] Found body part, type: reNX.NXProperties.NXBitmapNode
 
-08:57:22.830 [LOG] Body has 4 children
+22:12:36.159 [LOG] Body has 4 children
 
-08:57:22.830 [LOG] ==> RealNxNode.Value returned type: System.Byte[]
+22:12:36.159 [LOG] ==> RealNxNode.Value returned type: System.Byte[]
 
-08:57:22.830 [LOG] ==> SUCCESS! Got PNG data: 543 bytes
+22:12:36.159 [LOG] ==> SUCCESS! Got PNG data: 543 bytes
 
-08:57:22.830 [LOG] ==> SPRITE LOADED! Size: 21x31
+22:12:36.160 [LOG] ==> SPRITE LOADED! Size: 21x31
 
-08:57:22.830 [LOG] 
+22:12:36.160 [LOG] 
 Trying ResolvePath method:
 
-08:57:22.831 [LOG] ResolvePath worked for 00002000.img/stand1/0! Type: reNX.NXProperties.NXNode
+22:12:36.161 [LOG] ResolvePath worked for 00002000.img/stand1/0! Type: reNX.NXProperties.NXNode
 
-08:57:23.173 [LOG] [EditorDebugLogCapture] Started capturing logs
+22:12:36.191 [LOG] [SimpleCameraFollow] Camera initialized at position: (-4.40, 0.80, -10.00), following target: Player at (-4.40, 0.80, 0.00)
 
-08:57:23.231 [LOG] [PLATFORM_DEBUG] Ground check detected platform: Player
+22:12:36.528 [LOG] [EditorDebugLogCapture] Started capturing logs
 
-08:57:23.232 [LOG] InventoryView connected to player
+22:12:36.649 [LOG] InventoryView connected to player
 
-08:57:23.412 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Platform_1, Normal: (0.00, 1.00)
+22:12:36.810 [LOG] [SimplePlayerController] Land animation triggered
 
-08:57:24.232 [LOG] [PLATFORM_DEBUG] Player Position: (-6.43, 0.37, 0.00), Velocity: (-5.00, 0.00), Grounded: True, GroundContacts: 2
+22:12:37.159 [LOG] [GameManager] Camera follow verification: Target = Player, Camera pos = (-4.40, 0.55, -10.00)
 
-08:57:25.252 [LOG] [PLATFORM_DEBUG] Player Position: (-3.82, 0.37, 0.00), Velocity: (0.00, 0.00), Grounded: True, GroundContacts: 2
+22:12:37.600 [LOG] Debug log saved to: C:\Users\me\MapleUnity\debug-log.txt (204 entries)
 
-08:57:25.511 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Platform_1
+22:12:37.666 [LOG] [SimplePlayerController] Visual Position: (-4.40, 0.55, 0.00), Current Position: (-4.40, 0.50, 0.00), State: Falling, Grounded: True, Interpolation: ON
 
-08:57:25.791 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_298, Normal: (0.00, -1.00)
+22:12:38.680 [LOG] [SimplePlayerController] Visual Position: (-4.40, 0.55, 0.00), Current Position: (-4.40, 0.50, 0.00), State: Falling, Grounded: True, Interpolation: ON
 
-08:57:25.791 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_382, Normal: (0.00, -1.00)
+22:12:39.680 [LOG] [SimplePlayerController] Visual Position: (-4.40, 0.55, 0.00), Current Position: (-4.40, 0.50, 0.00), State: Falling, Grounded: True, Interpolation: ON
 
-08:57:25.851 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_298
+22:12:40.436 [LOG] [EditorDebugLogCapture] Stopped capturing logs
 
-08:57:25.851 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_382
+22:12:40.437 [LOG] [EditorDebugLogCapture] Saved 8 log entries to C:\Users\me\MapleUnity\debug-log.txt
 
-08:57:26.031 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Platform_2, Normal: (0.00, 1.00)
+22:12:40.469 [LOG] Debug log saved to: C:\Users\me\MapleUnity\debug-log.txt (210 entries)
 
-08:57:26.272 [LOG] [PLATFORM_DEBUG] Player Position: (-1.70, 1.87, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 3
-
-08:57:27.292 [LOG] [PLATFORM_DEBUG] Player Position: (3.24, 1.87, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 3
-
-08:57:27.292 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Platform_2
-
-08:57:27.691 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Platform_1, Normal: (0.00, 1.00)
-
-08:57:27.691 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_124, Normal: (0.00, 1.00)
-
-08:57:27.711 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_124
-
-08:57:27.852 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (-1.00, 0.00)
-
-08:57:27.852 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_125, Normal: (-1.00, 0.00)
-
-08:57:27.872 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:28.192 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_125
-
-08:57:28.311 [LOG] [PLATFORM_DEBUG] Player Position: (5.22, 0.36, 0.00), Velocity: (-5.00, 0.00), Grounded: True, GroundContacts: 5
-
-08:57:28.711 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_325, Normal: (1.00, 0.00)
-
-08:57:29.071 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Platform_1
-
-08:57:29.072 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_243, Normal: (1.00, 0.00)
-
-08:57:29.072 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, -1.00)
-
-08:57:29.072 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_244, Normal: (0.00, -1.00)
-
-08:57:29.331 [LOG] [PLATFORM_DEBUG] Player Position: (3.30, 0.44, 0.00), Velocity: (-5.00, 0.00), Grounded: True, GroundContacts: 5
-
-08:57:29.492 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_243
-
-08:57:29.492 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_325
-
-08:57:29.492 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:29.532 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_244
-
-08:57:29.552 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Platform_1, Normal: (0.00, 1.00)
-
-08:57:29.591 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Platform_1
-
-08:57:29.592 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_244, Normal: (1.00, 0.00)
-
-08:57:29.592 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_245, Normal: (0.00, -1.00)
-
-08:57:29.592 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, -1.00)
-
-08:57:29.612 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_244
-
-08:57:29.651 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:29.672 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_245
-
-08:57:29.732 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Platform_1, Normal: (0.00, 1.00)
-
-08:57:29.992 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Platform_1
-
-08:57:29.992 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_244, Normal: (1.00, 0.00)
-
-08:57:29.992 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.10, -1.00)
-
-08:57:29.992 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_245, Normal: (-0.04, -1.00)
-
-08:57:30.072 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:30.072 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_245
-
-08:57:30.112 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_244
-
-08:57:30.112 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_325, Normal: (1.00, 0.00)
-
-08:57:30.112 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Platform_1, Normal: (0.00, 1.00)
-
-08:57:30.291 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_325
-
-08:57:30.351 [LOG] [PLATFORM_DEBUG] Player Position: (3.68, 0.36, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 8
-
-08:57:30.453 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Platform_1
-
-08:57:30.711 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_47, Normal: (0.00, -1.00)
-
-08:57:30.711 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_73, Normal: (0.00, -1.00)
-
-08:57:30.771 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_47
-
-08:57:30.771 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_73
-
-08:57:30.872 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_125, Normal: (0.00, 1.00)
-
-08:57:30.872 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, 1.00)
-
-08:57:30.892 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:30.911 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_125
-
-08:57:31.191 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_113, Normal: (0.00, -1.00)
-
-08:57:31.191 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_86, Normal: (0.00, -1.00)
-
-08:57:31.252 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_113
-
-08:57:31.252 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_86
-
-08:57:31.371 [LOG] [PLATFORM_DEBUG] Player Position: (8.61, 2.11, 0.00), Velocity: (5.00, -3.14), Grounded: True, GroundContacts: 10
-
-08:57:31.452 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_367, Normal: (0.00, 1.00)
-
-08:57:31.452 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_366, Normal: (0.00, 1.00)
-
-08:57:31.452 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_303, Normal: (0.00, 1.00)
-
-08:57:31.452 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_301, Normal: (0.00, 1.00)
-
-08:57:31.552 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_373, Normal: (0.00, 1.00)
-
-08:57:31.552 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_57, Normal: (0.00, 1.00)
-
-08:57:31.571 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_367
-
-08:57:31.571 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_366
-
-08:57:31.571 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_303
-
-08:57:31.571 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_301
-
-08:57:31.752 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_57
-
-08:57:31.753 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_302, Normal: (-1.00, 0.00)
-
-08:57:31.753 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_373
-
-08:57:31.753 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_305, Normal: (-1.00, 0.00)
-
-08:57:31.753 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_379, Normal: (-1.00, 0.00)
-
-08:57:31.753 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_374, Normal: (-1.00, 0.00)
-
-08:57:31.772 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_373, Normal: (0.00, 1.00)
-
-08:57:31.772 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_57, Normal: (0.00, 1.00)
-
-08:57:32.011 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_373
-
-08:57:32.011 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_57
-
-08:57:32.391 [LOG] [PLATFORM_DEBUG] Player Position: (10.34, 2.14, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 18
-
-08:57:32.431 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_302
-
-08:57:32.431 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_374
-
-08:57:32.432 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_379
-
-08:57:32.432 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_305
-
-08:57:32.591 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_57, Normal: (-1.00, 0.00)
-
-08:57:32.591 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_373, Normal: (-1.00, 0.00)
-
-08:57:32.591 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_367, Normal: (1.00, 0.00)
-
-08:57:32.591 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_366, Normal: (1.00, 0.00)
-
-08:57:32.591 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_301, Normal: (1.00, 0.00)
-
-08:57:32.591 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_303, Normal: (1.00, 0.00)
-
-08:57:32.651 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_57
-
-08:57:32.651 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_303
-
-08:57:32.651 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_301
-
-08:57:32.651 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_366
-
-08:57:32.651 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_367
-
-08:57:32.651 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_373
-
-08:57:32.732 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_67, Normal: (0.00, -1.00)
-
-08:57:32.732 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_135, Normal: (0.00, -1.00)
-
-08:57:32.773 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_67
-
-08:57:32.773 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_135
-
-08:57:32.992 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_57, Normal: (0.00, 1.00)
-
-08:57:32.992 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_373, Normal: (0.00, 1.00)
-
-08:57:33.112 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_57
-
-08:57:33.112 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_302, Normal: (-1.00, 0.00)
-
-08:57:33.112 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_373
-
-08:57:33.112 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_305, Normal: (-1.00, 0.00)
-
-08:57:33.112 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_379, Normal: (-1.00, 0.00)
-
-08:57:33.112 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_374, Normal: (-1.00, 0.00)
-
-08:57:33.412 [LOG] [PLATFORM_DEBUG] Player Position: (10.34, 2.30, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 20
-
-08:57:33.452 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_302
-
-08:57:33.452 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_374
-
-08:57:33.453 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_379
-
-08:57:33.453 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_305
-
-08:57:33.652 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_301, Normal: (0.00, 1.00)
-
-08:57:33.652 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_303, Normal: (0.00, 1.00)
-
-08:57:33.652 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_366, Normal: (0.00, 1.00)
-
-08:57:33.652 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_367, Normal: (0.00, 1.00)
-
-08:57:33.811 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_301
-
-08:57:33.811 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_367
-
-08:57:33.811 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_366
-
-08:57:33.811 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_303
-
-08:57:33.912 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_113, Normal: (0.00, -1.00)
-
-08:57:33.912 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_86, Normal: (0.00, -1.00)
-
-08:57:33.972 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_113
-
-08:57:33.972 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_86
-
-08:57:34.271 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (1.00, 0.00)
-
-08:57:34.272 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_125, Normal: (1.00, 0.00)
-
-08:57:34.292 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:34.431 [LOG] [PLATFORM_DEBUG] Player Position: (6.32, 0.98, 0.00), Velocity: (-5.00, 0.00), Grounded: True, GroundContacts: 24
-
-08:57:35.073 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_125
-
-08:57:35.451 [LOG] [PLATFORM_DEBUG] Player Position: (8.32, 1.10, 0.00), Velocity: (5.00, 10.00), Grounded: True, GroundContacts: 24
-
-08:57:35.513 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_301, Normal: (-1.00, 0.00)
-
-08:57:35.513 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_303, Normal: (-1.00, 0.00)
-
-08:57:35.513 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_366, Normal: (-1.00, 0.00)
-
-08:57:35.513 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_367, Normal: (-1.00, 0.00)
-
-08:57:35.551 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_301
-
-08:57:35.551 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_367
-
-08:57:35.551 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_366
-
-08:57:35.551 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_303
-
-08:57:35.912 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_379, Normal: (-1.00, 0.00)
-
-08:57:35.912 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_374, Normal: (-1.00, 0.00)
-
-08:57:35.912 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_302, Normal: (-1.00, 0.00)
-
-08:57:35.912 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_305, Normal: (-1.00, 0.00)
-
-08:57:36.473 [LOG] [PLATFORM_DEBUG] Player Position: (10.34, 2.26, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 24
-
-08:57:36.671 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_379
-
-08:57:36.672 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_305
-
-08:57:36.672 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_302
-
-08:57:36.672 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_374
-
-08:57:36.752 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_124, Normal: (0.00, -1.00)
-
-08:57:36.752 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_122, Normal: (0.00, -1.00)
-
-08:57:36.811 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_124
-
-08:57:36.811 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_122
-
-08:57:37.011 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_302, Normal: (0.00, 1.00)
-
-08:57:37.011 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_305, Normal: (0.00, 1.00)
-
-08:57:37.011 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_374, Normal: (0.00, 1.00)
-
-08:57:37.011 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_379, Normal: (0.00, 1.00)
-
-08:57:37.092 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_290, Normal: (0.00, 1.00)
-
-08:57:37.092 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_307, Normal: (0.00, 1.00)
-
-08:57:37.112 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_302
-
-08:57:37.112 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_305
-
-08:57:37.112 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_374
-
-08:57:37.112 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_379
-
-08:57:37.292 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_307
-
-08:57:37.292 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_290
-
-08:57:37.492 [LOG] [PLATFORM_DEBUG] Player Position: (13.21, 1.98, 0.00), Velocity: (5.00, -3.92), Grounded: True, GroundContacts: 30
-
-08:57:37.531 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_549, Normal: (0.00, 1.00)
-
-08:57:37.531 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_551, Normal: (0.00, 1.00)
-
-08:57:37.672 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_549
-
-08:57:37.672 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_551
-
-08:57:37.791 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_93, Normal: (0.00, -1.00)
-
-08:57:37.791 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Tile_104, Normal: (0.00, -1.00)
-
-08:57:37.832 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_93
-
-08:57:37.832 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Tile_104
-
-08:57:38.512 [LOG] [PLATFORM_DEBUG] Player Position: (18.20, -1.96, 0.00), Velocity: (5.00, -13.73), Grounded: True, GroundContacts: 32
-
-08:57:38.592 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, 1.00)
-
-08:57:38.592 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_151, Normal: (0.00, 1.00)
-
-08:57:38.611 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:38.652 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_138, Normal: (0.00, 1.00)
-
-08:57:38.711 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_151
-
-08:57:38.831 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_136, Normal: (0.00, 1.00)
-
-08:57:38.912 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_138
-
-08:57:39.011 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_149, Normal: (0.00, 1.00)
-
-08:57:39.092 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_136
-
-08:57:39.212 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_155, Normal: (0.00, 1.00)
-
-08:57:39.271 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_149
-
-08:57:39.392 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_154, Normal: (0.00, 1.00)
-
-08:57:39.471 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_155
-
-08:57:39.531 [LOG] [PLATFORM_DEBUG] Player Position: (22.77, -2.98, 0.00), Velocity: (0.00, 0.00), Grounded: True, GroundContacts: 39
-
-08:57:39.572 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_155, Normal: (1.00, 0.00)
-
-08:57:39.652 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_154
-
-08:57:39.711 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, 1.00)
-
-08:57:39.771 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_149, Normal: (0.00, 1.00)
-
-08:57:39.792 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:39.832 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_155
-
-08:57:39.971 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_155, Normal: (0.00, 1.00)
-
-08:57:40.031 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_149
-
-08:57:40.111 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_155
-
-08:57:40.552 [LOG] [PLATFORM_DEBUG] Player Position: (24.39, -0.54, 0.00), Velocity: (5.00, 0.97), Grounded: True, GroundContacts: 42
-
-08:57:41.092 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_168, Normal: (0.00, 1.00)
-
-08:57:41.092 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_143, Normal: (0.00, 1.00)
-
-08:57:41.131 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_168
-
-08:57:41.212 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_260, Normal: (-1.00, 0.00)
-
-08:57:41.252 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_170, Normal: (0.00, 1.00)
-
-08:57:41.312 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_143
-
-08:57:41.331 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_261, Normal: (-1.00, 0.00)
-
-08:57:41.412 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_260
-
-08:57:41.412 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_259, Normal: (-1.00, 0.00)
-
-08:57:41.412 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_262, Normal: (-1.00, 0.00)
-
-08:57:41.432 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_194, Normal: (0.00, 1.00)
-
-08:57:41.472 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_261
-
-08:57:41.494 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_262
-
-08:57:41.512 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_170
-
-08:57:41.572 [LOG] [PLATFORM_DEBUG] Player Position: (29.33, -2.98, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 46
-
-08:57:41.612 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_259
-
-08:57:41.632 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_174, Normal: (0.00, 1.00)
-
-08:57:41.694 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_194
-
-08:57:41.813 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_191, Normal: (0.00, 1.00)
-
-08:57:41.871 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_174
-
-08:57:41.992 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_175, Normal: (0.00, 1.00)
-
-08:57:42.071 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_191
-
-08:57:42.172 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_190, Normal: (0.00, 1.00)
-
-08:57:42.251 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_190
-
-08:57:42.252 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_175
-
-08:57:42.331 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, -1.00)
-
-08:57:42.331 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_99, Normal: (-1.00, 0.00)
-
-08:57:42.331 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_98, Normal: (0.00, -1.00)
-
-08:57:42.592 [LOG] [PLATFORM_DEBUG] Player Position: (33.02, -2.15, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 50
-
-08:57:42.752 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:42.752 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_99
-
-08:57:42.812 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_98
-
-08:57:43.012 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_191, Normal: (0.00, 1.00)
-
-08:57:43.012 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_175, Normal: (0.00, 1.00)
-
-08:57:43.112 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_191
-
-08:57:43.212 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_190, Normal: (0.00, 1.00)
-
-08:57:43.292 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_175
-
-08:57:43.412 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_41, Normal: (0.00, -1.00)
-
-08:57:43.413 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_43, Normal: (-1.00, 0.00)
-
-08:57:43.413 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_137, Normal: (0.00, 1.00)
-
-08:57:43.611 [LOG] [PLATFORM_DEBUG] Player Position: (33.16, -2.98, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 54
-
-08:57:43.852 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_41
-
-08:57:43.853 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_137
-
-08:57:43.853 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_43
-
-08:57:43.972 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_175, Normal: (0.00, 1.00)
-
-08:57:44.031 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_190
-
-08:57:44.151 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_191, Normal: (0.00, 1.00)
-
-08:57:44.212 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_191
-
-08:57:44.332 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_190, Normal: (0.00, 1.00)
-
-08:57:44.392 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_175
-
-08:57:44.512 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_41, Normal: (-1.00, 0.00)
-
-08:57:44.512 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_137, Normal: (0.00, 1.00)
-
-08:57:44.513 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_43, Normal: (-1.00, 0.00)
-
-08:57:44.631 [LOG] [PLATFORM_DEBUG] Player Position: (33.16, -2.98, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 58
-
-08:57:45.232 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_190
-
-08:57:45.232 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_137
-
-08:57:45.651 [LOG] [PLATFORM_DEBUG] Player Position: (33.16, -2.65, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 58
-
-08:57:45.911 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_43
-
-08:57:45.911 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_41
-
-08:57:46.071 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_175, Normal: (0.00, 1.00)
-
-08:57:46.071 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_190, Normal: (-1.00, 0.00)
-
-08:57:46.092 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_190
-
-08:57:46.212 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_191, Normal: (0.00, 1.00)
-
-08:57:46.272 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_175
-
-08:57:46.392 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_174, Normal: (0.00, 1.00)
-
-08:57:46.471 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_191
-
-08:57:46.531 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_191, Normal: (0.00, 1.00)
-
-08:57:46.612 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_174
-
-08:57:46.671 [LOG] [PLATFORM_DEBUG] Player Position: (31.12, -2.98, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 62
-
-08:57:46.732 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_175, Normal: (0.00, 1.00)
-
-08:57:46.791 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_191
-
-08:57:46.812 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_175
-
-08:57:46.893 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, -1.00)
-
-08:57:46.893 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_102, Normal: (-1.00, 0.00)
-
-08:57:46.893 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_101, Normal: (0.00, -1.00)
-
-08:57:46.932 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_98, Normal: (-1.00, 0.00)
-
-08:57:46.956 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:46.975 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_101
-
-08:57:47.003 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_98
-
-08:57:47.003 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_102
-
-08:57:47.111 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_41, Normal: (-1.00, 0.00)
-
-08:57:47.111 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_43, Normal: (-1.00, 0.00)
-
-08:57:47.411 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_41
-
-08:57:47.412 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_43
-
-08:57:47.572 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_175, Normal: (0.00, 1.00)
-
-08:57:47.572 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_190, Normal: (-1.00, 0.00)
-
-08:57:47.592 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_190
-
-08:57:47.692 [LOG] [PLATFORM_DEBUG] Player Position: (31.70, -2.98, 0.00), Velocity: (-5.00, 0.00), Grounded: True, GroundContacts: 64
-
-08:57:47.713 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_191, Normal: (0.00, 1.00)
-
-08:57:47.772 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_175
-
-08:57:47.892 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_174, Normal: (0.00, 1.00)
-
-08:57:47.972 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_191
-
-08:57:48.072 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_194, Normal: (0.00, 1.00)
-
-08:57:48.112 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_174
-
-08:57:48.112 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_194
-
-08:57:48.271 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, 1.00)
-
-08:57:48.271 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_106, Normal: (0.00, 1.00)
-
-08:57:48.271 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_105, Normal: (1.00, 0.00)
-
-08:57:48.292 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:48.292 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_106
-
-08:57:48.292 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_105
-
-08:57:48.712 [LOG] [PLATFORM_DEBUG] Player Position: (26.66, -0.67, 0.00), Velocity: (-5.00, -2.16), Grounded: True, GroundContacts: 69
-
-08:57:49.091 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_167, Normal: (0.00, 1.00)
-
-08:57:49.172 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_144, Normal: (0.00, 1.00)
-
-08:57:49.252 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_167
-
-08:57:49.273 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_144
-
-08:57:49.732 [LOG] [PLATFORM_DEBUG] Player Position: (21.67, -0.53, 0.00), Velocity: (-5.00, 0.58), Grounded: True, GroundContacts: 71
-
-08:57:50.251 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_138, Normal: (0.00, 1.00)
-
-08:57:50.251 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_151, Normal: (1.00, 0.00)
-
-08:57:50.352 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_138
-
-08:57:50.411 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, 1.00)
-
-08:57:50.472 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_139, Normal: (0.00, 1.00)
-
-08:57:50.492 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:50.531 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_151
-
-08:57:50.652 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_133, Normal: (0.00, 1.00)
-
-08:57:50.711 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_139
-
-08:57:50.752 [LOG] [PLATFORM_DEBUG] Player Position: (16.72, -2.98, 0.00), Velocity: (-5.00, 0.00), Grounded: True, GroundContacts: 75
-
-08:57:50.831 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_141, Normal: (0.00, 1.00)
-
-08:57:50.912 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_133
-
-08:57:51.012 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_152, Normal: (0.00, 1.00)
-
-08:57:51.072 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_152
-
-08:57:51.072 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_141
-
-08:57:51.293 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_297, Normal: (1.00, 0.00)
-
-08:57:51.771 [LOG] [PLATFORM_DEBUG] Player Position: (14.10, -1.12, 0.00), Velocity: (-5.00, 0.00), Grounded: True, GroundContacts: 77
-
-08:57:51.912 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_297
-
-08:57:52.331 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_135, Normal: (1.00, 0.00)
-
-08:57:52.331 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, 1.00)
-
-08:57:52.331 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_152, Normal: (0.00, 1.00)
-
-08:57:52.352 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:52.412 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_152
-
-08:57:52.472 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, 1.00)
-
-08:57:52.532 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_159, Normal: (0.00, 1.00)
-
-08:57:52.552 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:52.592 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_135
-
-08:57:52.671 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_159
-
-08:57:52.672 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_241, Normal: (1.00, 0.00)
-
-08:57:52.732 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_241
-
-08:57:52.752 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_242, Normal: (1.00, 0.00)
-
-08:57:52.791 [LOG] [PLATFORM_DEBUG] Player Position: (12.31, -1.80, 0.00), Velocity: (-5.00, 7.25), Grounded: True, GroundContacts: 81
-
-08:57:52.792 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_242
-
-08:57:52.812 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_280, Normal: (1.00, 0.00)
-
-08:57:52.812 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_281, Normal: (1.00, 0.00)
-
-08:57:52.812 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (1.00, 0.00)
-
-08:57:52.832 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_280
-
-08:57:52.832 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:53.452 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_281
-
-08:57:53.672 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_241, Normal: (0.00, 1.00)
-
-08:57:53.712 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_242, Normal: (1.00, 0.00)
-
-08:57:53.812 [LOG] [PLATFORM_DEBUG] Player Position: (12.01, -2.39, 0.00), Velocity: (-5.00, 0.00), Grounded: True, GroundContacts: 82
-
-08:57:54.132 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_241
-
-08:57:54.172 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, -1.00)
-
-08:57:54.172 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_279, Normal: (0.00, -1.00)
-
-08:57:54.232 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:54.271 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_279
-
-08:57:54.431 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_241, Normal: (0.00, 1.00)
-
-08:57:54.672 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_242
-
-08:57:54.772 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_241
-
-08:57:54.831 [LOG] [PLATFORM_DEBUG] Player Position: (12.60, -1.66, 0.00), Velocity: (0.00, 8.43), Grounded: True, GroundContacts: 83
-
-08:57:54.892 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_293, Normal: (0.00, -1.00)
-
-08:57:54.892 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_291, Normal: (0.00, -1.00)
-
-08:57:54.892 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, -1.00)
-
-08:57:54.952 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_291
-
-08:57:54.952 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_292, Normal: (1.00, 0.00)
-
-08:57:54.952 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:54.993 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_291, Normal: (-1.00, 0.00)
-
-08:57:55.272 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_293
-
-08:57:55.273 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_291
-
-08:57:55.311 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_292
-
-08:57:55.582 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_241, Normal: (1.00, 0.00)
-
-08:57:55.631 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_134, Normal: (0.00, 1.00)
-
-08:57:55.631 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, 1.00)
-
-08:57:55.631 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_159, Normal: (-1.00, 0.00)
-
-08:57:55.653 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:55.672 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_159
-
-08:57:55.792 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_158, Normal: (0.00, 1.00)
-
-08:57:55.852 [LOG] [PLATFORM_DEBUG] Player Position: (11.54, -2.98, 0.00), Velocity: (-5.00, 0.00), Grounded: True, GroundContacts: 86
-
-08:57:55.871 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_134
-
-08:57:55.972 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_145, Normal: (0.00, 1.00)
-
-08:57:56.051 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_241
-
-08:57:56.051 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_158
-
-08:57:56.171 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_145
-
-08:57:56.373 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_271, Normal: (0.00, -1.00)
-
-08:57:56.373 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_273, Normal: (0.00, -1.00)
-
-08:57:56.391 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (-1.00, 0.00)
-
-08:57:56.412 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_271
-
-08:57:56.412 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_272, Normal: (1.00, 0.00)
-
-08:57:56.413 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:56.471 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_271, Normal: (-1.00, 0.00)
-
-08:57:56.472 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (-1.00, 0.00)
-
-08:57:56.872 [LOG] [PLATFORM_DEBUG] Player Position: (8.83, -1.04, 0.00), Velocity: (-5.00, 0.00), Grounded: True, GroundContacts: 87
-
-08:57:57.891 [LOG] [PLATFORM_DEBUG] Player Position: (8.83, -1.04, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 87
-
-08:57:58.911 [LOG] [PLATFORM_DEBUG] Player Position: (8.83, -0.72, 0.00), Velocity: (-5.00, 0.00), Grounded: True, GroundContacts: 87
-
-08:57:59.211 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_272
-
-08:57:59.212 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:57:59.212 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_271
-
-08:57:59.212 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_273
-
-08:57:59.252 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Platform_1, Normal: (0.00, -1.00)
-
-08:57:59.311 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Platform_1
-
-08:57:59.413 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_275, Normal: (0.00, 1.00)
-
-08:57:59.413 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_276, Normal: (0.00, 1.00)
-
-08:57:59.492 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_275
-
-08:57:59.571 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_276
-
-08:57:59.812 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_280, Normal: (0.00, 1.00)
-
-08:57:59.812 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_279, Normal: (0.00, 1.00)
-
-08:57:59.852 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_279
-
-08:57:59.892 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_293, Normal: (-1.00, 0.00)
-
-08:57:59.892 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_292, Normal: (-1.00, 0.00)
-
-08:57:59.913 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_293
-
-08:57:59.931 [LOG] [PLATFORM_DEBUG] Player Position: (12.01, -1.18, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 91
-
-08:58:00.253 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_292
-
-08:58:00.271 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_279, Normal: (0.00, 1.00)
-
-08:58:00.331 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_280
-
-08:58:00.351 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_284, Normal: (0.00, 1.00)
-
-08:58:00.371 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_278, Normal: (0.00, 1.00)
-
-08:58:00.412 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_279
-
-08:58:00.452 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_283, Normal: (0.00, 1.00)
-
-08:58:00.452 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_284
-
-08:58:00.611 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_283
-
-08:58:00.612 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_284, Normal: (0.00, 1.00)
-
-08:58:00.652 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_279, Normal: (0.00, 1.00)
-
-08:58:00.692 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_278
-
-08:58:00.712 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_284
-
-08:58:00.732 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_280, Normal: (0.00, 1.00)
-
-08:58:00.772 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_279
-
-08:58:00.772 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_280
-
-08:58:00.812 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_292, Normal: (0.00, 1.00)
-
-08:58:00.832 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_292
-
-08:58:00.852 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Platform_1, Normal: (0.00, -1.00)
-
-08:58:00.912 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Platform_1
-
-08:58:00.951 [LOG] [PLATFORM_DEBUG] Player Position: (12.65, -0.43, 0.00), Velocity: (5.00, -1.57), Grounded: True, GroundContacts: 99
-
-08:58:01.012 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_291, Normal: (0.00, 1.00)
-
-08:58:01.012 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_294, Normal: (0.00, 1.00)
-
-08:58:01.012 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_295, Normal: (0.00, 1.00)
-
-08:58:01.072 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_291
-
-08:58:01.092 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_294
-
-08:58:01.112 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_296, Normal: (0.00, 1.00)
-
-08:58:01.131 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_296
-
-08:58:01.152 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_294, Normal: (0.00, 1.00)
-
-08:58:01.173 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_291, Normal: (0.00, 1.00)
-
-08:58:01.212 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_295
-
-08:58:01.252 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_294
-
-08:58:01.252 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_293, Normal: (0.00, 1.00)
-
-08:58:01.413 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_293
-
-08:58:01.413 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_294, Normal: (0.00, 1.00)
-
-08:58:01.452 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_295, Normal: (0.00, 1.00)
-
-08:58:01.492 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_291
-
-08:58:01.512 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_294
-
-08:58:01.532 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_296, Normal: (0.00, 1.00)
-
-08:58:01.593 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_295
-
-08:58:01.871 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_296
-
-08:58:01.972 [LOG] [PLATFORM_DEBUG] Player Position: (14.59, -0.69, 0.00), Velocity: (5.00, -1.96), Grounded: True, GroundContacts: 109
-
-08:58:02.372 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, 1.00)
-
-08:58:02.372 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_141, Normal: (0.00, 1.00)
-
-08:58:02.372 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_152, Normal: (0.00, 1.00)
-
-08:58:02.392 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:58:02.812 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_152
-
-08:58:02.932 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_133, Normal: (0.00, 1.00)
-
-08:58:02.991 [LOG] [PLATFORM_DEBUG] Player Position: (16.36, -2.98, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 113
-
-08:58:03.011 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_141
-
-08:58:03.112 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_139, Normal: (0.00, 1.00)
-
-08:58:03.192 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_133
-
-08:58:03.311 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_151, Normal: (0.00, 1.00)
-
-08:58:03.372 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_139
-
-08:58:03.492 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_138, Normal: (0.00, 1.00)
-
-08:58:03.551 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_151
-
-08:58:03.672 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_136, Normal: (0.00, 1.00)
-
-08:58:03.752 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_138
-
-08:58:03.872 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_149, Normal: (0.00, 1.00)
-
-08:58:03.932 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_136
-
-08:58:04.012 [LOG] [PLATFORM_DEBUG] Player Position: (21.30, -2.98, 0.00), Velocity: (5.00, 0.00), Grounded: True, GroundContacts: 118
-
-08:58:04.051 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_155, Normal: (0.00, 1.00)
-
-08:58:04.113 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_149
-
-08:58:04.232 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_154, Normal: (0.00, 1.00)
-
-08:58:04.291 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_155
-
-08:58:04.291 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_154
-
-08:58:05.031 [LOG] [PLATFORM_DEBUG] Player Position: (26.36, -1.19, 0.00), Velocity: (5.00, -4.91), Grounded: True, GroundContacts: 120
-
-08:58:05.131 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_103, Normal: (-1.00, 0.00)
-
-08:58:05.772 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_103
-
-08:58:06.052 [LOG] [PLATFORM_DEBUG] Player Position: (25.36, -2.65, 0.00), Velocity: (-5.00, -5.89), Grounded: True, GroundContacts: 120
-
-08:58:06.112 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, 1.00)
-
-08:58:06.112 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_169, Normal: (-1.00, 0.00)
-
-08:58:06.112 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_167, Normal: (0.00, 1.00)
-
-08:58:06.131 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:58:06.131 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_169
-
-08:58:06.252 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_144, Normal: (0.00, 1.00)
-
-08:58:06.332 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_167
-
-08:58:06.352 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_144
-
-08:58:07.072 [LOG] [PLATFORM_DEBUG] Player Position: (20.35, -1.09, 0.00), Velocity: (-5.00, -4.52), Grounded: True, GroundContacts: 123
-
-08:58:07.332 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_138, Normal: (0.00, 1.00)
-
-08:58:07.332 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_151, Normal: (0.00, 1.00)
-
-08:58:07.432 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_138
-
-08:58:07.512 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_151
-
-08:58:08.092 [LOG] [PLATFORM_DEBUG] Player Position: (15.35, -0.62, 0.00), Velocity: (-5.00, -1.77), Grounded: True, GroundContacts: 125
-
-08:58:08.492 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_135, Normal: (0.00, 1.00)
-
-08:58:08.492 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_159, Normal: (0.00, 1.00)
-
-08:58:08.511 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_135
-
-08:58:08.612 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_241, Normal: (1.00, 0.00)
-
-08:58:08.632 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_134, Normal: (0.00, 1.00)
-
-08:58:08.712 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_159
-
-08:58:08.848 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_158, Normal: (0.00, 1.00)
-
-08:58:08.891 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_134
-
-08:58:08.973 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_158
-
-08:58:09.033 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_241
-
-08:58:09.072 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_282, Normal: (1.00, 0.00)
-
-08:58:09.093 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_283, Normal: (0.00, -1.00)
-
-08:58:09.111 [LOG] [PLATFORM_DEBUG] Player Position: (10.63, -1.78, 0.00), Velocity: (-5.00, 2.86), Grounded: True, GroundContacts: 129
-
-08:58:09.131 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_278, Normal: (-1.00, 0.00)
-
-08:58:09.132 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (-1.00, 0.00)
-
-08:58:09.552 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:58:09.572 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_282
-
-08:58:09.591 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_278
-
-08:58:09.591 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_283
-
-08:58:09.652 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_242, Normal: (-1.00, 0.00)
-
-08:58:09.713 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_241, Normal: (0.00, 1.00)
-
-08:58:09.972 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_241
-
-08:58:09.992 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_281, Normal: (-1.00, 0.00)
-
-08:58:10.013 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_242
-
-08:58:10.013 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_279, Normal: (1.00, 0.00)
-
-08:58:10.013 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, -1.00)
-
-08:58:10.013 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_280, Normal: (0.00, -1.00)
-
-08:58:10.031 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_242, Normal: (0.00, 1.00)
-
-08:58:10.132 [LOG] [PLATFORM_DEBUG] Player Position: (11.87, -1.84, 0.00), Velocity: (0.00, 0.00), Grounded: True, GroundContacts: 131
-
-08:58:10.973 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_281
-
-08:58:11.033 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_280
-
-08:58:11.033 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_284, Normal: (1.00, 0.00)
-
-08:58:11.072 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_278, Normal: (0.00, -1.00)
-
-08:58:11.112 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_279
-
-08:58:11.112 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_242
-
-08:58:11.132 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_284
-
-08:58:11.151 [LOG] [PLATFORM_DEBUG] Player Position: (10.89, -1.87, 0.00), Velocity: (-5.00, -0.78), Grounded: True, GroundContacts: 131
-
-08:58:11.151 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_283, Normal: (0.00, -1.00)
-
-08:58:11.151 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:58:11.193 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_278
-
-08:58:11.193 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_283
-
-08:58:11.212 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_282, Normal: (1.00, 0.00)
-
-08:58:11.293 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_282
-
-08:58:11.372 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_242, Normal: (-1.00, 0.00)
-
-08:58:11.472 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_241, Normal: (0.00, 1.00)
-
-08:58:11.691 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_242
-
-08:58:11.752 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_241
-
-08:58:11.992 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_135, Normal: (0.00, 1.00)
-
-08:58:11.992 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_159, Normal: (0.00, 1.00)
-
-08:58:12.032 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_135
-
-08:58:12.111 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_241, Normal: (1.00, 0.00)
-
-08:58:12.152 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_134, Normal: (0.00, 1.00)
-
-08:58:12.173 [LOG] [PLATFORM_DEBUG] Player Position: (12.72, -2.98, 0.00), Velocity: (0.00, 0.00), Grounded: True, GroundContacts: 135
-
-08:58:12.332 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_159
-
-08:58:12.332 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_134
-
-08:58:12.392 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_241
-
-08:58:12.431 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_242, Normal: (1.00, 0.00)
-
-08:58:12.452 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_242
-
-08:58:12.492 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_280, Normal: (1.00, 0.00)
-
-08:58:12.492 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (1.00, 0.00)
-
-08:58:12.492 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_281, Normal: (1.00, 0.00)
-
-08:58:12.513 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_280
-
-08:58:12.513 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_292, Normal: (0.00, -1.00)
-
-08:58:12.513 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:58:12.851 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_292
-
-08:58:12.932 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_281
-
-08:58:13.192 [LOG] [PLATFORM_DEBUG] Player Position: (12.90, -2.86, 0.00), Velocity: (-5.00, -7.06), Grounded: True, GroundContacts: 135
-
-08:58:13.192 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_241, Normal: (1.00, 0.00)
-
-08:58:13.213 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_159, Normal: (0.00, 1.00)
-
-08:58:13.239 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_134, Normal: (1.00, 0.00)
-
-08:58:13.313 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_159
-
-08:58:13.372 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, 1.00)
-
-08:58:13.692 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_134
-
-08:58:13.692 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:58:13.733 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_242, Normal: (0.00, -1.00)
-
-08:58:13.752 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_241
-
-08:58:13.832 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_242
-
-08:58:13.872 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_292, Normal: (0.00, -1.00)
-
-08:58:13.932 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_292
-
-08:58:13.953 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_281, Normal: (1.00, 0.00)
-
-08:58:14.211 [LOG] [PLATFORM_DEBUG] Player Position: (12.29, -1.60, 0.00), Velocity: (0.00, -1.18), Grounded: True, GroundContacts: 137
-
-08:58:14.252 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: Foothold_281
-
-08:58:14.532 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: Foothold_159, Normal: (0.00, 1.00)
-
-08:58:14.533 [LOG] [PLATFORM_DEBUG] OnCollisionEnter2D: EdgeCollider, Normal: (0.00, 1.00)
-
-08:58:14.552 [LOG] [PLATFORM_DEBUG] OnCollisionExit2D: EdgeCollider
-
-08:58:15.233 [LOG] [PLATFORM_DEBUG] Player Position: (13.19, -2.98, 0.00), Velocity: (0.00, 0.00), Grounded: True, GroundContacts: 139
-
-08:58:16.252 [LOG] [PLATFORM_DEBUG] Player Position: (13.19, -2.98, 0.00), Velocity: (0.00, 0.00), Grounded: True, GroundContacts: 139
-
-08:58:17.272 [LOG] [PLATFORM_DEBUG] Player Position: (13.19, -2.98, 0.00), Velocity: (0.00, 0.00), Grounded: True, GroundContacts: 139
-
-=== Log Saved at 2025-07-28 08:58:17 ===
+=== Log Saved at 2025-07-28 22:12:40 ===

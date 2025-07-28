@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MapleClient.GameLogic.Core;
@@ -33,6 +34,7 @@ namespace MapleClient.GameView
         
         private MapRenderer mapRenderer;
         private SimplePlatformBridge platformBridge;
+        private SimplePlayerController playerController;
         
         public Player Player => gameWorld?.Player;
         public SkillManager SkillManager => gameWorld?.SkillManager;
@@ -54,6 +56,12 @@ namespace MapleClient.GameView
 
         private void Start()
         {
+            // Lock FPS to 60
+            Application.targetFrameRate = 60;
+            QualitySettings.vSyncCount = 1; // Enable VSync (60Hz on most monitors)
+            
+            Debug.Log($"[GameManager] FPS locked to 60 - Target: {Application.targetFrameRate}, VSync: {QualitySettings.vSyncCount}");
+            
             // Add test component temporarily
             gameObject.AddComponent<MapleClient.GameData.TestReNX>();
             
@@ -76,6 +84,10 @@ namespace MapleClient.GameView
             GameObject mapRendererObject = new GameObject("MapRenderer");
             mapRenderer = mapRendererObject.AddComponent<MapRenderer>();
             mapRenderer.Initialize(assetProvider);
+            
+            // Create VisualEffectManager
+            GameObject effectManagerObj = new GameObject("VisualEffectManager");
+            effectManagerObj.AddComponent<VisualEffectManager>();
             
             // Initialize platform bridge for physics
             GameObject platformBridgeObject = new GameObject("PlatformBridge");
@@ -131,6 +143,9 @@ namespace MapleClient.GameView
                 
                 // Update visual interpolation for smooth rendering
                 UpdateVisualInterpolation();
+                
+                // Check for ladder proximity
+                CheckLadderProximity();
             }
             
             // Process network events on main thread
@@ -206,9 +221,9 @@ namespace MapleClient.GameView
                 playerObject = new GameObject("Player");
                 
                 // Use simple working player controller
-                var simplePlayer = playerObject.AddComponent<SimplePlayerController>();
-                simplePlayer.SetGameLogicPlayer(gameWorld.Player);
-                simplePlayer.SetGameWorld(gameWorld);
+                playerController = playerObject.AddComponent<SimplePlayerController>();
+                playerController.SetGameLogicPlayer(gameWorld.Player);
+                playerController.SetGameWorld(gameWorld);
                 
                 // Position at spawn point
                 var spawnPos = gameWorld.Player.Position;
@@ -236,8 +251,23 @@ namespace MapleClient.GameView
                     // Add simple camera follow ONCE
                     var cameraFollow = mainCamera.gameObject.AddComponent<SimpleCameraFollow>();
                     cameraFollow.target = playerObject.transform;
-                    cameraFollow.offset = new Vector3(0, 2, -10);
-                    cameraFollow.smoothSpeed = 5f;
+                    cameraFollow.offset = new Vector3(0, 0, -10); // Keep camera at same Y level as player
+                    cameraFollow.smoothSpeed = 8f; // Faster for less lag
+                    cameraFollow.enableSmoothing = true;
+                    cameraFollow.useCameraBounds = false; // Disable bounds temporarily
+                    cameraFollow.enableLookahead = false; // Disable lookahead to reduce jitter
+                    
+                    // Reset camera to target position
+                    cameraFollow.ResetToTarget();
+                    
+                    Debug.Log($"[GameManager] Camera follow setup complete. Target: {cameraFollow.target.name}, Camera position: {mainCamera.transform.position}");
+                    
+                    // Start coroutine to verify camera is working
+                    StartCoroutine(VerifyCameraFollow(cameraFollow, playerObject.transform));
+                }
+                else
+                {
+                    Debug.LogError("[GameManager] No main camera found! Cannot setup camera follow.");
                 }
             }
             
@@ -404,12 +434,43 @@ namespace MapleClient.GameView
             if (canvas.GetComponent<SkillBar>() == null)
             {
                 canvas.gameObject.AddComponent<SkillBar>();
+                
+                // Add movement state UI
+                canvas.gameObject.AddComponent<MovementStateUI>();
+                
+                // Add input prompt manager
+                canvas.gameObject.AddComponent<InputPromptManager>();
             }
         }
 
         private void OnPlayerLanded()
         {
             // Player landed event - can be used for effects or sounds
+        }
+        
+        private void CheckLadderProximity()
+        {
+            if (playerController == null || gameWorld?.CurrentMap?.Ladders == null) return;
+            
+            var playerPos = gameWorld.Player.Position;
+            bool nearLadder = false;
+            
+            foreach (var ladder in gameWorld.CurrentMap.Ladders)
+            {
+                // Check if player is within ladder bounds
+                float ladderX = ladder.X / 100f;
+                float distance = System.Math.Abs(playerPos.X - ladderX);
+                
+                if (distance < 0.3f && // Within 30 pixels horizontally
+                    playerPos.Y >= ladder.Y2 / 100f && // Above bottom
+                    playerPos.Y <= ladder.Y1 / 100f) // Below top
+                {
+                    nearLadder = true;
+                    break;
+                }
+            }
+            
+            playerController.ShowLadderPrompt(nearLadder && gameWorld.Player.State != PlayerState.Climbing);
         }
 
         private void CleanupMapVisuals()
@@ -534,6 +595,24 @@ namespace MapleClient.GameView
             }
         }
         
+        private IEnumerator VerifyCameraFollow(SimpleCameraFollow cameraFollow, Transform playerTransform)
+        {
+            yield return new WaitForSeconds(0.5f); // Wait half a second
+            
+            if (cameraFollow == null)
+            {
+                Debug.LogError("[GameManager] Camera follow component was destroyed!");
+                yield break;
+            }
+            
+            if (cameraFollow.target == null)
+            {
+                Debug.LogWarning("[GameManager] Camera follow lost its target, reassigning...");
+                cameraFollow.target = playerTransform;
+            }
+            
+            Debug.Log($"[GameManager] Camera follow verification: Target = {cameraFollow.target?.name ?? "null"}, Camera pos = {cameraFollow.transform.position}");
+        }
         
         private void OnDestroy()
         {

@@ -14,6 +14,9 @@ namespace MapleClient.GameLogic
         public List<NpcSpawn> NpcSpawns { get; set; }
         public List<Core.LadderInfo> Ladders { get; set; }
         public string BgmId { get; set; }
+        
+        // Environmental properties
+        public bool IsUnderwater { get; set; }
 
         public MapData()
         {

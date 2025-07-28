@@ -8,6 +8,24 @@ namespace MapleClient.GameLogic
         public float X2 { get; set; }
         public float Y2 { get; set; }
         public PlatformType Type { get; set; }
+        
+        // Environmental properties
+        public bool IsSlippery { get; set; }
+        public bool IsConveyor { get; set; }
+        public float ConveyorSpeed { get; set; }
+
+        public Platform()
+        {
+        }
+
+        public Platform(float x1, float y1, float x2, float y2)
+        {
+            X1 = x1;
+            Y1 = y1;
+            X2 = x2;
+            Y2 = y2;
+            Type = PlatformType.Normal;
+        }
 
         public float GetYAtX(float x)
         {

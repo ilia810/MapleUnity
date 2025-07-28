@@ -40,8 +40,9 @@ namespace MapleClient.GameView
             
             if (mapRoot == null)
             {
-                Debug.LogWarning("No map root found, creating test platforms");
-                CreateTestPlatforms(mapData);
+                Debug.LogWarning("No map root found");
+                // Don't create test platforms - let the game use actual footholds only
+                // CreateTestPlatforms(mapData);
                 return;
             }
             
@@ -91,8 +92,9 @@ namespace MapleClient.GameView
             }
             else if (mapData != null)
             {
-                Debug.LogWarning("No platforms found, creating test platforms");
-                CreateTestPlatforms(mapData);
+                Debug.LogWarning("No platforms found in map data");
+                // Don't create test platforms - let the game use actual footholds only
+                // CreateTestPlatforms(mapData);
             }
         }
         
@@ -113,9 +115,9 @@ namespace MapleClient.GameView
                     {
                         Id = platformId++,
                         X1 = (int)(start.x * 100),
-                        Y1 = (int)(start.y * 100),
+                        Y1 = (int)(start.y * 100), // Keep Unity coordinates as-is
                         X2 = (int)(end.x * 100),
-                        Y2 = (int)(end.y * 100),
+                        Y2 = (int)(end.y * 100), // Keep Unity coordinates as-is
                         Type = PlatformType.Normal
                     });
                 }

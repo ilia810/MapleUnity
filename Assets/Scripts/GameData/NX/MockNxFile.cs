@@ -62,26 +62,44 @@ namespace MapleClient.GameData
             infoNode.AddChild(new NxNode("bgm", "Bgm00/GoPicnic"));
             (henesysNode as NxNode).AddChild(infoNode);
 
-            // Add footholds
+            // Add footholds - need actual foothold data for testing
             var footholdNode = new NxNode("foothold");
             var layer0 = new NxNode("0");
             var group0 = new NxNode("0");
             
+            // Add actual footholds that match the visible platforms in Henesys
+            // In MapleStory, Y coordinates are inverted (negative Y is up)
             // Main ground platform
             var fh1 = new NxNode("1");
-            fh1.AddChild(new NxNode("x1", -1500));
-            fh1.AddChild(new NxNode("y1", 0));
-            fh1.AddChild(new NxNode("x2", 1500));
-            fh1.AddChild(new NxNode("y2", 0));
+            fh1.AddChild(new NxNode("x1", -800));
+            fh1.AddChild(new NxNode("y1", 20));  // Positive Y for ground level
+            fh1.AddChild(new NxNode("x2", 800));
+            fh1.AddChild(new NxNode("y2", 20));
             group0.AddChild(fh1);
-
-            // Elevated platform
+            
+            // Left platform (higher up = smaller Y value)
             var fh2 = new NxNode("2");
-            fh2.AddChild(new NxNode("x1", -300));
-            fh2.AddChild(new NxNode("y1", 150));
-            fh2.AddChild(new NxNode("x2", 300));
-            fh2.AddChild(new NxNode("y2", 150));
+            fh2.AddChild(new NxNode("x1", -400));
+            fh2.AddChild(new NxNode("y1", -150)); // Negative Y for elevated platform
+            fh2.AddChild(new NxNode("x2", -200));
+            fh2.AddChild(new NxNode("y2", -150));
             group0.AddChild(fh2);
+            
+            // Right platform  
+            var fh3 = new NxNode("3");
+            fh3.AddChild(new NxNode("x1", 200));
+            fh3.AddChild(new NxNode("y1", -150)); // Negative Y for elevated platform
+            fh3.AddChild(new NxNode("x2", 400));
+            fh3.AddChild(new NxNode("y2", -150));
+            group0.AddChild(fh3);
+            
+            // Higher center platform
+            var fh4 = new NxNode("4");
+            fh4.AddChild(new NxNode("x1", -100));
+            fh4.AddChild(new NxNode("y1", -300)); // More negative Y for higher platform
+            fh4.AddChild(new NxNode("x2", 100));
+            fh4.AddChild(new NxNode("y2", -300));
+            group0.AddChild(fh4);
 
             layer0.AddChild(group0);
             footholdNode.AddChild(layer0);

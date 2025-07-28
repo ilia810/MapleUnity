@@ -278,35 +278,32 @@ namespace MapleClient.GameView
         
         private void RenderPlatformsFromMapData(MapData mapData)
         {
-            Debug.Log($"Rendering {mapData.Platforms.Count} platforms from MapData");
+            Debug.Log($"Creating {mapData.Platforms.Count} invisible collision platforms from MapData");
             
-            // Render platforms as simple lines for now
+            // Debug: Log platform data to understand coordinate system
             foreach (var platform in mapData.Platforms)
             {
-                GameObject platformObject = new GameObject($"Platform_{platform.Id}");
+                Debug.Log($"[Platform Data] ID: {platform.Id}, X: [{platform.X1}, {platform.X2}], Y: [{platform.Y1}, {platform.Y2}]");
+            }
+            
+            // Create invisible collision platforms - visuals come from the tileset
+            foreach (var platform in mapData.Platforms)
+            {
+                GameObject platformObject = new GameObject($"Platform_{platform.Id}_Collision");
                 platformObject.transform.parent = tileLayer.transform;
                 
-                // Create a line renderer for the platform
-                LineRenderer lineRenderer = platformObject.AddComponent<LineRenderer>();
-                lineRenderer.startWidth = 0.5f; // Make it thicker
-                lineRenderer.endWidth = 0.5f;
-                lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-                lineRenderer.startColor = new Color(0, 1, 0, 1); // Bright green
-                lineRenderer.endColor = new Color(0, 1, 0, 1);
-                lineRenderer.positionCount = 2;
-                lineRenderer.SetPosition(0, new UnityEngine.Vector3(platform.X1 / 100f, platform.Y1 / 100f, 0));
-                lineRenderer.SetPosition(1, new UnityEngine.Vector3(platform.X2 / 100f, platform.Y2 / 100f, 0));
-                lineRenderer.sortingLayerName = "Default"; // Use Default layer
-                lineRenderer.sortingOrder = 100; // High sort order to be on top
+                // Don't create visual components - platforms are invisible
+                // The actual platform visuals come from the tile sprites
                 
                 // Add a collider for physics
                 BoxCollider2D collider = platformObject.AddComponent<BoxCollider2D>();
                 float width = Mathf.Abs(platform.X2 - platform.X1) / 100f;
-                float height = 0.1f; // Thin collider for platform
+                float height = 0.5f; // Make collider thicker for better collision detection
                 
                 // Calculate the center position between the two points
                 float centerX = (platform.X1 + platform.X2) / 200f; // Average and convert to units
-                float centerY = (platform.Y1 + platform.Y2) / 200f;
+                // In MapleStory, Y coordinates are inverted (negative Y is up)
+                float centerY = -(platform.Y1 + platform.Y2) / 200f; // Negate Y for Unity's coordinate system
                 
                 // Position at the center of the platform line
                 platformObject.transform.position = new UnityEngine.Vector3(centerX, centerY, 0);
@@ -318,7 +315,7 @@ namespace MapleClient.GameView
                 // Set layer to Default (which both player and platforms use)
                 platformObject.layer = LayerMask.NameToLayer("Default");
                 
-                Debug.Log($"[PLATFORM_DEBUG] Created platform: {platformObject.name} at {platformObject.transform.position} with collider size: {collider.size}");
+                Debug.Log($"[COLLISION_DEBUG] Created invisible collision platform: {platformObject.name} at {platformObject.transform.position} with collider size: {collider.size}");
             }
         }
         

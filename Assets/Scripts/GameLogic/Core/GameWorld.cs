@@ -118,6 +118,11 @@ namespace MapleClient.GameLogic.Core
                         networkClient.SendJump();
                     }
                 }
+                else
+                {
+                    // Release jump key when not pressed
+                    player.ReleaseJump();
+                }
 
                 // Attack
                 if (inputProvider.IsAttackPressed)

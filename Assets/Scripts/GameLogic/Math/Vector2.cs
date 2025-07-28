@@ -63,5 +63,29 @@ namespace MapleClient.GameLogic
         {
             return $"({X}, {Y})";
         }
+        
+        public static bool operator ==(Vector2 a, Vector2 b)
+        {
+            return a.X == b.X && a.Y == b.Y;
+        }
+        
+        public static bool operator !=(Vector2 a, Vector2 b)
+        {
+            return !(a == b);
+        }
+        
+        public override bool Equals(object obj)
+        {
+            if (obj is Vector2 other)
+            {
+                return this == other;
+            }
+            return false;
+        }
+        
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() ^ Y.GetHashCode();
+        }
     }
 }

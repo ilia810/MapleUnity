@@ -9,12 +9,16 @@ namespace MapleClient.GameLogic.Core
         // Pixel to Unity unit conversion
         private const float PIXELS_TO_UNITS = 100f;
         
+        // Fixed timestep for 60 FPS physics
+        public const float FIXED_TIMESTEP = 1f / 60f;
+        
         // Movement constants (units per second, adjusted for Unity scale)
         // MapleStory v83 typical walk speed is ~125 pixels/second at 100% speed
         // In Unity units: 125 pixels / 100 = 1.25 units/second base
         public const float WalkSpeed = 1.25f; // Base walk speed in units/second
-        public const float WalkForce = 140f / PIXELS_TO_UNITS;
-        public const float WalkDrag = 80f / PIXELS_TO_UNITS; // Friction when stopping
+        public const float WalkAcceleration = 14f; // 1400 pixels/s² = 14 units/s² (from research3.txt "Walk Force ~1.4 units/s²")
+        public const float WalkFriction = 8f; // 800 pixels/s² = 8 units/s² (from research3.txt "Walk Drag ~80 in internal units")
+        public const float AirControlFactor = 0.8f; // 80% control in air
         
         // Jump constants
         // MapleStory v83 jump velocity is ~555 pixels/second at 120% jump
@@ -26,7 +30,7 @@ namespace MapleClient.GameLogic.Core
         // Gravity and falling
         // MapleStory v83 gravity is ~2000 pixels/second² = 20 units/second²
         public const float Gravity = 20f; // Gravity acceleration in units/second²
-        public const float MaxFallSpeed = 6.7f; // Terminal velocity ~670 pixels/second
+        public const float MaxFallSpeed = 6.7f; // Terminal velocity ~670 pixels/second (from research3.txt)
         public const float FallDrag = 0f; // No air resistance in MapleStory
         
         // Climbing
@@ -68,12 +72,12 @@ namespace MapleClient.GameLogic.Core
         }
         
         /// <summary>
-        /// Apply movement acceleration (MapleStory uses instant acceleration)
+        /// Apply movement acceleration with proper MapleStory v83 physics
         /// </summary>
-        public static float ApplyMovementAcceleration(float currentVelocity, float targetVelocity, float deltaTime)
+        public static float ApplyMovementAcceleration(float currentVelocity, float targetVelocity, float deltaTime, bool isGrounded)
         {
-            // MapleStory has nearly instant acceleration
-            float acceleration = 10000f / PIXELS_TO_UNITS; // Very high acceleration in units/s²
+            // Use different acceleration rates for ground vs air
+            float acceleration = isGrounded ? WalkAcceleration : (WalkAcceleration * AirControlFactor);
             
             if (currentVelocity < targetVelocity)
             {
@@ -92,22 +96,22 @@ namespace MapleClient.GameLogic.Core
         }
         
         /// <summary>
-        /// Apply friction when stopping
+        /// Apply friction when stopping (only on ground, no air friction)
         /// </summary>
-        public static float ApplyFriction(float velocity, float deltaTime)
+        public static float ApplyFriction(float velocity, float deltaTime, bool isGrounded)
         {
-            if (velocity == 0) return 0;
+            if (velocity == 0 || !isGrounded) return velocity; // No friction in air
             
-            float friction = WalkDrag * deltaTime;
+            float deceleration = WalkFriction * deltaTime;
             
             if (velocity > 0)
             {
-                velocity -= friction;
+                velocity -= deceleration;
                 if (velocity < 0) velocity = 0;
             }
             else
             {
-                velocity += friction;
+                velocity += deceleration;
                 if (velocity > 0) velocity = 0;
             }
             
