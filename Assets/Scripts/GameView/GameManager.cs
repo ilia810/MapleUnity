@@ -37,6 +37,21 @@ namespace MapleClient.GameView
         public Player Player => gameWorld?.Player;
         public SkillManager SkillManager => gameWorld?.SkillManager;
 
+        private void Awake()
+        {
+            // Configure physics for 60 FPS as early as possible
+            if (!GetComponent<PhysicsConfiguration>())
+            {
+                gameObject.AddComponent<PhysicsConfiguration>();
+            }
+            
+            // Add physics debugger
+            if (!GetComponent<PhysicsDebugger>())
+            {
+                gameObject.AddComponent<PhysicsDebugger>();
+            }
+        }
+
         private void Start()
         {
             // Add test component temporarily
@@ -110,14 +125,57 @@ namespace MapleClient.GameView
         {
             if (gameWorld != null)
             {
-                gameWorld.Update(Time.deltaTime);
+                // Process input and non-physics game logic in Update
+                gameWorld.ProcessInput();
                 UpdateOtherPlayers();
+                
+                // Update visual interpolation for smooth rendering
+                UpdateVisualInterpolation();
             }
             
             // Process network events on main thread
             if (networkClient != null)
             {
                 networkClient.ProcessMainThreadActions();
+            }
+        }
+        
+        private void FixedUpdate()
+        {
+            if (gameWorld != null)
+            {
+                // Physics updates happen at fixed 60 FPS timestep
+                gameWorld.UpdatePhysics(Time.fixedDeltaTime);
+            }
+        }
+        
+        private void UpdateVisualInterpolation()
+        {
+            // Get interpolation factor from physics system
+            float interpolationFactor = gameWorld.GetPhysicsInterpolationFactor();
+            
+            // Apply interpolation to player view
+            if (currentPlayerView != null && gameWorld.Player != null)
+            {
+                currentPlayerView.SetInterpolationFactor(interpolationFactor);
+            }
+            
+            // Apply interpolation to monster views
+            foreach (var kvp in monsterViews)
+            {
+                if (kvp.Value != null)
+                {
+                    kvp.Value.SetInterpolationFactor(interpolationFactor);
+                }
+            }
+            
+            // Apply interpolation to other player views
+            foreach (var kvp in otherPlayerViews)
+            {
+                if (kvp.Value != null)
+                {
+                    kvp.Value.SetInterpolationFactor(interpolationFactor);
+                }
             }
         }
 
@@ -150,6 +208,7 @@ namespace MapleClient.GameView
                 // Use simple working player controller
                 var simplePlayer = playerObject.AddComponent<SimplePlayerController>();
                 simplePlayer.SetGameLogicPlayer(gameWorld.Player);
+                simplePlayer.SetGameWorld(gameWorld);
                 
                 // Position at spawn point
                 var spawnPos = gameWorld.Player.Position;
@@ -474,6 +533,7 @@ namespace MapleClient.GameView
                 networkClient.Connect(serverHost, loginPort);
             }
         }
+        
         
         private void OnDestroy()
         {

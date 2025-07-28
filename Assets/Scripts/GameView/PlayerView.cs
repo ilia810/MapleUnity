@@ -9,6 +9,13 @@ namespace MapleClient.GameView
         private Player player;
         private MapleCharacterRenderer characterRenderer;
         private ICharacterDataProvider characterData;
+        
+        // Interpolation for smooth rendering
+        private Vector3 previousPosition;
+        private Vector3 currentPosition;
+        private bool useInterpolation = true;
+        private float manualInterpolationFactor = -1f; // -1 means use automatic
+        private GameWorld gameWorld;
 
         private void Awake()
         {
@@ -33,6 +40,15 @@ namespace MapleClient.GameView
         {
             this.player = player;
             Debug.Log($"SetPlayer called with player: {player?.Name ?? "null"}");
+            
+            // Initialize positions for interpolation
+            if (player != null)
+            {
+                var pos = new Vector3(player.Position.X, player.Position.Y, 0);
+                transform.position = pos;
+                previousPosition = pos;
+                currentPosition = pos;
+            }
             
             // Initialize character renderer with player data
             if (characterRenderer != null && characterData != null)
@@ -64,6 +80,31 @@ namespace MapleClient.GameView
                 characterRenderer.SetCharacterAppearance(0, 20000, 30000);
             }
         }
+        
+        private void Start()
+        {
+            // Find GameWorld for interpolation
+            var gameManager = FindObjectOfType<GameManager>();
+            if (gameManager != null)
+            {
+                var fieldInfo = typeof(GameManager).GetField("gameWorld", 
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                if (fieldInfo != null)
+                {
+                    gameWorld = fieldInfo.GetValue(gameManager) as GameWorld;
+                }
+            }
+        }
+        
+        private void FixedUpdate()
+        {
+            if (player != null)
+            {
+                // Store positions for interpolation
+                previousPosition = currentPosition;
+                currentPosition = new Vector3(player.Position.X, player.Position.Y, 0);
+            }
+        }
 
         private void Update()
         {
@@ -73,23 +114,32 @@ namespace MapleClient.GameView
             // Sync position with game logic
             if (player != null)
             {
-                // MapleStory's coordinate system: no division needed here
-                // The position is already in Unity world units
-                var newPos = new UnityEngine.Vector3(
-                    player.Position.X,
-                    player.Position.Y,
-                    0f
-                );
+                // Interpolate position for smooth visual movement
+                if (useInterpolation)
+                {
+                    float interpolationFactor = manualInterpolationFactor >= 0f ? 
+                        manualInterpolationFactor : 
+                        (gameWorld != null ? gameWorld.GetPhysicsInterpolationFactor() : 0f);
+                    transform.position = Vector3.Lerp(previousPosition, currentPosition, interpolationFactor);
+                }
+                else
+                {
+                    // Fallback to direct position sync
+                    transform.position = new Vector3(player.Position.X, player.Position.Y, 0);
+                }
                 
                 // Debug movement issues
                 if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
                 {
                     Debug.Log($"Player State: {player.State}, Position: {player.Position}, Velocity: {player.Velocity}, Grounded: {player.IsGrounded}, Speed stat: {player.Speed}");
-                    Debug.Log($"Unity Position: {transform.position} -> {newPos}");
+                    Debug.Log($"Unity Position: {transform.position}, Interpolation: {manualInterpolationFactor}");
                 }
-                
-                transform.position = newPos;
             }
+        }
+        
+        public void SetInterpolationFactor(float factor)
+        {
+            manualInterpolationFactor = Mathf.Clamp01(factor);
         }
     }
 }

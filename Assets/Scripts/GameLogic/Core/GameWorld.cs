@@ -13,6 +13,7 @@ namespace MapleClient.GameLogic.Core
         private readonly INetworkClient networkClient;
         private readonly IAssetProvider assetProvider;
         private readonly PlayerSpawnManager spawnManager;
+        private readonly PhysicsUpdateManager physicsManager;
         private MapData currentMap;
         private Player player;
         private SkillManager skillManager;
@@ -44,6 +45,7 @@ namespace MapleClient.GameLogic.Core
             this.networkClient = networkClient;
             this.assetProvider = assetProvider;
             this.spawnManager = new PlayerSpawnManager();
+            this.physicsManager = new PhysicsUpdateManager();
             this.player = new Player();
             this.players = new List<Player>();
             this.monsters = new List<Monster>();
@@ -55,6 +57,9 @@ namespace MapleClient.GameLogic.Core
             {
                 this.skillManager = new SkillManager(player, assetProvider, networkClient);
             }
+            
+            // Register player with physics system
+            this.physicsManager.RegisterPhysicsObject(this.player);
             
             // Listen for player landed event
             this.player.Landed += OnPlayerLanded;
@@ -91,7 +96,8 @@ namespace MapleClient.GameLogic.Core
             }
         }
 
-        public void Update(float deltaTime)
+        // Process input and game logic (called from Update)
+        public void ProcessInput()
         {
             // Handle input
             if (inputProvider != null && player != null)
@@ -158,30 +164,24 @@ namespace MapleClient.GameLogic.Core
                     CheckPortalInteraction();
                 }
             }
-
-            // Update physics
-            if (player != null && currentMap != null)
-            {
-                player.UpdatePhysics(deltaTime, currentMap);
-            }
             
             // Update skill manager
             if (skillManager != null)
             {
-                skillManager.Update(deltaTime);
+                skillManager.Update(0.016f); // Use fixed timestep for skills
             }
 
-            // Update monsters
+            // Update monster AI (not physics)
             foreach (var monster in monsters.Where(m => !m.IsDead))
             {
-                monster.Update(deltaTime);
+                monster.Update(0.016f); // Use fixed timestep for AI
             }
 
             // Update combat system
-            combat.Update(deltaTime);
+            combat.Update(0.016f); // Use fixed timestep for combat
 
             // Update dropped items
-            UpdateDroppedItems(deltaTime);
+            UpdateDroppedItems(0.016f); // Use fixed timestep
 
             // Check for item pickups
             if (networkClient != null)
@@ -194,7 +194,34 @@ namespace MapleClient.GameLogic.Core
             }
 
             // Remove dead monsters (in a real game, we'd handle this differently)
-            monsters.RemoveAll(m => m.IsDead);
+            var deadMonsters = monsters.Where(m => m.IsDead).ToList();
+            foreach (var deadMonster in deadMonsters)
+            {
+                physicsManager.UnregisterPhysicsObject(deadMonster.PhysicsId);
+                monsters.Remove(deadMonster);
+            }
+        }
+        
+        // Update physics at fixed timestep (called from FixedUpdate)
+        public void UpdatePhysics(float fixedDeltaTime)
+        {
+            // Update physics using PhysicsUpdateManager for deterministic 60 FPS
+            physicsManager.Update(fixedDeltaTime, currentMap);
+        }
+        
+        // Combined update method for backwards compatibility
+        public void Update(float deltaTime)
+        {
+            // If called with fixed timestep, just update physics
+            if (System.Math.Abs(deltaTime - PhysicsUpdateManager.FIXED_TIMESTEP) < 0.0001f)
+            {
+                UpdatePhysics(deltaTime);
+            }
+            else if (deltaTime > 0)
+            {
+                // Otherwise process input
+                ProcessInput();
+            }
         }
 
         private void OnMapLoaded()
@@ -246,11 +273,17 @@ namespace MapleClient.GameLogic.Core
             monster.ItemDropped += OnItemDropped;
             monsters.Add(monster);
             
+            // Register monster with physics system
+            physicsManager.RegisterPhysicsObject(monster);
+            
             MonsterSpawned?.Invoke(monster);
         }
 
         private void OnMonsterDied(Monster monster)
         {
+            // Unregister from physics system
+            physicsManager.UnregisterPhysicsObject(monster.PhysicsId);
+            
             MonsterDied?.Invoke(monster);
             // In a real game, we'd handle drops, respawn timer, etc.
         }
@@ -400,12 +433,20 @@ namespace MapleClient.GameLogic.Core
             monster.ItemDropped += OnItemDropped;
             monsters.Add(monster);
             
+            // Register monster with physics system
+            physicsManager.RegisterPhysicsObject(monster);
+            
             MonsterSpawned?.Invoke(monster);
         }
         
         private void HandleMobDespawn(int id)
         {
-            monsters.RemoveAll(m => m.Id == id);
+            var monster = monsters.FirstOrDefault(m => m.Id == id);
+            if (monster != null)
+            {
+                physicsManager.UnregisterPhysicsObject(monster.PhysicsId);
+                monsters.Remove(monster);
+            }
         }
         
         private void HandleMobMove(int id, float x, float y)
@@ -461,6 +502,16 @@ namespace MapleClient.GameLogic.Core
             {
                 networkClient.SendChat(message, type);
             }
+        }
+        
+        public PhysicsDebugStats GetPhysicsDebugStats()
+        {
+            return physicsManager.GetDebugStats();
+        }
+        
+        public float GetPhysicsInterpolationFactor()
+        {
+            return physicsManager.GetInterpolationFactor();
         }
         
         public void InitializePlayer(int id, string name, int hp, int mp, int maxHp, int maxMp, float x, float y)

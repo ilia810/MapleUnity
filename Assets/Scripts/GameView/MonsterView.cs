@@ -10,6 +10,13 @@ namespace MapleClient.GameView
         private Color originalColor;
         private float hitFlashTimer = 0f;
         private const float HitFlashDuration = 0.2f;
+        
+        // Interpolation for smooth rendering
+        private Vector3 previousPosition;
+        private Vector3 currentPosition;
+        private bool useInterpolation = true;
+        private GameWorld gameWorld;
+        private float manualInterpolationFactor = -1f; // -1 means use automatic
 
         private void Awake()
         {
@@ -47,15 +54,57 @@ namespace MapleClient.GameView
             {
                 this.monster.DamageTaken += OnDamageTaken;
                 this.monster.Died += OnDied;
+                
+                // Initialize positions
+                var pos = new Vector3(monster.Position.X, monster.Position.Y, 0);
+                transform.position = pos;
+                previousPosition = pos;
+                currentPosition = pos;
             }
         }
 
+        private void Start()
+        {
+            // Find GameWorld for interpolation
+            var gameManager = FindObjectOfType<GameManager>();
+            if (gameManager != null)
+            {
+                var fieldInfo = typeof(GameManager).GetField("gameWorld", 
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                if (fieldInfo != null)
+                {
+                    gameWorld = fieldInfo.GetValue(gameManager) as GameWorld;
+                }
+            }
+        }
+        
+        private void FixedUpdate()
+        {
+            if (monster != null && !monster.IsDead)
+            {
+                // Store positions for interpolation (coordinates are already in units)
+                previousPosition = currentPosition;
+                currentPosition = new Vector3(monster.Position.X, monster.Position.Y, 0);
+            }
+        }
+        
         private void Update()
         {
             if (monster != null && !monster.IsDead)
             {
-                // Update position - convert from game logic coordinates to Unity coordinates
-                transform.position = new Vector3(monster.Position.X / 100f, monster.Position.Y / 100f, 0);
+                // Interpolate position for smooth visual movement
+                if (useInterpolation)
+                {
+                    float interpolationFactor = manualInterpolationFactor >= 0f ? 
+                        manualInterpolationFactor : 
+                        (gameWorld != null ? gameWorld.GetPhysicsInterpolationFactor() : 0f);
+                    transform.position = Vector3.Lerp(previousPosition, currentPosition, interpolationFactor);
+                }
+                else
+                {
+                    // Fallback to direct position sync (coordinates are already in units)
+                    transform.position = new Vector3(monster.Position.X, monster.Position.Y, 0);
+                }
                 
                 // Update hit flash
                 if (hitFlashTimer > 0)
@@ -106,6 +155,11 @@ namespace MapleClient.GameView
         private void OnDestroy()
         {
             SetMonster(null);
+        }
+        
+        public void SetInterpolationFactor(float factor)
+        {
+            manualInterpolationFactor = Mathf.Clamp01(factor);
         }
     }
 }
