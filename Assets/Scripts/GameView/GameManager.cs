@@ -141,37 +141,44 @@ namespace MapleClient.GameView
                 platformBridge.ExtractPlatformsFromScene(mapData);
             }
             
-            // Create visual representation
-            if (currentPlayerView == null)
+            // Create SIMPLE WORKING player instead of broken MapleStory player
+            GameObject playerObject = GameObject.Find("Player");
+            if (playerObject == null)
             {
-                GameObject playerObject = new GameObject("Player");
-                currentPlayerView = playerObject.AddComponent<PlayerView>();
-                currentPlayerView.SetCharacterDataProvider(assetProvider.CharacterData);
-                currentPlayerView.SetPlayer(gameWorld.Player);
+                playerObject = new GameObject("Player");
                 
-                // Add fallback renderer to ensure player is always visible
-                playerObject.AddComponent<PlayerFallbackRenderer>();
+                // Use simple working player controller
+                var simplePlayer = playerObject.AddComponent<SimplePlayerController>();
+                simplePlayer.SetGameLogicPlayer(gameWorld.Player);
                 
-                // Add debug visual component temporarily
-                playerObject.AddComponent<PlayerDebugVisual>();
+                // Position at spawn point
+                var spawnPos = gameWorld.Player.Position;
+                playerObject.transform.position = new Vector3(spawnPos.X, spawnPos.Y, 0);
                 
-                // Add text debugger to find "12345678" issue
-                playerObject.AddComponent<PlayerTextDebugger>();
-                
-                // Player position is already set by GameWorld's PlayerSpawnManager
-                Debug.Log($"Player spawned at: ({gameWorld.Player.Position.X}, {gameWorld.Player.Position.Y})");
-                Debug.Log($"Player GameObject position: {playerObject.transform.position}");
+                Debug.Log($"Simple player created at: ({spawnPos.X}, {spawnPos.Y})");
                 
                 // Setup camera to follow player
                 Camera mainCamera = Camera.main;
                 if (mainCamera != null)
                 {
-                    CameraController cameraController = mainCamera.GetComponent<CameraController>();
-                    if (cameraController == null)
+                    // Remove ALL existing camera controllers to avoid conflicts
+                    var cameraController = mainCamera.GetComponent<CameraController>();
+                    if (cameraController != null)
                     {
-                        cameraController = mainCamera.gameObject.AddComponent<CameraController>();
+                        DestroyImmediate(cameraController);
                     }
-                    cameraController.SetTarget(playerObject.transform);
+                    
+                    var existingFollow = mainCamera.GetComponent<SimpleCameraFollow>();
+                    if (existingFollow != null)
+                    {
+                        DestroyImmediate(existingFollow);
+                    }
+                    
+                    // Add simple camera follow ONCE
+                    var cameraFollow = mainCamera.gameObject.AddComponent<SimpleCameraFollow>();
+                    cameraFollow.target = playerObject.transform;
+                    cameraFollow.offset = new Vector3(0, 2, -10);
+                    cameraFollow.smoothSpeed = 5f;
                 }
             }
             

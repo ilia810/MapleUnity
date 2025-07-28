@@ -325,6 +325,11 @@ namespace MapleClient.SceneGeneration
                 Scene newScene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
                 newScene.name = sceneName;
             }
+            else
+            {
+                // Clean up existing scene
+                CleanupExistingScene();
+            }
             
             // Create generator
             GameObject generatorObj = new GameObject("MapSceneGenerator");
@@ -340,10 +345,53 @@ namespace MapleClient.SceneGeneration
             // Clean up NXDataManager singleton
             NXDataManagerSingleton.Cleanup();
             
+            // Create GameManager to handle player creation
+            GameObject gameManagerObj = GameObject.Find("GameManager");
+            if (gameManagerObj == null)
+            {
+                gameManagerObj = new GameObject("GameManager");
+                gameManagerObj.AddComponent<GameView.GameManager>();
+                Debug.Log("Created GameManager for player initialization");
+            }
+            
             // Mark scene as dirty
             EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
             
             Debug.Log($"Generated scene for map {mapId}");
+        }
+        
+        private void CleanupExistingScene()
+        {
+            Debug.Log("Cleaning up existing scene...");
+            
+            // Find and destroy all root objects except essential ones
+            GameObject[] rootObjects = SceneManager.GetActiveScene().GetRootGameObjects();
+            foreach (GameObject obj in rootObjects)
+            {
+                // Keep only Main Camera and DirectionalLight
+                if (obj.name != "Main Camera" && obj.name != "Directional Light")
+                {
+                    DestroyImmediate(obj);
+                }
+            }
+            
+            // Reset camera to default position
+            Camera mainCamera = Camera.main;
+            if (mainCamera != null)
+            {
+                mainCamera.transform.position = new Vector3(0, 0, -10);
+                mainCamera.transform.rotation = Quaternion.identity;
+                
+                // Remove any camera scripts
+                var scripts = mainCamera.GetComponents<MonoBehaviour>();
+                foreach (var script in scripts)
+                {
+                    if (script != null && script != mainCamera)
+                    {
+                        DestroyImmediate(script);
+                    }
+                }
+            }
         }
         
         private void BatchGenerateCommonMaps()

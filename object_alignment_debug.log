@@ -1,0 +1,59 @@
+=== OBJECT ALIGNMENT DEBUG LOG ===
+Time: 2025-07-27 13:43:29
+
+--- Testing: Obj/guide.img/common/post/0 ---
+  Node name: 0
+  Node type: RealNxNode
+  Has value: True
+  Children count: 1
+  Has 'origin' child: False
+  Sprite loaded: 
+  Sprite dimensions: 182x111
+  Origin returned: (0.00, 0.00)
+  Sprite pivot: (0.00, 111.00)
+  Sprite bounds: Center: (0.91, -0.56, 0.00), Extents: (0.91, 0.56, 0.10)
+  Calculated offset from origin: (0, 0)
+
+--- Testing: Obj/guide.img/common/sign/0 ---
+  Node name: 0
+  Node type: RealNxNode
+  Has value: True
+  Children count: 1
+  Has 'origin' child: False
+  Sprite loaded: 
+  Sprite dimensions: 53x121
+  Origin returned: (0.00, 0.00)
+  Sprite pivot: (0.00, 121.00)
+  Sprite bounds: Center: (0.27, -0.61, 0.00), Extents: (0.27, 0.61, 0.10)
+  Calculated offset from origin: (0, 0)
+
+--- Testing: Obj/houseGS.img/house9/basic/0 ---
+  Node name: 0
+  Node type: RealNxNode
+  Has value: True
+  Children count: 1
+  Has 'origin' child: False
+  Sprite loaded: 
+  Sprite dimensions: 189x265
+  Origin returned: (0.00, 0.00)
+  Sprite pivot: (0.00, 265.00)
+  Sprite bounds: Center: (0.95, -1.33, 0.00), Extents: (0.95, 1.33, 0.10)
+  Calculated offset from origin: (0, 0)
+
+--- Testing: Obj/houseGS.img/house9/basic/1 ---
+  Node name: 1
+  Node type: RealNxNode
+  Has value: True
+  Children count: 1
+  Has 'origin' child: False
+  Sprite loaded: 
+  Sprite dimensions: 264x182
+  Origin returned: (0.00, 0.00)
+  Sprite pivot: (0.00, 182.00)
+  Sprite bounds: Center: (1.32, -0.91, 0.00), Extents: (1.32, 0.91, 0.10)
+  Calculated offset from origin: (0, 0)
+
+--- TILE COMPARISON ---
+Tile: Tile/woodMarble.img/edD/1
+  Has 'origin' child: True
+  Origin value: (25.00, 0.00)

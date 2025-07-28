@@ -314,6 +314,11 @@ namespace MapleClient.GameView
                 // Set the collider size and no offset since we're positioning at center
                 collider.size = new UnityEngine.Vector2(width, height);
                 collider.offset = UnityEngine.Vector2.zero;
+                
+                // Set layer to Default (which both player and platforms use)
+                platformObject.layer = LayerMask.NameToLayer("Default");
+                
+                Debug.Log($"[PLATFORM_DEBUG] Created platform: {platformObject.name} at {platformObject.transform.position} with collider size: {collider.size}");
             }
         }
         
