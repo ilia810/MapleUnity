@@ -16,6 +16,7 @@ namespace MapleClient.GameView
         [Header("Components")]
         private BoxCollider2D col;
         private SpriteRenderer spriteRenderer;
+        private MapleCharacterRenderer characterRenderer;
         
         // Reference to game logic components
         private Player gameLogicPlayer;
@@ -64,20 +65,16 @@ namespace MapleClient.GameView
             
             Debug.Log($"[SimplePlayerController] Created as kinematic visual controller");
             
-            // Create simple blue sprite
+            // Create sprite renderer but disable it - we'll use MapleCharacterRenderer
             spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
-            var texture = new Texture2D(30, 60);
-            var pixels = new Color[30 * 60];
-            for (int i = 0; i < pixels.Length; i++)
-            {
-                pixels[i] = normalColor;
-            }
-            texture.SetPixels(pixels);
-            texture.Apply();
+            spriteRenderer.enabled = false;
             
-            spriteRenderer.sprite = Sprite.Create(texture, new Rect(0, 0, 30, 60), new Vector2(0.5f, 0.5f), 100);
-            spriteRenderer.sortingLayerName = "Player";
-            spriteRenderer.sortingOrder = 100;
+            // Create MapleCharacterRenderer for actual character visuals
+            characterRenderer = GetComponent<MapleCharacterRenderer>();
+            if (characterRenderer == null)
+            {
+                characterRenderer = gameObject.AddComponent<MapleCharacterRenderer>();
+            }
             
             // Set layer for rendering
             gameObject.layer = LayerMask.NameToLayer("Default");
@@ -106,6 +103,13 @@ namespace MapleClient.GameView
             if (player != null)
             {
                 player.AddViewListener(this);
+                
+                // Initialize MapleCharacterRenderer with player and data provider
+                if (characterRenderer != null)
+                {
+                    var characterDataProvider = new MapleClient.GameData.CharacterDataProvider();
+                    characterRenderer.Initialize(player, characterDataProvider);
+                }
                 
                 // Sync initial position
                 var pos = new Vector3(player.Position.X, player.Position.Y, 0);
@@ -343,8 +347,8 @@ namespace MapleClient.GameView
                 }
             }
             
-            // Update sprite color
-            UpdateSpriteColor();
+            // Update sprite color - disabled since we're using MapleCharacterRenderer
+            // UpdateSpriteColor();
             
             // Trigger state-specific effects
             if (previousState != currentState)

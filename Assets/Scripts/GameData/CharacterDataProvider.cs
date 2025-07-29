@@ -221,16 +221,25 @@ namespace MapleClient.GameData
             var texture = sprite.texture;
             if (texture == null) return null;
             
-            // Create SpriteData - ImageData can be null for Unity-only rendering
-            return new SpriteData
+            // Store the Unity sprite reference in a special SpriteData subclass
+            return new UnitySpriteData
             {
                 Width = (int)sprite.rect.width,
                 Height = (int)sprite.rect.height,
                 OriginX = (int)(sprite.pivot.x * sprite.rect.width),
                 OriginY = (int)(sprite.pivot.y * sprite.rect.height),
                 Name = sprite.name,
-                ImageData = null // We'll use Unity sprites directly, no need to encode
+                ImageData = null, // We'll use Unity sprites directly, no need to encode
+                UnitySprite = sprite // Store the actual Unity sprite reference
             };
         }
+    }
+    
+    /// <summary>
+    /// Unity-specific SpriteData that holds a reference to the actual Unity sprite
+    /// </summary>
+    public class UnitySpriteData : SpriteData
+    {
+        public UnityEngine.Sprite UnitySprite { get; set; }
     }
 }

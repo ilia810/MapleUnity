@@ -243,15 +243,23 @@ namespace MapleClient.GameData
                 {
                     Debug.Log($"Found body part '{partName}' at: {path}/{partName}");
                     
+                    // Handle link resolution
+                    var resolvedNode = ResolveLinks(partNode, charFile);
+                    if (resolvedNode == null)
+                    {
+                        Debug.LogWarning($"Could not resolve links for body part: {partName}");
+                        continue;
+                    }
+                    
                     // Get the origin for this body part
                     Vector2 origin = Vector2.zero;
-                    var originNode = partNode["origin"];
+                    var originNode = resolvedNode["origin"];
                     if (originNode != null && originNode.Value is Vector2 vec)
                     {
                         origin = vec;
                     }
                     
-                    var sprite = SpriteLoader.ConvertCharacterNodeToSprite(partNode, $"{path}/{partName}", origin);
+                    var sprite = SpriteLoader.ConvertCharacterNodeToSprite(resolvedNode, $"{path}/{partName}", origin);
                     if (sprite != null)
                     {
                         // For now, return the first valid body part sprite
@@ -263,6 +271,64 @@ namespace MapleClient.GameData
             
             Debug.LogWarning($"No valid body parts found in frame: {path}");
             return null;
+        }
+        
+        /// <summary>
+        /// Resolve _inlink and _outlink references to get the actual image data
+        /// </summary>
+        private INxNode ResolveLinks(INxNode node, INxFile file)
+        {
+            if (node == null) return null;
+            
+            // Check if node has direct image data
+            if (node.Value is byte[])
+            {
+                return node;
+            }
+            
+            // Check for _inlink (reference within same file)
+            var inlinkNode = node["_inlink"];
+            if (inlinkNode != null && inlinkNode.Value is string inlinkPath)
+            {
+                Debug.Log($"[NXAssetLoader] Following _inlink: {inlinkPath}");
+                var linkedNode = file.GetNode(inlinkPath);
+                if (linkedNode != null)
+                {
+                    // Recursively resolve in case the linked node also has links
+                    return ResolveLinks(linkedNode, file);
+                }
+            }
+            
+            // Check for _outlink (reference to another file)
+            var outlinkNode = node["_outlink"];
+            if (outlinkNode != null && outlinkNode.Value is string outlinkPath)
+            {
+                Debug.Log($"[NXAssetLoader] Following _outlink: {outlinkPath}");
+                // Outlinks usually reference paths like "Map/Tile/grassySoil.img/bsc/0"
+                // We need to resolve this through the appropriate NX file
+                
+                // Extract the file type from the path
+                string[] parts = outlinkPath.Split('/');
+                if (parts.Length > 0)
+                {
+                    string fileType = parts[0].ToLower();
+                    INxFile targetFile = GetNxFile(fileType);
+                    
+                    if (targetFile != null)
+                    {
+                        // Remove the file prefix from the path
+                        string nodePath = string.Join("/", parts, 1, parts.Length - 1);
+                        var linkedNode = targetFile.GetNode(nodePath);
+                        if (linkedNode != null)
+                        {
+                            return ResolveLinks(linkedNode, targetFile);
+                        }
+                    }
+                }
+            }
+            
+            // Return the original node if no links found
+            return node;
         }
         
         /// <summary>
@@ -283,11 +349,13 @@ namespace MapleClient.GameData
             var headPart = frameNode["head"];
             if (headPart != null)
             {
-                return SpriteLoader.LoadSprite(headPart, $"head/{skin}/{state}/{frame}");
+                var resolvedNode = ResolveLinks(headPart, charFile);
+                return SpriteLoader.LoadSprite(resolvedNode, $"head/{skin}/{state}/{frame}");
             }
             
             // Try loading the frame directly
-            return SpriteLoader.LoadSprite(frameNode, $"head/{skin}/{state}/{frame}");
+            var resolvedFrame = ResolveLinks(frameNode, charFile);
+            return SpriteLoader.LoadSprite(resolvedFrame, $"head/{skin}/{state}/{frame}");
         }
         
         /// <summary>
@@ -298,10 +366,37 @@ namespace MapleClient.GameData
             var charFile = GetNxFile("character");
             if (charFile == null) return null;
             
-            // Face sprites are in Character/Face/{faceId:D8}.img/{expression}/0
-            var faceNode = charFile.GetNode($"Face/{faceId:D8}.img/{expression}/0");
+            // Face sprites can be in different locations:
+            // 1. Character/Face/{faceId:D8}.img/{expression}/face
+            // 2. Character/Face/{faceId:D8}.img/{expression} (directly)
+            // 3. Character/Face/{faceId:D8}.img/{expression}/0 (legacy)
             
-            return faceNode != null ? SpriteLoader.LoadSprite(faceNode) : null;
+            string basePath = $"Face/{faceId:D8}.img/{expression}";
+            
+            // Try path 1: face subdirectory
+            var faceNode = charFile.GetNode($"{basePath}/face");
+            
+            // Try path 2: expression node directly
+            if (faceNode == null)
+            {
+                faceNode = charFile.GetNode(basePath);
+                // Only use it if it contains image data
+                if (faceNode != null && !(faceNode.Value is byte[]))
+                {
+                    faceNode = null;
+                }
+            }
+            
+            // Try path 3: legacy /0 path
+            if (faceNode == null)
+            {
+                faceNode = charFile.GetNode($"{basePath}/0");
+            }
+            
+            if (faceNode == null) return null;
+            
+            var resolvedNode = ResolveLinks(faceNode, charFile);
+            return SpriteLoader.LoadSprite(resolvedNode, $"face/{faceId}/{expression}");
         }
         
         /// <summary>
@@ -315,7 +410,10 @@ namespace MapleClient.GameData
             // Hair sprites are in Character/Hair/{hairId:D8}.img/{state}/{frame}
             var hairNode = charFile.GetNode($"Hair/{hairId:D8}.img/{state}/{frame}");
             
-            return hairNode != null ? SpriteLoader.LoadSprite(hairNode) : null;
+            if (hairNode == null) return null;
+            
+            var resolvedNode = ResolveLinks(hairNode, charFile);
+            return SpriteLoader.LoadSprite(resolvedNode, $"hair/{hairId}/{state}/{frame}");
         }
         
         /// <summary>
@@ -329,7 +427,10 @@ namespace MapleClient.GameData
             // Equipment sprites are in Character/{Category}/{itemId:D8}.img/{state}/{frame}
             var equipNode = charFile.GetNode($"{category}/{itemId:D8}.img/{state}/{frame}");
             
-            return equipNode != null ? SpriteLoader.LoadSprite(equipNode) : null;
+            if (equipNode == null) return null;
+            
+            var resolvedNode = ResolveLinks(equipNode, charFile);
+            return SpriteLoader.LoadSprite(resolvedNode, $"equip/{category}/{itemId}/{state}/{frame}");
         }
         
         /// <summary>
