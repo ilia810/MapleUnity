@@ -278,6 +278,8 @@ namespace MapleClient.GameData
         /// </summary>
         public Dictionary<string, Sprite> LoadCharacterBodyParts(int skin, string state, int frame, out Vector2? headAttachPoint)
         {
+            headAttachPoint = null; // Initialize out parameter
+            
             var charFile = GetNxFile("character");
             if (charFile == null)
             {
