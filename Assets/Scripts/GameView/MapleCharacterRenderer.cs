@@ -5,19 +5,25 @@ using MapleClient.GameLogic.Core;
 using MapleClient.GameLogic.Interfaces;
 using MapleClient.GameLogic.Data;
 using MapleClient.GameData;
+using MapleClient.Utils;
+
+using Debug = UnityEngine.Debug;
 
 namespace MapleClient.GameView
 {
     /// <summary>
     /// Renders MapleStory characters with proper layered sprites
     /// </summary>
-    public class MapleCharacterRenderer : MonoBehaviour
+    public class MapleCharacterRenderer : MonoBehaviour, IPlayerViewListener
     {
         private Player player;
         private ICharacterDataProvider characterData;
         
         // Sprite layers in correct rendering order
+        private SpriteRenderer backBodyRenderer; // Behind body
         private SpriteRenderer bodyRenderer;
+        private SpriteRenderer armRenderer;      // Body's arm part
+        private SpriteRenderer armOverHairRenderer; // Arm that goes over hair
         private SpriteRenderer headRenderer;
         private SpriteRenderer hairRenderer;
         private SpriteRenderer faceRenderer;
@@ -29,12 +35,16 @@ namespace MapleClient.GameView
         private SpriteRenderer capeRenderer;
         private SpriteRenderer gloveRenderer;
         private SpriteRenderer shieldRenderer;
+        private SpriteRenderer handRenderer;     // Hand part (over gloves)
         
         // Animation state
         private CharacterState currentState = CharacterState.Stand;
         private int currentFrame = 0;
         private float animationTimer = 0f;
         private const float FRAME_DURATION = 0.1f; // 100ms per frame
+        
+        // Head attachment point for current frame
+        private Vector2? currentHeadAttachPoint = null;
         
         // Character appearance
         private int skinColor = 0;
@@ -45,6 +55,12 @@ namespace MapleClient.GameView
         {
             this.player = player;
             this.characterData = characterData;
+            
+            // Register as a listener to player events
+            if (player != null)
+            {
+                player.AddViewListener(this);
+            }
             
             CreateSpriteRenderers();
             
@@ -76,27 +92,36 @@ namespace MapleClient.GameView
         
         private void CreateSpriteRenderers()
         {
-            // Create sprite renderers in correct layer order
+            // Create sprite renderers in correct layer order (based on C++ client layers_by_name)
+            // Back layers (negative sorting order)
+            shieldRenderer = CreateSpriteLayer("Shield", -3);
+            capeRenderer = CreateSpriteLayer("Cape", -2);
+            backBodyRenderer = CreateSpriteLayer("BackBody", -1);
+            
+            // Main body parts
             bodyRenderer = CreateSpriteLayer("Body", 0);
-            headRenderer = CreateSpriteLayer("Head", 1);
+            armRenderer = CreateSpriteLayer("Arm", 1);
             
-            // Back layers
-            capeRenderer = CreateSpriteLayer("Cape", -1);
+            // Equipment on body
+            bottomRenderer = CreateSpriteLayer("Bottom", 2);
+            topRenderer = CreateSpriteLayer("Top", 3);
+            shoesRenderer = CreateSpriteLayer("Shoes", 4);
             
-            // Face and hair
-            faceRenderer = CreateSpriteLayer("Face", 2);
-            hairRenderer = CreateSpriteLayer("Hair", 3);
+            // Head and face
+            headRenderer = CreateSpriteLayer("Head", 5);
+            faceRenderer = CreateSpriteLayer("Face", 6);
             
-            // Equipment layers
-            bottomRenderer = CreateSpriteLayer("Bottom", 4);
-            topRenderer = CreateSpriteLayer("Top", 5);
-            shoesRenderer = CreateSpriteLayer("Shoes", 6);
-            gloveRenderer = CreateSpriteLayer("Glove", 7);
-            hatRenderer = CreateSpriteLayer("Hat", 8);
+            // Hair layers
+            hairRenderer = CreateSpriteLayer("Hair", 7);
             
-            // Weapon/shield
-            weaponRenderer = CreateSpriteLayer("Weapon", 9);
-            shieldRenderer = CreateSpriteLayer("Shield", -2); // Behind body
+            // Over-hair layers
+            armOverHairRenderer = CreateSpriteLayer("ArmOverHair", 8);
+            gloveRenderer = CreateSpriteLayer("Glove", 9);
+            handRenderer = CreateSpriteLayer("Hand", 10);
+            hatRenderer = CreateSpriteLayer("Hat", 11);
+            
+            // Weapon on top
+            weaponRenderer = CreateSpriteLayer("Weapon", 12);
         }
         
         private SpriteRenderer CreateSpriteLayer(string layerName, int sortingOrder)
@@ -229,23 +254,89 @@ namespace MapleClient.GameView
         
         private void UpdateBodySprite()
         {
-            // Load body sprite directly from asset loader
-            string stateName = ConvertStateToAnimationName(currentState);
-            var bodySprite = NXAssetLoader.Instance.LoadCharacterBody(skinColor, stateName, currentFrame);
+            // Clear all body part sprites first
+            bodyRenderer.sprite = null;
+            armRenderer.sprite = null;
+            backBodyRenderer.sprite = null;
+            armOverHairRenderer.sprite = null;
+            handRenderer.sprite = null;
             
-            if (bodySprite != null)
+            // Load all body parts from NXAssetLoader
+            string stateName = ConvertStateToAnimationName(currentState);
+            Vector2? headAttachPoint;
+            var bodyParts = NXAssetLoader.Instance.LoadCharacterBodyParts(skinColor, stateName, currentFrame, out headAttachPoint);
+            
+            if (bodyParts != null && bodyParts.Count > 0)
             {
-                bodyRenderer.sprite = bodySprite;
-                Debug.Log($"Body sprite loaded: {bodySprite.name} ({bodySprite.rect.width}x{bodySprite.rect.height})");
-                Debug.Log($"Body renderer active: {bodyRenderer.enabled}, GameObject active: {bodyRenderer.gameObject.activeSelf}");
-                Debug.Log($"Body renderer position: {bodyRenderer.transform.position}, sorting layer: {bodyRenderer.sortingLayerName}");
+                Debug.Log($"Loaded {bodyParts.Count} body parts for state:{stateName} frame:{currentFrame}");
+                
+                // Assign sprites to appropriate renderers
+                foreach (var part in bodyParts)
+                {
+                    switch (part.Key.ToLower())
+                    {
+                        case "body":
+                            bodyRenderer.sprite = part.Value;
+                            Debug.Log($"  - Body: {part.Value.rect.width}x{part.Value.rect.height}");
+                            break;
+                            
+                        case "arm":
+                            armRenderer.sprite = part.Value;
+                            Debug.Log($"  - Arm: {part.Value.rect.width}x{part.Value.rect.height}");
+                            break;
+                            
+                        case "backbody":
+                        case "backBody":
+                            backBodyRenderer.sprite = part.Value;
+                            Debug.Log($"  - BackBody: {part.Value.rect.width}x{part.Value.rect.height}");
+                            break;
+                            
+                        case "armoverhair":
+                        case "armOverHair":
+                            armOverHairRenderer.sprite = part.Value;
+                            Debug.Log($"  - ArmOverHair: {part.Value.rect.width}x{part.Value.rect.height}");
+                            break;
+                            
+                        case "hand":
+                        case "lHand":
+                        case "rHand":
+                            handRenderer.sprite = part.Value;
+                            Debug.Log($"  - Hand: {part.Value.rect.width}x{part.Value.rect.height}");
+                            break;
+                            
+                        default:
+                            Debug.Log($"  - Unknown part '{part.Key}': {part.Value.rect.width}x{part.Value.rect.height}");
+                            break;
+                    }
+                }
+                
+                // Store head attachment point
+                currentHeadAttachPoint = headAttachPoint;
+                if (headAttachPoint.HasValue)
+                {
+                    Debug.Log($"Head attachment point: {headAttachPoint.Value}");
+                    // Convert MapleStory coordinates to Unity coordinates
+                    Vector3 headPos = CoordinateConverter.MSToUnityPosition(headAttachPoint.Value.x, headAttachPoint.Value.y);
+                    // Update head/face/hair positions
+                    UpdateHeadPosition(headPos);
+                }
             }
             else
             {
-                // Create a simple colored sprite as fallback
-                Debug.LogWarning($"No body sprite found for skin:{skinColor} state:{stateName} frame:{currentFrame}. Creating fallback.");
-                bodyRenderer.sprite = CreateColoredSprite(Color.blue, 32, 48, "Body");
-                Debug.Log($"Fallback sprite created. Renderer enabled: {bodyRenderer.enabled}");
+                // Fallback to single body sprite through character data provider
+                var bodySpriteData = characterData.GetBodySprite(skinColor, currentState, currentFrame);
+                
+                if (bodySpriteData != null && bodySpriteData is UnitySpriteData unityData && unityData.UnitySprite != null)
+                {
+                    bodyRenderer.sprite = unityData.UnitySprite;
+                    Debug.Log($"Body sprite loaded (single): {unityData.UnitySprite.name}");
+                }
+                else
+                {
+                    // Create a simple colored sprite as fallback
+                    Debug.LogWarning($"No body sprites found for skin:{skinColor} state:{stateName} frame:{currentFrame}");
+                    bodyRenderer.sprite = CreateColoredSprite(Color.blue, 32, 48, "Body");
+                }
             }
         }
         
@@ -385,18 +476,22 @@ namespace MapleClient.GameView
         private void SetFlipX(bool flip)
         {
             // Flip all sprite layers
-            bodyRenderer.flipX = flip;
-            headRenderer.flipX = flip;
-            faceRenderer.flipX = flip;
-            hairRenderer.flipX = flip;
-            hatRenderer.flipX = flip;
-            topRenderer.flipX = flip;
-            bottomRenderer.flipX = flip;
-            shoesRenderer.flipX = flip;
-            gloveRenderer.flipX = flip;
-            weaponRenderer.flipX = flip;
-            capeRenderer.flipX = flip;
-            shieldRenderer.flipX = flip;
+            if (backBodyRenderer != null) backBodyRenderer.flipX = flip;
+            if (bodyRenderer != null) bodyRenderer.flipX = flip;
+            if (armRenderer != null) armRenderer.flipX = flip;
+            if (armOverHairRenderer != null) armOverHairRenderer.flipX = flip;
+            if (headRenderer != null) headRenderer.flipX = flip;
+            if (faceRenderer != null) faceRenderer.flipX = flip;
+            if (hairRenderer != null) hairRenderer.flipX = flip;
+            if (hatRenderer != null) hatRenderer.flipX = flip;
+            if (topRenderer != null) topRenderer.flipX = flip;
+            if (bottomRenderer != null) bottomRenderer.flipX = flip;
+            if (shoesRenderer != null) shoesRenderer.flipX = flip;
+            if (gloveRenderer != null) gloveRenderer.flipX = flip;
+            if (handRenderer != null) handRenderer.flipX = flip;
+            if (weaponRenderer != null) weaponRenderer.flipX = flip;
+            if (capeRenderer != null) capeRenderer.flipX = flip;
+            if (shieldRenderer != null) shieldRenderer.flipX = flip;
         }
         
         public void UpdateAppearance()
@@ -411,6 +506,38 @@ namespace MapleClient.GameView
             faceId = face;
             hairId = hair;
             UpdateAppearance();
+        }
+        
+        private void UpdateHeadPosition(Vector3 headAttachPoint)
+        {
+            // Position head-related layers relative to the attachment point
+            // The attachment point is relative to the character's origin (usually feet)
+            // We need to position these as children maintain their own local positions
+            
+            if (headRenderer != null && headRenderer.gameObject != null)
+            {
+                headRenderer.transform.localPosition = headAttachPoint;
+            }
+            
+            if (faceRenderer != null && faceRenderer.gameObject != null)
+            {
+                // Face is positioned relative to head
+                faceRenderer.transform.localPosition = headAttachPoint;
+            }
+            
+            if (hairRenderer != null && hairRenderer.gameObject != null)
+            {
+                // Hair is positioned relative to head
+                hairRenderer.transform.localPosition = headAttachPoint;
+            }
+            
+            if (hatRenderer != null && hatRenderer.gameObject != null)
+            {
+                // Hat is positioned relative to head
+                hatRenderer.transform.localPosition = headAttachPoint;
+            }
+            
+            Debug.Log($"Updated head position to: {headAttachPoint}");
         }
         
         
@@ -434,6 +561,109 @@ namespace MapleClient.GameView
             sprite.name = name;
             return sprite;
         }
+        
+        #region IPlayerViewListener Implementation
+        
+        public void OnAnimationEvent(PlayerAnimationEvent animEvent)
+        {
+            Debug.Log($"[MapleCharacterRenderer] Animation event: {animEvent}");
+            
+            switch (animEvent)
+            {
+                case PlayerAnimationEvent.Jump:
+                    // Immediately switch to jump animation
+                    currentState = CharacterState.Jump;
+                    currentFrame = 0;
+                    animationTimer = 0f;
+                    UpdateSprites();
+                    break;
+                    
+                case PlayerAnimationEvent.Land:
+                    // Return to standing after landing
+                    currentState = CharacterState.Stand;
+                    currentFrame = 0;
+                    animationTimer = 0f;
+                    UpdateSprites();
+                    // TODO: Add landing effect
+                    break;
+                    
+                case PlayerAnimationEvent.StartWalk:
+                    // Start walk cycle
+                    currentState = CharacterState.Walk;
+                    currentFrame = 0;
+                    animationTimer = 0f;
+                    break;
+                    
+                case PlayerAnimationEvent.StopWalk:
+                    // Return to standing
+                    currentState = CharacterState.Stand;
+                    currentFrame = 0;
+                    animationTimer = 0f;
+                    break;
+                    
+                case PlayerAnimationEvent.Attack:
+                    // TODO: Implement attack animations
+                    break;
+                    
+                case PlayerAnimationEvent.StartClimb:
+                    currentState = CharacterState.Ladder;
+                    currentFrame = 0;
+                    animationTimer = 0f;
+                    break;
+                    
+                case PlayerAnimationEvent.StopClimb:
+                    currentState = CharacterState.Stand;
+                    currentFrame = 0;
+                    animationTimer = 0f;
+                    break;
+                    
+                case PlayerAnimationEvent.Crouch:
+                    currentState = CharacterState.Prone;
+                    currentFrame = 0;
+                    animationTimer = 0f;
+                    UpdateSprites();
+                    break;
+                    
+                case PlayerAnimationEvent.StandUp:
+                    currentState = CharacterState.Stand;
+                    currentFrame = 0;
+                    animationTimer = 0f;
+                    UpdateSprites();
+                    break;
+            }
+        }
+        
+        public void OnStateChanged(PlayerState oldState, PlayerState newState)
+        {
+            // Additional state change handling if needed
+            Debug.Log($"[MapleCharacterRenderer] State changed: {oldState} -> {newState}");
+        }
+        
+        public void OnPositionChanged(Vector2 oldPos, Vector2 newPos)
+        {
+            // Position is handled by parent PlayerView
+        }
+        
+        public void OnVelocityChanged(Vector2 oldVel, Vector2 newVel)
+        {
+            // Use velocity for facing direction
+            if (newVel.X != 0)
+            {
+                bool shouldFlip = newVel.X < 0;
+                SetFlipX(shouldFlip);
+            }
+        }
+        
+        public void OnGroundedChanged(bool wasGrounded, bool isGrounded)
+        {
+            // Can use this for landing detection
+            if (!wasGrounded && isGrounded)
+            {
+                Debug.Log("[MapleCharacterRenderer] Landed!");
+            }
+        }
+        
+        #endregion
         
         private void ExploreNxStructure()
         {

@@ -274,6 +274,126 @@ namespace MapleClient.GameData
         }
         
         /// <summary>
+        /// Load all body parts for a character frame
+        /// </summary>
+        public Dictionary<string, Sprite> LoadCharacterBodyParts(int skin, string state, int frame, out Vector2? headAttachPoint)
+        {
+            var charFile = GetNxFile("character");
+            if (charFile == null)
+            {
+                Debug.LogError("Character NX file not found");
+                return null;
+            }
+            
+            // Body sprites follow C++ client structure
+            string skinPadded = skin.ToString("D2");
+            string bodyFile = $"000020{skinPadded}.img";
+            
+            // Try skin-specific file first
+            string path = $"{bodyFile}/{state}/{frame}";
+            var frameNode = charFile.GetNode(path);
+            
+            // Fall back to default skin 0 if skin-specific file doesn't exist
+            if (frameNode == null && skin != 0)
+            {
+                Debug.Log($"Skin {skin} not found, falling back to default skin 0");
+                path = $"00002000.img/{state}/{frame}";
+                frameNode = charFile.GetNode(path);
+            }
+            
+            if (frameNode == null)
+            {
+                // Try to find the frame under category structure (v92)
+                var bodyImgNode = charFile.GetNode(bodyFile);
+                if (bodyImgNode != null)
+                {
+                    foreach (var category in bodyImgNode.Children)
+                    {
+                        var animNode = category[state];
+                        if (animNode == null && state.EndsWith("1"))
+                        {
+                            animNode = category[state.Substring(0, state.Length - 1)];
+                        }
+                        
+                        if (animNode != null)
+                        {
+                            var frameInCategory = animNode[frame.ToString()];
+                            if (frameInCategory != null)
+                            {
+                                path = $"{bodyFile}/{category.Name}/{state}/{frame}";
+                                frameNode = frameInCategory;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if (frameNode == null)
+            {
+                Debug.LogWarning($"Character frame node not found at: {path}");
+                headAttachPoint = null;
+                return null;
+            }
+            
+            return LoadAllPartsFromFrame(frameNode, path, charFile, out headAttachPoint);
+        }
+        
+        private Dictionary<string, Sprite> LoadAllPartsFromFrame(INxNode frameNode, string path, INxFile charFile, out Vector2? headAttachPoint)
+        {
+            var parts = new Dictionary<string, Sprite>();
+            headAttachPoint = null;
+            
+            // Look for all body parts within the frame
+            foreach (var partNode in frameNode.Children)
+            {
+                string partName = partNode.Name;
+                
+                // Check for head attachment point
+                if (partName == "head")
+                {
+                    if (partNode.Value is Vector2 headPos)
+                    {
+                        headAttachPoint = headPos;
+                        Debug.Log($"Found head attachment point at: {headPos}");
+                    }
+                    continue;
+                }
+                
+                // Skip non-sprite parts
+                if (partName == "delay" || partName == "face")
+                    continue;
+                
+                Debug.Log($"Processing part '{partName}' at: {path}/{partName}");
+                
+                // Handle link resolution
+                var resolvedNode = ResolveLinks(partNode, charFile);
+                if (resolvedNode == null)
+                {
+                    Debug.LogWarning($"Could not resolve links for part: {partName}");
+                    continue;
+                }
+                
+                // Get the origin for this part
+                Vector2 origin = Vector2.zero;
+                var originNode = resolvedNode["origin"];
+                if (originNode != null && originNode.Value is Vector2 vec)
+                {
+                    origin = vec;
+                }
+                
+                var sprite = SpriteLoader.ConvertCharacterNodeToSprite(resolvedNode, $"{path}/{partName}", origin);
+                if (sprite != null)
+                {
+                    parts[partName] = sprite;
+                    Debug.Log($"Loaded part '{partName}': {sprite.rect.width}x{sprite.rect.height}");
+                }
+            }
+            
+            return parts;
+        }
+        
+        /// <summary>
         /// Resolve _inlink and _outlink references to get the actual image data
         /// </summary>
         private INxNode ResolveLinks(INxNode node, INxFile file)
