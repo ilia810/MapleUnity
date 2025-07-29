@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MapleClient.GameLogic;
 using MapleClient.GameLogic.Data;
 using MapleClient.GameLogic.Interfaces;
 
@@ -13,6 +14,9 @@ namespace MapleClient.GameLogic.Core
         // View listener management
         private readonly List<IPlayerViewListener> viewListeners = new List<IPlayerViewListener>();
         public bool HasViewListeners => viewListeners.Count > 0;
+        
+        // Services
+        private readonly IFootholdService footholdService;
         
         // Player dimensions (in units)
         private const float PLAYER_HEIGHT = 0.6f; // 60 pixels / 100
@@ -40,6 +44,7 @@ namespace MapleClient.GameLogic.Core
         public string Name { get; set; } = "Player";
         
         private Vector2 position;
+        private int positionSetCount = 0;
         public Vector2 Position 
         { 
             get => position;
@@ -47,6 +52,11 @@ namespace MapleClient.GameLogic.Core
             {
                 if (position != value)
                 {
+                    if (positionSetCount < 10) // Log first 10 position changes
+                    {
+                        System.Console.WriteLine($"[FOOTHOLD_COLLISION] Player.Position changed #{positionSetCount}: ({position.X:F2}, {position.Y:F2}) -> ({value.X:F2}, {value.Y:F2})");
+                        positionSetCount++;
+                    }
                     position = value;
                     NotifyViewListeners(l => l.OnPositionChanged(value));
                 }
@@ -136,8 +146,13 @@ namespace MapleClient.GameLogic.Core
         public bool UseGravity => State != PlayerState.Climbing;
         public bool IsPhysicsActive => true; // Player is always active
 
-        public Player()
+        public Player() : this(null)
         {
+        }
+        
+        public Player(IFootholdService footholdService)
+        {
+            this.footholdService = footholdService;
             physicsId = nextPhysicsId++;
             Position = Vector2.Zero;
             Velocity = Vector2.Zero;
@@ -146,10 +161,24 @@ namespace MapleClient.GameLogic.Core
             
             // Initialize movement speeds based on stats
             UpdateMovementSpeeds();
+            
+            if (footholdService != null)
+            {
+                System.Console.WriteLine("[FOOTHOLD_COLLISION] Player initialized with FootholdService");
+            }
+            else
+            {
+                System.Console.WriteLine("[FOOTHOLD_COLLISION] WARNING: Player initialized without FootholdService - using fallback platform detection");
+            }
         }
         
-        public Player(int id, string name, int level, int jobId)
+        public Player(int id, string name, int level, int jobId) : this(null, id, name, level, jobId)
         {
+        }
+        
+        public Player(IFootholdService footholdService, int id, string name, int level, int jobId)
+        {
+            this.footholdService = footholdService;
             physicsId = nextPhysicsId++;
             Id = id;
             Name = name;
@@ -331,6 +360,17 @@ namespace MapleClient.GameLogic.Core
 
         public void UpdatePhysics(float deltaTime, MapData mapData)
         {
+            // Store current map data for fallback platform detection
+            currentMapData = mapData;
+            
+            // Debug first few physics updates
+            if (debugCallCount < 3)
+            {
+                System.Console.WriteLine($"[FOOTHOLD_COLLISION] === Physics Update {debugCallCount} ===");
+                System.Console.WriteLine($"[FOOTHOLD_COLLISION] Position: {Position}, Velocity: {Velocity}, Grounded: {IsGrounded}");
+                System.Console.WriteLine($"[FOOTHOLD_COLLISION] This is BEFORE any physics calculations");
+            }
+            
             // Update movement modifiers
             UpdateMovementModifiers(deltaTime);
             
@@ -372,65 +412,82 @@ namespace MapleClient.GameLogic.Core
             // Update position
             var newPosition = Position + Velocity * deltaTime;
 
-            // Check for platform collision
+            // Check for ground collision using foothold service
             if (Velocity.Y <= 0 && !droppingThroughPlatform) // Only check when falling and not dropping through
             {
-                var platformBelow = GetPlatformBelow(newPosition, mapData);
-                if (platformBelow != null)
+                var groundY = GetGroundBelow(newPosition);
+                
+                if (debugCallCount < 10)
                 {
-                    // Skip one-way platforms if we're dropping through
-                    if (droppingThroughPlatform && platformBelow.Type == PlatformType.OneWay)
+                    System.Console.WriteLine($"[FOOTHOLD_COLLISION] GetGroundBelow returned: {(groundY.HasValue ? groundY.Value.ToString("F2") : "null")}");
+                }
+                
+                if (groundY.HasValue)
+                {
+                    // Check if we're falling through the ground (account for player height)
+                    var playerBottom = newPosition.Y - PLAYER_HEIGHT / 2;
+                    var prevPlayerBottom = Position.Y - PLAYER_HEIGHT / 2;
+                    
+                    // Debug log collision check
+                    if (debugCallCount < 10)
                     {
-                        // Continue falling through
+                        System.Console.WriteLine($"[FOOTHOLD_COLLISION] Collision check: prevBottom={prevPlayerBottom:F2}, currBottom={playerBottom:F2}, groundY={groundY.Value:F2}, willCollide={(prevPlayerBottom >= groundY.Value - 0.01f && playerBottom <= groundY.Value)}");
                     }
-                    else
+                    
+                    // Check for collision: if we're moving down and would pass through or land on the ground
+                    // In Unity, negative Y is up, so ground should be below player (more negative)
+                    bool isAboveGround = playerBottom > groundY.Value;
+                    bool wasAboveGround = prevPlayerBottom > groundY.Value;
+                    bool crossingGround = wasAboveGround && !isAboveGround;
+                    bool closeToGround = !isAboveGround && System.Math.Abs(playerBottom - groundY.Value) < 0.5f;
+                    
+                    if (debugCallCount < 10)
                     {
-                        // Platform Y is in pixels, convert to units
-                        var platformYPixels = platformBelow.GetYAtX(newPosition.X * 100f);
-                        if (!float.IsNaN(platformYPixels))
+                        System.Console.WriteLine($"[FOOTHOLD_COLLISION] Ground check: wasAbove={wasAboveGround}, isAbove={isAboveGround}, crossing={crossingGround}, close={closeToGround}");
+                    }
+                    
+                    if (crossingGround || (closeToGround && Velocity.Y <= 0))
+                    {
+                        // Calculate how far we would penetrate the ground
+                        float penetration = groundY.Value - playerBottom;
+                        
+                        // Only snap if we're very close or would pass through
+                        if (penetration > -0.1f) // Within 0.1 units of ground
                         {
-                            var platformY = platformYPixels / 100f;
-                            // Check if we're falling through the platform (account for player height)
-                            var playerBottom = newPosition.Y - PLAYER_HEIGHT / 2;
-                            var prevPlayerBottom = Position.Y - PLAYER_HEIGHT / 2;
-                            
-                            // Check for collision: previous position above platform, new position at or below
-                            if (prevPlayerBottom >= platformY - 0.01f && playerBottom <= platformY)
+                            // Smoothly land on ground - adjust position only by the penetration amount
+                            newPosition = new Vector2(newPosition.X, newPosition.Y + penetration);
+                            Velocity = new Vector2(Velocity.X, 0);
+                        }
+                        
+                        bool wasInAir = !IsGrounded;
+                        IsGrounded = true;
+                        IsJumping = false;
+                        
+                        if (wasInAir)
+                        {
+                            System.Console.WriteLine($"[FOOTHOLD_COLLISION] Player landed at Unity({newPosition.X:F2}, {newPosition.Y:F2}), ground at Y={groundY.Value:F2}");
+                            jumpCount = 0; // Reset jump count on landing
+                            Landed?.Invoke();
+                            TriggerAnimationEvent(PlayerAnimationEvent.Land);
+                        }
+                        
+                        // Update state when landing based on horizontal movement
+                        if (State == PlayerState.Jumping)
+                        {
+                            if (System.Math.Abs(Velocity.X) > 0.01f && (isMovingLeft || isMovingRight))
                             {
-                                // Land on platform - position player so their bottom touches the platform
-                                newPosition = new Vector2(newPosition.X, platformY + PLAYER_HEIGHT / 2);
-                                Velocity = new Vector2(Velocity.X, 0);
-                                
-                                bool wasInAir = !IsGrounded;
-                                IsGrounded = true;
-                                IsJumping = false;
-                                
-                                if (wasInAir)
-                                {
-                                    jumpCount = 0; // Reset jump count on landing
-                                    Landed?.Invoke();
-                                    TriggerAnimationEvent(PlayerAnimationEvent.Land);
-                                }
-                                
-                                // Update state when landing based on horizontal movement
-                                if (State == PlayerState.Jumping)
-                                {
-                                    if (System.Math.Abs(Velocity.X) > 0.01f && (isMovingLeft || isMovingRight))
-                                    {
-                                        State = PlayerState.Walking;
-                                    }
-                                    else
-                                    {
-                                        State = PlayerState.Standing;
-                                    }
-                                }
+                                State = PlayerState.Walking;
+                            }
+                            else
+                            {
+                                State = PlayerState.Standing;
                             }
                         }
                     }
                 }
                 else
                 {
-                    // No platform below, we're falling
+                    // No ground below, we're falling
                     if (IsGrounded)
                     {
                         IsGrounded = false;
@@ -443,25 +500,21 @@ namespace MapleClient.GameLogic.Core
             }
             
             // Check if we walked off a platform or need to adjust Y for slopes
-            if (IsGrounded && mapData?.Platforms != null)
+            if (IsGrounded)
             {
-                var currentPlatform = GetPlatformBelow(newPosition, mapData);
-                if (currentPlatform == null)
+                var currentGroundY = GetGroundBelow(newPosition);
+                if (!currentGroundY.HasValue)
                 {
                     // We've moved off the platform
+                    System.Console.WriteLine($"[FOOTHOLD_COLLISION] Player walked off edge at Unity({newPosition.X:F2}, {newPosition.Y:F2})");
                     IsGrounded = false;
                     State = PlayerState.Jumping; // Start falling
                 }
                 else
                 {
                     // Adjust Y position to stay on sloped platforms
-                    var platformYPixels = currentPlatform.GetYAtX(newPosition.X * 100f);
-                    if (!float.IsNaN(platformYPixels))
-                    {
-                        var platformY = platformYPixels / 100f;
-                        // Keep player on the platform surface
-                        newPosition = new Vector2(newPosition.X, platformY + PLAYER_HEIGHT / 2);
-                    }
+                    // Keep player on the ground surface
+                    newPosition = new Vector2(newPosition.X, currentGroundY.Value + PLAYER_HEIGHT / 2);
                 }
             }
 
@@ -474,6 +527,69 @@ namespace MapleClient.GameLogic.Core
             }
         }
 
+        private MapData currentMapData; // Store current map data for fallback
+        private float lastNoGroundLogX = float.MinValue; // Track last position where we logged no ground
+        private int debugCallCount = 0; // Debug counter for limiting logs
+        
+        private float? GetGroundBelow(Vector2 position)
+        {
+            if (footholdService == null)
+            {
+                // Fallback to platform-based detection if no foothold service
+                return GetPlatformGroundBelow(position);
+            }
+
+            // Convert player bottom position to MapleStory coordinates
+            Vector2 playerBottom = new Vector2(position.X, position.Y - PLAYER_HEIGHT / 2);
+            Vector2 maplePos = MaplePhysicsConverter.UnityToMaple(playerBottom);
+            
+            // Debug first few calls
+            if (debugCallCount < 5)
+            {
+                System.Console.WriteLine($"[FOOTHOLD_COLLISION] GetGroundBelow: Unity({playerBottom.X:F2}, {playerBottom.Y:F2}) -> Maple({maplePos.X:F0}, {maplePos.Y:F0})");
+                debugCallCount++;
+            }
+            
+            // Get ground below from foothold service
+            float mapleGroundY = footholdService.GetGroundBelow(maplePos.X, maplePos.Y);
+            
+            if (mapleGroundY == float.MaxValue)
+            {
+                // No ground found - log only when player moves into new areas
+                if (System.Math.Abs(position.X - lastNoGroundLogX) > 1f)
+                {
+                    System.Console.WriteLine($"[FOOTHOLD_COLLISION] No ground at Unity({position.X:F2}, {position.Y:F2}) -> Maple({maplePos.X:F0}, {maplePos.Y:F0})");
+                    lastNoGroundLogX = position.X;
+                }
+                return null;
+            }
+            
+            // Convert back to Unity coordinates
+            // Don't add 1 back - we want the exact ground position
+            float unityGroundY = MaplePhysicsConverter.MapleToUnityY(mapleGroundY);
+            
+            // Debug the conversion
+            if (debugCallCount < 10)
+            {
+                System.Console.WriteLine($"[FOOTHOLD_COLLISION] Ground found: MapleY={mapleGroundY} (+1={mapleGroundY + 1}) -> UnityY={unityGroundY}");
+            }
+            
+            return unityGroundY;
+        }
+        
+        private float? GetPlatformGroundBelow(Vector2 position)
+        {
+            // Legacy platform-based detection for backwards compatibility
+            var platform = GetPlatformBelow(position, currentMapData);
+            if (platform == null) return null;
+            
+            float posX = position.X * 100f;
+            float platformY = platform.GetYAtX(posX);
+            if (float.IsNaN(platformY)) return null;
+            
+            return platformY / 100f;
+        }
+        
         private Platform GetPlatformBelow(Vector2 position, MapData mapData)
         {
             if (mapData?.Platforms == null || mapData.Platforms.Count == 0)
@@ -935,8 +1051,9 @@ namespace MapleClient.GameLogic.Core
             }
             
             // Check current platform for special properties
-            if (IsGrounded)
+            if (IsGrounded && footholdService == null)
             {
+                // Only use platform-based environmental effects when no foothold service
                 var platform = GetCurrentPlatform(mapData);
                 if (platform != null)
                 {
@@ -950,6 +1067,26 @@ namespace MapleClient.GameLogic.Core
                         AddMovementModifier(conveyorMod);
                         // Apply conveyor velocity
                         Velocity = new Vector2(Velocity.X + platform.ConveyorSpeed, Velocity.Y);
+                    }
+                }
+            }
+            else if (IsGrounded && footholdService != null)
+            {
+                // Use foothold-based environmental effects
+                Vector2 maplePos = MaplePhysicsConverter.UnityToMaple(Position);
+                var foothold = footholdService.GetFootholdAt(maplePos.X, maplePos.Y);
+                if (foothold != null)
+                {
+                    if (foothold.IsSlippery)
+                    {
+                        AddMovementModifier(new SlipperyModifier());
+                    }
+                    if (foothold.IsConveyor)
+                    {
+                        var conveyorMod = new ConveyorModifier(foothold.ConveyorSpeed / 100f); // Convert to Unity units
+                        AddMovementModifier(conveyorMod);
+                        // Apply conveyor velocity
+                        Velocity = new Vector2(Velocity.X + foothold.ConveyorSpeed / 100f, Velocity.Y);
                     }
                 }
             }

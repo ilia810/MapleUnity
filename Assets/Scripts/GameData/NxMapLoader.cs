@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using MapleClient.GameLogic;
 using MapleClient.GameLogic.Interfaces;
+using MapleClient.GameData.Adapters;
 using PortalType = MapleClient.GameLogic.PortalType;
+using GameData;
 
 namespace MapleClient.GameData
 {
@@ -11,14 +13,38 @@ namespace MapleClient.GameData
     {
         private readonly INxFile mapNx;
         private readonly INxFile stringNx;
+        private IFootholdService footholdService;
+        private NXDataManagerSingleton nxManager;
 
-        public NxMapLoader(string dataPath = "")
+        public NxMapLoader(string dataPath = "", IFootholdService footholdService = null)
         {
+            this.footholdService = footholdService;
+            
+            // Try to use NXDataManagerSingleton for real NX data
+            try
+            {
+                nxManager = NXDataManagerSingleton.Instance;
+                if (nxManager != null && nxManager.DataManager != null)
+                {
+                    // Use real NX data from NXDataManagerSingleton
+                    UnityEngine.Debug.Log("[NxMapLoader] Using real NX data from NXDataManagerSingleton");
+                    mapNx = null; // We'll use nxManager instead
+                    stringNx = null;
+                    return;
+                }
+            }
+            catch (System.Exception e)
+            {
+                UnityEngine.Debug.LogWarning($"[NxMapLoader] Could not get NXDataManagerSingleton: {e.Message}");
+            }
+            
+            // Fallback to direct file loading or mock data
             try
             {
                 if (string.IsNullOrEmpty(dataPath))
                 {
                     // Use mock data for testing
+                    UnityEngine.Debug.Log("[NxMapLoader] Using mock data");
                     mapNx = new MockNxFile();
                     stringNx = new MockNxFile();
                 }
@@ -31,6 +57,7 @@ namespace MapleClient.GameData
             catch (System.IO.FileNotFoundException)
             {
                 // If NX files not found, create mock loader
+                UnityEngine.Debug.Log("[NxMapLoader] NX files not found, using mock data");
                 mapNx = new MockNxFile();
                 stringNx = new MockNxFile();
             }
@@ -41,29 +68,41 @@ namespace MapleClient.GameData
             var mapIdStr = mapId.ToString("D9");
             var mapCategory = mapIdStr.Substring(0, 1);
             
-            // Try to find map node
-            var mapPath = $"Map/Map{mapCategory}/{mapIdStr}.img";
-            UnityEngine.Debug.Log($"Looking for map at path: {mapPath}");
-            var mapNode = mapNx.GetNode(mapPath);
+            INxNode mapNode = null;
             
-            if (mapNode == null)
+            // Try to use NXDataManagerSingleton first
+            if (nxManager != null)
             {
-                // Try without category for mock data
-                mapPath = $"Map/Map0/{mapIdStr}.img";
-                UnityEngine.Debug.Log($"First path failed, trying: {mapPath}");
+                UnityEngine.Debug.Log($"[NxMapLoader] Getting map node from NXDataManagerSingleton for map {mapId}");
+                mapNode = nxManager.GetMapNode(mapId);
+            }
+            else if (mapNx != null)
+            {
+                // Fallback to direct node access
+                var mapPath = $"Map/Map{mapCategory}/{mapIdStr}.img";
+                UnityEngine.Debug.Log($"Looking for map at path: {mapPath}");
                 mapNode = mapNx.GetNode(mapPath);
+                
                 if (mapNode == null)
                 {
-                    // Try without "Map/" prefix
-                    mapPath = $"Map{mapCategory}/{mapIdStr}.img";
-                    UnityEngine.Debug.Log($"Second path failed, trying: {mapPath}");
+                    // Try without category for mock data
+                    mapPath = $"Map/Map0/{mapIdStr}.img";
+                    UnityEngine.Debug.Log($"First path failed, trying: {mapPath}");
                     mapNode = mapNx.GetNode(mapPath);
                     if (mapNode == null)
                     {
-                        UnityEngine.Debug.LogError($"Failed to find map node for {mapId}");
-                        return null;
+                        // Try without "Map/" prefix
+                        mapPath = $"Map{mapCategory}/{mapIdStr}.img";
+                        UnityEngine.Debug.Log($"Second path failed, trying: {mapPath}");
+                        mapNode = mapNx.GetNode(mapPath);
                     }
                 }
+            }
+            
+            if (mapNode == null)
+            {
+                UnityEngine.Debug.LogError($"Failed to find map node for {mapId}");
+                return null;
             }
 
             var mapData = new MapData
@@ -90,6 +129,20 @@ namespace MapleClient.GameData
                 mapData.BgmId = infoNode["bgm"]?.GetValue<string>() ?? "";
             }
 
+            // Update FootholdService if available
+            if (footholdService != null && mapData.Platforms.Count > 0)
+            {
+                var footholds = FootholdDataAdapter.ConvertPlatformsToFootholds(mapData.Platforms);
+                FootholdDataAdapter.BuildFootholdConnectivity(footholds);
+                footholdService.LoadFootholds(footholds);
+                UnityEngine.Debug.Log($"Updated FootholdService with {footholds.Count} footholds");
+                UnityEngine.Debug.Log($"[FOOTHOLD_COLLISION] NxMapLoader updated FootholdService with {footholds.Count} footholds from {mapData.Platforms.Count} platforms");
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning($"[FOOTHOLD_COLLISION] NxMapLoader skipped FootholdService update - service:{footholdService != null}, platforms:{mapData.Platforms.Count}");
+            }
+
             return mapData;
         }
 
@@ -98,17 +151,41 @@ namespace MapleClient.GameData
             // For testing with mock data
             if (mapId == 100000000)
                 return "Henesys";
-
-            var streetNode = stringNx.GetNode($"Map.img/streetName/{mapId}");
-            if (streetNode != null)
+            
+            // Try to use NXDataManagerSingleton for string data
+            if (nxManager != null && nxManager.DataManager != null)
             {
-                return streetNode["streetName"]?.GetValue<string>() ?? $"Map {mapId}";
+                try
+                {
+                    var stringNode = nxManager.DataManager.GetNode("String", $"Map.img/streetName/{mapId}");
+                    if (stringNode != null && stringNode is INxNode nxNode)
+                    {
+                        return nxNode["streetName"]?.GetValue<string>() ?? $"Map {mapId}";
+                    }
+                    
+                    var mapNameNode = nxManager.DataManager.GetNode("String", $"Map.img/mapName/{mapId}");
+                    if (mapNameNode != null && mapNameNode is INxNode nxMapNode)
+                    {
+                        return nxMapNode["mapName"]?.GetValue<string>() ?? $"Map {mapId}";
+                    }
+                }
+                catch { }
             }
-
-            var mapNode = stringNx.GetNode($"Map.img/mapName/{mapId}");
-            if (mapNode != null)
+            
+            // Fallback to direct string NX access
+            if (stringNx != null)
             {
-                return mapNode["mapName"]?.GetValue<string>() ?? $"Map {mapId}";
+                var streetNode = stringNx.GetNode($"Map.img/streetName/{mapId}");
+                if (streetNode != null)
+                {
+                    return streetNode["streetName"]?.GetValue<string>() ?? $"Map {mapId}";
+                }
+
+                var mapNode = stringNx.GetNode($"Map.img/mapName/{mapId}");
+                if (mapNode != null)
+                {
+                    return mapNode["mapName"]?.GetValue<string>() ?? $"Map {mapId}";
+                }
             }
 
             return $"Map {mapId}";

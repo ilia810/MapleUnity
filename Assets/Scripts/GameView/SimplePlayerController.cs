@@ -3,6 +3,8 @@ using MapleClient.GameLogic.Core;
 using MapleClient.GameLogic.Interfaces;
 using System.Collections.Generic;
 
+using Debug = UnityEngine.Debug;
+
 namespace MapleClient.GameView
 {
     /// <summary>
@@ -115,6 +117,8 @@ namespace MapleClient.GameView
                 currentState = player.State;
                 wasGrounded = player.IsGrounded;
                 facingRight = player.Velocity.X >= 0;
+                
+                Debug.Log($"[SimplePlayerController] SetGameLogicPlayer - Initial sync: Position={pos}, State={currentState}, Grounded={wasGrounded}");
             }
         }
         
@@ -125,24 +129,35 @@ namespace MapleClient.GameView
         
         void FixedUpdate()
         {
-            // Position updates now come through IPlayerViewListener
-            // This method is kept for any additional fixed update logic if needed
+            // In batch mode, force position sync in FixedUpdate as well
+            if (Application.isBatchMode && gameLogicPlayer != null)
+            {
+                transform.position = new Vector3(gameLogicPlayer.Position.X, gameLogicPlayer.Position.Y, 0);
+            }
         }
         
         void Update()
         {
             if (gameLogicPlayer == null) return;
             
-            // Interpolate position for smooth visual movement
-            if (useInterpolation && gameWorld != null)
+            // In batch mode, always use direct position sync
+            if (Application.isBatchMode)
             {
-                float interpolationFactor = gameWorld.GetPhysicsInterpolationFactor();
-                transform.position = Vector3.Lerp(previousPosition, currentPosition, interpolationFactor);
+                transform.position = new Vector3(gameLogicPlayer.Position.X, gameLogicPlayer.Position.Y, 0);
             }
             else
             {
-                // Fallback to direct position sync
-                transform.position = currentPosition;
+                // Interpolate position for smooth visual movement
+                if (useInterpolation && gameWorld != null)
+                {
+                    float interpolationFactor = gameWorld.GetPhysicsInterpolationFactor();
+                    transform.position = Vector3.Lerp(previousPosition, currentPosition, interpolationFactor);
+                }
+                else
+                {
+                    // Fallback to direct position sync
+                    transform.position = currentPosition;
+                }
             }
             
             // Debug logging
@@ -151,6 +166,7 @@ namespace MapleClient.GameView
                 lastDebugTime = Time.time;
                 Debug.Log($"[SimplePlayerController] Visual Position: {transform.position}, " +
                          $"Current Position: {currentPosition}, " +
+                         $"GameLogic Position: {(gameLogicPlayer != null ? gameLogicPlayer.Position.ToString() : "null")}, " +
                          $"State: {currentState}, " +
                          $"Grounded: {wasGrounded}, " +
                          $"Interpolation: {(useInterpolation ? "ON" : "OFF")}");
