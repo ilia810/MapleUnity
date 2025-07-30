@@ -5,7 +5,6 @@ using MapleClient.GameLogic.Core;
 using MapleClient.GameLogic.Interfaces;
 using MapleClient.GameLogic.Data;
 using MapleClient.GameData;
-using MapleClient.Utils;
 
 using Debug = UnityEngine.Debug;
 
@@ -316,7 +315,12 @@ namespace MapleClient.GameView
                 {
                     Debug.Log($"Head attachment point: {headAttachPoint.Value}");
                     // Convert MapleStory coordinates to Unity coordinates
-                    Vector3 headPos = CoordinateConverter.MSToUnityPosition(headAttachPoint.Value.x, headAttachPoint.Value.y);
+                    // Head attachment is relative to the character origin, so we just scale it
+                    Vector3 headPos = new Vector3(
+                        headAttachPoint.Value.x / 100f, 
+                        -headAttachPoint.Value.y / 100f, // Invert Y for Unity
+                        0
+                    );
                     // Update head/face/hair positions
                     UpdateHeadPosition(headPos);
                 }
@@ -564,6 +568,48 @@ namespace MapleClient.GameView
         
         #region IPlayerViewListener Implementation
         
+        public void OnPositionChanged(Vector2 position)
+        {
+            // Position is handled by parent PlayerView
+        }
+        
+        public void OnStateChanged(PlayerState state)
+        {
+            // Map PlayerState to CharacterState for animations
+            Debug.Log($"[MapleCharacterRenderer] State changed to: {state}");
+            
+            CharacterState oldState = currentState;
+            CharacterState newState = GetCharacterState();
+            
+            if (oldState != newState)
+            {
+                currentState = newState;
+                currentFrame = 0;
+                animationTimer = 0f;
+                UpdateSprites();
+            }
+        }
+        
+        public void OnVelocityChanged(Vector2 velocity)
+        {
+            // Use velocity for facing direction
+            if (velocity.X != 0)
+            {
+                bool shouldFlip = velocity.X < 0;
+                SetFlipX(shouldFlip);
+            }
+        }
+        
+        public void OnGroundedStateChanged(bool isGrounded)
+        {
+            // Can use this for landing detection
+            if (isGrounded && currentState == CharacterState.Jump)
+            {
+                Debug.Log("[MapleCharacterRenderer] Landed!");
+                // Landing will be handled by state change or animation event
+            }
+        }
+        
         public void OnAnimationEvent(PlayerAnimationEvent animEvent)
         {
             Debug.Log($"[MapleCharacterRenderer] Animation event: {animEvent}");
@@ -633,34 +679,10 @@ namespace MapleClient.GameView
             }
         }
         
-        public void OnStateChanged(PlayerState oldState, PlayerState newState)
+        public void OnMovementModifiersChanged(System.Collections.Generic.List<IMovementModifier> modifiers)
         {
-            // Additional state change handling if needed
-            Debug.Log($"[MapleCharacterRenderer] State changed: {oldState} -> {newState}");
-        }
-        
-        public void OnPositionChanged(Vector2 oldPos, Vector2 newPos)
-        {
-            // Position is handled by parent PlayerView
-        }
-        
-        public void OnVelocityChanged(Vector2 oldVel, Vector2 newVel)
-        {
-            // Use velocity for facing direction
-            if (newVel.X != 0)
-            {
-                bool shouldFlip = newVel.X < 0;
-                SetFlipX(shouldFlip);
-            }
-        }
-        
-        public void OnGroundedChanged(bool wasGrounded, bool isGrounded)
-        {
-            // Can use this for landing detection
-            if (!wasGrounded && isGrounded)
-            {
-                Debug.Log("[MapleCharacterRenderer] Landed!");
-            }
+            // Handle movement modifiers if needed (ice, slow, etc.)
+            Debug.Log($"[MapleCharacterRenderer] Movement modifiers changed: {modifiers?.Count ?? 0} modifiers");
         }
         
         #endregion
