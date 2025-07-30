@@ -547,12 +547,49 @@ namespace MapleClient.GameData
             if (charFile == null) return null;
             
             // Equipment sprites are in Character/{Category}/{itemId:D8}.img/{state}/{frame}
-            var equipNode = charFile.GetNode($"{category}/{itemId:D8}.img/{state}/{frame}");
+            string equipPath = $"{category}/{itemId:D8}.img/{state}/{frame}";
+            var frameNode = charFile.GetNode(equipPath);
             
-            if (equipNode == null) return null;
+            if (frameNode == null) 
+            {
+                Debug.LogWarning($"Equipment frame not found at: {equipPath}");
+                return null;
+            }
             
-            var resolvedNode = ResolveLinks(equipNode, charFile);
-            return SpriteLoader.LoadSprite(resolvedNode, $"equip/{category}/{itemId}/{state}/{frame}");
+            // Equipment frames often have multiple parts (similar to body frames)
+            // Look for the actual sprite part within the frame
+            foreach (var partNode in frameNode.Children)
+            {
+                string partName = partNode.Name;
+                
+                // Skip non-sprite nodes
+                if (partName == "delay" || partName == "origin") continue;
+                
+                Debug.Log($"Processing equipment part '{partName}' at: {equipPath}/{partName}");
+                
+                // Handle link resolution
+                var resolvedNode = ResolveLinks(partNode, charFile);
+                if (resolvedNode != null)
+                {
+                    // Get the origin for this part
+                    Vector2 origin = Vector2.zero;
+                    var originNode = partNode["origin"];
+                    if (originNode != null && originNode.Value is Vector2 vec)
+                    {
+                        origin = vec;
+                    }
+                    
+                    var sprite = SpriteLoader.ConvertCharacterNodeToSprite(resolvedNode, $"{equipPath}/{partName}", origin);
+                    if (sprite != null)
+                    {
+                        return sprite; // Return first valid sprite part
+                    }
+                }
+            }
+            
+            // If no parts found, try loading the frame directly (older format)
+            var resolvedFrame = ResolveLinks(frameNode, charFile);
+            return SpriteLoader.LoadSprite(resolvedFrame, equipPath);
         }
         
         /// <summary>
