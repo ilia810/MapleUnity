@@ -66,6 +66,9 @@ namespace MapleClient.GameView
             // Initialize sprites immediately
             UpdateSprites();
             
+            // Set initial facing direction - MapleStory sprites face right by default
+            SetFlipX(false);
+            
             // Debug sprite positioning
             Debug.Log($"MapleCharacterRenderer initialized at: {transform.position}");
             Debug.Log($"  Parent (PlayerView) position: {transform.parent?.position ?? Vector3.zero}");
@@ -182,17 +185,6 @@ namespace MapleClient.GameView
                 
                 UpdateSprites();
             }
-            
-            // Flip sprites based on direction
-            // MapleStory sprites are drawn facing RIGHT by default
-            // When moving left (negative velocity), we flip to face left
-            // When standing still, maintain the last facing direction
-            if (player.Velocity.X != 0)
-            {
-                bool shouldFlip = player.Velocity.X < 0;
-                SetFlipX(shouldFlip);
-            }
-            // If velocity is 0, keep the current flip state
         }
         
         private CharacterState GetCharacterState()
@@ -345,11 +337,12 @@ namespace MapleClient.GameView
                 {
                     Debug.Log($"Head attachment point: {headAttachPoint.Value}");
                     // Convert MapleStory coordinates to Unity coordinates
-                    // Head attachment is relative to the character origin (feet)
-                    // In MapleStory, positive Y goes down, in Unity positive Y goes up
+                    // In MapleStory: Y=0 is at top, positive Y goes down
+                    // In Unity: Y=0 is at character feet, positive Y goes up
+                    // Head attachment Y values are typically around 30-50 in MapleStory coordinates
                     Vector3 headPos = new Vector3(
-                        headAttachPoint.Value.x / 100f, // Convert pixels to Unity units
-                        headAttachPoint.Value.y / 100f,  // Keep Y positive (it's already in Unity space from NX loader)
+                        headAttachPoint.Value.x / 100f,  // X remains the same, just scale
+                        -headAttachPoint.Value.y / 100f, // Negate Y and scale (MS down = Unity up)
                         0
                     );
                     Debug.Log($"Converted head position for Unity: {headPos}");
@@ -359,8 +352,9 @@ namespace MapleClient.GameView
                 else
                 {
                     Debug.LogWarning("No head attachment point found for current frame");
-                    // Reset to default position if no attachment point
-                    UpdateHeadPosition(Vector3.zero);
+                    // Use a sensible default position - head should be about 0.4-0.5 units above feet
+                    Vector3 defaultHeadPos = new Vector3(0, 0.45f, 0);
+                    UpdateHeadPosition(defaultHeadPos);
                 }
             }
             else
@@ -631,10 +625,13 @@ namespace MapleClient.GameView
         public void OnVelocityChanged(MapleClient.GameLogic.Vector2 velocity)
         {
             // Use velocity for facing direction
+            // MapleStory sprites face RIGHT by default
+            // Flip when moving LEFT (negative X velocity)
             if (velocity.X != 0)
             {
                 bool shouldFlip = velocity.X < 0;
                 SetFlipX(shouldFlip);
+                Debug.Log($"[MapleCharacterRenderer] Velocity changed to {velocity.X}, flipping: {shouldFlip}");
             }
         }
         
