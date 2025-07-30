@@ -119,10 +119,12 @@ namespace MapleClient.GameView
             texture.wrapMode = TextureWrapMode.Clamp;
             
             // Convert MapleStory origin (top-left based) to Unity pivot (bottom-left based)
-            // In MapleStory: origin is offset from top-left corner
+            // In MapleStory: origin is offset from top-left corner where the sprite anchors
             // In Unity: pivot is normalized position from bottom-left (0,0) to top-right (1,1)
             float pivotX = origin.x / texture.width;
-            float pivotY = 1.0f - (origin.y / texture.height); // Invert Y axis
+            // MapleStory uses top-left origin, Unity uses bottom-left
+            // We need to flip the Y coordinate to convert between coordinate systems
+            float pivotY = 1.0f - (origin.y / texture.height);
             
             Vector2 pivot = new Vector2(pivotX, pivotY);
             

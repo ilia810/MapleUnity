@@ -276,9 +276,9 @@ namespace MapleClient.GameData
         /// <summary>
         /// Load all body parts for a character frame
         /// </summary>
-        public Dictionary<string, Sprite> LoadCharacterBodyParts(int skin, string state, int frame, out Vector2? headAttachPoint)
+        public Dictionary<string, Sprite> LoadCharacterBodyParts(int skin, string state, int frame, out Dictionary<string, Vector2> attachmentPoints)
         {
-            headAttachPoint = null; // Initialize out parameter
+            attachmentPoints = new Dictionary<string, Vector2>(); // Initialize out parameter
             
             var charFile = GetNxFile("character");
             if (charFile == null)
@@ -334,36 +334,29 @@ namespace MapleClient.GameData
             if (frameNode == null)
             {
                 Debug.LogWarning($"Character frame node not found at: {path}");
-                headAttachPoint = null;
+                attachmentPoints = null;
                 return null;
             }
             
-            return LoadAllPartsFromFrame(frameNode, path, charFile, out headAttachPoint);
+            return LoadAllPartsFromFrame(frameNode, path, charFile, out attachmentPoints);
         }
         
-        private Dictionary<string, Sprite> LoadAllPartsFromFrame(INxNode frameNode, string path, INxFile charFile, out Vector2? headAttachPoint)
+        private Dictionary<string, Sprite> LoadAllPartsFromFrame(INxNode frameNode, string path, INxFile charFile, out Dictionary<string, Vector2> attachmentPoints)
         {
             var parts = new Dictionary<string, Sprite>();
-            headAttachPoint = null;
+            attachmentPoints = new Dictionary<string, Vector2>();
+            
+            // First check for attachment points at frame level
+            // These are used for positioning other parts relative to the body
+            ExtractAttachmentPoints(frameNode, attachmentPoints, "frame");
             
             // Look for all body parts within the frame
             foreach (var partNode in frameNode.Children)
             {
                 string partName = partNode.Name;
                 
-                // Check for head attachment point
-                if (partName == "head")
-                {
-                    if (partNode.Value is Vector2 headPos)
-                    {
-                        headAttachPoint = headPos;
-                        Debug.Log($"Found head attachment point at: {headPos}");
-                    }
-                    continue;
-                }
-                
                 // Skip non-sprite parts
-                if (partName == "delay" || partName == "face")
+                if (partName == "delay" || partName == "face" || partName == "head")
                     continue;
                 
                 Debug.Log($"Processing part '{partName}' at: {path}/{partName}");
@@ -374,6 +367,31 @@ namespace MapleClient.GameData
                 {
                     Debug.LogWarning($"Could not resolve links for part: {partName}");
                     continue;
+                }
+                
+                // Extract attachment points from body parts
+                if (partName == "body")
+                {
+                    // Body has special attachment points for other parts
+                    ExtractAttachmentPoints(resolvedNode, attachmentPoints, "body");
+                    
+                    // Also check the map node which contains attachment points
+                    var mapNode = resolvedNode["map"];
+                    if (mapNode != null)
+                    {
+                        ExtractAttachmentPoints(mapNode, attachmentPoints, "body.map");
+                    }
+                }
+                else if (partName == "arm" || partName == "hand" || partName == "lHand" || partName == "rHand")
+                {
+                    // Arms have their own attachment points
+                    ExtractAttachmentPoints(resolvedNode, attachmentPoints, partName);
+                    
+                    var mapNode = resolvedNode["map"];
+                    if (mapNode != null)
+                    {
+                        ExtractAttachmentPoints(mapNode, attachmentPoints, $"{partName}.map");
+                    }
                 }
                 
                 // Get the origin for this part
@@ -388,7 +406,7 @@ namespace MapleClient.GameData
                 if (sprite != null)
                 {
                     parts[partName] = sprite;
-                    Debug.Log($"Loaded part '{partName}': {sprite.rect.width}x{sprite.rect.height}");
+                    Debug.Log($"Loaded part '{partName}': {sprite.rect.width}x{sprite.rect.height}, origin: {origin}");
                 }
             }
             
@@ -472,6 +490,49 @@ namespace MapleClient.GameData
             if (headPart != null)
             {
                 var resolvedNode = ResolveLinks(headPart, charFile);
+                return SpriteLoader.LoadSprite(resolvedNode, $"head/{skin}/{state}/{frame}");
+            }
+            
+            // Try loading the frame directly
+            var resolvedFrame = ResolveLinks(frameNode, charFile);
+            return SpriteLoader.LoadSprite(resolvedFrame, $"head/{skin}/{state}/{frame}");
+        }
+        
+        /// <summary>
+        /// Load character head sprite with attachment points
+        /// </summary>
+        public Sprite LoadCharacterHead(int skin, string state, int frame, out Dictionary<string, Vector2> attachmentPoints)
+        {
+            attachmentPoints = new Dictionary<string, Vector2>();
+            
+            var charFile = GetNxFile("character");
+            if (charFile == null) return null;
+            
+            // Head sprites follow same structure as body
+            string path = $"00012000.img/{state}/{frame}";
+            var frameNode = charFile.GetNode(path);
+            
+            if (frameNode == null) return null;
+            
+            // Extract head attachment points from the frame
+            ExtractAttachmentPoints(frameNode, attachmentPoints, "head");
+            
+            // Look for head part within the frame
+            var headPart = frameNode["head"];
+            if (headPart != null)
+            {
+                var resolvedNode = ResolveLinks(headPart, charFile);
+                
+                // Also extract attachment points from the head part itself
+                ExtractAttachmentPoints(resolvedNode, attachmentPoints, "head");
+                
+                // Check for map node which may contain additional attachment points
+                var mapNode = resolvedNode["map"];
+                if (mapNode != null)
+                {
+                    ExtractAttachmentPoints(mapNode, attachmentPoints, "head.map");
+                }
+                
                 return SpriteLoader.LoadSprite(resolvedNode, $"head/{skin}/{state}/{frame}");
             }
             
@@ -668,6 +729,43 @@ namespace MapleClient.GameData
                 case 4: return "Etc"; // Etc
                 case 5: return "Cash"; // Cash
                 default: return "Etc";
+            }
+        }
+        
+        /// <summary>
+        /// Extract attachment points from a node (neck, navel, hand, brow, etc.)
+        /// </summary>
+        private void ExtractAttachmentPoints(INxNode node, Dictionary<string, Vector2> attachmentPoints, string prefix)
+        {
+            if (node == null) return;
+            
+            // Common attachment point names in MapleStory
+            string[] commonAttachmentNames = { "neck", "navel", "hand", "brow", "head", "ear" };
+            
+            foreach (var attachmentName in commonAttachmentNames)
+            {
+                var attachmentNode = node[attachmentName];
+                if (attachmentNode != null && attachmentNode.Value is Vector2 attachmentPos)
+                {
+                    string key = string.IsNullOrEmpty(prefix) ? attachmentName : $"{prefix}.{attachmentName}";
+                    attachmentPoints[key] = attachmentPos;
+                    Debug.Log($"Found attachment point '{key}': {attachmentPos}");
+                }
+            }
+            
+            // Also check for any Vector2 children that might be attachment points
+            foreach (var child in node.Children)
+            {
+                if (child.Value is Vector2 vec)
+                {
+                    string key = string.IsNullOrEmpty(prefix) ? child.Name : $"{prefix}.{child.Name}";
+                    // Only add if not already found
+                    if (!attachmentPoints.ContainsKey(key))
+                    {
+                        attachmentPoints[key] = vec;
+                        Debug.Log($"Found potential attachment point '{key}': {vec}");
+                    }
+                }
             }
         }
     }

@@ -41,9 +41,10 @@ namespace MapleClient.GameView
         private int currentFrame = 0;
         private float animationTimer = 0f;
         private const float FRAME_DURATION = 0.1f; // 100ms per frame
+        private bool isFacingLeft = false; // Track current facing direction
         
-        // Head attachment point for current frame
-        private Vector2? currentHeadAttachPoint = null;
+        // Attachment points for current frame (neck, navel, hand, etc.)
+        private Dictionary<string, Vector2> currentAttachmentPoints = new Dictionary<string, Vector2>();
         
         // Character appearance
         private int skinColor = 0;
@@ -254,6 +255,10 @@ namespace MapleClient.GameView
             
             // Update equipment
             UpdateEquipmentSprites();
+            
+            // Apply attachment offsets after all sprites are loaded
+            // This ensures we have all the necessary sprites before computing offsets
+            ApplyAttachmentOffsets();
         }
         
         private void UpdateBodySprite()
@@ -265,14 +270,21 @@ namespace MapleClient.GameView
             armOverHairRenderer.sprite = null;
             handRenderer.sprite = null;
             
+            // Reset positions to origin before applying new offsets
+            bodyRenderer.transform.localPosition = Vector3.zero;
+            armRenderer.transform.localPosition = Vector3.zero;
+            backBodyRenderer.transform.localPosition = Vector3.zero;
+            armOverHairRenderer.transform.localPosition = Vector3.zero;
+            handRenderer.transform.localPosition = Vector3.zero;
+            
             // Ensure renderers are enabled
             bodyRenderer.enabled = true;
             armRenderer.enabled = true;
             
             // Load all body parts from NXAssetLoader
             string stateName = ConvertStateToAnimationName(currentState);
-            Vector2? headAttachPoint;
-            var bodyParts = NXAssetLoader.Instance.LoadCharacterBodyParts(skinColor, stateName, currentFrame, out headAttachPoint);
+            Dictionary<string, Vector2> attachmentPoints;
+            var bodyParts = NXAssetLoader.Instance.LoadCharacterBodyParts(skinColor, stateName, currentFrame, out attachmentPoints);
             
             if (bodyParts != null && bodyParts.Count > 0)
             {
@@ -295,8 +307,7 @@ namespace MapleClient.GameView
                         case "armbelowhead": // Some animations might use this name
                             armRenderer.sprite = part.Value;
                             Debug.Log($"  - Arm: {part.Value.rect.width}x{part.Value.rect.height}, pivot: {part.Value.pivot}, bounds: {part.Value.bounds}");
-                            // Log renderer state
-                            Debug.Log($"    Arm renderer enabled: {armRenderer.enabled}, position: {armRenderer.transform.position}, localPos: {armRenderer.transform.localPosition}");
+                            // Keep at origin - sprite pivot handles positioning
                             break;
                             
                         case "backbody":
@@ -331,31 +342,8 @@ namespace MapleClient.GameView
                     }
                 }
                 
-                // Store head attachment point
-                currentHeadAttachPoint = headAttachPoint;
-                if (headAttachPoint.HasValue)
-                {
-                    Debug.Log($"Head attachment point: {headAttachPoint.Value}");
-                    // Convert MapleStory coordinates to Unity coordinates
-                    // In MapleStory: Y=0 is at top, positive Y goes down
-                    // In Unity: Y=0 is at character feet, positive Y goes up
-                    // Head attachment Y values are typically around 30-50 in MapleStory coordinates
-                    Vector3 headPos = new Vector3(
-                        headAttachPoint.Value.x / 100f,  // X remains the same, just scale
-                        -headAttachPoint.Value.y / 100f, // Negate Y and scale (MS down = Unity up)
-                        0
-                    );
-                    Debug.Log($"Converted head position for Unity: {headPos}");
-                    // Update head/face/hair positions
-                    UpdateHeadPosition(headPos);
-                }
-                else
-                {
-                    Debug.LogWarning("No head attachment point found for current frame");
-                    // Use a sensible default position - head should be about 0.4-0.5 units above feet
-                    Vector3 defaultHeadPos = new Vector3(0, 0.45f, 0);
-                    UpdateHeadPosition(defaultHeadPos);
-                }
+                // Store attachment points (offsets will be applied after all sprites are loaded)
+                currentAttachmentPoints = attachmentPoints ?? new Dictionary<string, Vector2>();
             }
             else
             {
@@ -376,15 +364,130 @@ namespace MapleClient.GameView
             }
         }
         
+        private void ApplyAttachmentOffsets()
+        {
+            // According to research6.txt, MapleStory uses attachment points to position parts relative to each other
+            // The C++ client computes offsets like:
+            // - Head position: body.map["neck"] - head.map["neck"]
+            // - Arm position: arm.map["hand"] - arm.map["navel"] + body.map["navel"]
+            
+            Debug.Log("=== Applying Attachment Offsets ===");
+            Debug.Log($"Total attachment points found: {currentAttachmentPoints.Count}");
+            foreach (var kvp in currentAttachmentPoints)
+            {
+                Debug.Log($"  {kvp.Key}: {kvp.Value}");
+            }
+            
+            // Get body attachment points
+            Vector2 bodyNeck = GetAttachmentPoint("body.map.neck", "body.neck", "neck");
+            Vector2 bodyNavel = GetAttachmentPoint("body.map.navel", "body.navel", "navel");
+            
+            Debug.Log($"Body neck point: {bodyNeck}");
+            Debug.Log($"Body navel point: {bodyNavel}");
+            
+            // Apply head offset based on neck attachment
+            if (bodyNeck != Vector2.zero)
+            {
+                // According to research6.txt: headPos = body.map["neck"] - head.map["neck"]
+                // Get head's neck attachment point
+                Vector2 headNeck = GetAttachmentPoint("head.map.neck", "head.neck");
+                
+                // Calculate offset to align head's neck with body's neck
+                Vector3 headOffset = new Vector3(
+                    (bodyNeck.x - headNeck.x) / 100f,
+                    -(bodyNeck.y - headNeck.y) / 100f, // Flip Y for Unity
+                    0
+                );
+                Debug.Log($"Head positioning: body neck {bodyNeck} - head neck {headNeck} = offset {headOffset}");
+                UpdateHeadPosition(headOffset);
+            }
+            else
+            {
+                // Default head position if no attachment points
+                Debug.Log("No neck attachment found, using default head position");
+                UpdateHeadPosition(new Vector3(0, 0.32f, 0));
+            }
+            
+            // Apply arm offset based on navel attachment
+            if (armRenderer.sprite != null)
+            {
+                if (bodyNavel != Vector2.zero)
+                {
+                    // Get arm's navel point (shoulder connection)
+                    Vector2 armNavel = GetAttachmentPoint("arm.map.navel", "arm.navel");
+                    Debug.Log($"Arm navel point: {armNavel}");
+                    
+                    // According to research6.txt: arm shift = body.navel - arm.navel
+                    // This aligns the arm's navel (shoulder) to the body's navel
+                    Vector3 armOffset = new Vector3(
+                        (bodyNavel.x - armNavel.x) / 100f,
+                        -(bodyNavel.y - armNavel.y) / 100f, // Flip Y
+                        0
+                    );
+                    
+                    Debug.Log($"Applying arm offset: body navel {bodyNavel} - arm navel {armNavel} = {armOffset}");
+                    armRenderer.transform.localPosition = armOffset;
+                }
+                else
+                {
+                    // Default arm position if no navel attachment
+                    Debug.Log("No navel attachment found, using default arm position");
+                    armRenderer.transform.localPosition = new Vector3(0, 0.2f, 0);
+                }
+            }
+            
+            // Apply hand offset if separate from arm
+            if (handRenderer.sprite != null)
+            {
+                Vector2 armHand = GetAttachmentPoint("arm.map.hand", "arm.hand", "hand");
+                if (armHand != Vector2.zero)
+                {
+                    Vector3 handOffset = new Vector3(
+                        armHand.x / 100f,
+                        -armHand.y / 100f,
+                        0
+                    );
+                    Debug.Log($"Applying hand offset: {armHand} -> {handOffset}");
+                    handRenderer.transform.localPosition = handOffset;
+                }
+            }
+            
+            Debug.Log("=== Attachment Offsets Complete ===");
+        }
+        
+        private Vector2 GetAttachmentPoint(params string[] keys)
+        {
+            // Try each key in order until we find a valid attachment point
+            foreach (var key in keys)
+            {
+                if (currentAttachmentPoints.TryGetValue(key, out Vector2 point))
+                {
+                    return point;
+                }
+            }
+            return Vector2.zero;
+        }
+        
         private void UpdateHeadSprite()
         {
             // Load head sprite directly from asset loader
             string stateName = ConvertStateToAnimationName(currentState);
-            var headSprite = NXAssetLoader.Instance.LoadCharacterHead(skinColor, stateName, currentFrame);
+            Dictionary<string, Vector2> headAttachmentPoints;
+            var headSprite = NXAssetLoader.Instance.LoadCharacterHead(skinColor, stateName, currentFrame, out headAttachmentPoints);
             
             if (headSprite != null)
             {
                 headRenderer.sprite = headSprite;
+                
+                // Merge head attachment points into current attachment points
+                if (headAttachmentPoints != null)
+                {
+                    foreach (var kvp in headAttachmentPoints)
+                    {
+                        currentAttachmentPoints[kvp.Key] = kvp.Value;
+                    }
+                    Debug.Log($"Loaded {headAttachmentPoints.Count} head attachment points");
+                }
             }
         }
         
@@ -544,36 +647,69 @@ namespace MapleClient.GameView
             UpdateAppearance();
         }
         
-        private void UpdateHeadPosition(Vector3 headAttachPoint)
+        private void UpdateHeadPosition(Vector3 position)
         {
-            // Position head-related layers relative to the attachment point
-            // The attachment point is relative to the character's origin (usually feet)
-            // We need to position these as children maintain their own local positions
+            // According to research6.txt:
+            // - Head is positioned at body's neck attachment point
+            // - Face uses head's brow attachment point for positioning
+            // - Hair also uses the brow attachment point
             
             if (headRenderer != null && headRenderer.gameObject != null)
             {
-                headRenderer.transform.localPosition = headAttachPoint;
+                headRenderer.transform.localPosition = position;
             }
+            
+            // Face and hair need additional offsets based on head's brow attachment
+            Vector2 headBrow = GetAttachmentPoint("head.map.brow", "head.brow", "brow");
             
             if (faceRenderer != null && faceRenderer.gameObject != null)
             {
-                // Face is positioned relative to head
-                faceRenderer.transform.localPosition = headAttachPoint;
+                // According to research6.txt: facePos = body.neck - head.neck + head.brow
+                // Since head is already positioned at body.neck - head.neck, 
+                // face just needs head.brow offset relative to head position
+                if (headBrow != Vector2.zero)
+                {
+                    Vector3 faceOffset = position + new Vector3(
+                        headBrow.x / 100f,
+                        -headBrow.y / 100f,
+                        0
+                    );
+                    faceRenderer.transform.localPosition = faceOffset;
+                    Debug.Log($"Face positioned at head position + brow offset: {headBrow} -> {faceOffset}");
+                }
+                else
+                {
+                    // Default: align with head
+                    faceRenderer.transform.localPosition = position;
+                }
             }
             
             if (hairRenderer != null && hairRenderer.gameObject != null)
             {
-                // Hair is positioned relative to head
-                hairRenderer.transform.localPosition = headAttachPoint;
+                if (headBrow != Vector2.zero)
+                {
+                    // Hair is also positioned relative to head's brow point
+                    Vector3 hairOffset = position + new Vector3(
+                        headBrow.x / 100f,
+                        -headBrow.y / 100f,
+                        0
+                    );
+                    hairRenderer.transform.localPosition = hairOffset;
+                }
+                else
+                {
+                    // Default: align with head
+                    hairRenderer.transform.localPosition = position;
+                }
             }
             
             if (hatRenderer != null && hatRenderer.gameObject != null)
             {
                 // Hat is positioned relative to head
-                hatRenderer.transform.localPosition = headAttachPoint;
+                hatRenderer.transform.localPosition = position;
             }
             
-            Debug.Log($"Updated head position to: {headAttachPoint}");
+            Debug.Log($"Updated head position to: {position}");
         }
         
         
@@ -630,8 +766,12 @@ namespace MapleClient.GameView
             if (velocity.X != 0)
             {
                 bool shouldFlip = velocity.X < 0;
-                SetFlipX(shouldFlip);
-                Debug.Log($"[MapleCharacterRenderer] Velocity changed to {velocity.X}, flipping: {shouldFlip}");
+                if (shouldFlip != isFacingLeft)
+                {
+                    isFacingLeft = shouldFlip;
+                    SetFlipX(shouldFlip);
+                    Debug.Log($"[MapleCharacterRenderer] Facing direction changed. Velocity: {velocity.X}, Facing left: {shouldFlip}");
+                }
             }
         }
         
