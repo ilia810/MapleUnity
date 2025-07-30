@@ -91,36 +91,44 @@ namespace MapleClient.GameView
         
         private void CreateSpriteRenderers()
         {
-            // Create sprite renderers in correct layer order (based on C++ client layers_by_name)
-            // Back layers (negative sorting order)
+            // Create sprite renderers in correct layer order matching C++ client CharLook::draw()
+            // The order here matches the actual drawing order in MapleStory
+            
+            // Back layers (behind body)
             shieldRenderer = CreateSpriteLayer("Shield", -3);
             capeRenderer = CreateSpriteLayer("Cape", -2);
             backBodyRenderer = CreateSpriteLayer("BackBody", -1);
             
-            // Main body parts
+            // Main body
             bodyRenderer = CreateSpriteLayer("Body", 0);
+            
+            // Arm below head (drawn after body but before head)
             armRenderer = CreateSpriteLayer("Arm", 1);
             
             // Equipment on body
-            bottomRenderer = CreateSpriteLayer("Bottom", 2);
-            topRenderer = CreateSpriteLayer("Top", 3);
-            shoesRenderer = CreateSpriteLayer("Shoes", 4);
+            shoesRenderer = CreateSpriteLayer("Shoes", 2);
+            bottomRenderer = CreateSpriteLayer("Bottom", 3);
+            topRenderer = CreateSpriteLayer("Top", 4);
             
-            // Head and face
-            headRenderer = CreateSpriteLayer("Head", 5);
-            faceRenderer = CreateSpriteLayer("Face", 6);
+            // Gloves (first layer)
+            gloveRenderer = CreateSpriteLayer("Glove", 5);
             
-            // Hair layers
-            hairRenderer = CreateSpriteLayer("Hair", 7);
+            // Head layer - MUST be higher than body and initial equipment
+            headRenderer = CreateSpriteLayer("Head", 10);
             
-            // Over-hair layers
-            armOverHairRenderer = CreateSpriteLayer("ArmOverHair", 8);
-            gloveRenderer = CreateSpriteLayer("Glove", 9);
-            handRenderer = CreateSpriteLayer("Hand", 10);
-            hatRenderer = CreateSpriteLayer("Hat", 11);
+            // Face and hair - drawn AFTER head
+            faceRenderer = CreateSpriteLayer("Face", 11);
+            hairRenderer = CreateSpriteLayer("Hair", 12);
+            
+            // Hat/cap layer
+            hatRenderer = CreateSpriteLayer("Hat", 13);
+            
+            // Arm/hand layers that go over hair
+            armOverHairRenderer = CreateSpriteLayer("ArmOverHair", 14);
+            handRenderer = CreateSpriteLayer("Hand", 15);
             
             // Weapon on top
-            weaponRenderer = CreateSpriteLayer("Weapon", 12);
+            weaponRenderer = CreateSpriteLayer("Weapon", 16);
         }
         
         private SpriteRenderer CreateSpriteLayer(string layerName, int sortingOrder)
@@ -175,11 +183,16 @@ namespace MapleClient.GameView
                 UpdateSprites();
             }
             
-            // Flip sprites based on direction - fixed logic
-            // In MapleStory, positive X velocity means facing right (no flip)
-            // Negative X velocity means facing left (flip)
-            bool flipX = player.Velocity.X < 0;
-            SetFlipX(flipX);
+            // Flip sprites based on direction
+            // MapleStory sprites are drawn facing RIGHT by default
+            // When moving left (negative velocity), we flip to face left
+            // When standing still, maintain the last facing direction
+            if (player.Velocity.X != 0)
+            {
+                bool shouldFlip = player.Velocity.X < 0;
+                SetFlipX(shouldFlip);
+            }
+            // If velocity is 0, keep the current flip state
         }
         
         private CharacterState GetCharacterState()
@@ -260,6 +273,10 @@ namespace MapleClient.GameView
             armOverHairRenderer.sprite = null;
             handRenderer.sprite = null;
             
+            // Ensure renderers are enabled
+            bodyRenderer.enabled = true;
+            armRenderer.enabled = true;
+            
             // Load all body parts from NXAssetLoader
             string stateName = ConvertStateToAnimationName(currentState);
             Vector2? headAttachPoint;
@@ -272,7 +289,10 @@ namespace MapleClient.GameView
                 // Assign sprites to appropriate renderers
                 foreach (var part in bodyParts)
                 {
-                    switch (part.Key.ToLower())
+                    string partKey = part.Key.ToLower();
+                    Debug.Log($"Processing part '{part.Key}' (lowercase: '{partKey}')");
+                    
+                    switch (partKey)
                     {
                         case "body":
                             bodyRenderer.sprite = part.Value;
@@ -280,8 +300,11 @@ namespace MapleClient.GameView
                             break;
                             
                         case "arm":
+                        case "armbelowhead": // Some animations might use this name
                             armRenderer.sprite = part.Value;
-                            Debug.Log($"  - Arm: {part.Value.rect.width}x{part.Value.rect.height}");
+                            Debug.Log($"  - Arm: {part.Value.rect.width}x{part.Value.rect.height}, pivot: {part.Value.pivot}, bounds: {part.Value.bounds}");
+                            // Log renderer state
+                            Debug.Log($"    Arm renderer enabled: {armRenderer.enabled}, position: {armRenderer.transform.position}, localPos: {armRenderer.transform.localPosition}");
                             break;
                             
                         case "backbody":
@@ -297,14 +320,21 @@ namespace MapleClient.GameView
                             break;
                             
                         case "hand":
-                        case "lHand":
-                        case "rHand":
+                        case "lhand":
+                        case "rhand":
+                        case "handbelowweapon":
                             handRenderer.sprite = part.Value;
                             Debug.Log($"  - Hand: {part.Value.rect.width}x{part.Value.rect.height}");
                             break;
                             
                         default:
-                            Debug.Log($"  - Unknown part '{part.Key}': {part.Value.rect.width}x{part.Value.rect.height}");
+                            Debug.LogWarning($"  - Unknown part '{part.Key}': {part.Value.rect.width}x{part.Value.rect.height}");
+                            // Try to assign unknown parts that might be arm-related
+                            if (partKey.Contains("arm") && armRenderer.sprite == null)
+                            {
+                                armRenderer.sprite = part.Value;
+                                Debug.Log($"    Assigned to arm renderer as fallback");
+                            }
                             break;
                     }
                 }
@@ -315,14 +345,22 @@ namespace MapleClient.GameView
                 {
                     Debug.Log($"Head attachment point: {headAttachPoint.Value}");
                     // Convert MapleStory coordinates to Unity coordinates
-                    // Head attachment is relative to the character origin, so we just scale it
+                    // Head attachment is relative to the character origin (feet)
+                    // In MapleStory, positive Y goes down, in Unity positive Y goes up
                     Vector3 headPos = new Vector3(
-                        headAttachPoint.Value.x / 100f, 
-                        -headAttachPoint.Value.y / 100f, // Invert Y for Unity
+                        headAttachPoint.Value.x / 100f, // Convert pixels to Unity units
+                        headAttachPoint.Value.y / 100f,  // Keep Y positive (it's already in Unity space from NX loader)
                         0
                     );
+                    Debug.Log($"Converted head position for Unity: {headPos}");
                     // Update head/face/hair positions
                     UpdateHeadPosition(headPos);
+                }
+                else
+                {
+                    Debug.LogWarning("No head attachment point found for current frame");
+                    // Reset to default position if no attachment point
+                    UpdateHeadPosition(Vector3.zero);
                 }
             }
             else
@@ -568,7 +606,7 @@ namespace MapleClient.GameView
         
         #region IPlayerViewListener Implementation
         
-        public void OnPositionChanged(Vector2 position)
+        public void OnPositionChanged(MapleClient.GameLogic.Vector2 position)
         {
             // Position is handled by parent PlayerView
         }
@@ -590,7 +628,7 @@ namespace MapleClient.GameView
             }
         }
         
-        public void OnVelocityChanged(Vector2 velocity)
+        public void OnVelocityChanged(MapleClient.GameLogic.Vector2 velocity)
         {
             // Use velocity for facing direction
             if (velocity.X != 0)

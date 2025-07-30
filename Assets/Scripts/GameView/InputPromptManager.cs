@@ -352,26 +352,45 @@ namespace MapleClient.GameView
         
         private System.Collections.IEnumerator FadePrompt(CanvasGroup canvasGroup, float targetAlpha, float duration)
         {
+            if (canvasGroup == null) yield break;
+            
             float startAlpha = canvasGroup.alpha;
             float elapsed = 0f;
             
-            while (elapsed < duration)
+            while (elapsed < duration && canvasGroup != null)
             {
                 elapsed += Time.deltaTime;
                 canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / duration);
                 yield return null;
             }
             
-            canvasGroup.alpha = targetAlpha;
+            if (canvasGroup != null)
+            {
+                canvasGroup.alpha = targetAlpha;
+            }
         }
         
         private System.Collections.IEnumerator FadeAndDestroy(CanvasGroup canvasGroup, GameObject obj, string id)
         {
-            yield return StartCoroutine(FadePrompt(canvasGroup, 0f, 0.3f));
+            if (canvasGroup != null && obj != null)
+            {
+                yield return StartCoroutine(FadePrompt(canvasGroup, 0f, 0.3f));
+            }
             
-            Destroy(obj);
-            activePrompts.Remove(id);
-            promptTimers.Remove(id);
+            if (obj != null)
+            {
+                Destroy(obj);
+            }
+            
+            if (activePrompts.ContainsKey(id))
+            {
+                activePrompts.Remove(id);
+            }
+            
+            if (promptTimers.ContainsKey(id))
+            {
+                promptTimers.Remove(id);
+            }
         }
         
         public void ShowCustomPrompt(string id, string text, float duration = 3f)
