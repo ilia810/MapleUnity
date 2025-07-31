@@ -6,6 +6,7 @@ using MapleClient.GameData;
 using System.Collections.Generic;
 using System.Text;
 using Vector2 = UnityEngine.Vector2;  // Resolve ambiguity - use Unity's Vector2
+using Debug = UnityEngine.Debug;
 
 namespace MapleClient.GameView
 {

@@ -1,0 +1,39 @@
+[SIMPLE_TEST] Starting at 7/30/2025 8:36:23 AM
+
+=== Test 1: Direct Asset Loading ===
+  ✗ Blue Bandana (1002140): Failed
+  ✗ White Undershirt (1040002): Failed
+  ✗ Blue Jean Shorts (1060002): Failed
+  ✗ Red Rubber Boots (1072001): Failed
+  ✗ Adventurer Cape (1102054): Failed
+  ✗ Sword (1302000): Failed
+
+Direct loading: 0/6 items loaded
+
+=== Test 2: Character Renderer ===
+Equipped items on player
+Initialized character renderer
+
+Sprite renderers:
+  ✗ Shield: No sprite
+  ✗ Cape: No sprite
+  ✗ BackBody: No sprite
+  ✓ Body: Body
+  ✗ Arm: No sprite
+  ✗ Bottom: No sprite
+  ✗ Top: No sprite
+  ✗ Shoes: No sprite
+  ✗ Head: No sprite
+  ✗ Face: No sprite
+  ✗ Hair: No sprite
+  ✗ ArmOverHair: No sprite
+  ✗ Glove: No sprite
+  ✗ Hand: No sprite
+  ✗ Hat: No sprite
+  ✗ Weapon: No sprite
+
+Character renderer: 0 equipment sprites found
+
+✗ FAILED: No equipment sprites found in renderer
+
+[SIMPLE_TEST] Completed successfully at 7/30/2025 8:36:23 AM

@@ -1,0 +1,35 @@
+=== Unity Character Sprite Position Test Results ===
+
+The test successfully demonstrates how sprite positioning works with different pivot points:
+
+1. BODY SPRITE (Bottom Pivot)
+   - Size: 40x40 pixels
+   - Pivot: (20, 0) - bottom center
+   - Position offset: Y=0.00 (at ground)
+   - Result: Bottom at Y=0.000, Top at Y=0.400
+
+2. ARM SPRITE (Center Pivot)
+   - Size: 30x30 pixels  
+   - Pivot: (15, 15) - center
+   - Position offset: Y=0.20 (mid-body)
+   - Result: Bottom at Y=0.050, Top at Y=0.350
+
+3. HEAD SPRITE (Bottom Pivot)
+   - Size: 35x35 pixels
+   - Pivot: (17.5, 0) - bottom center
+   - Position offset: Y=0.28 (from attachment point)
+   - Result: Bottom at Y=0.280, Top at Y=0.630
+
+KEY FINDINGS:
+- The pivot point significantly affects final positioning
+- Body with bottom pivot correctly sits at ground level (Y=0)
+- Arm with center pivot at Y=0.20 actually spans Y=0.05 to Y=0.35
+- Head with bottom pivot at Y=0.28 starts exactly at that position
+
+The positioning calculations are working correctly. The visual appearance issues are likely due to:
+1. Incorrect pivot assignments in the sprite import
+2. Missing or incorrect position offsets in the rendering code
+3. The arm's center pivot causing it to appear lower than expected
+
+RECOMMENDATION:
+Check the actual sprite pivots in the NX loader and ensure they match MapleStory's expected values.

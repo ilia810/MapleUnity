@@ -1,0 +1,13 @@
+=== Testing C++ Character Rendering Formulas ===
+Test started at: 7/30/2025 11:05:01 PM
+Unity Version: 2023.2.20f1
+Project Path: C:/Users/me/MapleUnity/Assets
+
+=== Attempting to test MapleCharacterRenderer ===
+Found Assembly-CSharp: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+Total types in assembly: 18
+
+ERROR: MapleCharacterRenderer not found in assembly
+Looking for types containing 'Character':
+
+=== Test Complete ===

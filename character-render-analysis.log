@@ -1,0 +1,7 @@
+=== COMPREHENSIVE CHARACTER RENDERING TEST ===
+Time: 7/30/2025 8:58:22 PM
+Unity Version: 2023.2.20f1
+
+Loading henesys.unity scene...
+Scene loaded: henesys
+ERROR: No MapleCharacterRenderer found in scene!

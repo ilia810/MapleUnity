@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using MapleClient.GameLogic;
 using MapleClient.GameLogic.Core;
 using MapleClient.GameLogic.Interfaces;
 using MapleClient.GameLogic.Skills;
@@ -9,6 +10,8 @@ using MapleClient.GameData;
 using MapleClient.GameView.UI;
 using GameData.Network;
 using GameData;
+
+using Debug = UnityEngine.Debug;
 
 namespace MapleClient.GameView
 {
@@ -19,6 +22,7 @@ namespace MapleClient.GameView
         private IInputProvider inputProvider;
         private IAssetProvider assetProvider;
         private MapleStoryNetworkClient networkClient;
+        private IFootholdService footholdService;
         
         [Header("Network Settings")]
         [SerializeField] private bool useNetworking = false;
@@ -38,6 +42,7 @@ namespace MapleClient.GameView
         
         public Player Player => gameWorld?.Player;
         public SkillManager SkillManager => gameWorld?.SkillManager;
+        public IFootholdService FootholdService => footholdService;
 
         private void Awake()
         {
@@ -52,6 +57,12 @@ namespace MapleClient.GameView
             {
                 gameObject.AddComponent<PhysicsDebugger>();
             }
+            
+            // Add foothold debug logger to capture console output
+            if (!GetComponent<MapleClient.GameView.Debugging.FootholdDebugLogger>())
+            {
+                gameObject.AddComponent<MapleClient.GameView.Debugging.FootholdDebugLogger>();
+            }
         }
 
         private void Start()
@@ -65,6 +76,9 @@ namespace MapleClient.GameView
             // Add test component temporarily
             gameObject.AddComponent<MapleClient.GameData.TestReNX>();
             
+            // Add runtime collision test
+            // gameObject.AddComponent<RuntimeCollisionTest>();
+            
             InitializeGame();
         }
 
@@ -74,8 +88,11 @@ namespace MapleClient.GameView
             assetProvider = new NXDataManager();
             assetProvider.Initialize();
             
-            // Initialize data layer
-            mapLoader = new NxMapLoader(); // Now uses NX file data (or mock data if files not found)
+            // Create FootholdService
+            footholdService = new FootholdService();
+            
+            // Initialize data layer with FootholdService
+            mapLoader = new NxMapLoader("", footholdService); // Now uses NX file data (or mock data if files not found)
             
             // Initialize input
             inputProvider = new UnityInputProvider();
@@ -102,8 +119,8 @@ namespace MapleClient.GameView
                 networkClient.OnDisconnected += OnNetworkDisconnected;
             }
             
-            // Initialize game logic
-            gameWorld = new GameWorld(inputProvider, mapLoader, useNetworking ? networkClient : null, assetProvider);
+            // Initialize game logic with FootholdService
+            gameWorld = new GameWorld(inputProvider, mapLoader, useNetworking ? networkClient : null, assetProvider, footholdService);
             gameWorld.MapLoaded += OnMapLoaded;
             gameWorld.MonsterSpawned += OnMonsterSpawned;
             gameWorld.MonsterDied += OnMonsterDied;
@@ -126,9 +143,14 @@ namespace MapleClient.GameView
             else
             {
                 // Start in offline mode - spawn at origin
-                gameWorld.InitializePlayer(1, "Player", 100, 100, 100, 100, 0, 2);
+                // Platform will be adjusted to Y=200 in MapleStory coordinates
+                // Spawn player higher up so they don't gain too much velocity before hitting ground
+                // Y=150 MapleStory = Y=-1.5 Unity
+                Debug.Log($"[FOOTHOLD_COLLISION] GameManager: Calling InitializePlayer with Y=-1.5");
+                gameWorld.InitializePlayer(1, "Player", 100, 100, 100, 100, 0, -1.5f);
                 
                 // Load initial map (Henesys)
+                Debug.Log($"[FOOTHOLD_COLLISION] GameManager: Loading map 100000000");
                 gameWorld.LoadMap(100000000);
             }
         }
@@ -270,6 +292,17 @@ namespace MapleClient.GameView
                     Debug.LogError("[GameManager] No main camera found! Cannot setup camera follow.");
                 }
             }
+            
+            // Add foothold debug visualizer if in editor
+            #if UNITY_EDITOR
+            if (GameObject.Find("FootholdDebugVisualizer") == null)
+            {
+                GameObject debugObj = new GameObject("FootholdDebugVisualizer");
+                var visualizer = debugObj.AddComponent<MapleClient.GameView.Debugging.FootholdDebugVisualizer>();
+                visualizer.SetFootholdService(footholdService);
+                Debug.Log("[GameManager] Created FootholdDebugVisualizer for debugging");
+            }
+            #endif
             
             // Platform, ladder and portal visuals are now handled by MapRenderer
             // which uses actual MapleStory sprites from NX files

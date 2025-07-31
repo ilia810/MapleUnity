@@ -1,0 +1,101 @@
+using UnityEngine;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using System.Collections.Generic;
+using MapleClient.GameView;
+using MapleClient.GameLogic.Core;
+using MapleClient.GameData;
+
+public static class TestCppCharacterFormulas
+{
+    [MenuItem("MapleUnity/Test C++ Character Formulas")]
+    public static void RunTest()
+    {
+        try
+        {
+            Debug.Log("=== Testing C++ Character Rendering Formulas ===");
+            
+            // Create a test GameObject
+            GameObject testObject = new GameObject("TestCharacter");
+            testObject.transform.position = Vector3.zero;
+            
+            // Add MapleCharacterRenderer component
+            var renderer = testObject.AddComponent<MapleCharacterRenderer>();
+            
+            // Create a minimal player for testing
+            var player = new Player(new MapleClient.GameLogic.Vector2(0, 0));
+            
+            // Initialize the renderer (this will trigger sprite loading)
+            renderer.Initialize(player, null);
+            
+            // Give it a frame to update
+            Debug.Log("\nWaiting for one frame...");
+            EditorApplication.update += () => {
+                // Force an update
+                renderer.SendMessage("Update", SendMessageOptions.DontRequireReceiver);
+                
+                // Log the positions after update
+                LogCharacterPositions(renderer);
+                
+                // Clean up
+                GameObject.DestroyImmediate(testObject);
+                
+                Debug.Log("\n=== Test Complete ===");
+                Debug.Log("Check the console output to verify the C++ formulas are applied correctly:");
+                Debug.Log("1. Body's navel should be at (0,0)");
+                Debug.Log("2. Arm should align its navel with body's navel");
+                Debug.Log("3. Head should align its neck with body's neck");
+                Debug.Log("4. Face should be at head position + head's brow offset");
+                
+                EditorApplication.Exit(0);
+            };
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Test failed: {e.Message}");
+            Debug.LogError(e.StackTrace);
+            EditorApplication.Exit(1);
+        }
+    }
+    
+    private static void LogCharacterPositions(MapleCharacterRenderer renderer)
+    {
+        Debug.Log("\n=== Character Part Positions ===");
+        
+        var parts = new string[] { "Body", "Arm", "Head", "Face", "Hair" };
+        
+        foreach (var partName in parts)
+        {
+            var partTransform = renderer.transform.Find(partName);
+            if (partTransform != null)
+            {
+                var sr = partTransform.GetComponent<SpriteRenderer>();
+                if (sr != null && sr.sprite != null)
+                {
+                    Debug.Log($"\n{partName}:");
+                    Debug.Log($"  Local Position: {partTransform.localPosition}");
+                    Debug.Log($"  World Position: {partTransform.position}");
+                    Debug.Log($"  Sprite: {sr.sprite.name}");
+                    Debug.Log($"  Pivot: {sr.sprite.pivot}");
+                    Debug.Log($"  Bounds: {sr.bounds}");
+                }
+            }
+        }
+        
+        // Also log attachment points if we can access them
+        Debug.Log("\n=== Attachment Points (if available) ===");
+        var attachmentField = renderer.GetType().GetField("currentAttachmentPoints", 
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (attachmentField != null)
+        {
+            var attachments = attachmentField.GetValue(renderer) as Dictionary<string, Vector2>;
+            if (attachments != null)
+            {
+                foreach (var kvp in attachments)
+                {
+                    Debug.Log($"  {kvp.Key}: {kvp.Value}");
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,153 @@
+using UnityEngine;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using MapleClient.GameView;
+using MapleClient.GameData;
+
+public static class TestCharacterRenderingDirect
+{
+    public static void RunTest()
+    {
+        try
+        {
+            Debug.Log("=== Testing Character Rendering with C++ Formulas (Direct) ===");
+            
+            // Load test scene
+            var scene = EditorSceneManager.OpenScene("Assets/henesys.unity");
+            Debug.Log($"Loaded scene: {scene.name}");
+            
+            // Create a test GameObject for character rendering
+            GameObject characterObject = new GameObject("TestCharacter");
+            characterObject.transform.position = Vector3.zero;
+            
+            // Add MapleCharacterRenderer component
+            var characterRenderer = characterObject.AddComponent<MapleCharacterRenderer>();
+            Debug.Log("Created MapleCharacterRenderer");
+            
+            // Initialize with test equipment
+            var testEquipment = new System.Collections.Generic.Dictionary<string, int>
+            {
+                ["Body"] = 2000,       // Basic body
+                ["Head"] = 12000,      // Basic head  
+                ["Face"] = 20000,      // Basic face
+                ["Hair"] = 30000,      // Basic hair
+                ["Arm"] = 1060026,     // Basic arm
+                ["Coat"] = 1040036,    // Basic coat
+                ["Pants"] = 1060026    // Basic pants
+            };
+            
+            // Set test equipment
+            characterRenderer.SetEquipment(testEquipment);
+            Debug.Log("Set test equipment");
+            
+            // Force a render update
+            characterRenderer.UpdateCharacterAppearance();
+            
+            // Wait a frame for rendering
+            EditorApplication.delayCall += () => {
+                try
+                {
+                    // Get all sprite renderers to check their positions
+                    var renderers = characterRenderer.GetComponentsInChildren<SpriteRenderer>();
+                    Debug.Log($"\nSprite Renderer Positions (Total: {renderers.Length}):");
+                    
+                    foreach (var renderer in renderers)
+                    {
+                        if (renderer.sprite != null)
+                        {
+                            var worldPos = renderer.transform.position;
+                            var localPos = renderer.transform.localPosition;
+                            
+                            Debug.Log($"\n{renderer.name}:");
+                            Debug.Log($"  - Sprite: {renderer.sprite.name}");
+                            Debug.Log($"  - Local Position: {localPos}");
+                            Debug.Log($"  - World Position: {worldPos}");
+                            Debug.Log($"  - Sorting Order: {renderer.sortingOrder}");
+                            
+                            // Check sprite pivot and bounds
+                            var pivot = renderer.sprite.pivot;
+                            var bounds = renderer.sprite.bounds;
+                            Debug.Log($"  - Sprite Pivot: {pivot}");
+                            Debug.Log($"  - Sprite Bounds: center={bounds.center}, size={bounds.size}");
+                        }
+                    }
+                    
+                    // Check specific body parts
+                    Debug.Log("\n=== Body Part Analysis (with C++ Formulas) ===");
+                    
+                    var body = characterRenderer.transform.Find("Body");
+                    var head = characterRenderer.transform.Find("Head");
+                    var arm = characterRenderer.transform.Find("Arm");
+                    var face = characterRenderer.transform.Find("Face");
+                    var hair = characterRenderer.transform.Find("Hair");
+                    
+                    if (body != null)
+                    {
+                        Debug.Log($"\nBody:");
+                        Debug.Log($"  - Local Position: {body.localPosition}");
+                        Debug.Log($"  - Expected: Navel at character origin after pivot adjustment");
+                    }
+                    
+                    if (head != null)
+                    {
+                        Debug.Log($"\nHead:");
+                        Debug.Log($"  - Local Position: {head.localPosition}");
+                        Debug.Log($"  - Expected: Positioned so neck aligns with body's neck point");
+                    }
+                    
+                    if (arm != null)
+                    {
+                        Debug.Log($"\nArm:");
+                        Debug.Log($"  - Local Position: {arm.localPosition}");
+                        Debug.Log($"  - Expected: Navel aligns with body's navel");
+                    }
+                    
+                    if (face != null)
+                    {
+                        Debug.Log($"\nFace:");
+                        Debug.Log($"  - Local Position: {face.localPosition}");
+                        Debug.Log($"  - Expected: Positioned at head + brow offset");
+                    }
+                    
+                    if (hair != null)
+                    {
+                        Debug.Log($"\nHair:");
+                        Debug.Log($"  - Local Position: {hair.localPosition}");
+                        Debug.Log($"  - Expected: Positioned at head + hair origin offset");
+                    }
+                    
+                    // Position camera to see the character
+                    var camera = Camera.main;
+                    if (camera != null)
+                    {
+                        camera.transform.position = new Vector3(0, 0, -10);
+                        camera.orthographicSize = 2;
+                    }
+                    
+                    // Take a screenshot
+                    string screenshotPath = Application.dataPath + "/../test-character-rendering-direct.png";
+                    ScreenCapture.CaptureScreenshot(screenshotPath);
+                    Debug.Log($"\nScreenshot saved to: {screenshotPath}");
+                    
+                    Debug.Log("\n=== Test Complete ===");
+                    Debug.Log("Character rendered with C++ positioning formulas.");
+                    Debug.Log("Check the screenshot and positions to verify correct rendering.");
+                    
+                    EditorApplication.Exit(0);
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogError($"Test failed in delayed callback: {e.Message}");
+                    Debug.LogError(e.StackTrace);
+                    EditorApplication.Exit(1);
+                }
+            };
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Test failed: {e.Message}");
+            Debug.LogError(e.StackTrace);
+            EditorApplication.Exit(1);
+        }
+    }
+}

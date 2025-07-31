@@ -1,0 +1,2392 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Connection attempt to the License Client on channel: "LicenseClient-me" failed because channel doesn't exist; code: "0x80000002"
+[Licensing::Module] Successfully launched the LicensingClient (PId: 33336)
+Starting IPC server.
+Waiting for clients to connect on \\.\pipe\Unity-LicenseClient-me, press Ctrl-C to exit.
+[Licensing::IpcConnector] Successfully connected to the License Client on channel: "LicenseClient-me" at "2025-07-29T11:25:28.9197759Z"
+[Licensing::Client] Error: Code 10 while verifying Licensing Client signature (process Id: 33336, path: "C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] Error: LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.15.4+eee609c
+  Session Id:              675c4e80bfa84d51ab62f10e813af817
+  Correlation Id:          62235c4b6fd2239e287a81eefd04a5ed
+  External correlation Id: 6722051121345823290
+  Machine Id:              fw9NS9oOv+gVm0W/XOWIT1jtXq8=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-me" (connect: 0.52s, validation: 0.04s, handshake: 0.02s)
+[Licensing::IpcConnector] Successfully connected to the License Notification on channel: "LicenseClient-me-notifications" at "2025-07-29T11:25:28.9797897Z"
+[Licensing::Module] Connected to LicensingClient (PId: 33336, launch time: 0.00, total connection time: 0.58s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully updated license
+Built from '2023.2/staging' branch; Version is '2023.2.20f1 (0e25a174756c) revision 927137'; Using compiler version '193431935'; Build Type 'Release'
+OS: 'Windows 10  (10.0.19045) 64bit Professional' Language: 'en' Physical Memory: 65444 MB
+[Licensing::Client] Successfully resolved entitlements
+[Licensing::Module] Serial number assigned to: "F4-Z43B-MXRR-JRKJ-G65K-XXXX"
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Unity.exe
+-batchmode
+-nographics
+-ignoreCompilerErrors
+-noHub
+-silent-crashes
+-projectPath
+C:\Users\me\MapleUnity
+-openfile
+Assets/henesys.unity
+-quit
+-logFile
+C:\Users\me\MapleUnity\unity-scene-test.log
+Successfully changed project path to: C:\Users\me\MapleUnity
+C:/Users/me/MapleUnity
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [78944] Host "[IP] 192.168.1.190 [Port] 55504 [Flags] 2 [Guid] 3141611505 [EditorId] 3141611505 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-8EKS4JU) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+Player connection [78944] Host "[IP] 192.168.1.190 [Port] 55504 [Flags] 2 [Guid] 3141611505 [EditorId] 3141611505 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-8EKS4JU) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+[Physics::Module] Initialized MultithreadedJobDispatcher with 31 workers.
+[Package Manager] Connected to IPC stream "Upm-45000" after 0.3 seconds.
+Library Redirect Path: Library/
+[Licensing::Client] Successfully resolved entitlements
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 47 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.collab-proxy@2.3.1 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.collab-proxy@2.3.1)
+    com.unity.timeline@1.8.6 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.timeline@1.8.6)
+    com.unity.visualscripting@1.8.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.visualscripting@1.8.0)
+    com.unity.ext.nunit@2.0.5 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.ext.nunit@2.0.5)
+    com.unity.ide.visualstudio@2.0.22 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.ide.visualstudio@2.0.22)
+    com.unity.ide.rider@3.0.28 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.ide.rider@3.0.28)
+    com.unity.editorcoroutines@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.editorcoroutines@1.0.0)
+    com.unity.performance.profile-analyzer@1.2.2 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.performance.profile-analyzer@1.2.2)
+    com.unity.test-framework@1.3.9 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.test-framework@1.3.9)
+    com.unity.testtools.codecoverage@1.2.5 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.testtools.codecoverage@1.2.5)
+    com.unity.settings-manager@2.0.1 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.settings-manager@2.0.1)
+  Built-in packages:
+    com.unity.feature.development@1.0.2 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.feature.development@1.0.2)
+    com.unity.ugui@2.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.ugui@2.0.0)
+    com.unity.modules.accessibility@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.accessibility@1.0.0)
+    com.unity.modules.ai@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.ai@1.0.0)
+    com.unity.modules.androidjni@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.androidjni@1.0.0)
+    com.unity.modules.animation@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.animation@1.0.0)
+    com.unity.modules.assetbundle@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.assetbundle@1.0.0)
+    com.unity.modules.audio@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.audio@1.0.0)
+    com.unity.modules.cloth@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.cloth@1.0.0)
+    com.unity.modules.director@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.director@1.0.0)
+    com.unity.modules.imageconversion@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.imageconversion@1.0.0)
+    com.unity.modules.imgui@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.imgui@1.0.0)
+    com.unity.modules.jsonserialize@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.jsonserialize@1.0.0)
+    com.unity.modules.particlesystem@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.particlesystem@1.0.0)
+    com.unity.modules.physics@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.physics@1.0.0)
+    com.unity.modules.physics2d@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.physics2d@1.0.0)
+    com.unity.modules.screencapture@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.screencapture@1.0.0)
+    com.unity.modules.terrain@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.terrain@1.0.0)
+    com.unity.modules.terrainphysics@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.terrainphysics@1.0.0)
+    com.unity.modules.tilemap@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.tilemap@1.0.0)
+    com.unity.modules.ui@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.ui@1.0.0)
+    com.unity.modules.uielements@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.uielements@1.0.0)
+    com.unity.modules.umbra@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.umbra@1.0.0)
+    com.unity.modules.unityanalytics@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.unityanalytics@1.0.0)
+    com.unity.modules.unitywebrequest@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.unitywebrequest@1.0.0)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle@1.0.0)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.unitywebrequestaudio@1.0.0)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.unitywebrequesttexture@1.0.0)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.unitywebrequestwww@1.0.0)
+    com.unity.modules.vehicles@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.vehicles@1.0.0)
+    com.unity.modules.video@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.video@1.0.0)
+    com.unity.modules.vr@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.vr@1.0.0)
+    com.unity.modules.wind@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.wind@1.0.0)
+    com.unity.modules.xr@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.xr@1.0.0)
+    com.unity.modules.subsystems@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.subsystems@1.0.0)
+    com.unity.modules.hierarchycore@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.hierarchycore@1.0.0)
+[Subsystems] No new subsystems found in resolved package list.
+Package Manager log level set to [2]
+[Package Manager] Done registering packages in 0.07 seconds
+Refreshing native plugins compatible for Editor in 1.62 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2023.2.20f1 (0e25a174756c)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/me/MapleUnity/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+[Licensing::Client] Successfully resolved entitlements
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56000
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.002454 seconds.
+- Loaded All Assemblies, in  0.297 seconds
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.230 seconds
+Domain Reload Profiling: 526ms
+	BeginReloadAssembly (107ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (27ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (38ms)
+	LoadAllAssembliesAndSetupDomain (114ms)
+		LoadAssemblies (105ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (112ms)
+			TypeCache.Refresh (111ms)
+				TypeCache.ScanAssembly (101ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (230ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (193ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (7ms)
+			SetLoadedEditorAssemblies (4ms)
+			BeforeProcessingInitializeOnLoad (4ms)
+			ProcessInitializeOnLoadAttributes (141ms)
+			ProcessInitializeOnLoadMethodAttributes (37ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Client] Successfully resolved entitlements
+Application.AssetDatabase Initial Refresh Start
+The GUID inside 'Assets/Plugins/lz4_32.dll.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+The GUID inside 'Assets/Scripts/GameLogic/Tests/Core/MaplePhysicsConverterTests.cs.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+The GUID inside 'Assets/Scripts/GameLogic/Tests/Core/FootholdServiceTests.cs.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+The GUID inside 'Assets/Plugins/lz4_64.dll.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+The .meta file Assets/Plugins/lz4_32.dll.meta does not have a valid GUID and its corresponding Asset file will be ignored. If this file is not malformed, please add a GUID, or delete the .meta file and it will be recreated correctly
+The .meta file Assets/Plugins/lz4_64.dll.meta does not have a valid GUID and its corresponding Asset file will be ignored. If this file is not malformed, please add a GUID, or delete the .meta file and it will be recreated correctly
+The .meta file Assets/Scripts/GameLogic/Tests/Core/FootholdServiceTests.cs.meta does not have a valid GUID and its corresponding Asset file will be ignored. If this file is not malformed, please add a GUID, or delete the .meta file and it will be recreated correctly
+The .meta file Assets/Scripts/GameLogic/Tests/Core/MaplePhysicsConverterTests.cs.meta does not have a valid GUID and its corresponding Asset file will be ignored. If this file is not malformed, please add a GUID, or delete the .meta file and it will be recreated correctly
+warn: Unity.AspNetCore.NamedPipeSupport.NamedPipeServer[0]
+      Exception occured while accepting client connection: System.IO.IOException: The pipe is being closed.
+         at System.IO.Pipes.NamedPipeServerStream.WaitForConnectionCoreAsync(CancellationToken cancellationToken)
+         at System.IO.Pipes.NamedPipeServerStream.WaitForConnectionAsync(CancellationToken cancellationToken)
+         at Unity.AspNetCore.NamedPipeSupport.NamedPipeServer.AcceptLoop(Boolean useNamedPipeMessageSemantic)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Unity.AspNetCore.NamedPipeSupport.NamedPipeServer.AcceptLoop(Boolean useNamedPipeMessageSemantic)
+         at Unity.AspNetCore.NamedPipeSupport.NamedPipeServer..ctor(String pipeName, NamedPipeListenerOptions options, ILogger`1 logger)
+         at Unity.AspNetCore.NamedPipeSupport.NamedPipeListener..ctor(NamedPipeEndpoint endpoint, ILoggerFactory loggerFactory, NamedPipeListenerOptions namedPipeListenerOptions)
+         at Unity.AspNetCore.NamedPipeSupport.NamedPipeListenerFactory.BindAsync(EndPoint _, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass30_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass30_0`1.<StartAsync>g__OnBind|0(ListenOptions options, CancellationToken onBindCancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.EndpointsStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.EndpointsStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(IEnumerable`1 listenOptions, AddressBindContext context, CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(IEnumerable`1 listenOptions, AddressBindContext context, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+         at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Builder.WebApplication.StartAsync(CancellationToken cancellationToken)
+         at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+         at System.Runtime.CompilerServices.AsyncMethodBuilderCore.Start[TStateMachine](TStateMachine& stateMachine)
+         at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+         at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Run(IHost host)
+         at Microsoft.AspNetCore.Builder.WebApplication.Run(String url)
+         at Program.<Main>$(String[] args)
+      --- End of stack trace from previous location ---
+         at Unity.AspNetCore.NamedPipeSupport.NamedPipeServer.AcceptLoop(Boolean useNamedPipeMessageSemantic)
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:80
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\me\MapleUnity\
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 33.2425ms
+Starting: C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\bee_backend.exe --dont-print-to-structured-log --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: C:/Users/me/MapleUnity
+DisplayProgressbar: Compiling Scripts
+ExitCode: 3 Duration: 0s195ms
+[419/425    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Editor.dll (+2 others)
+##### CommandLine
+"C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\NetCoreRuntime\dotnet.exe" exec "C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/DotNetSdkRoslyn/csc.dll" /nostdlib /noconfig /shared "@Library/Bee/artifacts/1900b0aE.dag/Editor.rsp" "@Library/Bee/artifacts/1900b0aE.dag/Editor.rsp2"
+##### Contents of Library\Bee\artifacts\1900b0aE.dag\Editor.rsp
+-target:library
+
+-out:"Library/Bee/artifacts/1900b0aE.dag/Editor.dll"
+
+-refout:"Library/Bee/artifacts/1900b0aE.dag/Editor.ref.dll"
+
+-define:UNITY_2023_2_20
+
+-define:UNITY_2023_2
+
+-define:UNITY_2023
+
+-define:UNITY_5_3_OR_NEWER
+
+-define:UNITY_5_4_OR_NEWER
+
+-define:UNITY_5_5_OR_NEWER
+
+-define:UNITY_5_6_OR_NEWER
+
+-define:UNITY_2017_1_OR_NEWER
+
+-define:UNITY_2017_2_OR_NEWER
+
+-define:UNITY_2017_3_OR_NEWER
+
+-define:UNITY_2017_4_OR_NEWER
+
+-define:UNITY_2018_1_OR_NEWER
+
+-define:UNITY_2018_2_OR_NEWER
+
+-define:UNITY_2018_3_OR_NEWER
+
+-define:UNITY_2018_4_OR_NEWER
+
+-define:UNITY_2019_1_OR_NEWER
+
+-define:UNITY_2019_2_OR_NEWER
+
+-define:UNITY_2019_3_OR_NEWER
+
+-define:UNITY_2019_4_OR_NEWER
+
+-define:UNITY_2020_1_OR_NEWER
+
+-define:UNITY_2020_2_OR_NEWER
+
+-define:UNITY_2020_3_OR_NEWER
+
+-define:UNITY_2021_1_OR_NEWER
+
+-define:UNITY_2021_2_OR_NEWER
+
+-define:UNITY_2021_3_OR_NEWER
+
+-define:UNITY_2022_1_OR_NEWER
+
+-define:UNITY_2022_2_OR_NEWER
+
+-define:UNITY_2022_3_OR_NEWER
+
+-define:UNITY_2023_1_OR_NEWER
+
+-define:UNITY_2023_2_OR_NEWER
+
+-define:PLATFORM_ARCH_64
+
+-define:UNITY_64
+
+-define:UNITY_INCLUDE_TESTS
+
+-define:ENABLE_AR
+
+-define:ENABLE_AUDIO
+
+-define:ENABLE_CACHING
+
+-define:ENABLE_CLOTH
+
+-define:ENABLE_EVENT_QUEUE
+
+-define:ENABLE_MICROPHONE
+
+-define:ENABLE_MULTIPLE_DISPLAYS
+
+-define:ENABLE_PHYSICS
+
+-define:ENABLE_TEXTURE_STREAMING
+
+-define:ENABLE_VIRTUALTEXTURING
+
+-define:ENABLE_LZMA
+
+-define:ENABLE_UNITYEVENTS
+
+-define:ENABLE_VR
+
+-define:ENABLE_WEBCAM
+
+-define:ENABLE_UNITYWEBREQUEST
+
+-define:ENABLE_WWW
+
+-define:ENABLE_CLOUD_SERVICES
+
+-define:ENABLE_CLOUD_SERVICES_ADS
+
+-define:ENABLE_CLOUD_SERVICES_USE_WEBREQUEST
+
+-define:ENABLE_CLOUD_SERVICES_CRASH_REPORTING
+
+-define:ENABLE_CLOUD_SERVICES_PURCHASING
+
+-define:ENABLE_CLOUD_SERVICES_ANALYTICS
+
+-define:ENABLE_CLOUD_SERVICES_BUILD
+
+-define:ENABLE_EDITOR_GAME_SERVICES
+
+-define:ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT
+
+-define:ENABLE_CLOUD_LICENSE
+
+-define:ENABLE_EDITOR_HUB_LICENSE
+
+-define:ENABLE_WEBSOCKET_CLIENT
+
+-define:ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API
+
+-define:ENABLE_DIRECTOR_AUDIO
+
+-define:ENABLE_DIRECTOR_TEXTURE
+
+-define:ENABLE_MANAGED_JOBS
+
+-define:ENABLE_MANAGED_TRANSFORM_JOBS
+
+-define:ENABLE_MANAGED_ANIMATION_JOBS
+
+-define:ENABLE_MANAGED_AUDIO_JOBS
+
+-define:ENABLE_MANAGED_UNITYTLS
+
+-define:INCLUDE_DYNAMIC_GI
+
+-define:ENABLE_SCRIPTING_GC_WBARRIERS
+
+-define:PLATFORM_SUPPORTS_MONO
+
+-define:RENDER_SOFTWARE_CURSOR
+
+-define:ENABLE_MARSHALLING_TESTS
+
+-define:ENABLE_VIDEO
+
+-define:ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK
+
+-define:ENABLE_ACCELERATOR_CLIENT_DEBUGGING
+
+-define:TEXTCORE_1_0_OR_NEWER
+
+-define:PLATFORM_STANDALONE_WIN
+
+-define:PLATFORM_STANDALONE
+
+-define:UNITY_STANDALONE_WIN
+
+-define:UNITY_STANDALONE
+
+-define:ENABLE_RUNTIME_GI
+
+-define:ENABLE_MOVIES
+
+-define:ENABLE_NETWORK
+
+-define:ENABLE_NVIDIA
+
+-define:ENABLE_CRUNCH_TEXTURE_COMPRESSION
+
+-define:ENABLE_OUT_OF_PROCESS_CRASH_HANDLER
+
+-define:ENABLE_CLUSTER_SYNC
+
+-define:ENABLE_CLUSTERINPUT
+
+-define:PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP
+
+-define:GFXDEVICE_WAITFOREVENT_MESSAGEPUMP
+
+-define:PLATFORM_USES_EXPLICIT_MEMORY_MANAGER_INITIALIZER
+
+-define:PLATFORM_SUPPORTS_WAIT_FOR_PRESENTATION
+
+-define:PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS
+
+-define:ENABLE_MONO
+
+-define:NET_4_6
+
+-define:NET_UNITY_4_8
+
+-define:ENABLE_PROFILER
+
+-define:DEBUG
+
+-define:TRACE
+
+-define:UNITY_ASSERTIONS
+
+-define:UNITY_EDITOR
+
+-define:UNITY_EDITOR_64
+
+-define:UNITY_EDITOR_WIN
+
+-define:ENABLE_UNITY_COLLECTIONS_CHECKS
+
+-define:ENABLE_BURST_AOT
+
+-define:UNITY_TEAM_LICENSE
+
+-define:ENABLE_CUSTOM_RENDER_TEXTURE
+
+-define:ENABLE_DIRECTOR
+
+-define:ENABLE_LOCALIZATION
+
+-define:ENABLE_SPRITES
+
+-define:ENABLE_TERRAIN
+
+-define:ENABLE_TILEMAP
+
+-define:ENABLE_TIMELINE
+
+-define:ENABLE_LEGACY_INPUT_MANAGER
+
+-define:TEXTCORE_FONT_ENGINE_1_5_OR_NEWER
+
+-define:TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER
+
+-define:CSHARP_7_OR_LATER
+
+-define:CSHARP_7_3_OR_NEWER
+
+-define:UNITY_EDITOR_ONLY_COMPILATION
+
+-r:"Assets/Plugins/reNX.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEditor.Graphs.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.AccessibilityModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.AdaptivePerformanceModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.CoreModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.DeviceSimulatorModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.DiagnosticsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.EditorToolbarModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.GraphToolsFoundationModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.GraphViewModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.GridAndSnapModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.GridModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.Physics2DModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.PhysicsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.PresetsUIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.PropertiesModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.QuickSearchModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SafeModeModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SceneTemplateModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SceneViewModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.ShaderFoundryModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SketchUpModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SpriteMaskModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SpriteShapeModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TerrainModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TextCoreFontEngineModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TextCoreTextEngineModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TextRenderingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TilemapModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TreeModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.UIAutomationModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.UIBuilderModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.UIElementsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.UIElementsSamplesModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.VFXModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.VideoModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.XRModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AccessibilityModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AndroidJNIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AnimationModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ARModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AssetBundleModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AudioModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ClothModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterInputModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterRendererModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.CommandStateObserverModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ContentLoadModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.CrashReportingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.DirectorModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.DSPGraphModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.GameCenterModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.GIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.GraphToolsFoundationModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.GridModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.HierarchyCoreModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.HotReloadModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ImageConversionModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.IMGUIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.InputForUIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.InputLegacyModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.InputModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.LocalizationModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.MarshallingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.MultiplayerModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.NVIDIAModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.Physics2DModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.PhysicsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ProfilerModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.PropertiesModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ScreenCaptureModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.SharedInternalsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteMaskModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteShapeModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.StreamingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.SubstanceModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.SubsystemsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainPhysicsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TextCoreFontEngineModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TextCoreTextEngineModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TextRenderingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TilemapModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TLSModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UIElementsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UmbraModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityAnalyticsCommonModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityConnectModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityCurlModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityTestProtocolModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAssetBundleModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.VehiclesModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.VFXModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.VirtualTexturingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.VRModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/Microsoft.Win32.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/netstandard.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.AppContext.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Buffers.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Collections.Concurrent.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Collections.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Collections.NonGeneric.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Collections.Specialized.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ComponentModel.Annotations.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ComponentModel.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ComponentModel.EventBasedAsync.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ComponentModel.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ComponentModel.TypeConverter.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Console.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Data.Common.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.Contracts.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.Debug.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.FileVersionInfo.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.Process.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.StackTrace.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.TextWriterTraceListener.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.Tools.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.TraceSource.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Drawing.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Dynamic.Runtime.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Globalization.Calendars.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Globalization.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Globalization.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.Compression.ZipFile.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.FileSystem.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.FileSystem.DriveInfo.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.FileSystem.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.FileSystem.Watcher.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.IsolatedStorage.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.MemoryMappedFiles.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.Pipes.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.UnmanagedMemoryStream.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Linq.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Linq.Expressions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Linq.Parallel.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Linq.Queryable.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Memory.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Http.Rtc.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.NameResolution.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.NetworkInformation.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Ping.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Requests.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Security.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Sockets.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.WebHeaderCollection.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.WebSockets.Client.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.WebSockets.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ObjectModel.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.DispatchProxy.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.Emit.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.Emit.ILGeneration.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.Emit.Lightweight.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Resources.Reader.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Resources.ResourceManager.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Resources.Writer.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.CompilerServices.VisualC.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Handles.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.RuntimeInformation.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.WindowsRuntime.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Numerics.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Serialization.Formatters.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Serialization.Json.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Serialization.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Serialization.Xml.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Claims.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Cryptography.Algorithms.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Cryptography.Csp.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Cryptography.Encoding.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Cryptography.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Cryptography.X509Certificates.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Principal.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.SecureString.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ServiceModel.Duplex.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ServiceModel.Http.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ServiceModel.NetTcp.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ServiceModel.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ServiceModel.Security.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Text.Encoding.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Text.Encoding.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Text.RegularExpressions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Overlapped.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Tasks.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Tasks.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Tasks.Parallel.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Thread.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.ThreadPool.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Timer.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ValueTuple.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.ReaderWriter.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.XDocument.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.XmlDocument.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.XmlSerializer.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.XPath.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.XPath.XDocument.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Microsoft.CSharp.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/mscorlib.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.ComponentModel.Composition.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Core.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Data.DataSetExtensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Data.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Drawing.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.IO.Compression.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.IO.Compression.FileSystem.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Net.Http.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Numerics.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Numerics.Vectors.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Runtime.Serialization.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Transactions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Xml.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Xml.Linq.dll"
+
+-r:"Library/PackageCache/com.unity.collab-proxy@2.3.1/Lib/Editor/PlasticSCM/log4netPlastic.dll"
+
+-r:"Library/PackageCache/com.unity.collab-proxy@2.3.1/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll"
+
+-r:"Library/PackageCache/com.unity.collab-proxy@2.3.1/Lib/Editor/PlasticSCM/Unity.Plastic.Newtonsoft.Json.dll"
+
+-r:"Library/PackageCache/com.unity.collab-proxy@2.3.1/Lib/Editor/PlasticSCM/unityplastic.dll"
+
+-r:"Library/PackageCache/com.unity.ext.nunit@2.0.5/net40/unity-custom/nunit.framework.dll"
+
+-r:"Library/PackageCache/com.unity.ext.nunit@2.0.5/net40/unity-custom/nunit.framework.dll"
+
+-r:"Library/PackageCache/com.unity.testtools.codecoverage@1.2.5/lib/ReportGenerator/ReportGeneratorMerged.dll"
+
+-r:"Library/PackageCache/com.unity.visualscripting@1.8.0/Editor/VisualScripting.Core/Dependencies/DotNetZip/Unity.VisualScripting.IonicZip.dll"
+
+-r:"Library/PackageCache/com.unity.visualscripting@1.8.0/Editor/VisualScripting.Core/Dependencies/YamlDotNet/Unity.VisualScripting.YamlDotNet.dll"
+
+-r:"Library/PackageCache/com.unity.visualscripting@1.8.0/Editor/VisualScripting.Core/EditorAssetResources/Unity.VisualScripting.TextureAssets.dll"
+
+-r:"Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/GameData.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/GameLogic.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/GameLogic.Tests.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/GameView.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/SceneGeneration.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.TestRunner.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.TestRunner.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
+
+-analyzer:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll"
+
+-analyzer:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
+
+-analyzer:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll"
+
+"Assets/Scripts/Editor/AnalyzeHenesysTiles.cs"
+
+"Assets/Scripts/Editor/AnalyzeHenesysTileUsage.cs"
+
+"Assets/Scripts/Editor/BatchModeCollisionTest.cs"
+
+"Assets/Scripts/Editor/CameraTargetDiagnostic.cs"
+
+"Assets/Scripts/Editor/CheckBrownBrickTiles.cs"
+
+"Assets/Scripts/Editor/CheckDefaultTileset.cs"
+
+"Assets/Scripts/Editor/CheckGrassySoilTiles.cs"
+
+"Assets/Scripts/Editor/CheckHenesysTileDetails.cs"
+
+"Assets/Scripts/Editor/CheckHenesysTileInfo.cs"
+
+"Assets/Scripts/Editor/CheckMapsWithTilesets.cs"
+
+"Assets/Scripts/Editor/CheckTileOrigins.cs"
+
+"Assets/Scripts/Editor/CompareNodeStructures.cs"
+
+"Assets/Scripts/Editor/CreateFootholdTestScene.cs"
+
+"Assets/Scripts/Editor/EditorDebugLogCapture.cs"
+
+"Assets/Scripts/Editor/Find12345678Source.cs"
+
+"Assets/Scripts/Editor/FindGreyStoneTilesets.cs"
+
+"Assets/Scripts/Editor/FindTilesetByVariants.cs"
+
+"Assets/Scripts/Editor/FootholdCollisionDebugTool.cs"
+
+"Assets/Scripts/Editor/InspectNXNode.cs"
+
+"Assets/Scripts/Editor/InspectRemainingIssues.cs"
+
+"Assets/Scripts/Editor/MapNXDebugger.cs"
+
+"Assets/Scripts/Editor/PhysicsTestScene.cs"
+
+"Assets/Scripts/Editor/PreviewWoodMarbleTiles.cs"
+
+"Assets/Scripts/Editor/QuickTestCppNx.cs"
+
+"Assets/Scripts/Editor/RenderingDebugWindow.cs"
+
+"Assets/Scripts/Editor/SceneGenerationTest.cs"
+
+"Assets/Scripts/Editor/SceneSetup.cs"
+
+"Assets/Scripts/Editor/SetupSortingLayers.cs"
+
+"Assets/Scripts/Editor/TestCompilation.cs"
+
+"Assets/Scripts/Editor/TestFootholdIntegration.cs"
+
+"Assets/Scripts/Editor/TestHenesysScene.cs"
+
+"Assets/Scripts/Editor/TestPhysicsDebugger.cs"
+
+"Assets/Scripts/Editor/TestPlatformCollision.cs"
+
+"Assets/Scripts/Editor/VerifyGoldTempleTownTH.cs"
+
+"Assets/Scripts/Editor/VerifyGrassySoilVariants.cs"
+
+-langversion:9.0
+
+
+
+/deterministic
+
+/optimize+
+
+/debug:portable
+
+/nologo
+
+/RuntimeMetadataVersion:v4.0.30319
+
+
+
+/nowarn:0169
+
+/nowarn:0649
+
+/nowarn:0282
+
+/nowarn:1701
+
+/nowarn:1702
+
+-nowarn:0649
+
+/utf8output
+
+/preferreduilang:en-US
+
+
+
+
+
+
+
+/additionalfile:"Library/Bee/artifacts/1900b0aE.dag/Editor.UnityAdditionalFile.txt"
+##### Custom Environment Variables
+DOTNET_MULTILEVEL_LOOKUP=0
+##### ExitCode
+1
+##### Output
+Assets\Scripts\Editor\TestHenesysScene.cs(6,13): error CS0234: The type or namespace name 'EditorCoroutines' does not exist in the namespace 'Unity' (are you missing an assembly reference?)
+*** Tundra build failed (0.17 seconds), 1 items updated, 425 evaluated
+## Script Compilation Error for: Csc Library/Bee/artifacts/1900b0aE.dag/Editor.dll (+2 others)
+## CmdLine: "C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\NetCoreRuntime\dotnet.exe" exec "C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/DotNetSdkRoslyn/csc.dll" /nostdlib /noconfig /shared "@Library/Bee/artifacts/1900b0aE.dag/Editor.rsp" "@Library/Bee/artifacts/1900b0aE.dag/Editor.rsp2"
+## Output:
+Assets\Scripts\Editor\TestHenesysScene.cs(6,13): error CS0234: The type or namespace name 'EditorCoroutines' does not exist in the namespace 'Unity' (are you missing an assembly reference?)
+
+Assets\Scripts\Editor\TestHenesysScene.cs(6,13): error CS0234: The type or namespace name 'EditorCoroutines' does not exist in the namespace 'Unity' (are you missing an assembly reference?)
+AssetDatabase: script compilation time: 0.542059s
+[ScriptCompilation] Requested script compilation because: Exiting safe mode
+Total cache size 31910340
+Total cache size after purge 31910340
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 1.3608ms
+Starting: C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\bee_backend.exe --dont-print-to-structured-log --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: C:/Users/me/MapleUnity
+## Script Compilation Error for: Csc Library/Bee/artifacts/1900b0aE.dag/Editor.dll (+2 others)
+## CmdLine: "C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\NetCoreRuntime\dotnet.exe" exec "C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/DotNetSdkRoslyn/csc.dll" /nostdlib /noconfig /shared "@Library/Bee/artifacts/1900b0aE.dag/Editor.rsp" "@Library/Bee/artifacts/1900b0aE.dag/Editor.rsp2"
+## Output:
+Assets\Scripts\Editor\TestHenesysScene.cs(6,13): error CS0234: The type or namespace name 'EditorCoroutines' does not exist in the namespace 'Unity' (are you missing an assembly reference?)
+
+ExitCode: 3 Duration: 0s245ms
+[311/425    0s] CopyFiles Library/ScriptAssemblies/UnityEditor.TestRunner.pdb
+[313/425    0s] CopyFiles Library/ScriptAssemblies/UnityEngine.UI.pdb
+[315/425    0s] CopyFiles Library/ScriptAssemblies/UnityEngine.TestRunner.pdb
+[316/425    0s] CopyFiles Library/ScriptAssemblies/GameLogic.dll
+[317/425    0s] CopyFiles Library/ScriptAssemblies/UnityEngine.UI.dll
+[319/425    0s] CopyFiles Library/ScriptAssemblies/GameLogic.pdb
+[321/425    0s] CopyFiles Library/ScriptAssemblies/UnityEngine.TestRunner.dll
+[322/425    0s] CopyFiles Library/ScriptAssemblies/UnityEditor.TestRunner.dll
+[326/425    0s] CopyFiles Library/ScriptAssemblies/UnityEditor.UI.dll
+[344/425    0s] CopyFiles Library/ScriptAssemblies/UnityEditor.UI.pdb
+[349/425    0s] CopyFiles Library/ScriptAssemblies/GameData.dll
+[352/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualStudio.Editor.pdb
+[353/425    0s] CopyFiles Library/ScriptAssemblies/Unity.Rider.Editor.dll
+[356/425    0s] CopyFiles Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.pdb
+[357/425    0s] CopyFiles Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.pdb
+[360/425    0s] CopyFiles Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll
+[361/425    0s] CopyFiles Library/ScriptAssemblies/Unity.Settings.Editor.dll
+[366/425    0s] CopyFiles Library/ScriptAssemblies/Unity.Rider.Editor.pdb
+[367/425    0s] CopyFiles Library/ScriptAssemblies/Unity.Settings.Editor.pdb
+[370/425    0s] CopyFiles Library/ScriptAssemblies/GameLogic.Tests.pdb
+[372/425    0s] CopyFiles Library/ScriptAssemblies/Unity.TextMeshPro.dll
+[374/425    0s] CopyFiles Library/ScriptAssemblies/Unity.EditorCoroutines.Editor.pdb
+[375/425    0s] CopyFiles Library/ScriptAssemblies/GameLogic.Tests.dll
+[376/425    0s] CopyFiles Library/ScriptAssemblies/Unity.TextMeshPro.pdb
+[377/425    0s] CopyFiles Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll
+[378/425    0s] CopyFiles Library/ScriptAssemblies/Unity.EditorCoroutines.Editor.dll
+[379/425    0s] CopyFiles Library/ScriptAssemblies/Unity.Timeline.dll
+[380/425    0s] CopyFiles Library/ScriptAssemblies/Unity.Timeline.pdb
+[381/425    0s] CopyFiles Library/ScriptAssemblies/Unity.Performance.Profile-Analyzer.Editor.dll
+[382/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll
+[383/425    0s] CopyFiles Library/ScriptAssemblies/Unity.Performance.Profile-Analyzer.Editor.pdb
+[384/425    0s] CopyFiles Library/ScriptAssemblies/GameData.pdb
+[385/425    0s] CopyFiles Library/ScriptAssemblies/Unity.PlasticSCM.Editor.pdb
+[386/425    0s] CopyFiles Library/ScriptAssemblies/Unity.PlasticSCM.Editor.dll
+[387/425    0s] CopyFiles Library/ScriptAssemblies/PlayMode.Tests.dll
+[388/425    0s] CopyFiles Library/ScriptAssemblies/SceneGeneration.dll
+[389/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.Core.dll
+[390/425    0s] CopyFiles Library/ScriptAssemblies/GameView.dll
+[391/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.Flow.dll
+[392/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.Flow.Editor.pdb
+[393/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.Flow.Editor.dll
+[394/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.Core.Editor.pdb
+[395/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.Flow.pdb
+[396/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.State.pdb
+[397/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.Core.Editor.dll
+[398/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.State.Editor.dll
+[399/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.SettingsProvider.Editor.dll
+[400/425    0s] CopyFiles Library/ScriptAssemblies/GameView.Tests.dll
+[401/425    0s] CopyFiles Library/ScriptAssemblies/GameView.Tests.pdb
+[402/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.SettingsProvider.Editor.pdb
+[403/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.Shared.Editor.dll
+[404/425    0s] CopyFiles Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll
+[405/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.Shared.Editor.pdb
+[406/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.State.dll
+[407/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.State.Editor.pdb
+[408/425    0s] CopyFiles Library/ScriptAssemblies/SceneGeneration.pdb
+[409/425    0s] CopyFiles Library/ScriptAssemblies/Unity.CollabProxy.Editor.pdb
+[410/425    0s] CopyFiles Library/ScriptAssemblies/PlayMode.Tests.pdb
+[411/425    0s] CopyFiles Library/ScriptAssemblies/Unity.Timeline.Editor.pdb
+[412/425    0s] CopyFiles Library/ScriptAssemblies/Unity.Timeline.Editor.dll
+[413/425    0s] CopyFiles Library/ScriptAssemblies/Unity.TextMeshPro.Editor.pdb
+[414/425    0s] CopyFiles Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll
+[415/425    0s] CopyFiles Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.pdb
+[416/425    0s] CopyFiles Library/ScriptAssemblies/Unity.TestTools.CodeCoverage.Editor.dll
+[417/425    0s] CopyFiles Library/ScriptAssemblies/Unity.VisualScripting.Core.pdb
+[418/425    0s] CopyFiles Library/ScriptAssemblies/GameView.pdb
+[419/425    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Editor.dll (+2 others)
+##### CommandLine
+"C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\NetCoreRuntime\dotnet.exe" exec "C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/DotNetSdkRoslyn/csc.dll" /nostdlib /noconfig /shared "@Library/Bee/artifacts/1900b0aE.dag/Editor.rsp" "@Library/Bee/artifacts/1900b0aE.dag/Editor.rsp2"
+##### Contents of Library\Bee\artifacts\1900b0aE.dag\Editor.rsp
+-target:library
+
+-out:"Library/Bee/artifacts/1900b0aE.dag/Editor.dll"
+
+-refout:"Library/Bee/artifacts/1900b0aE.dag/Editor.ref.dll"
+
+-define:UNITY_2023_2_20
+
+-define:UNITY_2023_2
+
+-define:UNITY_2023
+
+-define:UNITY_5_3_OR_NEWER
+
+-define:UNITY_5_4_OR_NEWER
+
+-define:UNITY_5_5_OR_NEWER
+
+-define:UNITY_5_6_OR_NEWER
+
+-define:UNITY_2017_1_OR_NEWER
+
+-define:UNITY_2017_2_OR_NEWER
+
+-define:UNITY_2017_3_OR_NEWER
+
+-define:UNITY_2017_4_OR_NEWER
+
+-define:UNITY_2018_1_OR_NEWER
+
+-define:UNITY_2018_2_OR_NEWER
+
+-define:UNITY_2018_3_OR_NEWER
+
+-define:UNITY_2018_4_OR_NEWER
+
+-define:UNITY_2019_1_OR_NEWER
+
+-define:UNITY_2019_2_OR_NEWER
+
+-define:UNITY_2019_3_OR_NEWER
+
+-define:UNITY_2019_4_OR_NEWER
+
+-define:UNITY_2020_1_OR_NEWER
+
+-define:UNITY_2020_2_OR_NEWER
+
+-define:UNITY_2020_3_OR_NEWER
+
+-define:UNITY_2021_1_OR_NEWER
+
+-define:UNITY_2021_2_OR_NEWER
+
+-define:UNITY_2021_3_OR_NEWER
+
+-define:UNITY_2022_1_OR_NEWER
+
+-define:UNITY_2022_2_OR_NEWER
+
+-define:UNITY_2022_3_OR_NEWER
+
+-define:UNITY_2023_1_OR_NEWER
+
+-define:UNITY_2023_2_OR_NEWER
+
+-define:PLATFORM_ARCH_64
+
+-define:UNITY_64
+
+-define:UNITY_INCLUDE_TESTS
+
+-define:ENABLE_AR
+
+-define:ENABLE_AUDIO
+
+-define:ENABLE_CACHING
+
+-define:ENABLE_CLOTH
+
+-define:ENABLE_EVENT_QUEUE
+
+-define:ENABLE_MICROPHONE
+
+-define:ENABLE_MULTIPLE_DISPLAYS
+
+-define:ENABLE_PHYSICS
+
+-define:ENABLE_TEXTURE_STREAMING
+
+-define:ENABLE_VIRTUALTEXTURING
+
+-define:ENABLE_LZMA
+
+-define:ENABLE_UNITYEVENTS
+
+-define:ENABLE_VR
+
+-define:ENABLE_WEBCAM
+
+-define:ENABLE_UNITYWEBREQUEST
+
+-define:ENABLE_WWW
+
+-define:ENABLE_CLOUD_SERVICES
+
+-define:ENABLE_CLOUD_SERVICES_ADS
+
+-define:ENABLE_CLOUD_SERVICES_USE_WEBREQUEST
+
+-define:ENABLE_CLOUD_SERVICES_CRASH_REPORTING
+
+-define:ENABLE_CLOUD_SERVICES_PURCHASING
+
+-define:ENABLE_CLOUD_SERVICES_ANALYTICS
+
+-define:ENABLE_CLOUD_SERVICES_BUILD
+
+-define:ENABLE_EDITOR_GAME_SERVICES
+
+-define:ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT
+
+-define:ENABLE_CLOUD_LICENSE
+
+-define:ENABLE_EDITOR_HUB_LICENSE
+
+-define:ENABLE_WEBSOCKET_CLIENT
+
+-define:ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API
+
+-define:ENABLE_DIRECTOR_AUDIO
+
+-define:ENABLE_DIRECTOR_TEXTURE
+
+-define:ENABLE_MANAGED_JOBS
+
+-define:ENABLE_MANAGED_TRANSFORM_JOBS
+
+-define:ENABLE_MANAGED_ANIMATION_JOBS
+
+-define:ENABLE_MANAGED_AUDIO_JOBS
+
+-define:ENABLE_MANAGED_UNITYTLS
+
+-define:INCLUDE_DYNAMIC_GI
+
+-define:ENABLE_SCRIPTING_GC_WBARRIERS
+
+-define:PLATFORM_SUPPORTS_MONO
+
+-define:RENDER_SOFTWARE_CURSOR
+
+-define:ENABLE_MARSHALLING_TESTS
+
+-define:ENABLE_VIDEO
+
+-define:ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK
+
+-define:ENABLE_ACCELERATOR_CLIENT_DEBUGGING
+
+-define:TEXTCORE_1_0_OR_NEWER
+
+-define:PLATFORM_STANDALONE_WIN
+
+-define:PLATFORM_STANDALONE
+
+-define:UNITY_STANDALONE_WIN
+
+-define:UNITY_STANDALONE
+
+-define:ENABLE_RUNTIME_GI
+
+-define:ENABLE_MOVIES
+
+-define:ENABLE_NETWORK
+
+-define:ENABLE_NVIDIA
+
+-define:ENABLE_CRUNCH_TEXTURE_COMPRESSION
+
+-define:ENABLE_OUT_OF_PROCESS_CRASH_HANDLER
+
+-define:ENABLE_CLUSTER_SYNC
+
+-define:ENABLE_CLUSTERINPUT
+
+-define:PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP
+
+-define:GFXDEVICE_WAITFOREVENT_MESSAGEPUMP
+
+-define:PLATFORM_USES_EXPLICIT_MEMORY_MANAGER_INITIALIZER
+
+-define:PLATFORM_SUPPORTS_WAIT_FOR_PRESENTATION
+
+-define:PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS
+
+-define:ENABLE_MONO
+
+-define:NET_4_6
+
+-define:NET_UNITY_4_8
+
+-define:ENABLE_PROFILER
+
+-define:DEBUG
+
+-define:TRACE
+
+-define:UNITY_ASSERTIONS
+
+-define:UNITY_EDITOR
+
+-define:UNITY_EDITOR_64
+
+-define:UNITY_EDITOR_WIN
+
+-define:ENABLE_UNITY_COLLECTIONS_CHECKS
+
+-define:ENABLE_BURST_AOT
+
+-define:UNITY_TEAM_LICENSE
+
+-define:ENABLE_CUSTOM_RENDER_TEXTURE
+
+-define:ENABLE_DIRECTOR
+
+-define:ENABLE_LOCALIZATION
+
+-define:ENABLE_SPRITES
+
+-define:ENABLE_TERRAIN
+
+-define:ENABLE_TILEMAP
+
+-define:ENABLE_TIMELINE
+
+-define:ENABLE_LEGACY_INPUT_MANAGER
+
+-define:TEXTCORE_FONT_ENGINE_1_5_OR_NEWER
+
+-define:TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER
+
+-define:CSHARP_7_OR_LATER
+
+-define:CSHARP_7_3_OR_NEWER
+
+-define:UNITY_EDITOR_ONLY_COMPILATION
+
+-r:"Assets/Plugins/reNX.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEditor.Graphs.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.AccessibilityModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.AdaptivePerformanceModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.CoreModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.DeviceSimulatorModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.DiagnosticsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.EditorToolbarModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.GraphToolsFoundationModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.GraphViewModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.GridAndSnapModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.GridModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.Physics2DModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.PhysicsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.PresetsUIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.PropertiesModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.QuickSearchModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SafeModeModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SceneTemplateModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SceneViewModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.ShaderFoundryModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SketchUpModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SpriteMaskModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SpriteShapeModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TerrainModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TextCoreFontEngineModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TextCoreTextEngineModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TextRenderingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TilemapModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TreeModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.UIAutomationModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.UIBuilderModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.UIElementsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.UIElementsSamplesModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.VFXModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.VideoModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.XRModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AccessibilityModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AndroidJNIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AnimationModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ARModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AssetBundleModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AudioModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ClothModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterInputModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterRendererModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.CommandStateObserverModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ContentLoadModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.CrashReportingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.DirectorModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.DSPGraphModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.GameCenterModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.GIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.GraphToolsFoundationModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.GridModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.HierarchyCoreModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.HotReloadModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ImageConversionModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.IMGUIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.InputForUIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.InputLegacyModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.InputModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.LocalizationModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.MarshallingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.MultiplayerModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.NVIDIAModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.Physics2DModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.PhysicsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ProfilerModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.PropertiesModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ScreenCaptureModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.SharedInternalsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteMaskModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteShapeModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.StreamingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.SubstanceModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.SubsystemsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainPhysicsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TextCoreFontEngineModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TextCoreTextEngineModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TextRenderingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TilemapModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TLSModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UIElementsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UmbraModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityAnalyticsCommonModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityConnectModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityCurlModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityTestProtocolModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAssetBundleModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.VehiclesModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.VFXModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.VirtualTexturingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.VRModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/Microsoft.Win32.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/netstandard.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.AppContext.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Buffers.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Collections.Concurrent.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Collections.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Collections.NonGeneric.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Collections.Specialized.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ComponentModel.Annotations.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ComponentModel.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ComponentModel.EventBasedAsync.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ComponentModel.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ComponentModel.TypeConverter.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Console.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Data.Common.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.Contracts.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.Debug.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.FileVersionInfo.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.Process.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.StackTrace.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.TextWriterTraceListener.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.Tools.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.TraceSource.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Drawing.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Dynamic.Runtime.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Globalization.Calendars.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Globalization.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Globalization.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.Compression.ZipFile.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.FileSystem.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.FileSystem.DriveInfo.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.FileSystem.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.FileSystem.Watcher.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.IsolatedStorage.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.MemoryMappedFiles.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.Pipes.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.UnmanagedMemoryStream.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Linq.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Linq.Expressions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Linq.Parallel.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Linq.Queryable.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Memory.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Http.Rtc.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.NameResolution.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.NetworkInformation.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Ping.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Requests.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Security.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Sockets.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.WebHeaderCollection.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.WebSockets.Client.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.WebSockets.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ObjectModel.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.DispatchProxy.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.Emit.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.Emit.ILGeneration.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.Emit.Lightweight.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Resources.Reader.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Resources.ResourceManager.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Resources.Writer.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.CompilerServices.VisualC.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Handles.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.RuntimeInformation.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.WindowsRuntime.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Numerics.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Serialization.Formatters.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Serialization.Json.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Serialization.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Serialization.Xml.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Claims.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Cryptography.Algorithms.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Cryptography.Csp.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Cryptography.Encoding.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Cryptography.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Cryptography.X509Certificates.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Principal.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.SecureString.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ServiceModel.Duplex.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ServiceModel.Http.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ServiceModel.NetTcp.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ServiceModel.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ServiceModel.Security.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Text.Encoding.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Text.Encoding.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Text.RegularExpressions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Overlapped.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Tasks.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Tasks.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Tasks.Parallel.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Thread.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.ThreadPool.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Timer.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ValueTuple.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.ReaderWriter.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.XDocument.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.XmlDocument.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.XmlSerializer.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.XPath.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.XPath.XDocument.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Microsoft.CSharp.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/mscorlib.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.ComponentModel.Composition.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Core.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Data.DataSetExtensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Data.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Drawing.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.IO.Compression.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.IO.Compression.FileSystem.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Net.Http.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Numerics.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Numerics.Vectors.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Runtime.Serialization.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Transactions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Xml.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Xml.Linq.dll"
+
+-r:"Library/PackageCache/com.unity.collab-proxy@2.3.1/Lib/Editor/PlasticSCM/log4netPlastic.dll"
+
+-r:"Library/PackageCache/com.unity.collab-proxy@2.3.1/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll"
+
+-r:"Library/PackageCache/com.unity.collab-proxy@2.3.1/Lib/Editor/PlasticSCM/Unity.Plastic.Newtonsoft.Json.dll"
+
+-r:"Library/PackageCache/com.unity.collab-proxy@2.3.1/Lib/Editor/PlasticSCM/unityplastic.dll"
+
+-r:"Library/PackageCache/com.unity.ext.nunit@2.0.5/net40/unity-custom/nunit.framework.dll"
+
+-r:"Library/PackageCache/com.unity.ext.nunit@2.0.5/net40/unity-custom/nunit.framework.dll"
+
+-r:"Library/PackageCache/com.unity.testtools.codecoverage@1.2.5/lib/ReportGenerator/ReportGeneratorMerged.dll"
+
+-r:"Library/PackageCache/com.unity.visualscripting@1.8.0/Editor/VisualScripting.Core/Dependencies/DotNetZip/Unity.VisualScripting.IonicZip.dll"
+
+-r:"Library/PackageCache/com.unity.visualscripting@1.8.0/Editor/VisualScripting.Core/Dependencies/YamlDotNet/Unity.VisualScripting.YamlDotNet.dll"
+
+-r:"Library/PackageCache/com.unity.visualscripting@1.8.0/Editor/VisualScripting.Core/EditorAssetResources/Unity.VisualScripting.TextureAssets.dll"
+
+-r:"Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/GameData.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/GameLogic.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/GameLogic.Tests.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/GameView.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/SceneGeneration.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.TestRunner.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.TestRunner.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
+
+-analyzer:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll"
+
+-analyzer:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
+
+-analyzer:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll"
+
+"Assets/Scripts/Editor/AnalyzeHenesysTiles.cs"
+
+"Assets/Scripts/Editor/AnalyzeHenesysTileUsage.cs"
+
+"Assets/Scripts/Editor/BatchModeCollisionTest.cs"
+
+"Assets/Scripts/Editor/CameraTargetDiagnostic.cs"
+
+"Assets/Scripts/Editor/CheckBrownBrickTiles.cs"
+
+"Assets/Scripts/Editor/CheckDefaultTileset.cs"
+
+"Assets/Scripts/Editor/CheckGrassySoilTiles.cs"
+
+"Assets/Scripts/Editor/CheckHenesysTileDetails.cs"
+
+"Assets/Scripts/Editor/CheckHenesysTileInfo.cs"
+
+"Assets/Scripts/Editor/CheckMapsWithTilesets.cs"
+
+"Assets/Scripts/Editor/CheckTileOrigins.cs"
+
+"Assets/Scripts/Editor/CompareNodeStructures.cs"
+
+"Assets/Scripts/Editor/CreateFootholdTestScene.cs"
+
+"Assets/Scripts/Editor/EditorDebugLogCapture.cs"
+
+"Assets/Scripts/Editor/Find12345678Source.cs"
+
+"Assets/Scripts/Editor/FindGreyStoneTilesets.cs"
+
+"Assets/Scripts/Editor/FindTilesetByVariants.cs"
+
+"Assets/Scripts/Editor/FootholdCollisionDebugTool.cs"
+
+"Assets/Scripts/Editor/InspectNXNode.cs"
+
+"Assets/Scripts/Editor/InspectRemainingIssues.cs"
+
+"Assets/Scripts/Editor/MapNXDebugger.cs"
+
+"Assets/Scripts/Editor/PhysicsTestScene.cs"
+
+"Assets/Scripts/Editor/PreviewWoodMarbleTiles.cs"
+
+"Assets/Scripts/Editor/QuickTestCppNx.cs"
+
+"Assets/Scripts/Editor/RenderingDebugWindow.cs"
+
+"Assets/Scripts/Editor/SceneGenerationTest.cs"
+
+"Assets/Scripts/Editor/SceneSetup.cs"
+
+"Assets/Scripts/Editor/SetupSortingLayers.cs"
+
+"Assets/Scripts/Editor/TestCompilation.cs"
+
+"Assets/Scripts/Editor/TestFootholdIntegration.cs"
+
+"Assets/Scripts/Editor/TestHenesysScene.cs"
+
+"Assets/Scripts/Editor/TestPhysicsDebugger.cs"
+
+"Assets/Scripts/Editor/TestPlatformCollision.cs"
+
+"Assets/Scripts/Editor/VerifyGoldTempleTownTH.cs"
+
+"Assets/Scripts/Editor/VerifyGrassySoilVariants.cs"
+
+-langversion:9.0
+
+
+
+/deterministic
+
+/optimize+
+
+/debug:portable
+
+/nologo
+
+/RuntimeMetadataVersion:v4.0.30319
+
+
+
+/nowarn:0169
+
+/nowarn:0649
+
+/nowarn:0282
+
+/nowarn:1701
+
+/nowarn:1702
+
+-nowarn:0649
+
+/utf8output
+
+/preferreduilang:en-US
+
+
+
+
+
+
+
+/additionalfile:"Library/Bee/artifacts/1900b0aE.dag/Editor.UnityAdditionalFile.txt"
+##### Custom Environment Variables
+DOTNET_MULTILEVEL_LOOKUP=0
+##### ExitCode
+1
+##### Output
+Assets\Scripts\Editor\TestHenesysScene.cs(6,13): error CS0234: The type or namespace name 'EditorCoroutines' does not exist in the namespace 'Unity' (are you missing an assembly reference?)
+*** Tundra build failed (0.22 seconds), 67 items updated, 425 evaluatedAssets\Scripts\Editor\TestHenesysScene.cs(6,13): error CS0234: The type or namespace name 'EditorCoroutines' does not exist in the namespace 'Unity' (are you missing an assembly reference?)
+
+Begin MonoManager ReloadAssembly
+Total cache size 31910340
+Total cache size after purge 31910340
+Symbol file LoadedFromMemory doesn't match image C:\Users\me\MapleUnity\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image C:\Users\me\MapleUnity\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+- Loaded All Assemblies, in  0.976 seconds
+Refreshing native plugins compatible for Editor in 0.93 ms, found 5 plugins.
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.608 seconds
+Domain Reload Profiling: 1581ms
+	BeginReloadAssembly (328ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (9ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (32ms)
+	RebuildCommonClasses (34ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (24ms)
+	LoadAllAssembliesAndSetupDomain (576ms)
+		LoadAssemblies (551ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (124ms)
+			TypeCache.Refresh (102ms)
+				TypeCache.ScanAssembly (94ms)
+			BuildScriptInfoCaches (17ms)
+			ResolveRequiredComponents (3ms)
+	FinalizeReload (608ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (453ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (5ms)
+			SetLoadedEditorAssemblies (4ms)
+			BeforeProcessingInitializeOnLoad (91ms)
+			ProcessInitializeOnLoadAttributes (332ms)
+			ProcessInitializeOnLoadMethodAttributes (17ms)
+			AfterProcessingInitializeOnLoad (4ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (8ms)
+Asset Pipeline Refresh (id=170a28f0425a11940b8e3ed76664e401): Total: 2.829 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=855 ms
+		Asset DB Callback time: managed=12 ms, native=0 ms
+		Scripting: domain reloads=1, domain reload time=1374 ms, compile time=544 ms, other=41 ms
+		Project Asset Count: scripts=656, non-scripts=573
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 1.149ms
+	ApplyChangesToAssetFolders: 0.296ms
+	Scan: 62.665ms
+	OnSourceAssetsModified: 0.002ms
+	CategorizeAssetsWithTransientArtifact: 46.237ms
+	ProcessAssetsWithTransientArtifactChanges: 32.772ms
+	CategorizeAssets: 9.545ms
+	ImportOutOfDateAssets: 613.843ms (68.845ms without children)
+		CompileScripts: 543.885ms
+		ReloadNativeAssets: 0.000ms
+		UnloadImportedAssets: 0.802ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.147ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
+		OnDemandSchedulerStart: 0.163ms
+	PostProcessAllAssets: 12.065ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.002ms
+	UnloadStreamsBegin: 0.220ms
+	PersistCurrentRevisions: 0.032ms
+	UnloadStreamsEnd: 0.002ms
+	GenerateScriptTypeHashes: 0.771ms
+	Untracked: 2049.767ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 13.365ms
+Initializing Unity extensions:
+[Licensing::Client] Successfully resolved entitlements
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-MapleUnity
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 3352 unused Assets / (1.9 MB). Loaded Objects now: 3954.
+Memory consumption went from 132.3 MB to 130.4 MB.
+Total: 9.577400 ms (FindLiveObjects: 0.467900 ms CreateObjectMapping: 0.165300 ms MarkObjects: 7.536000 ms  DeleteObjects: 1.407300 ms)
+
+Please use "importPackage" in batchmode. The "openfile" cmdline option needs user interaction.
+Fatal Error! Please use "importPackage" in batchmode. The "openfile" cmdline option needs user interaction.
+Crash!!!
+SymInit: Symbol-SearchPath: 'C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Mono;.;C:\Users\me\MapleUnity;C:\Users\me\MapleUnity\Library\BurstCache\JIT;C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor;C:\Windows;C:\Windows\system32;', symOptions: 534, UserName: 'me'
+OS-Version: 10.0.0
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Unity.exe:Unity.exe (00007FF68CAA0000), size: 184320 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 2023.2.20.9633
+C:\Windows\SYSTEM32\ntdll.dll:ntdll.dll (00007FFA1CED0000), size: 2064384 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.6093
+C:\Windows\System32\KERNEL32.DLL:KERNEL32.DLL (00007FFA1C890000), size: 794624 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5915
+C:\Windows\System32\KERNELBASE.dll:KERNELBASE.dll (00007FFA1A6D0000), size: 3104768 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.6033
+C:\Windows\System32\USER32.dll:USER32.dll (00007FFA1C6F0000), size: 1691648 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5737
+C:\Windows\System32\win32u.dll:win32u.dll (00007FFA1A6A0000), size: 139264 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.6093
+C:\Windows\System32\GDI32.dll:GDI32.dll (00007FFA1CE60000), size: 176128 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5737
+C:\Windows\System32\gdi32full.dll:gdi32full.dll (00007FFA1ABF0000), size: 1150976 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.6093
+C:\Windows\System32\msvcp_win.dll:msvcp_win.dll (00007FFA1AA50000), size: 643072 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\System32\ucrtbase.dll:ucrtbase.dll (00007FFA1AAF0000), size: 1048576 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\System32\IMM32.DLL:IMM32.DLL (00007FFA1AEF0000), size: 192512 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5737
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Unity.dll:Unity.dll (00007FF966540000), size: 80285696 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 2023.2.20.9633
+C:\Windows\System32\CRYPT32.dll:CRYPT32.dll (00007FFA1AD10000), size: 1429504 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\System32\ADVAPI32.dll:ADVAPI32.dll (00007FFA1CCB0000), size: 724992 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.6093
+C:\Windows\System32\msvcrt.dll:msvcrt.dll (00007FFA1B9F0000), size: 647168 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 7.0.19041.3636
+C:\Windows\System32\sechost.dll:sechost.dll (00007FFA1C1C0000), size: 651264 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5915
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\s3tcompress.dll:s3tcompress.dll (00007FF9FE810000), size: 180224 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Windows\System32\RPCRT4.dll:RPCRT4.dll (00007FFA1B8C0000), size: 1191936 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5915
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\etccompress.dll:etccompress.dll (00007FF9CE350000), size: 5070848 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Windows\System32\bcrypt.dll:bcrypt.dll (00007FFA1AA20000), size: 159744 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5369
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\ispc_texcomp.dll:ispc_texcomp.dll (00007FF9DD740000), size: 1826816 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Windows\System32\ole32.dll:ole32.dll (00007FFA1CAF0000), size: 1224704 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5915
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\libfbxsdk.dll:libfbxsdk.dll (00007FF9D00B0000), size: 10063872 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 2020.3.4.0
+C:\Windows\System32\combase.dll:combase.dll (00007FFA1C270000), size: 3485696 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.6093
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\compress_bc7e.dll:compress_bc7e.dll (00007FF9D0C20000), size: 1433600 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\FreeImage.dll:FreeImage.dll (0000000180000000), size: 5783552 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 3.18.0.0
+C:\Windows\System32\SETUPAPI.dll:SETUPAPI.dll (00007FFA1BBA0000), size: 4653056 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\System32\WS2_32.dll:WS2_32.dll (00007FFA1C5D0000), size: 438272 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\System32\cfgmgr32.dll:cfgmgr32.dll (00007FFA1A9D0000), size: 319488 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3996
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\WinPixEventRuntime.dll:WinPixEventRuntime.dll (00007FFA16C80000), size: 53248 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 1.0.2201.24001
+C:\Windows\System32\SHELL32.dll:SHELL32.dll (00007FFA1AF80000), size: 7790592 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.6033
+C:\Windows\System32\SHLWAPI.dll:SHLWAPI.dll (00007FFA1BA90000), size: 372736 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5915
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\umbraoptimizer64.dll:umbraoptimizer64.dll (00007FF9E17E0000), size: 1187840 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Windows\System32\OLEAUT32.dll:OLEAUT32.dll (00007FFA1B790000), size: 839680 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\System32\WINTRUST.dll:WINTRUST.dll (00007FFA1AE70000), size: 471040 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5965
+C:\Windows\SYSTEM32\d3d11.dll:d3d11.dll (00007FFA12750000), size: 2506752 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\SYSTEM32\d3d12.dll:d3d12.dll (00007FF9FE7E0000), size: 151552 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\SYSTEM32\dwmapi.dll:dwmapi.dll (00007FFA182F0000), size: 192512 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\SYSTEM32\dxgi.dll:dxgi.dll (00007FFA18DF0000), size: 1007616 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\SYSTEM32\HID.DLL:HID.DLL (00007FFA18DB0000), size: 53248 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\SYSTEM32\IPHLPAPI.DLL:IPHLPAPI.DLL (00007FFA19980000), size: 241664 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\SYSTEM32\OPENGL32.dll:OPENGL32.dll (00007FF9D0AF0000), size: 1212416 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\SYSTEM32\WINHTTP.dll:WINHTTP.dll (00007FFA14280000), size: 1089536 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\SYSTEM32\WINMM.dll:WINMM.dll (00007FFA0E480000), size: 159744 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\SYSTEM32\GLU32.dll:GLU32.dll (00007FF9FE610000), size: 180224 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\SYSTEM32\VERSION.dll:VERSION.dll (00007FFA11320000), size: 40960 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\SketchUpAPI.dll:SketchUpAPI.dll (00007FF9CDAB0000), size: 8990720 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 23.0.0.0
+C:\Windows\SYSTEM32\MSVCP140.dll:MSVCP140.dll (00007FF9F99B0000), size: 561152 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 14.44.35211.0
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\NativeProxyHelper.dll:NativeProxyHelper.dll (00007FF9CFEF0000), size: 1789952 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Windows\SYSTEM32\VCRUNTIME140_1.dll:VCRUNTIME140_1.dll (00007FF9F9E00000), size: 49152 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 14.44.35211.0
+C:\Windows\SYSTEM32\VCRUNTIME140.dll:VCRUNTIME140.dll (00007FF9F9E10000), size: 122880 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 14.44.35211.0
+C:\Windows\SYSTEM32\WSOCK32.dll:WSOCK32.dll (00007FF9E32B0000), size: 36864 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.1
+C:\Windows\SYSTEM32\kernel.appcore.dll:kernel.appcore.dll (00007FFA18320000), size: 73728 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3758
+C:\Windows\SYSTEM32\Secur32.dll:Secur32.dll (00007FF9FE410000), size: 49152 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\SketchUpCommonPreferences.dll:SketchUpCommonPreferences.dll (00007FF9FE460000), size: 499712 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 23.0.0.0
+C:\Windows\SYSTEM32\SSPICLI.DLL:SSPICLI.DLL (00007FFA1A440000), size: 204800 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5965
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\OpenRL.dll:OpenRL.dll (0000025752DA0000), size: 12779520 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 1.5.0.2907
+C:\Windows\SYSTEM32\MSVCP100.dll:MSVCP100.dll (00000000627C0000), size: 622592 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.40219.325
+C:\Windows\SYSTEM32\MSVCR100.dll:MSVCR100.dll (00000000626E0000), size: 860160 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.40219.325
+C:\Windows\SYSTEM32\MSWSOCK.DLL:MSWSOCK.DLL (00007FFA19CF0000), size: 434176 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5915
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\embree.dll:embree.dll (00007FF9CCAC0000), size: 16711680 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 2.14.0.0
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\tbb.dll:tbb.dll (00007FF9DD6F0000), size: 303104 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 2020.3.2022.1111
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\OpenRL_pthread.dll:OpenRL_pthread.dll (00000257539F0000), size: 61440 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 2.9.0.0
+C:\Windows\SYSTEM32\MSASN1.dll:MSASN1.dll (00007FFA1A120000), size: 73728 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\System32\bcryptprimitives.dll:bcryptprimitives.dll (00007FFA1A610000), size: 532480 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5007
+C:\Windows\system32\uxtheme.dll:uxtheme.dll (00007FFA17E70000), size: 647168 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\SYSTEM32\windows.storage.dll:windows.storage.dll (00007FFA18600000), size: 8011776 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.6033
+C:\Windows\SYSTEM32\Wldp.dll:Wldp.dll (00007FFA19F90000), size: 176128 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\System32\SHCORE.dll:SHCORE.dll (00007FFA1C640000), size: 708608 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\SYSTEM32\profapi.dll:profapi.dll (00007FFA1A490000), size: 147456 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.6033
+C:\Windows\SYSTEM32\CRYPTSP.dll:CRYPTSP.dll (00007FFA19EF0000), size: 98304 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5856
+C:\Windows\system32\rsaenh.dll:rsaenh.dll (00007FFA195A0000), size: 229376 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.6093
+C:\Windows\SYSTEM32\CRYPTBASE.dll:CRYPTBASE.dll (00007FFA19EE0000), size: 49152 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\System32\imagehlp.dll:imagehlp.dll (00007FFA1B770000), size: 118784 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\SYSTEM32\gpapi.dll:gpapi.dll (00007FFA18DC0000), size: 143360 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.4355
+C:\Windows\System32\cryptnet.dll:cryptnet.dll (00007FFA112E0000), size: 200704 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\SYSTEM32\WINNSI.DLL:WINNSI.DLL (00007FFA16480000), size: 45056 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\System32\NSI.dll:NSI.dll (00007FFA1C960000), size: 32768 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\system32\IconCodecService.dll:IconCodecService.dll (00007FF9E9930000), size: 36864 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.1
+C:\Windows\SYSTEM32\WindowsCodecs.dll:WindowsCodecs.dll (00007FFA17C20000), size: 1794048 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.6093
+C:\Windows\System32\clbcatq.dll:clbcatq.dll (00007FFA1BAF0000), size: 692224 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 2001.12.10941.16384
+C:\Windows\System32\netprofm.dll:netprofm.dll (00007FFA17B90000), size: 258048 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.4355
+C:\Windows\System32\npmproxy.dll:npmproxy.dll (00007FFA0F430000), size: 65536 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.4239
+C:\Windows\SYSTEM32\dhcpcsvc6.DLL:dhcpcsvc6.DLL (00007FFA15420000), size: 94208 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\SYSTEM32\dhcpcsvc.DLL:dhcpcsvc.DLL (00007FFA15CC0000), size: 118784 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\SYSTEM32\DNSAPI.dll:DNSAPI.dll (00007FFA199D0000), size: 827392 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5369
+C:\Windows\system32\napinsp.dll:napinsp.dll (00007FF9EE0C0000), size: 94208 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\system32\pnrpnsp.dll:pnrpnsp.dll (00007FF9EE0A0000), size: 110592 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\system32\wshbth.dll:wshbth.dll (00007FFA16E50000), size: 118784 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5848
+C:\Windows\system32\NLAapi.dll:NLAapi.dll (00007FFA15DF0000), size: 118784 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.4123
+C:\Windows\System32\winrnr.dll:winrnr.dll (00007FF9EE080000), size: 73728 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Program Files\Bonjour\mdnsNSP.dll:mdnsNSP.dll (0000000063DC0000), size: 155648 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 3.0.0.10
+C:\Windows\System32\fwpuclnt.dll:fwpuclnt.dll (00007FFA136B0000), size: 524288 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5915
+C:\Windows\System32\rasadhlp.dll:rasadhlp.dll (00007FFA13F40000), size: 40960 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\NVUnityPlugin.DLL:NVUnityPlugin.DLL (00007FF9B90A0000), size: 1519616 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\Tools\astcenc-avx2.dll:astcenc-avx2.dll (00007FF9B9040000), size: 364544 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Windows\SYSTEM32\mfplat.dll:mfplat.dll (00007FFA16260000), size: 1818624 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\SYSTEM32\RTWorkQ.DLL:RTWorkQ.DLL (00007FFA16420000), size: 212992 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.4842
+C:\Windows\SYSTEM32\mfreadwrite.dll:mfreadwrite.dll (00007FF9AAAA0000), size: 1085440 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.6033
+C:\Windows\SYSTEM32\Mf.dll:Mf.dll (00007FFA16A80000), size: 544768 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.6033
+C:\Windows\SYSTEM32\MFCORE.DLL:MFCORE.DLL (00007FFA16500000), size: 4775936 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.6093
+C:\Windows\SYSTEM32\powrprof.dll:powrprof.dll (00007FFA19AF0000), size: 307200 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.3636
+C:\Windows\SYSTEM32\ksuser.dll:ksuser.dll (00007FFA164F0000), size: 36864 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.1
+C:\Windows\SYSTEM32\UMPDC.dll:UMPDC.dll (00007FFA19960000), size: 73728 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Windows\SYSTEM32\CompPkgSup.DLL:CompPkgSup.DLL (00007FFA156D0000), size: 225280 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.4355
+C:\Windows\System32\Windows.Media.dll:Windows.Media.dll (00007FFA14BF0000), size: 7495680 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\System32\Windows.ApplicationModel.dll:Windows.ApplicationModel.dll (00007FFA14720000), size: 954368 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\System32\twinapi.appcore.dll:twinapi.appcore.dll (00007FFA143E0000), size: 2109440 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5848
+C:\Windows\System32\AppXDeploymentClient.dll:AppXDeploymentClient.dll (00007FFA14050000), size: 1060864 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5915
+C:\Windows\System32\Windows.StateRepositoryPS.dll:Windows.StateRepositoryPS.dll (00007FF9FC7E0000), size: 1335296 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.6093
+C:\Windows\System32\WinTypes.dll:WinTypes.dll (00007FFA16E70000), size: 1404928 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\System32\MMDevApi.dll:MMDevApi.dll (00007FFA15560000), size: 544768 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5915
+C:\Windows\System32\DEVOBJ.dll:DEVOBJ.dll (00007FFA1A2F0000), size: 208896 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\SYSTEM32\AUDIOSES.DLL:AUDIOSES.DLL (00007FFA15730000), size: 1576960 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\SYSTEM32\resourcepolicyclient.dll:resourcepolicyclient.dll (00007FFA17FF0000), size: 81920 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.4355
+C:\Windows\SYSTEM32\opencl.dll:opencl.dll (00007FF9B8FC0000), size: 483328 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 3.0.6.0
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\radeonrays.dll:radeonrays.dll (00007FF9B8F30000), size: 557056 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\MonoBleedingEdge\EmbedRuntime\mono-2.0-bdwgc.dll:mono-2.0-bdwgc.dll (00007FF985D50000), size: 10756096 (result: 0), SymType: '-deferred-', PDB: ''
+C:\Windows\system32\apphelp.dll:apphelp.dll (00007FFA13AF0000), size: 606208 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\system32\wbem\wbemprox.dll:wbemprox.dll (00007FFA11C50000), size: 69632 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.4474
+C:\Windows\SYSTEM32\wbemcomn.dll:wbemcomn.dll (00007FFA14180000), size: 589824 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\system32\wbem\wbemsvc.dll:wbemsvc.dll (00007FFA10BC0000), size: 81920 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.4474
+C:\Windows\system32\wbem\fastprox.dll:fastprox.dll (00007FFA10E10000), size: 1097728 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\Windows\SYSTEM32\amsi.dll:amsi.dll (00007FFA06520000), size: 126976 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.4355
+C:\Windows\SYSTEM32\USERENV.dll:USERENV.dll (00007FFA1A410000), size: 188416 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5794
+C:\ProgramData\Microsoft\Windows Defender\Platform\4.18.25060.7-0\MpOav.dll:MpOav.dll (00007FF9FFBA0000), size: 655360 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 4.18.25060.7
+C:\Windows\SYSTEM32\dbghelp.dll:dbghelp.dll (00007FFA106E0000), size: 2101248 (result: 0), SymType: '-deferred-', PDB: '', fileVersion: 10.0.19041.5848
+
+========== OUTPUTTING STACK TRACE ==================
+
+0x00007FFA1A6F5339 (KERNELBASE) RaiseException
+0x00007FF967FFD5AD (Unity) EditorMonoConsole::LogToConsoleImplementation
+0x00007FF967FFE2CF (Unity) EditorMonoConsole::LogToConsoleImplementation
+0x00007FF968CF967A (Unity) DebugStringToFilePostprocessedStacktrace
+0x00007FF968CF8A18 (Unity) DebugStringToFile
+0x00007FF968176E7D (Unity) Application::ParseARGVCommands
+0x00007FF96816C095 (Unity) Application::FinishLoadingProject
+0x00007FF9685BEB72 (Unity) UnityMain
+0x00007FF68CAA2CDA (Unity) __scrt_common_main_seh
+0x00007FFA1C8A7374 (KERNEL32) BaseThreadInitThunk
+0x00007FFA1CF1CC91 (ntdll) RtlUserThreadStart
+
+========== END OF STACKTRACE ===========
+
+A crash has been intercepted by the crash handler. For call stack and other details, see the latest crash report generated in:
+ * C:/Users/me/AppData/Local/Temp/Unity/Editor/Crashes
+Shut down.

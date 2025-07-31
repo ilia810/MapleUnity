@@ -1,0 +1,9 @@
+=== SPRITE ORIGIN AND POSITION ANALYSIS ===
+
+
+ERROR: Object reference not set to an instance of an object
+  at MapleClient.GameView.MapleCharacterRenderer.UpdateBodySprite () [0x00000] in C:\Users\me\MapleUnity\Assets\Scripts\GameView\MapleCharacterRenderer.cs:262 
+  at MapleClient.GameView.MapleCharacterRenderer.UpdateSprites () [0x00000] in C:\Users\me\MapleUnity\Assets\Scripts\GameView\MapleCharacterRenderer.cs:250 
+  at MapleClient.GameView.MapleCharacterRenderer.UpdateAppearance () [0x00000] in C:\Users\me\MapleUnity\Assets\Scripts\GameView\MapleCharacterRenderer.cs:528 
+  at MapleClient.GameView.MapleCharacterRenderer.SetCharacterAppearance (System.Int32 skin, System.Int32 face, System.Int32 hair) [0x00015] in C:\Users\me\MapleUnity\Assets\Scripts\GameView\MapleCharacterRenderer.cs:536 
+  at DirectSpriteAnalysis.AnalyzeSprites () [0x0003d] in C:\Users\me\MapleUnity\Assets\Scripts\Editor\DirectSpriteAnalysis.cs:25 

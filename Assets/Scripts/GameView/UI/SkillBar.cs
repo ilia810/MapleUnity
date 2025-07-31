@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using MapleClient.GameLogic.Skills;
 using MapleClient.GameLogic.Interfaces;
 
+using Debug = UnityEngine.Debug;
+
 namespace MapleClient.GameView.UI
 {
     public class SkillBar : MonoBehaviour

@@ -1,0 +1,41 @@
+=== Unity Compilation Error Summary ===
+Generated: 2025-07-31
+
+TOTAL COMPILATION ERRORS: Multiple files with various errors
+
+1. MISSING SOURCE FILES (2 errors):
+   - BatchCompilationCheck.cs - File not found
+   - TestCompleteCharacterRendering.cs - File not found (already removed)
+
+2. EDITOR SCRIPT ERRORS:
+
+   A. CompilationStatusCheck.cs (1 error):
+      - Line 26: 'CompilationPipeline' does not contain a definition for 'IsCompiling'
+
+   B. RunRuntimeScaleTest.cs (5 errors):
+      - Missing 'EditorSceneManagement' - needs using UnityEditor.SceneManagement
+
+   C. RunScaleTest.cs (1 error):
+      - Missing 'EditorSceneManagement' - needs using UnityEditor.SceneManagement
+
+   D. TestRenderingLogic.cs (11 errors):
+      - NXAssetLoader.SetNxFile() method not found
+      - Player.SetVelocity() method not found
+      - Player.Appearance property not found
+      - MapleCharacterRenderer missing: bodyRenderer, headRenderer, eyesRenderer, faceRenderer
+
+   E. VerifyScaleBasedFlipping.cs (19 errors):
+      - MapleCharacterRenderer missing properties: BodyId, HeadId, FaceId, HairId, EquipmentIds, IsLoaded
+      - MapleCharacterRenderer missing methods: SetFacingDirection(), PlayAnimation()
+
+3. ROOT CAUSES:
+   - Several test scripts are referencing old API methods/properties that no longer exist in the current implementation
+   - Missing namespace imports (UnityEditor.SceneManagement)
+   - Outdated test scripts that haven't been updated to match current class structures
+
+4. QUICK FIXES NEEDED:
+   - Remove or update TestRenderingLogic.cs
+   - Remove or update VerifyScaleBasedFlipping.cs
+   - Add missing using statements to RunRuntimeScaleTest.cs and RunScaleTest.cs
+   - Fix CompilationStatusCheck.cs to use correct API
+   - Clean up missing source file references

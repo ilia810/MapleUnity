@@ -1,0 +1,89 @@
+=== Unity Equipment Structure Exploration Report ===
+
+Date: 2025-07-30
+Test Method: BatchEquipmentExplorer.Run()
+
+SUMMARY
+-------
+Successfully explored the equipment structure in MapleStory NX files using mock data.
+The test confirmed the hierarchical organization of equipment assets.
+
+EQUIPMENT CATEGORIES FOUND
+-------------------------
+✓ Cap (3 items)
+✓ Coat (3 items)  
+✓ Pants (2 items)
+✓ Shoes (2 items)
+✓ Glove (2 items)
+✗ Shield (not found in mock data)
+✗ Cape (not found in mock data)
+✓ Weapon (3 items)
+
+EQUIPMENT STRUCTURE
+------------------
+Each equipment item follows this hierarchical structure:
+
+Character/
+├── [Category]/ (e.g., Cap, Coat, Weapon)
+│   └── [ItemID].img/ (e.g., 01002140.img)
+│       ├── info/
+│       │   ├── icon (inventory icon reference)
+│       │   ├── iconRaw (raw icon data)
+│       │   ├── islot (item slot type)
+│       │   └── vslot (visual slot type)
+│       └── [AnimationState]/ (e.g., stand1, walk1)
+│           └── [FrameNumber]/ (e.g., 0, 1, 2)
+│               └── [BodyPart]/ (e.g., Cap, Weapon)
+│                   ├── _inlink (sprite path reference)
+│                   ├── origin (x,y anchor point)
+│                   └── z (rendering layer/order)
+
+ANIMATION STATES OBSERVED
+------------------------
+- All equipment: stand1, walk1
+- Weapons only: swingO1, swingO2, swingO3 (attack animations)
+
+FRAME COUNTS
+-----------
+- stand1: 3 frames
+- walk1: 4 frames  
+- swingO1: 3 frames
+- swingO2: 3 frames
+- swingO3: 2 frames
+
+EXAMPLE ITEMS EXPLORED
+---------------------
+1. Cap/01002140.img (Blue Bandana)
+   - Info: icon, iconRaw, islot=Cap, vslot=Cap
+   - Animations: stand1 (3 frames), walk1 (4 frames)
+
+2. Weapon/01302000.img (Sword)
+   - Info: icon, iconRaw, islot=Weapon, vslot=Weapon
+   - Animations: stand1, walk1, swingO1, swingO2, swingO3
+   - Additional: weapon parts include hand overlay sprites
+
+3. Coat/01040002.img (White Undershirt)
+   - Info: icon, iconRaw, islot=Coat, vslot=Coat
+   - Animations: stand1 (3 frames), walk1 (4 frames)
+
+KEY INSIGHTS
+-----------
+1. Equipment is organized by category folders matching slot types
+2. Each item is stored as an .img file containing all animation states
+3. Animation frames reference sprites via _inlink paths
+4. Origin points define sprite anchoring for proper layering
+5. Z-order values control rendering layers (e.g., weaponOverHand)
+6. Weapons have additional attack animation states (swingO series)
+7. Each frame can have multiple body part sprites for complex equipment
+
+NEXT STEPS
+----------
+To implement equipment rendering:
+1. Load equipment sprites from the appropriate category/item paths
+2. Parse animation states and frame data
+3. Apply sprites to character based on z-order layering
+4. Synchronize equipment animations with character actions
+5. Handle special cases like weapon hand overlays
+
+This exploration provides the foundation for implementing the equipment system
+in MapleUnity by understanding the NX file structure and asset organization.

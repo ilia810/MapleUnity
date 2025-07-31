@@ -1,0 +1,86 @@
+[TEST] Starting character rendering verification test
+[TEST] Time: 7/30/2025 2:03:16 PM
+
+[TEST] Opened scene: henesys
+[TEST] GameManager component type: GameManager
+[TEST] Called GameManager initialization methods
+[TEST] Got GameWorld instance
+[TEST] Got Player instance from GameWorld
+[TEST] Player GameObject found at: (1.12, -1.50, 0.00)
+[TEST] Found SimplePlayerController
+[TEST] Called SimplePlayerController.Awake()
+[TEST] Called SetGameWorld and SetGameLogicPlayer on SimplePlayerController
+[TEST] Found MapleCharacterRenderer instance
+
+[TEST] Checking Player children after initialization:
+  - StateIndicator at (0.00, 0.50, 0.00)
+  - LadderPrompt at (0.00, 0.80, 0.00)
+  - ModifierDisplay at (0.00, -0.50, 0.00)
+  - Shield at (0.00, 0.00, 0.00)
+  - Cape at (0.00, 0.00, 0.00)
+  - BackBody at (0.00, 0.00, 0.00)
+  - Body at (0.00, 0.00, 0.00)
+  - Arm at (0.00, 0.00, 0.00)
+  - Shoes at (0.00, 0.00, 0.00)
+  - Bottom at (0.00, 0.00, 0.00)
+  - Top at (0.00, 0.00, 0.00)
+  - Glove at (0.00, 0.00, 0.00)
+  - Head at (0.00, 0.45, 0.00)
+  - Face at (0.00, 0.45, 0.00)
+  - Hair at (0.00, 0.45, 0.00)
+  - Hat at (0.00, 0.45, 0.00)
+  - ArmOverHair at (0.00, 0.00, 0.00)
+  - Hand at (0.00, 0.00, 0.00)
+  - Weapon at (0.00, 0.00, 0.00)
+
+[TEST] Found 17 SpriteRenderers:
+  - Player: active=True, enabled=False, sprite=null, flipX=False
+  - Shield: active=True, enabled=True, sprite=null, flipX=False
+  - Cape: active=True, enabled=True, sprite=null, flipX=False
+  - BackBody: active=True, enabled=True, sprite=null, flipX=False
+  - Body: active=True, enabled=True, sprite=, flipX=False
+  - Arm: active=True, enabled=True, sprite=, flipX=False
+  - Shoes: active=True, enabled=True, sprite=null, flipX=False
+  - Bottom: active=True, enabled=True, sprite=null, flipX=False
+  - Top: active=True, enabled=True, sprite=null, flipX=False
+  - Glove: active=True, enabled=True, sprite=null, flipX=False
+  - Head: active=True, enabled=True, sprite=, flipX=False
+  - Face: active=True, enabled=True, sprite=, flipX=False
+  - Hair: active=True, enabled=True, sprite=, flipX=False
+  - Hat: active=True, enabled=True, sprite=null, flipX=False
+  - ArmOverHair: active=True, enabled=True, sprite=null, flipX=False
+  - Hand: active=True, enabled=True, sprite=null, flipX=False
+  - Weapon: active=True, enabled=True, sprite=null, flipX=False
+
+[TEST] Running character rendering checks...
+
+=== HEAD POSITION CHECK ===
+Body position: (1.12, -1.50, 0.00)
+Head position: (1.12, -1.05, 0.00)
+Head local position: (0.00, 0.45, 0.00)
+Head Y offset from body: 0.45
+[PASS] Head is ABOVE body (correct)
+
+=== FACING DIRECTION CHECK ===
+Body flipX: False
+Expected: false (facing right by default)
+[PASS] Character facing right by default (correct)
+
+Checking all sprite parts for consistent facing:
+  - Body: flipX=False
+  - Arm: flipX=False
+  - Head: flipX=False
+  - Face: flipX=False
+  - Hair: flipX=False
+
+=== FACE FEATURES CHECK ===
+Face renderer found
+Face sprite: 
+Face enabled: True
+Face active: True
+Face position: (1.12, -1.05, 0.00)
+Face local position: (0.00, 0.45, 0.00)
+Face sorting order: 11
+[PASS] Face has sprite and is properly enabled (correct)
+
+[TEST] Test completed at: 7/30/2025 2:03:17 PM

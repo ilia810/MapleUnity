@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using MapleClient.GameData;
 
+using Debug = UnityEngine.Debug;
+
 namespace MapleClient.GameView.UI
 {
     /// <summary>

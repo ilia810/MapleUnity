@@ -1,0 +1,7 @@
+=== Compilation Status Report ===
+Unity Version: 2023.2.20f1
+Project Path: C:/Users/me/MapleUnity/Assets
+Platform: WindowsEditor
+
+RESULT: COMPILATION SUCCESSFUL
+No compilation errors detected.

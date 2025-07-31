@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using Debug = UnityEngine.Debug;
+
 namespace MapleClient.GameView
 {
     /// <summary>

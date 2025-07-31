@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using MapleClient.GameLogic.Core;
 using System.Collections.Generic;
 
+using Debug = UnityEngine.Debug;
+
 namespace MapleClient.GameView.UI
 {
     public class InventoryView : MonoBehaviour

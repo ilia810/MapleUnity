@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using MapleClient.GameLogic.Interfaces;
 
+using Debug = UnityEngine.Debug;
+
 namespace MapleClient.GameView
 {
     /// <summary>

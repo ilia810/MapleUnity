@@ -1,6 +1,8 @@
 using UnityEngine;
 using MapleClient.GameLogic.Core;
 
+using Debug = UnityEngine.Debug;
+
 namespace MapleClient.GameView
 {
     public class MonsterView : MonoBehaviour

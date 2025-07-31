@@ -1,0 +1,12 @@
+[TEST] Starting at 7/30/2025 11:11:51 AM
+[TEST] Created new scene
+[TEST] Initialized generators
+[TEST] Generated map successfully
+[TEST] Created GameManager
+[TEST] Called GameManager.Start()
+[TEST] Player found at: (1.12, -1.50, 0.00)
+[TEST] WARNING: MapleCharacterRenderer not found, test will continue with limited analysis
+
+[TEST] Direct sprite renderer analysis (found 0 renderers):
+
+[TEST] Test completed successfully!

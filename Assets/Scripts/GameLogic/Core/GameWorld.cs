@@ -14,6 +14,7 @@ namespace MapleClient.GameLogic.Core
         private readonly IAssetProvider assetProvider;
         private readonly PlayerSpawnManager spawnManager;
         private readonly PhysicsUpdateManager physicsManager;
+        private readonly IFootholdService footholdService;
         private MapData currentMap;
         private Player player;
         private SkillManager skillManager;
@@ -38,15 +39,16 @@ namespace MapleClient.GameLogic.Core
         public event Action<DroppedItem> ItemDropped;
         public event Action<ChatMessage> OnChatMessageReceived;
 
-        public GameWorld(IInputProvider inputProvider, IMapLoader mapLoader, INetworkClient networkClient = null, IAssetProvider assetProvider = null)
+        public GameWorld(IInputProvider inputProvider, IMapLoader mapLoader, INetworkClient networkClient = null, IAssetProvider assetProvider = null, IFootholdService footholdService = null)
         {
             this.mapLoader = mapLoader;
             this.inputProvider = inputProvider;
             this.networkClient = networkClient;
             this.assetProvider = assetProvider;
-            this.spawnManager = new PlayerSpawnManager();
+            this.footholdService = footholdService ?? new FootholdService();
+            this.spawnManager = new PlayerSpawnManager(this.footholdService);
             this.physicsManager = new PhysicsUpdateManager();
-            this.player = new Player();
+            this.player = new Player(this.footholdService);
             this.players = new List<Player>();
             this.monsters = new List<Monster>();
             this.droppedItems = new List<DroppedItem>();
@@ -234,6 +236,28 @@ namespace MapleClient.GameLogic.Core
             // Clear existing monsters and items
             monsters.Clear();
             droppedItems.Clear();
+            
+            // The FootholdService is now updated by NxMapLoader directly
+            // Only update if footholds weren't already loaded (for backward compatibility)
+            if (footholdService.GetFootholdsInArea(float.MinValue, float.MinValue, float.MaxValue, float.MaxValue).Count() == 0)
+            {
+                // Fallback: Convert platforms to footholds for the foothold service
+                var footholds = new List<Foothold>();
+                if (currentMap?.Platforms != null)
+                {
+                    foreach (var platform in currentMap.Platforms)
+                    {
+                        footholds.Add(new Foothold(
+                            platform.Id,
+                            platform.X1,
+                            platform.Y1,
+                            platform.X2,
+                            platform.Y2
+                        ));
+                    }
+                }
+                footholdService.LoadFootholds(footholds);
+            }
 
             // Spawn monsters from map data
             if (currentMap?.MonsterSpawns != null)
@@ -247,8 +271,11 @@ namespace MapleClient.GameLogic.Core
             // Use PlayerSpawnManager to find spawn point and position player
             if (currentMap != null)
             {
+                System.Console.WriteLine($"[FOOTHOLD_COLLISION] OnMapLoaded: Player position before spawn: ({player.Position.X:F2}, {player.Position.Y:F2})");
                 var spawnPoint = spawnManager.FindSpawnPoint(currentMap);
+                System.Console.WriteLine($"[FOOTHOLD_COLLISION] OnMapLoaded: FindSpawnPoint returned: ({spawnPoint.X:F2}, {spawnPoint.Y:F2})");
                 spawnManager.SpawnPlayer(player, spawnPoint);
+                System.Console.WriteLine($"[FOOTHOLD_COLLISION] OnMapLoaded: Player position after spawn: ({player.Position.X:F2}, {player.Position.Y:F2})");
             }
 
             MapLoaded?.Invoke(currentMap);
@@ -527,6 +554,8 @@ namespace MapleClient.GameLogic.Core
             player.MaxMP = maxMp;
             player.SetHPMP(hp, mp);
             player.Position = new Vector2(x, y);
+            
+            System.Console.WriteLine($"[FOOTHOLD_COLLISION] InitializePlayer set position to ({x}, {y})");
             
             // Add to players list
             players.Clear();

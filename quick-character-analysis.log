@@ -1,0 +1,109 @@
+=== QUICK CHARACTER ANALYSIS ===
+Time: 7/30/2025 9:06:27 PM
+Unity Version: 2023.2.20f1
+
+Loading henesys.unity scene...
+Scene loaded: henesys
+
+Total SpriteRenderers found: 1215
+
+Found 1 root GameObjects with sprites
+
+=== GameObject: Map_100000000 ===
+Position: (0.00, 0.00, 0.00)
+Child sprites: 1215
+
+  Sprite: Map_100000000/Tiles/TileSet_woodMarble/Tile_L1_woodMarble_bsc_2/Sprite
+    Local Pos: (0.00, 0.00, 0.00)
+    World Pos: (4.50, -3.60, 0.00)
+    Scale: (1.00, 1.00, 1.00)
+    FlipX: False
+    Sprite: 
+    Size: 90x60
+    Pivot: (0.00, 60.00)
+
+  Sprite: Map_100000000/Tiles/TileSet_woodMarble/Tile_L0_woodMarble_bsc_3/Sprite
+    Local Pos: (0.00, 0.00, 0.00)
+    World Pos: (37.35, -4.50, 0.00)
+    Scale: (1.00, 1.00, 1.00)
+    FlipX: False
+    Sprite: 
+    Size: 91x60
+    Pivot: (0.00, 60.00)
+
+  Sprite: Map_100000000/Tiles/TileSet_woodMarble/Tile_L1_woodMarble_edD_0/Sprite
+    Local Pos: (-0.24, 0.00, 0.00)
+    World Pos: (52.86, -1.20, 0.00)
+    Scale: (1.00, 1.00, 1.00)
+    FlipX: False
+    Sprite: 
+    Size: 45x13
+    Pivot: (0.00, 13.00)
+
+  Sprite: Map_100000000/Objects/Layer_2/Object_acc1/Sprite
+    Local Pos: (-0.07, 0.07, 0.00)
+    World Pos: (53.50, -2.71, 0.00)
+    Scale: (1.00, 1.00, 1.00)
+    FlipX: False
+    Sprite: 
+    Size: 15x14
+    Pivot: (0.00, 14.00)
+
+  Sprite: Map_100000000/Objects/Layer_0/Object_acc1/Sprite
+    Local Pos: (-0.37, 0.14, 0.00)
+    World Pos: (55.90, -4.25, 0.00)
+    Scale: (1.00, 1.00, 1.00)
+    FlipX: False
+    Sprite: 
+    Size: 87x28
+    Pivot: (0.00, 28.00)
+
+  Sprite: Map_100000000/Tiles/TileSet_woodMarble/Tile_L0_woodMarble_bsc_2/Sprite
+    Local Pos: (0.00, 0.00, 0.00)
+    World Pos: (51.75, 0.30, 0.00)
+    Scale: (1.00, 1.00, 1.00)
+    FlipX: False
+    Sprite: 
+    Size: 90x60
+    Pivot: (0.00, 60.00)
+
+  Sprite: Map_100000000/Tiles/TileSet_woodMarble/Tile_L0_woodMarble_edU_0/Sprite
+    Local Pos: (-0.30, 0.33, 0.00)
+    World Pos: (33.45, -1.17, 0.00)
+    Scale: (1.00, 1.00, 1.00)
+    FlipX: False
+    Sprite: 
+    Size: 61x33
+    Pivot: (0.00, 33.00)
+
+  Sprite: Map_100000000/Tiles/TileSet_woodMarble/Tile_L0_woodMarble_bsc_2/Sprite
+    Local Pos: (0.00, 0.00, 0.00)
+    World Pos: (39.15, -4.50, 0.00)
+    Scale: (1.00, 1.00, 1.00)
+    FlipX: False
+    Sprite: 
+    Size: 90x60
+    Pivot: (0.00, 60.00)
+
+  Sprite: Map_100000000/Tiles/TileSet_woodMarble/Tile_L1_woodMarble_bsc_0/Sprite
+    Local Pos: (0.00, 0.00, 0.00)
+    World Pos: (59.40, -5.40, 0.00)
+    Scale: (1.00, 1.00, 1.00)
+    FlipX: False
+    Sprite: 
+    Size: 90x60
+    Pivot: (0.00, 60.00)
+
+  Sprite: Map_100000000/Tiles/TileSet_woodMarble/Tile_L1_woodMarble_enH1_2/Sprite
+    Local Pos: (0.00, 0.00, 0.00)
+    World Pos: (53.10, -1.20, 0.00)
+    Scale: (1.00, 1.00, 1.00)
+    FlipX: False
+    Sprite: 
+    Size: 90x20
+    Pivot: (0.00, 20.00)
+
+  ... and 1205 more sprites
+
+
+=== TEST COMPLETED ===

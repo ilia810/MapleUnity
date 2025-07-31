@@ -1,0 +1,94 @@
+Got it. I’ll investigate how to properly port the existing `FootholdManager` logic from the SceneGeneration layer into the GameLogic layer, focusing on adapting it for player collision detection.
+
+This includes:
+
+* Identifying how `FootholdManager.GetYBelow()` is used by NPCs and determining how to integrate it into `Player.GetPlatformBelow()`.
+* Ensuring the coordinate system mismatch is handled cleanly without disrupting Unity’s physics.
+
+I’ll get back to you shortly with a concrete integration strategy and code-level recommendations.
+
+
+# Implementing FootholdManager in GameLogic for Collision Fix
+
+To resolve the player’s platform collision issues, we need to use the same foothold-snapping logic in the GameLogic physics that the NPC system already uses. In practice, this means **porting the `FootholdManager.GetYBelow()` logic into the GameLogic layer and using it for player collision detection and spawning**. Below are the steps to implement this fix:
+
+## 1. Port Foothold Snapping Logic to GameLogic Physics
+
+**Create a foothold query function in GameLogic** that mirrors `FootholdManager.GetYBelow()`. This function should take a position (player’s X and Y) and find the nearest foothold directly beneath that position using MapleStory’s coordinate system:
+
+* **Use MapleStory coordinates for calculation:** Convert the player’s Unity position to MapleStory pixel coordinates before querying footholds. (Remember: MapleStory’s Y axis increases downward, while Unity’s increases upward, and 100 MapleStory pixels = 1 Unity unit.) For example, if the player’s Unity position is `(X, Y)`, the MapleStory coordinates would be `(mapleX, mapleY) = (X*100, -Y*100)`.
+* **Scan footholds for those under the player:** Iterate through all footholds (platform segments) and check which ones span the player’s X position. For each foothold covering that X, compute the Y on that line at the given X (linear interpolation for sloped platforms). Only consider footholds that are **below or at** the player’s current Y position (since in MapleStory coordinates, a foothold with `Y >= playerY` is beneath the player).
+* **Choose the closest foothold below:** Out of the candidates, pick the one with the smallest Y value (in MapleStory coords). Because MapleStory’s Y increases downward, the smallest numeric Y among those below the player represents the highest foothold just beneath them. This is exactly how the C++ client’s `get_y_below` works. You may also subtract 1 pixel from this ground Y to slightly sink the character into the floor (the C++ client does this).
+
+You can implement this as a **new helper in GameLogic** (e.g., `MapPhysics.GetGroundBelow(x, y, footholds)`) or even reuse the existing `FootholdManager.Instance` if accessible. The key is to use the **exact foothold data and logic** rather than an arbitrary range check.
+
+## 2. Integrate Foothold Logic into Player Collision Detection
+
+**Replace the current platform collision checks in `Player.UpdatePhysics` with the foothold-snapping approach:**
+
+* **Remove the 50-pixel heuristic:** The existing `Player.GetPlatformBelow()` uses a fixed 50-pixel vertical search range and orders footholds by descending Y. This can fail if the player is more than 50px above the ground or if multiple platforms overlap, causing the wrong platform to be chosen. We should eliminate this arbitrary range. Instead, always query the *actual* foothold right below the player using the logic from step 1. This ensures we never miss the ground, no matter the distance.
+
+* **Use MapleStory foothold data for collision:** When `Velocity.Y <= 0` (falling or stationary), determine the MapleStory-ground Y beneath the player’s position. Convert that ground Y back to Unity units (divide by 100 and invert the sign). Let’s call this `groundUnityY`. For example, if `GetYBelow` finds a ground at Maple Y = 20, then `groundUnityY = -0.20` in Unity.
+
+* **Snap the player to the ground when reached:** Check if the player’s **next frame bottom position** would go below or equal to `groundUnityY` while the previous frame bottom was above it. In code, if `prevBottomY >= groundUnityY` and `newBottomY <= groundUnityY`, we know the player crossed or landed on the platform this frame (accounting for floating-point tolerance \~0.01). In that case, **snap the player’s Y position to sit on the platform** and zero out the Y velocity. For example:
+
+  ```csharp
+  float groundMapleY = FindGroundBelow(mapleX, mapleY);        // new function using footholds
+  float groundUnityY = MapleCoordinateConverter.MapleYToUnityY(groundMapleY);
+  float playerBottomPrev = Position.Y - PLAYER_HEIGHT/2;
+  float playerBottomNew  = newPosition.Y - PLAYER_HEIGHT/2;
+  if (playerBottomPrev >= groundUnityY && playerBottomNew <= groundUnityY) {
+      // Land on ground
+      newPosition.Y = groundUnityY + PLAYER_HEIGHT/2;
+      Velocity.Y    = 0;
+      IsGrounded    = true;
+      IsJumping     = false;
+      State         = PlayerState.Standing;
+      Landed?.Invoke();
+  }
+  ```
+
+  This replaces the current logic that was using `Platform.GetYAtX` and the flawed 50px search. By using the foothold system, the player will reliably collide with the correct platform. The NPC system already demonstrates this approach: when spawning NPCs, it calls `FootholdManager.Instance.GetYBelow(x,y)` and adjusts the NPC’s Unity position accordingly (ensuring NPCs sit on the ground). Our player will now do the same for runtime collisions.
+
+* **Update the grounded state properly:** Once snapped, set `IsGrounded = true` and trigger the `Landed` event (if the player was previously in air) just as the existing code does. This ensures animations or state changes on landing still occur. If no foothold is found below (e.g. falling off the map), handle that as a free fall (keep gravity applied and `IsGrounded = false`). In practice, `GetYBelow` will return the original Y if nothing is beneath, so the player will just continue falling in that case.
+
+By integrating these changes, the physics layer will use consistent MapleStory coordinate logic for collisions, matching what the rendering and NPC systems expect. The player will no longer hover or fall through platforms because the collision check uses the exact platform height underneath, rather than a mismatched or missed value.
+
+## 3. Ensure Coordinate System Consistency
+
+When implementing the above, **be mindful of converting between MapleStory and Unity coordinates at every interface**:
+
+* **MapleStory Foothold Data → Unity Physics:** The foothold positions (X1, Y1, X2, Y2) are in MapleStory pixels (e.g. ground foothold at Y=20 pixels). Convert these to Unity units (divide by 100) when comparing with the player’s Unity position. The `MapleCoordinateConverter` or `CoordinateConverter` utility can help – for instance, `MapleYToUnityY(20) = -0.2f`.
+* **Player Position → MapleStory coords:** Likewise, convert the player’s Unity position to MapleStory coords before using foothold logic. For example, a player at Unity `(x= -4.4, y=0.8)` corresponds to MapleStory `(x≈ -440, y≈ -80)` in pixels. Using these ensures `GetYBelow(x,y)` is fed the correct values.
+* **Use one consistent system for comparisons:** Do not mix Unity Y with MapleStory Y in the same calculation. All height comparisons should occur in one coordinate space. The approach above keeps the heavy logic in MapleStory pixels (inside `FindGroundBelow`) and then uses a final converted Unity value for the collision position check. This avoids the mismatch that originally caused the player to be considered grounded while floating (Unity 0.8 vs platform -0.2) – that was due to comparing values across coordinate spaces incorrectly.
+
+By centralizing these conversions (you might even create a single conversion helper for physics), you eliminate confusion. The goal is that *GameLogic always uses MapleStory’s data correctly*, and only converts to Unity units at the last moment when applying positions in the scene. This will align the physics with the visuals.
+
+## 4. Fix Player Spawn Position using Foothold Data
+
+Finally, address the spawn height so the player doesn’t start “standing on air.” Currently the spawn is hard-coded to place the player slightly above ground (Y = 0.8 in Unity), which relied on gravity to drop them. Instead, we can spawn the player exactly on the nearest platform:
+
+* **Use FootholdManager for spawn Y:** If you know the intended spawn X (for example, near a spawn portal or map center), run that X through the foothold logic to get the correct ground Y. For instance, if spawn X is –4.4 (Unity units), get the MapleStory Y below it and convert to Unity. This is what the original (commented) spawn code was moving toward – it searched for a platform near the center and used `Platform.GetYAtX` to set spawn Y. We can do the same but with the more robust foothold query.
+* **Remove the fixed offset spawn hack:** Delete or disable the custom `return new Vector2(-4.4f, 0.8f)` line in `PlayerSpawnManager.FindSpawnPoint`. Replace it with logic to choose a spawn location based on actual map data. For example, if a spawn portal exists, use its coordinates (portals in data are usually at ground level). Otherwise, find a broad platform (like the ground) and spawn the player there. The commented `FindPlatformSpawnPoint` method already picks the widest, central platform and computes a spawn position on it. You can enable that method and improve it by using `FootholdManager.GetYBelow` instead of `Platform.GetYAtX` for accuracy.
+* **Apply a small upward offset if needed:** It’s okay to spawn the player exactly on the ground. If you prefer a tiny buffer (to prevent spawning *inside* the collider), you can add, say, 0.1 Unity units (10 pixels) above the foothold height (similar to the original `SPAWN_HEIGHT_OFFSET` of 0.1f used for portals). The player will then immediately settle onto the ground in the next physics update. However, if your foothold collision is precise, you can spawn without any offset and mark the player grounded from the start.
+
+By spawning the player at the correct height (e.g. using `FootholdManager.Instance.GetYBelow` just like NPCs do on spawn), you eliminate the initial “standing on air” gap. The player will start either exactly on the platform or will fall a negligible distance before landing, consistent with expected behavior.
+
+## 5. Testing the Fix
+
+After implementing the above changes, test the following scenarios to ensure the issue is resolved:
+
+* **Initial spawn:** The player should appear on the ground (no noticeable hovering). If you log the spawn, the player’s starting `Y` should match the platform’s `Y` (e.g. ground at Maple Y=20 → Unity Y≈ -0.2). They should not start in a falling state with `IsGrounded=true` (that contradiction should be gone).
+* **Walking across platforms:** The player should no longer fall through visible footholds when moving left/right. As you move across a platform, the foothold query will continuously find the same platform underfoot, keeping the player grounded. If you walk off an edge, `GetYBelow` will eventually find a lower foothold or none (triggering a fall) as appropriate.
+* **Jumping and landing:** When the player jumps and comes down, they should land cleanly on the platform below using the foothold logic. Monitor that `IsGrounded` becomes true at the right moment, and the `Landed` event fires. There should be no bouncing or phase-through if the timing is right – the snap will catch the exact frame the bottom touches or passes the foothold height.
+* **Multiple tiers of platforms:** If your map has stacked platforms (different Y at same X range), verify that the player lands on the correct one. The foothold-snapping will ensure the nearest below is chosen. The previous algorithm (descending order by Y) could pick a lower, wrong platform if within 50px; that should no longer happen because we specifically take the smallest Y above the player.
+
+By adopting the foothold manager in GameLogic, we unify the coordinate handling and collision logic between the client physics and the game data. The NPCs, monsters, and now the player will all use **the same source of truth for ground position**, fixing the sync issues. In summary, these changes implement the report’s recommendations: the player’s physics will **“use the foothold system to find the ground beneath the player”**, just like the NPC positioning does, eliminating the platform mismatch and making collision detection robust.
+
+**Sources:**
+
+* MapleUnity FootholdManager logic for ground-snapping
+* Player physics before fix (platform search and 50px limit)
+* NPC spawn using FootholdManager (for reference)
+* Player spawn manager (current vs. intended behavior)
+* Coordinate conversion utilities (MapleStory ↔ Unity)

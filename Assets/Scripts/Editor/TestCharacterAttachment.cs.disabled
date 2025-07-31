@@ -1,0 +1,146 @@
+using UnityEngine;
+using UnityEditor;
+using MapleClient.GameData;
+using GameData;
+using System.Linq;
+using System.IO;
+
+public static class TestCharacterAttachment
+{
+    public static void RunTest()
+    {
+        Debug.Log("=== CHARACTER ATTACHMENT TEST ===");
+        
+        try
+        {
+            // Initialize NX data
+            Debug.Log("Initializing NX data manager...");
+            var dataManager = new NXDataManager();
+            dataManager.Initialize();
+            
+            // Ensure it's registered as singleton
+            var singleton = NXDataManagerSingleton.Instance;
+            if (singleton.DataManager == null)
+            {
+                singleton.DataManager = dataManager;
+            }
+            
+            Debug.Log("NX data manager initialized");
+            
+            // Get character file
+            var charFile = NXAssetLoader.Instance.GetNxFile("character");
+            if (charFile == null)
+            {
+                Debug.LogError("Character file not loaded!");
+                EditorApplication.Exit(1);
+                return;
+            }
+            
+            Debug.Log("Character file loaded successfully");
+            
+            // Check body structure
+            var bodyNode = charFile.GetNode("00002000.img");
+            if (bodyNode == null)
+            {
+                Debug.LogError("Body node 00002000.img not found!");
+                EditorApplication.Exit(1);
+                return;
+            }
+            
+            Debug.Log("\n=== Checking stand1 animation ===");
+            var stand1Node = bodyNode["stand1"];
+            if (stand1Node == null)
+            {
+                Debug.LogError("stand1 animation not found!");
+                EditorApplication.Exit(1);
+                return;
+            }
+            
+            var frame0Node = stand1Node["0"];
+            if (frame0Node == null)
+            {
+                Debug.LogError("Frame 0 not found!");
+                EditorApplication.Exit(1);
+                return;
+            }
+            
+            Debug.Log($"\nFrame 0 children ({frame0Node.Children.Count()}):");
+            foreach (var child in frame0Node.Children)
+            {
+                Debug.Log($"  - {child.Name}: {child.Value?.GetType().Name ?? "Container"}");
+                
+                // Check body node specifically
+                if (child.Name == "body")
+                {
+                    Debug.Log("\n  Examining body node:");
+                    
+                    // Check all children
+                    foreach (var bodyChild in child.Children)
+                    {
+                        Debug.Log($"    - {bodyChild.Name}: {bodyChild.Value?.GetType().Name ?? "Container"}");
+                        
+                        // Look for map node
+                        if (bodyChild.Name == "map")
+                        {
+                            Debug.Log("\n    Found map node! Children:");
+                            foreach (var mapChild in bodyChild.Children)
+                            {
+                                Debug.Log($"      - {mapChild.Name}: {mapChild.Value}");
+                            }
+                        }
+                    }
+                }
+                
+                // Also check for direct head node
+                if (child.Name == "head")
+                {
+                    Debug.Log($"\n  Found direct head node! Value: {child.Value}");
+                }
+            }
+            
+            Debug.Log("\n=== Testing LoadCharacterBodyParts ===");
+            Vector2? headAttachPoint;
+            var bodyParts = NXAssetLoader.Instance.LoadCharacterBodyParts(0, "stand1", 0, out headAttachPoint);
+            
+            if (bodyParts != null)
+            {
+                Debug.Log($"\nLoaded {bodyParts.Count} body parts");
+                foreach (var part in bodyParts)
+                {
+                    Debug.Log($"  - {part.Key}");
+                }
+                
+                Debug.Log($"\nHead attachment point: {headAttachPoint}");
+                
+                if (!headAttachPoint.HasValue)
+                {
+                    Debug.LogError("HEAD ATTACHMENT POINT IS NULL!");
+                    Debug.Log("\nThis is the problem - the character parts can't align without this data.");
+                }
+                else
+                {
+                    Debug.Log($"Head attachment point in Unity units: ({headAttachPoint.Value.x / 100f}, {headAttachPoint.Value.y / 100f})");
+                }
+            }
+            else
+            {
+                Debug.LogError("Failed to load body parts!");
+            }
+            
+            // Write results to file
+            string logPath = Path.Combine(Application.dataPath, "..", "character-attachment-test.txt");
+            File.WriteAllText(logPath, $"Test completed. Head attachment point: {headAttachPoint}\n");
+            
+            Debug.Log("\n=== TEST COMPLETE ===");
+            Debug.Log($"Results written to: {logPath}");
+            
+            EditorApplication.Exit(0);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Test failed: {e.Message}");
+            Debug.LogError($"Stack trace:\n{e.StackTrace}");
+            EditorApplication.Exit(1);
+        }
+    }
+}

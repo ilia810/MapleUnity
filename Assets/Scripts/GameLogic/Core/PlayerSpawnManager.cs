@@ -9,19 +9,22 @@ namespace MapleClient.GameLogic.Core
     /// </summary>
     public class PlayerSpawnManager
     {
+        private readonly IFootholdService footholdService;
         private const float SPAWN_HEIGHT_OFFSET = 0.1f; // 10 pixels above spawn point
         private const float PLAYER_HEIGHT = 0.6f; // 60 pixels
+        // Force recompile: spawn fix v2
+        
+        public PlayerSpawnManager(IFootholdService footholdService)
+        {
+            this.footholdService = footholdService;
+        }
         
         /// <summary>
         /// Find the best spawn point for a player in the given map
         /// </summary>
         public Vector2 FindSpawnPoint(MapData mapData, int portalId = -1)
         {
-            // CUSTOM SPAWN POSITION - Always spawn at (-4.4, -0.8)
-            return new Vector2(-4.4f, 0.8f); // Fixed: positive Y for above ground
-            
-            // Original code commented out:
-            /*
+            System.Console.WriteLine($"[FOOTHOLD_COLLISION] FindSpawnPoint called with portalId={portalId}");
             // First, try to find a specific portal if ID is provided
             if (portalId >= 0 && mapData.Portals != null)
             {
@@ -32,73 +35,97 @@ namespace MapleClient.GameLogic.Core
                 }
             }
             
-            // Next, try to find a spawn portal (type 0)
+            // Next, try to find a spawn portal
             if (mapData.Portals != null)
             {
-                var spawnPortal = mapData.Portals.FirstOrDefault(p => p.Type == 0);
+                System.Console.WriteLine($"[FOOTHOLD_COLLISION] Checking {mapData.Portals.Count} portals for spawn portal");
+                var spawnPortal = mapData.Portals.FirstOrDefault(p => p.Type == PortalType.Spawn);
                 if (spawnPortal != null)
                 {
+                    System.Console.WriteLine($"[FOOTHOLD_COLLISION] Found spawn portal at ({spawnPortal.X}, {spawnPortal.Y})");
                     return GetSpawnPositionFromPortal(spawnPortal);
+                }
+                else
+                {
+                    System.Console.WriteLine($"[FOOTHOLD_COLLISION] No spawn portal found among {mapData.Portals.Count} portals");
                 }
             }
             
-            // If no spawn portal, find a suitable platform near the center of the map
-            if (mapData.Platforms != null && mapData.Platforms.Count > 0)
-            {
-                return FindPlatformSpawnPoint(mapData);
-            }
-            
-            // Last resort: spawn at map center at a reasonable height
-            float centerX = mapData.Width / 2f;
-            float centerY = mapData.Height / 2f;
-            return new Vector2(centerX / 100f, centerY / 100f);
-            */
+            // If no spawn portal, use map center
+            System.Console.WriteLine($"[FOOTHOLD_COLLISION] No spawn portal found, calling FindPlatformSpawnPoint");
+            return FindPlatformSpawnPoint(mapData);
         }
         
         /// <summary>
-        /// Get spawn position from a portal, with height offset
+        /// Get spawn position from a portal, placed on ground
         /// </summary>
         private Vector2 GetSpawnPositionFromPortal(Portal portal)
         {
-            // Convert from pixels to units and add height offset
-            float x = portal.X / 100f;
-            float y = -portal.Y / 100f + SPAWN_HEIGHT_OFFSET; // Invert Y axis
-            return new Vector2(x, y);
+            System.Console.WriteLine($"[FOOTHOLD_COLLISION] GetSpawnPositionFromPortal: portal at ({portal.X}, {portal.Y})");
+            
+            // Find ground below portal position
+            float groundY = footholdService.GetGroundBelow(portal.X, portal.Y);
+            
+            // If no ground found, use portal Y
+            if (groundY == float.MaxValue)
+            {
+                groundY = portal.Y;
+            }
+            
+            // GetGroundBelow returns ground-1, so actual ground is groundY+1
+            float actualGroundY = groundY + 1;
+            
+            // Spawn player just above the ground
+            float spawnY = actualGroundY - 50; // 50 pixels above ground (about player height)
+            
+            System.Console.WriteLine($"[FOOTHOLD_COLLISION] Portal spawn: ground at Y={actualGroundY}, spawning at Y={spawnY}");
+            
+            // Convert to Unity coordinates
+            return MapleCoordinateConverter.MapleToUnity(portal.X, spawnY);
         }
         
         /// <summary>
-        /// Find a suitable platform to spawn on near the center of the map
+        /// Find a suitable spawn point near the center of the map
         /// </summary>
         private Vector2 FindPlatformSpawnPoint(MapData mapData)
         {
-            // Get map center
+            System.Console.WriteLine($"[FOOTHOLD_COLLISION] ===== FindPlatformSpawnPoint START =====");
+            // Get map center in MapleStory coordinates
             float centerX = mapData.Width / 2f;
             float centerY = mapData.Height / 2f;
             
-            // Find platforms that could be spawn points
-            var candidatePlatforms = mapData.Platforms
-                .Where(p => p.Type == PlatformType.Normal || p.Type == PlatformType.OneWay)
-                .Select(p => new
-                {
-                    Platform = p,
-                    CenterX = (p.X1 + p.X2) / 2,
-                    CenterY = (p.Y1 + p.Y2) / 2,
-                    Length = System.Math.Abs(p.X2 - p.X1)
-                })
-                .Where(p => p.Length > 200) // At least 200 pixels wide
-                .OrderBy(p => System.Math.Abs(p.CenterX - centerX) + System.Math.Abs(p.CenterY - centerY))
-                .ToList();
+            System.Console.WriteLine($"[FOOTHOLD_COLLISION] Map center: ({centerX}, {centerY}), checking for ground...");
             
-            if (candidatePlatforms.Count > 0)
+            // First try to find ground from center Y
+            float groundY = footholdService.GetGroundBelow(centerX, centerY);
+            
+            // If no ground found from center, try from top of map
+            if (groundY == float.MaxValue)
             {
-                var chosen = candidatePlatforms.First();
-                float spawnX = chosen.CenterX / 100f;
-                float spawnY = chosen.Platform.GetYAtX(chosen.CenterX) / 100f + PLAYER_HEIGHT / 2 + SPAWN_HEIGHT_OFFSET;
-                return new Vector2(spawnX, spawnY);
+                groundY = footholdService.GetGroundBelow(centerX, 0);
             }
             
-            // No suitable platforms found, use map center
-            return new Vector2(centerX / 100f, centerY / 100f);
+            // If still no ground found, use map center as fallback
+            if (groundY == float.MaxValue)
+            {
+                groundY = centerY;
+            }
+            
+            // GetGroundBelow returns ground-1 (e.g., 199 when ground is at 200)
+            float actualGroundY = groundY + 1; // Add 1 to get actual ground position
+            System.Console.WriteLine($"[FOOTHOLD_COLLISION] FindPlatformSpawnPoint: ground from GetGroundBelow = {groundY}");
+            System.Console.WriteLine($"[FOOTHOLD_COLLISION] FindPlatformSpawnPoint: actual ground = {actualGroundY}");
+            
+            // Spawn player just above the ground
+            // In MapleStory coords, smaller Y = higher position
+            float spawnY = actualGroundY - 50; // Spawn 50 pixels above the ground (about player height)
+            System.Console.WriteLine($"[FOOTHOLD_COLLISION] FindPlatformSpawnPoint: spawn Y = {spawnY} (50 above ground)");
+            
+            // Convert to Unity coordinates
+            var spawnPos = MapleCoordinateConverter.MapleToUnity(centerX, spawnY);
+            System.Console.WriteLine($"[FOOTHOLD_COLLISION] Spawn position: Maple({centerX}, {spawnY}) -> Unity({spawnPos.X:F2}, {spawnPos.Y:F2})");
+            
+            return spawnPos;
         }
         
         /// <summary>
@@ -106,11 +133,13 @@ namespace MapleClient.GameLogic.Core
         /// </summary>
         public void SpawnPlayer(Player player, Vector2 position)
         {
+            System.Console.WriteLine($"[FOOTHOLD_COLLISION] SpawnPlayer called with position: Unity({position.X:F2}, {position.Y:F2})");
             player.Position = position;
             player.Velocity = Vector2.Zero;
             player.IsGrounded = false; // Let gravity pull them down to the platform
             player.IsJumping = false;
             // State will be set to Standing automatically by the Player class
+            System.Console.WriteLine($"[FOOTHOLD_COLLISION] SpawnPlayer set player.Position to: ({player.Position.X:F2}, {player.Position.Y:F2})");
         }
         
         /// <summary>

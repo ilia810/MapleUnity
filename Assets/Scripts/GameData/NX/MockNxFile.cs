@@ -69,11 +69,11 @@ namespace MapleClient.GameData
             
             // Add actual footholds that match the visible platforms in Henesys
             // In MapleStory, Y coordinates are inverted (negative Y is up)
-            // Main ground platform
+            // Main ground platform - extend to cover entire playable area
             var fh1 = new NxNode("1");
-            fh1.AddChild(new NxNode("x1", -800));
+            fh1.AddChild(new NxNode("x1", -5000));  // Much wider platform
             fh1.AddChild(new NxNode("y1", 20));  // Positive Y for ground level
-            fh1.AddChild(new NxNode("x2", 800));
+            fh1.AddChild(new NxNode("x2", 5000));   // Much wider platform
             fh1.AddChild(new NxNode("y2", 20));
             group0.AddChild(fh1);
             

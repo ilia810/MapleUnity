@@ -1,0 +1,181 @@
+using UnityEngine;
+using UnityEditor;
+using MapleClient.GameData;
+using System.Linq;
+using System.IO;
+
+public static class BatchDebugAttachmentData
+{
+    public static void DebugData()
+    {
+        Debug.Log("=== BATCH DEBUG ATTACHMENT DATA ===");
+        
+        try
+        {
+            // Initialize NXAssetLoader manually for batch mode
+            var go = new GameObject("NXAssetLoader");
+            var loader = go.AddComponent<NXAssetLoader>();
+            
+            // Wait a frame for initialization
+            Debug.Log("Initializing NX Asset Loader...");
+            
+            // Get the character file
+            var charFile = loader.GetNxFile("character");
+            if (charFile == null)
+            {
+                Debug.LogError("Character NX file not found - checking NX path...");
+                string expectedPath = Path.Combine(Application.dataPath, "..", "nx");
+                Debug.Log($"Expected NX path: {expectedPath}");
+                Debug.Log($"Path exists: {Directory.Exists(expectedPath)}");
+                
+                if (Directory.Exists(expectedPath))
+                {
+                    var nxFiles = Directory.GetFiles(expectedPath, "*.nx");
+                    Debug.Log($"Found {nxFiles.Length} NX files:");
+                    foreach (var file in nxFiles)
+                    {
+                        Debug.Log($"  - {Path.GetFileName(file)}");
+                    }
+                }
+                
+                EditorApplication.Exit(1);
+                return;
+            }
+            
+            Debug.Log("Character NX file loaded successfully");
+            
+            // Check the actual structure of body data
+            var skinNode = charFile.GetNode("00002000.img");
+            if (skinNode == null)
+            {
+                Debug.LogError("Skin 00002000.img not found");
+                EditorApplication.Exit(1);
+                return;
+            }
+            
+            Debug.Log("Found skin node 00002000.img");
+            
+            var stand1Node = skinNode["stand1"];
+            if (stand1Node == null) 
+            {
+                Debug.LogError("stand1 animation not found");
+                EditorApplication.Exit(1);
+                return;
+            }
+            
+            Debug.Log("Found stand1 animation");
+            
+            var frame0Node = stand1Node["0"];
+            if (frame0Node == null)
+            {
+                Debug.LogError("Frame 0 not found");
+                EditorApplication.Exit(1);
+                return;
+            }
+            
+            Debug.Log($"\nFrame 0 has {frame0Node.Children.Count()} children:");
+            foreach (var child in frame0Node.Children)
+            {
+                Debug.Log($"  - {child.Name}: {child.Value?.GetType().Name ?? "null"}");
+                
+                if (child.Name == "body" || child.Name == "arm")
+                {
+                    // Check for sub-nodes
+                    if (child.Children.Any())
+                    {
+                        Debug.Log($"    Sub-nodes of {child.Name}:");
+                        foreach (var subChild in child.Children)
+                        {
+                            Debug.Log($"      - {subChild.Name}: {subChild.Value}");
+                        }
+                    }
+                }
+                
+                // Also check for "head" node specifically
+                if (child.Name == "head")
+                {
+                    Debug.Log($"    HEAD NODE FOUND! Value: {child.Value}");
+                    if (child.Children.Any())
+                    {
+                        Debug.Log($"    Head sub-nodes:");
+                        foreach (var subChild in child.Children)
+                        {
+                            Debug.Log($"      - {subChild.Name}: {subChild.Value}");
+                        }
+                    }
+                }
+            }
+            
+            // Look for attachment points in different ways
+            Debug.Log("\n=== Looking for attachment points ===");
+            
+            // Check body node specifically
+            var bodyNode = frame0Node["body"];
+            if (bodyNode != null)
+            {
+                Debug.Log("Body node details:");
+                Debug.Log($"  - Has value: {bodyNode.Value != null}");
+                Debug.Log($"  - Value type: {bodyNode.Value?.GetType().Name ?? "null"}");
+                Debug.Log($"  - Child count: {bodyNode.Children.Count()}");
+                
+                // Check for map sub-node
+                var mapNode = bodyNode["map"];
+                if (mapNode != null)
+                {
+                    Debug.Log("  Found body/map node!");
+                    foreach (var mapChild in mapNode.Children)
+                    {
+                        Debug.Log($"    - {mapChild.Name}: {mapChild.Value}");
+                    }
+                }
+                
+                // Check for direct head property
+                var headNode = bodyNode["head"];
+                if (headNode != null)
+                {
+                    Debug.Log($"  Found body/head node! Value: {headNode.Value}");
+                }
+            }
+            
+            // Now test loading with the actual method
+            Debug.Log("\n=== Testing LoadCharacterBodyParts ===");
+            Vector2? headAttachPoint;
+            var bodyParts = loader.LoadCharacterBodyParts(0, "stand1", 0, out headAttachPoint);
+            
+            if (bodyParts != null)
+            {
+                Debug.Log($"Loaded {bodyParts.Count} parts:");
+                foreach (var part in bodyParts)
+                {
+                    Debug.Log($"  - {part.Key}: Sprite={part.Value.sprite?.name ?? "null"}, Origin={part.Value.origin}, Map={part.Value.map}");
+                }
+                
+                Debug.Log($"\nHead attachment point: {headAttachPoint}");
+                
+                if (!headAttachPoint.HasValue)
+                {
+                    Debug.LogError("Head attachment point is null - this is why head positioning fails!");
+                }
+                else
+                {
+                    Debug.Log("Head attachment point loaded successfully!");
+                }
+            }
+            else
+            {
+                Debug.LogError("Failed to load body parts!");
+            }
+            
+            // Clean up
+            Object.DestroyImmediate(go);
+            
+            Debug.Log("\n=== DEBUG COMPLETE ===");
+            EditorApplication.Exit(0);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Exception in debug: {e}");
+            EditorApplication.Exit(1);
+        }
+    }
+}

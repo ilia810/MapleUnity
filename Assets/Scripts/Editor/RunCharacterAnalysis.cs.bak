@@ -1,0 +1,38 @@
+using UnityEngine;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+
+public static class RunCharacterAnalysis
+{
+    public static void Run()
+    {
+        Debug.Log("Starting character analysis...");
+        
+        try
+        {
+            // Load the scene
+            var scene = EditorSceneManager.OpenScene("Assets/Scenes/TestScene.unity");
+            Debug.Log($"Loaded scene: {scene.name}");
+            
+            // Find or create analyzer
+            var analyzer = GameObject.FindObjectOfType<CharacterRenderingAnalyzer>();
+            if (analyzer == null)
+            {
+                var go = new GameObject("CharacterAnalyzer");
+                analyzer = go.AddComponent<CharacterRenderingAnalyzer>();
+                Debug.Log("Created CharacterRenderingAnalyzer");
+            }
+            
+            // Force start
+            analyzer.SendMessage("Start", SendMessageOptions.DontRequireReceiver);
+            
+            // Exit
+            EditorApplication.Exit(0);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Analysis failed: {e.Message}");
+            EditorApplication.Exit(1);
+        }
+    }
+}

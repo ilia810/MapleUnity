@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using MapleClient.GameData;
 using GameData;
+using MapleClient.GameView;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -66,6 +67,15 @@ namespace MapleClient.SceneGeneration
             // Add FootholdManager component and initialize it
             FootholdManager footholdManager = mapRoot.AddComponent<FootholdManager>();
             footholdManager.Initialize(mapData.Footholds ?? new List<Foothold>());
+            
+            // Also update the GameLogic FootholdService if GameManager exists
+            GameManager gameManager = FindObjectOfType<GameManager>();
+            if (gameManager != null && mapData.Footholds != null && mapData.Footholds.Count > 0)
+            {
+                // Note: GameManager handles foothold loading when it loads maps
+                // The SceneGeneration footholds are visual-only and separate from GameLogic
+                Debug.Log($"MapSceneGenerator: Found {mapData.Footholds.Count} footholds for visualization");
+            }
             
             // Generate backgrounds
             if (mapData.Backgrounds != null && mapData.Backgrounds.Count > 0)

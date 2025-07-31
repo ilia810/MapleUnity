@@ -1,0 +1,2000 @@
+
+09:23:33.687 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.687 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.687 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.687 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.688 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.688 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.688 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.688 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.688 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.688 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+
+09:23:33.688 [LOG]   Node has 2 bitmap children
+
+09:23:33.689 [LOG]   Node has image data (byte[265]), treating as image node
+
+09:23:33.689 [LOG]   Searching for origin on image node '1'...
+
+09:23:33.689 [LOG]   No origin found for image node '1'
+
+09:23:33.689 [LOG] Processing part 'arm' at: 00002000.img/stand1/1/arm
+
+09:23:33.689 [LOG] Character sprite 00002000.img/stand1/1/arm: size=10x19, origin=(5.00, 9.00), pivot=(0.50, 0.53)
+
+09:23:33.690 [LOG] Loaded part 'arm': 10x19
+
+09:23:33.690 [LOG] Processing part 'body' at: 00002000.img/stand1/1/body
+
+09:23:33.690 [LOG] Character sprite 00002000.img/stand1/1/body: size=22x31, origin=(17.00, 31.00), pivot=(0.77, 0.00)
+
+09:23:33.690 [LOG] Loaded part 'body': 22x31
+
+09:23:33.690 [LOG] Loaded 2 body parts for state:stand1 frame:1
+
+09:23:33.690 [LOG] Processing part 'arm' (lowercase: 'arm')
+
+09:23:33.690 [LOG]   - Arm: 10x19, pivot: (5.00, 10.00), bounds: Center: (0.00, -0.01, 0.00), Extents: (0.05, 0.10, 0.10)
+
+09:23:33.691 [LOG]     Arm renderer enabled: True, position: (5.70, -1.69, 0.00), localPos: (0.00, 0.00, 0.00)
+
+09:23:33.691 [LOG] Processing part 'body' (lowercase: 'body')
+
+09:23:33.691 [LOG]   - Body: 22x31
+
+09:23:33.691 [WARNING] No head attachment point found for current frame
+
+09:23:33.691 [LOG] Updated head position to: (0.00, 0.00, 0.00)
+
+09:23:33.691 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+
+09:23:33.691 [LOG]   Node has 1 bitmap children
+
+09:23:33.691 [LOG]   Node has image data (byte[728]), treating as image node
+
+09:23:33.691 [LOG]   Searching for origin on image node '1'...
+
+09:23:33.691 [LOG]   No origin found for image node '1'
+
+09:23:33.702 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.702 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.702 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.702 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.702 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.702 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.702 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.703 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.703 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.715 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.715 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.715 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.715 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.715 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.715 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.715 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.715 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.716 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.737 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.737 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.738 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.738 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.738 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.738 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.738 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.738 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.738 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.753 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.753 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.753 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.753 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.753 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.753 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.754 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.754 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.754 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.770 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.770 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.770 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.770 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.770 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.770 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.770 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.770 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.770 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.787 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.787 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.787 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.787 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.787 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.787 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.787 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.787 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.787 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.788 [LOG] Processing part 'arm' at: 00002000.img/stand1/2/arm
+
+09:23:33.788 [LOG] Character sprite 00002000.img/stand1/2/arm: size=11x19, origin=(6.00, 9.00), pivot=(0.55, 0.53)
+
+09:23:33.788 [LOG] Loaded part 'arm': 11x19
+
+09:23:33.788 [LOG] Processing part 'body' at: 00002000.img/stand1/2/body
+
+09:23:33.789 [LOG] Character sprite 00002000.img/stand1/2/body: size=23x31, origin=(18.00, 31.00), pivot=(0.78, 0.00)
+
+09:23:33.789 [LOG] Loaded part 'body': 23x31
+
+09:23:33.789 [LOG] Loaded 2 body parts for state:stand1 frame:2
+
+09:23:33.789 [LOG] Processing part 'arm' (lowercase: 'arm')
+
+09:23:33.789 [LOG]   - Arm: 11x19, pivot: (6.00, 10.00), bounds: Center: (0.00, -0.01, 0.00), Extents: (0.06, 0.10, 0.10)
+
+09:23:33.789 [LOG]     Arm renderer enabled: True, position: (5.70, -1.69, 0.00), localPos: (0.00, 0.00, 0.00)
+
+09:23:33.789 [LOG] Processing part 'body' (lowercase: 'body')
+
+09:23:33.789 [LOG]   - Body: 23x31
+
+09:23:33.789 [WARNING] No head attachment point found for current frame
+
+09:23:33.789 [LOG] Updated head position to: (0.00, 0.00, 0.00)
+
+09:23:33.798 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.798 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.798 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.798 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.798 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.798 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.798 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.799 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.799 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.820 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.820 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.820 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.821 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.821 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.821 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.821 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.821 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.821 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.838 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.838 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.838 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.838 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.838 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.838 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.838 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.838 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.838 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.854 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.854 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.854 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.854 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.854 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.855 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.855 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.855 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.855 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.871 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.871 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.871 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.872 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.872 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.872 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.872 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.872 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.872 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.888 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.888 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.888 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.888 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.888 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.888 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.888 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.888 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.888 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.888 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+
+09:23:33.888 [LOG]   Node has 2 bitmap children
+
+09:23:33.889 [LOG]   Node has image data (byte[286]), treating as image node
+
+09:23:33.889 [LOG]   Searching for origin on image node '0'...
+
+09:23:33.889 [LOG]   No origin found for image node '0'
+
+09:23:33.889 [LOG] Processing part 'arm' at: 00002000.img/stand1/0/arm
+
+09:23:33.890 [LOG] Character sprite 00002000.img/stand1/0/arm: size=10x19, origin=(5.00, 9.00), pivot=(0.50, 0.53)
+
+09:23:33.890 [LOG] Loaded part 'arm': 10x19
+
+09:23:33.890 [LOG] Processing part 'body' at: 00002000.img/stand1/0/body
+
+09:23:33.890 [LOG] Character sprite 00002000.img/stand1/0/body: size=21x31, origin=(16.00, 31.00), pivot=(0.76, 0.00)
+
+09:23:33.890 [LOG] Loaded part 'body': 21x31
+
+09:23:33.890 [LOG] Loaded 2 body parts for state:stand1 frame:0
+
+09:23:33.890 [LOG] Processing part 'arm' (lowercase: 'arm')
+
+09:23:33.891 [LOG]   - Arm: 10x19, pivot: (5.00, 10.00), bounds: Center: (0.00, -0.01, 0.00), Extents: (0.05, 0.10, 0.10)
+
+09:23:33.891 [LOG]     Arm renderer enabled: True, position: (5.70, -1.69, 0.00), localPos: (0.00, 0.00, 0.00)
+
+09:23:33.891 [LOG] Processing part 'body' (lowercase: 'body')
+
+09:23:33.891 [LOG]   - Body: 21x31
+
+09:23:33.891 [WARNING] No head attachment point found for current frame
+
+09:23:33.891 [LOG] Updated head position to: (0.00, 0.00, 0.00)
+
+09:23:33.891 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+
+09:23:33.891 [LOG]   Node has 1 bitmap children
+
+09:23:33.891 [LOG]   Node has image data (byte[728]), treating as image node
+
+09:23:33.892 [LOG]   Searching for origin on image node '0'...
+
+09:23:33.892 [LOG]   No origin found for image node '0'
+
+09:23:33.901 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.901 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.901 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.902 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.902 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.902 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.902 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.902 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.902 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.921 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.921 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.921 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.921 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.921 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.921 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.921 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.921 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.921 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.937 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.937 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.937 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.937 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.937 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.937 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.937 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.937 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.937 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.953 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.953 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.954 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.954 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.954 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.954 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.954 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.954 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.954 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.971 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.971 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.971 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.971 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.971 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.971 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.971 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.971 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.971 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.988 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.988 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.988 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.989 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:33.989 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:33.989 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:33.989 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:33.989 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:33.989 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:33.989 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+
+09:23:33.989 [LOG]   Node has 2 bitmap children
+
+09:23:33.990 [LOG]   Node has image data (byte[265]), treating as image node
+
+09:23:33.990 [LOG]   Searching for origin on image node '1'...
+
+09:23:33.990 [LOG]   No origin found for image node '1'
+
+09:23:33.990 [LOG] Processing part 'arm' at: 00002000.img/stand1/1/arm
+
+09:23:33.990 [LOG] Character sprite 00002000.img/stand1/1/arm: size=10x19, origin=(5.00, 9.00), pivot=(0.50, 0.53)
+
+09:23:33.990 [LOG] Loaded part 'arm': 10x19
+
+09:23:33.990 [LOG] Processing part 'body' at: 00002000.img/stand1/1/body
+
+09:23:33.991 [LOG] Character sprite 00002000.img/stand1/1/body: size=22x31, origin=(17.00, 31.00), pivot=(0.77, 0.00)
+
+09:23:33.991 [LOG] Loaded part 'body': 22x31
+
+09:23:33.991 [LOG] Loaded 2 body parts for state:stand1 frame:1
+
+09:23:33.991 [LOG] Processing part 'arm' (lowercase: 'arm')
+
+09:23:33.991 [LOG]   - Arm: 10x19, pivot: (5.00, 10.00), bounds: Center: (0.00, -0.01, 0.00), Extents: (0.05, 0.10, 0.10)
+
+09:23:33.991 [LOG]     Arm renderer enabled: True, position: (5.70, -1.69, 0.00), localPos: (0.00, 0.00, 0.00)
+
+09:23:33.991 [LOG] Processing part 'body' (lowercase: 'body')
+
+09:23:33.991 [LOG]   - Body: 22x31
+
+09:23:33.992 [WARNING] No head attachment point found for current frame
+
+09:23:33.992 [LOG] Updated head position to: (0.00, 0.00, 0.00)
+
+09:23:33.992 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+
+09:23:33.992 [LOG]   Node has 1 bitmap children
+
+09:23:33.992 [LOG]   Node has image data (byte[728]), treating as image node
+
+09:23:33.992 [LOG]   Searching for origin on image node '1'...
+
+09:23:33.992 [LOG]   No origin found for image node '1'
+
+09:23:34.006 [ERROR] The .meta file Assets/Scripts/Editor/TestCharacterRenderingIssues.cs.meta does not have a valid GUID and its corresponding Asset file will be ignored. If this file is not malformed, please add a GUID, or delete the .meta file and it will be recreated correctly
+
+09:23:34.024 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.024 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.024 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.024 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.024 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.024 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.024 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.024 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.024 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.024 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.024 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.024 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.024 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.024 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.024 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.025 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.025 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.025 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.036 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.036 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.036 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.036 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.036 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.036 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.036 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.036 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.036 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.055 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.055 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.055 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.055 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.055 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.056 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.056 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.056 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.056 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.071 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.072 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.072 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.072 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.072 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.072 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.072 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.072 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.072 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.088 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.088 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.088 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.088 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.089 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.089 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.089 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.089 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.089 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.089 [LOG] Processing part 'arm' at: 00002000.img/stand1/2/arm
+
+09:23:34.090 [LOG] Character sprite 00002000.img/stand1/2/arm: size=11x19, origin=(6.00, 9.00), pivot=(0.55, 0.53)
+
+09:23:34.090 [LOG] Loaded part 'arm': 11x19
+
+09:23:34.090 [LOG] Processing part 'body' at: 00002000.img/stand1/2/body
+
+09:23:34.090 [LOG] Character sprite 00002000.img/stand1/2/body: size=23x31, origin=(18.00, 31.00), pivot=(0.78, 0.00)
+
+09:23:34.091 [LOG] Loaded part 'body': 23x31
+
+09:23:34.091 [LOG] Loaded 2 body parts for state:stand1 frame:2
+
+09:23:34.091 [LOG] Processing part 'arm' (lowercase: 'arm')
+
+09:23:34.091 [LOG]   - Arm: 11x19, pivot: (6.00, 10.00), bounds: Center: (0.00, -0.01, 0.00), Extents: (0.06, 0.10, 0.10)
+
+09:23:34.091 [LOG]     Arm renderer enabled: True, position: (5.70, -1.69, 0.00), localPos: (0.00, 0.00, 0.00)
+
+09:23:34.091 [LOG] Processing part 'body' (lowercase: 'body')
+
+09:23:34.091 [LOG]   - Body: 23x31
+
+09:23:34.091 [WARNING] No head attachment point found for current frame
+
+09:23:34.091 [LOG] Updated head position to: (0.00, 0.00, 0.00)
+
+09:23:34.101 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.101 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.101 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.101 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.102 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.102 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.102 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.102 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.102 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.121 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.121 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.121 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.121 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.121 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.122 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.122 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.122 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.122 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.136 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.136 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.136 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.136 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.136 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.136 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.136 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.136 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.136 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.155 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.155 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.155 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.155 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.155 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.155 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.155 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.155 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.156 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.171 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.171 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.171 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.171 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.171 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.172 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.172 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.172 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.172 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.188 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.188 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.188 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.188 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.188 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.188 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.188 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.189 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.189 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.189 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+
+09:23:34.189 [LOG]   Node has 2 bitmap children
+
+09:23:34.189 [LOG]   Node has image data (byte[286]), treating as image node
+
+09:23:34.189 [LOG]   Searching for origin on image node '0'...
+
+09:23:34.190 [LOG]   No origin found for image node '0'
+
+09:23:34.190 [LOG] Processing part 'arm' at: 00002000.img/stand1/0/arm
+
+09:23:34.190 [LOG] Character sprite 00002000.img/stand1/0/arm: size=10x19, origin=(5.00, 9.00), pivot=(0.50, 0.53)
+
+09:23:34.190 [LOG] Loaded part 'arm': 10x19
+
+09:23:34.190 [LOG] Processing part 'body' at: 00002000.img/stand1/0/body
+
+09:23:34.191 [LOG] Character sprite 00002000.img/stand1/0/body: size=21x31, origin=(16.00, 31.00), pivot=(0.76, 0.00)
+
+09:23:34.191 [LOG] Loaded part 'body': 21x31
+
+09:23:34.191 [LOG] Loaded 2 body parts for state:stand1 frame:0
+
+09:23:34.191 [LOG] Processing part 'arm' (lowercase: 'arm')
+
+09:23:34.191 [LOG]   - Arm: 10x19, pivot: (5.00, 10.00), bounds: Center: (0.00, -0.01, 0.00), Extents: (0.05, 0.10, 0.10)
+
+09:23:34.191 [LOG]     Arm renderer enabled: True, position: (5.70, -1.69, 0.00), localPos: (0.00, 0.00, 0.00)
+
+09:23:34.191 [LOG] Processing part 'body' (lowercase: 'body')
+
+09:23:34.191 [LOG]   - Body: 21x31
+
+09:23:34.191 [WARNING] No head attachment point found for current frame
+
+09:23:34.192 [LOG] Updated head position to: (0.00, 0.00, 0.00)
+
+09:23:34.192 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+
+09:23:34.192 [LOG]   Node has 1 bitmap children
+
+09:23:34.192 [LOG]   Node has image data (byte[728]), treating as image node
+
+09:23:34.193 [LOG]   Searching for origin on image node '0'...
+
+09:23:34.193 [LOG]   No origin found for image node '0'
+
+09:23:34.201 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.201 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.201 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.201 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.201 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.201 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.201 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.201 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.201 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.221 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.221 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.221 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.221 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.221 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.221 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.221 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.221 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.221 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.237 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.238 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.238 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.238 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.238 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.238 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.238 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.238 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.238 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.256 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.256 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.256 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.256 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.256 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.256 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.256 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.256 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.256 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.272 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.272 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.272 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.272 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.272 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.272 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.272 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.272 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.272 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.288 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.288 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.288 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.288 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.288 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.288 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.288 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.288 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.288 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.288 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+
+09:23:34.288 [LOG]   Node has 2 bitmap children
+
+09:23:34.289 [LOG]   Node has image data (byte[265]), treating as image node
+
+09:23:34.289 [LOG]   Searching for origin on image node '1'...
+
+09:23:34.289 [LOG]   No origin found for image node '1'
+
+09:23:34.289 [LOG] Processing part 'arm' at: 00002000.img/stand1/1/arm
+
+09:23:34.289 [LOG] Character sprite 00002000.img/stand1/1/arm: size=10x19, origin=(5.00, 9.00), pivot=(0.50, 0.53)
+
+09:23:34.290 [LOG] Loaded part 'arm': 10x19
+
+09:23:34.290 [LOG] Processing part 'body' at: 00002000.img/stand1/1/body
+
+09:23:34.290 [LOG] Character sprite 00002000.img/stand1/1/body: size=22x31, origin=(17.00, 31.00), pivot=(0.77, 0.00)
+
+09:23:34.290 [LOG] Loaded part 'body': 22x31
+
+09:23:34.290 [LOG] Loaded 2 body parts for state:stand1 frame:1
+
+09:23:34.290 [LOG] Processing part 'arm' (lowercase: 'arm')
+
+09:23:34.290 [LOG]   - Arm: 10x19, pivot: (5.00, 10.00), bounds: Center: (0.00, -0.01, 0.00), Extents: (0.05, 0.10, 0.10)
+
+09:23:34.290 [LOG]     Arm renderer enabled: True, position: (5.70, -1.69, 0.00), localPos: (0.00, 0.00, 0.00)
+
+09:23:34.291 [LOG] Processing part 'body' (lowercase: 'body')
+
+09:23:34.291 [LOG]   - Body: 22x31
+
+09:23:34.291 [WARNING] No head attachment point found for current frame
+
+09:23:34.291 [LOG] Updated head position to: (0.00, 0.00, 0.00)
+
+09:23:34.291 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+
+09:23:34.291 [LOG]   Node has 1 bitmap children
+
+09:23:34.291 [LOG]   Node has image data (byte[728]), treating as image node
+
+09:23:34.291 [LOG]   Searching for origin on image node '1'...
+
+09:23:34.291 [LOG]   No origin found for image node '1'
+
+09:23:34.301 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.301 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.301 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.301 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.301 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.301 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.301 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.301 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.301 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.322 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.322 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.322 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.322 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.322 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.322 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.322 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.322 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.322 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.338 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.338 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.338 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.338 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.338 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.339 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.339 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.339 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.339 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.354 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.354 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.354 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.354 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.354 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.354 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.354 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.355 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.355 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.367 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.367 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.367 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.367 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.367 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.367 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.367 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.367 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.367 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.388 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.388 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.388 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.389 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.389 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.389 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.389 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.389 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.389 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.389 [LOG] Processing part 'arm' at: 00002000.img/stand1/2/arm
+
+09:23:34.390 [LOG] Character sprite 00002000.img/stand1/2/arm: size=11x19, origin=(6.00, 9.00), pivot=(0.55, 0.53)
+
+09:23:34.390 [LOG] Loaded part 'arm': 11x19
+
+09:23:34.390 [LOG] Processing part 'body' at: 00002000.img/stand1/2/body
+
+09:23:34.390 [LOG] Character sprite 00002000.img/stand1/2/body: size=23x31, origin=(18.00, 31.00), pivot=(0.78, 0.00)
+
+09:23:34.391 [LOG] Loaded part 'body': 23x31
+
+09:23:34.391 [LOG] Loaded 2 body parts for state:stand1 frame:2
+
+09:23:34.391 [LOG] Processing part 'arm' (lowercase: 'arm')
+
+09:23:34.391 [LOG]   - Arm: 11x19, pivot: (6.00, 10.00), bounds: Center: (0.00, -0.01, 0.00), Extents: (0.06, 0.10, 0.10)
+
+09:23:34.391 [LOG]     Arm renderer enabled: True, position: (5.70, -1.69, 0.00), localPos: (0.00, 0.00, 0.00)
+
+09:23:34.391 [LOG] Processing part 'body' (lowercase: 'body')
+
+09:23:34.391 [LOG]   - Body: 23x31
+
+09:23:34.391 [WARNING] No head attachment point found for current frame
+
+09:23:34.391 [LOG] Updated head position to: (0.00, 0.00, 0.00)
+
+09:23:34.399 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.399 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.399 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.399 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.399 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.399 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.399 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.399 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.399 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.421 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.422 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.422 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.422 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.422 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.422 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.422 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.422 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.422 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.439 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.439 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.439 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.439 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.439 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.439 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.439 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.439 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.439 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.456 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.456 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.456 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.456 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.456 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.456 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.457 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.457 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.457 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.471 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.471 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.471 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.471 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.471 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.471 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.471 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.471 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.471 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.484 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.484 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.484 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.484 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.484 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.484 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.484 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.485 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.485 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.505 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.505 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.505 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.505 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.505 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.505 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.505 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.505 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.505 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.505 [LOG] [SimplePlayerController] Visual Position: (5.70, -1.69, 0.00), Current Position: (5.70, -1.69, 0.00), GameLogic Position: (5.700506, -1.69), State: Standing, Grounded: True, Interpolation: ON
+
+09:23:34.506 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+
+09:23:34.506 [LOG]   Node has 2 bitmap children
+
+09:23:34.506 [LOG]   Node has image data (byte[286]), treating as image node
+
+09:23:34.506 [LOG]   Searching for origin on image node '0'...
+
+09:23:34.506 [LOG]   No origin found for image node '0'
+
+09:23:34.506 [LOG] Processing part 'arm' at: 00002000.img/stand1/0/arm
+
+09:23:34.510 [LOG] Character sprite 00002000.img/stand1/0/arm: size=10x19, origin=(5.00, 9.00), pivot=(0.50, 0.53)
+
+09:23:34.510 [LOG] Loaded part 'arm': 10x19
+
+09:23:34.510 [LOG] Processing part 'body' at: 00002000.img/stand1/0/body
+
+09:23:34.511 [LOG] Character sprite 00002000.img/stand1/0/body: size=21x31, origin=(16.00, 31.00), pivot=(0.76, 0.00)
+
+09:23:34.511 [LOG] Loaded part 'body': 21x31
+
+09:23:34.511 [LOG] Loaded 2 body parts for state:stand1 frame:0
+
+09:23:34.511 [LOG] Processing part 'arm' (lowercase: 'arm')
+
+09:23:34.511 [LOG]   - Arm: 10x19, pivot: (5.00, 10.00), bounds: Center: (0.00, -0.01, 0.00), Extents: (0.05, 0.10, 0.10)
+
+09:23:34.511 [LOG]     Arm renderer enabled: True, position: (5.70, -1.69, 0.00), localPos: (0.00, 0.00, 0.00)
+
+09:23:34.511 [LOG] Processing part 'body' (lowercase: 'body')
+
+09:23:34.511 [LOG]   - Body: 21x31
+
+09:23:34.511 [WARNING] No head attachment point found for current frame
+
+09:23:34.511 [LOG] Updated head position to: (0.00, 0.00, 0.00)
+
+09:23:34.511 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+
+09:23:34.511 [LOG]   Node has 1 bitmap children
+
+09:23:34.512 [LOG]   Node has image data (byte[728]), treating as image node
+
+09:23:34.512 [LOG]   Searching for origin on image node '0'...
+
+09:23:34.512 [LOG]   No origin found for image node '0'
+
+09:23:34.522 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.522 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.522 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.522 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.523 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.523 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.523 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.523 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.523 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.533 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.533 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.533 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.533 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.533 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.534 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.534 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.534 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.534 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.555 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.555 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.555 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.555 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.555 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.555 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.555 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.555 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.556 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.573 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.573 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.573 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.573 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.573 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.573 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.573 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.574 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.574 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.588 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.588 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.588 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.588 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.588 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.589 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.589 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.589 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.589 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.590 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+
+09:23:34.590 [LOG]   Node has 2 bitmap children
+
+09:23:34.591 [LOG]   Node has image data (byte[265]), treating as image node
+
+09:23:34.591 [LOG]   Searching for origin on image node '1'...
+
+09:23:34.592 [LOG]   No origin found for image node '1'
+
+09:23:34.592 [LOG] Processing part 'arm' at: 00002000.img/stand1/1/arm
+
+09:23:34.593 [LOG] Character sprite 00002000.img/stand1/1/arm: size=10x19, origin=(5.00, 9.00), pivot=(0.50, 0.53)
+
+09:23:34.593 [LOG] Loaded part 'arm': 10x19
+
+09:23:34.593 [LOG] Processing part 'body' at: 00002000.img/stand1/1/body
+
+09:23:34.594 [LOG] Character sprite 00002000.img/stand1/1/body: size=22x31, origin=(17.00, 31.00), pivot=(0.77, 0.00)
+
+09:23:34.595 [LOG] Loaded part 'body': 22x31
+
+09:23:34.595 [LOG] Loaded 2 body parts for state:stand1 frame:1
+
+09:23:34.595 [LOG] Processing part 'arm' (lowercase: 'arm')
+
+09:23:34.596 [LOG]   - Arm: 10x19, pivot: (5.00, 10.00), bounds: Center: (0.00, -0.01, 0.00), Extents: (0.05, 0.10, 0.10)
+
+09:23:34.596 [LOG]     Arm renderer enabled: True, position: (5.70, -1.69, 0.00), localPos: (0.00, 0.00, 0.00)
+
+09:23:34.596 [LOG] Processing part 'body' (lowercase: 'body')
+
+09:23:34.596 [LOG]   - Body: 22x31
+
+09:23:34.596 [WARNING] No head attachment point found for current frame
+
+09:23:34.597 [LOG] Updated head position to: (0.00, 0.00, 0.00)
+
+09:23:34.597 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+
+09:23:34.597 [LOG]   Node has 1 bitmap children
+
+09:23:34.598 [LOG]   Node has image data (byte[728]), treating as image node
+
+09:23:34.598 [LOG]   Searching for origin on image node '1'...
+
+09:23:34.599 [LOG]   No origin found for image node '1'
+
+09:23:34.617 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.617 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.617 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.617 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.617 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.617 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.617 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.617 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.617 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.617 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.617 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.618 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.618 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.618 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.618 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.618 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.618 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.618 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.630 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.630 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.630 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.630 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.630 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.630 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.630 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.630 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.630 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.646 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.646 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.646 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.646 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.647 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.647 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.647 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.647 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.647 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.662 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.662 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.662 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.662 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.662 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.662 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.662 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.662 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.662 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.685 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.685 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.685 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.685 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.685 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.685 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.686 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.686 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.686 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.686 [LOG] Processing part 'arm' at: 00002000.img/stand1/2/arm
+
+09:23:34.687 [LOG] Character sprite 00002000.img/stand1/2/arm: size=11x19, origin=(6.00, 9.00), pivot=(0.55, 0.53)
+
+09:23:34.687 [LOG] Loaded part 'arm': 11x19
+
+09:23:34.687 [LOG] Processing part 'body' at: 00002000.img/stand1/2/body
+
+09:23:34.688 [LOG] Character sprite 00002000.img/stand1/2/body: size=23x31, origin=(18.00, 31.00), pivot=(0.78, 0.00)
+
+09:23:34.688 [LOG] Loaded part 'body': 23x31
+
+09:23:34.688 [LOG] Loaded 2 body parts for state:stand1 frame:2
+
+09:23:34.688 [LOG] Processing part 'arm' (lowercase: 'arm')
+
+09:23:34.689 [LOG]   - Arm: 11x19, pivot: (6.00, 10.00), bounds: Center: (0.00, -0.01, 0.00), Extents: (0.06, 0.10, 0.10)
+
+09:23:34.689 [LOG]     Arm renderer enabled: True, position: (5.70, -1.69, 0.00), localPos: (0.00, 0.00, 0.00)
+
+09:23:34.689 [LOG] Processing part 'body' (lowercase: 'body')
+
+09:23:34.689 [LOG]   - Body: 23x31
+
+09:23:34.689 [WARNING] No head attachment point found for current frame
+
+09:23:34.689 [LOG] Updated head position to: (0.00, 0.00, 0.00)
+
+09:23:34.706 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.706 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.707 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.707 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.707 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.707 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.707 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.707 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.707 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.720 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.720 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.720 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.720 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.720 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.720 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.720 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.721 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.721 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.736 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.736 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.736 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.736 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.736 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.736 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.736 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.736 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.736 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.802 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.802 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.802 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.802 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.802 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.802 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.802 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.802 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.802 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.802 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.802 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.802 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.802 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.802 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.803 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.804 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.804 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.804 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+
+09:23:34.804 [LOG]   Node has 2 bitmap children
+
+09:23:34.804 [LOG]   Node has image data (byte[286]), treating as image node
+
+09:23:34.804 [LOG]   Searching for origin on image node '0'...
+
+09:23:34.804 [LOG]   No origin found for image node '0'
+
+09:23:34.805 [LOG] Processing part 'arm' at: 00002000.img/stand1/0/arm
+
+09:23:34.805 [LOG] Character sprite 00002000.img/stand1/0/arm: size=10x19, origin=(5.00, 9.00), pivot=(0.50, 0.53)
+
+09:23:34.805 [LOG] Loaded part 'arm': 10x19
+
+09:23:34.805 [LOG] Processing part 'body' at: 00002000.img/stand1/0/body
+
+09:23:34.806 [LOG] Character sprite 00002000.img/stand1/0/body: size=21x31, origin=(16.00, 31.00), pivot=(0.76, 0.00)
+
+09:23:34.806 [LOG] Loaded part 'body': 21x31
+
+09:23:34.806 [LOG] Loaded 2 body parts for state:stand1 frame:0
+
+09:23:34.806 [LOG] Processing part 'arm' (lowercase: 'arm')
+
+09:23:34.806 [LOG]   - Arm: 10x19, pivot: (5.00, 10.00), bounds: Center: (0.00, -0.01, 0.00), Extents: (0.05, 0.10, 0.10)
+
+09:23:34.806 [LOG]     Arm renderer enabled: True, position: (5.70, -1.69, 0.00), localPos: (0.00, 0.00, 0.00)
+
+09:23:34.806 [LOG] Processing part 'body' (lowercase: 'body')
+
+09:23:34.806 [LOG]   - Body: 21x31
+
+09:23:34.806 [WARNING] No head attachment point found for current frame
+
+09:23:34.806 [LOG] Updated head position to: (0.00, 0.00, 0.00)
+
+09:23:34.806 [LOG] [TryAddVirtualOriginNode] Checking node '0' of type: NXNode
+
+09:23:34.806 [LOG]   Node has 1 bitmap children
+
+09:23:34.807 [LOG]   Node has image data (byte[728]), treating as image node
+
+09:23:34.807 [LOG]   Searching for origin on image node '0'...
+
+09:23:34.807 [LOG]   No origin found for image node '0'
+
+09:23:34.816 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.816 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.816 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.817 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.817 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.817 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.817 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.817 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.817 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.839 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.839 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.839 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.839 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.839 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.839 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.839 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.839 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.839 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.856 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.856 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.856 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.856 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.856 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.856 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.856 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.856 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.856 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.872 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.872 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.872 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.872 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.872 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.872 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.872 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.872 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.872 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.889 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.889 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.889 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.889 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.889 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.889 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.889 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.890 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.890 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.890 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+
+09:23:34.890 [LOG]   Node has 2 bitmap children
+
+09:23:34.890 [LOG]   Node has image data (byte[265]), treating as image node
+
+09:23:34.891 [LOG]   Searching for origin on image node '1'...
+
+09:23:34.891 [LOG]   No origin found for image node '1'
+
+09:23:34.891 [LOG] Processing part 'arm' at: 00002000.img/stand1/1/arm
+
+09:23:34.891 [LOG] Character sprite 00002000.img/stand1/1/arm: size=10x19, origin=(5.00, 9.00), pivot=(0.50, 0.53)
+
+09:23:34.892 [LOG] Loaded part 'arm': 10x19
+
+09:23:34.892 [LOG] Processing part 'body' at: 00002000.img/stand1/1/body
+
+09:23:34.892 [LOG] Character sprite 00002000.img/stand1/1/body: size=22x31, origin=(17.00, 31.00), pivot=(0.77, 0.00)
+
+09:23:34.892 [LOG] Loaded part 'body': 22x31
+
+09:23:34.893 [LOG] Loaded 2 body parts for state:stand1 frame:1
+
+09:23:34.893 [LOG] Processing part 'arm' (lowercase: 'arm')
+
+09:23:34.893 [LOG]   - Arm: 10x19, pivot: (5.00, 10.00), bounds: Center: (0.00, -0.01, 0.00), Extents: (0.05, 0.10, 0.10)
+
+09:23:34.893 [LOG]     Arm renderer enabled: True, position: (5.70, -1.69, 0.00), localPos: (0.00, 0.00, 0.00)
+
+09:23:34.893 [LOG] Processing part 'body' (lowercase: 'body')
+
+09:23:34.893 [LOG]   - Body: 22x31
+
+09:23:34.893 [WARNING] No head attachment point found for current frame
+
+09:23:34.893 [LOG] Updated head position to: (0.00, 0.00, 0.00)
+
+09:23:34.893 [LOG] [TryAddVirtualOriginNode] Checking node '1' of type: NXNode
+
+09:23:34.893 [LOG]   Node has 1 bitmap children
+
+09:23:34.894 [LOG]   Node has image data (byte[728]), treating as image node
+
+09:23:34.894 [LOG]   Searching for origin on image node '1'...
+
+09:23:34.894 [LOG]   No origin found for image node '1'
+
+09:23:34.907 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.907 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.907 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.907 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.907 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.907 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.907 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.907 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.907 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.920 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.920 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.920 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.920 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.920 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.920 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.920 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.920 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.920 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.940 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.940 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.940 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.940 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.940 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.940 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.940 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.940 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.940 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.952 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.952 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.953 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.953 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.953 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.953 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.953 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.953 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.953 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.973 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.973 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.973 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.973 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.973 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.974 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.974 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.974 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.974 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.989 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.989 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.989 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.990 [LOG] [FOOTHOLD_COLLISION] GetGroundBelow returned: -1.99
+
+09:23:34.990 [LOG] [FOOTHOLD_COLLISION] Collision check: prevBottom=-1.99, currBottom=-1.99, groundY=-1.99, willCollide=True
+
+09:23:34.990 [LOG] [FOOTHOLD_COLLISION] Ground check: wasAbove=False, isAbove=False, crossing=False, close=True
+
+09:23:34.990 [LOG] [FOOTHOLD_COLLISION] Checking FH17: X in [363,611], groundY=200, queryY=199, considered=True
+
+09:23:34.990 [LOG] [FOOTHOLD_COLLISION] Checking FH150: X in [540,630], groundY=274, queryY=199, considered=True
+
+09:23:34.990 [LOG] [FOOTHOLD_COLLISION] Ground found: MapleY=199 (+1=200) -> UnityY=-1.99
+
+09:23:34.990 [LOG] Processing part 'arm' at: 00002000.img/stand1/2/arm
+
+09:23:34.991 [LOG] Character sprite 00002000.img/stand1/2/arm: size=11x19, origin=(6.00, 9.00), pivot=(0.55, 0.53)
+
+09:23:34.991 [LOG] Loaded part 'arm': 11x19
+
+09:23:34.991 [LOG] Processing part 'body' at: 00002000.img/stand1/2/body
+
+09:23:34.992 [LOG] Character sprite 00002000.img/stand1/2/body: size=23x31, origin=(18.00, 31.00), pivot=(0.78, 0.00)
+
+09:23:34.992 [LOG] Loaded part 'body': 23x31
+
+09:23:34.992 [LOG] Loaded 2 body parts for state:stand1 frame:2
+
+09:23:34.992 [LOG] Processing part 'arm' (lowercase: 'arm')
+
+09:23:34.992 [LOG]   - Arm: 11x19, pivot: (6.00, 10.00), bounds: Center: (0.00, -0.01, 0.00), Extents: (0.06, 0.10, 0.10)
+
+09:23:34.993 [LOG]     Arm renderer enabled: True, position: (5.70, -1.69, 0.00), localPos: (0.00, 0.00, 0.00)
+
+09:23:34.993 [LOG] Processing part 'body' (lowercase: 'body')
+
+09:23:34.993 [LOG]   - Body: 23x31
+
+09:23:34.993 [WARNING] No head attachment point found for current frame
+
+09:23:34.993 [LOG] Updated head position to: (0.00, 0.00, 0.00)
+
+=== Log Saved at 2025-07-30 09:23:35 ===

@@ -1,0 +1,81 @@
+=== Unity Compilation Error Report ===
+Generated at: 2025-07-30
+Project Path: C:\Users\me\MapleUnity
+
+=== Summary ===
+Total Compilation Errors Found: 2 unique error types
+Files Affected: 5 files
+
+=== Compilation Errors by File ===
+
+1. File: Assets\Scripts\Editor\TestCharacterRendering.cs
+   ---------------------------------------------------
+   Line 83, Column 42:
+   Error CS0246: The type or namespace name 'MapleCharacterRenderer' could not be found (are you missing a using directive or an assembly reference?)
+   
+   Fix: Add the following using statement at the top of the file:
+   using MapleClient.GameView;
+
+2. File: Assets\Scripts\Editor\TestCharacterRenderingIssues.cs (backup file exists)
+   --------------------------------------------------------------------------------
+   Line 201, Column 55:
+   Error CS0246: The type or namespace name 'MapleCharacterRenderer' could not be found (are you missing a using directive or an assembly reference?)
+   
+   Note: This file appears to be backed up (.bak). Check if it should be removed or restored.
+
+3. File: Assets\Scripts\Editor\ExploreBodyStructure.cs
+   --------------------------------------------------
+   Multiple errors:
+   - Line 82, Column 42: Error CS0246: The type or namespace name 'INxNode' could not be found
+   - Line 97, Column 46: Error CS0246: The type or namespace name 'INxNode' could not be found
+   - Line 112, Column 20: Error CS0246: The type or namespace name 'INxNode' could not be found
+   - Line 112, Column 46: Error CS0246: The type or namespace name 'INxNode' could not be found
+   
+   Fix: Add the following using statement at the top of the file:
+   using MapleClient.GameData;
+
+4. File: Assets\Scripts\Editor\DebugAttachmentPoints.cs
+   ----------------------------------------------------
+   Line 83, Column 46:
+   Error CS0246: The type or namespace name 'INxNode' could not be found (are you missing a using directive or an assembly reference?)
+   
+   Fix: Add the following using statement at the top of the file:
+   using MapleClient.GameData;
+
+5. File: Assets\Scripts\Editor\TestCharacterPositioning.cs
+   -------------------------------------------------------
+   Line 166, Column 12:
+   Error CS0246: The type or namespace name 'MapleCharacterRenderer' could not be found (are you missing a using directive or an assembly reference?)
+   
+   Fix: Add the following using statement at the top of the file:
+   using MapleClient.GameView;
+
+=== Error Summary by Type ===
+
+Error CS0246 (Type or namespace not found):
+- MapleCharacterRenderer: 3 occurrences
+  Location: MapleClient.GameView namespace
+  
+- INxNode: 5 occurrences
+  Location: MapleClient.GameData namespace
+
+=== Recommended Actions ===
+
+1. Add missing using statements to the affected files:
+   - For MapleCharacterRenderer errors: using MapleClient.GameView;
+   - For INxNode errors: using MapleClient.GameData;
+
+2. Clean up backup files:
+   - Remove or restore TestCharacterRenderingIssues.cs.bak
+
+3. Verify assembly references:
+   - Ensure GameView and GameData assemblies are properly referenced in Editor assembly
+
+4. After fixing, run Unity compilation again to verify all errors are resolved
+
+=== Additional Notes ===
+
+- All errors are CS0246 (missing type/namespace references)
+- The types exist in the project but are in different namespaces
+- This is a common issue when refactoring or reorganizing code
+- No syntax errors or logic errors were found

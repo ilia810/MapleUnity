@@ -1,0 +1,39 @@
+[CHARACTER_SPRITE_TEST] Starting at 7/29/2025 10:56:53 PM
+[CHARACTER_SPRITE_TEST] Created new scene
+[CHARACTER_SPRITE_TEST] Initialized MapSceneGenerator
+[CHARACTER_SPRITE_TEST] Generated map: Map_100000000
+[CHARACTER_SPRITE_TEST] Manually invoked GameManager.Start()
+[CHARACTER_SPRITE_TEST] Manually invoked SimplePlayerController.Awake()
+[CHARACTER_SPRITE_TEST] Found player at: (1.12, -1.50, 0.00)
+[CHARACTER_SPRITE_TEST] ✓ MapleCharacterRenderer found!
+[CHARACTER_SPRITE_TEST] MapleCharacterRenderer.player: NULL
+[CHARACTER_SPRITE_TEST] MapleCharacterRenderer.characterData: NULL
+[CHARACTER_SPRITE_TEST] Manually initialized MapleCharacterRenderer
+[CHARACTER_SPRITE_TEST] Manually invoked MapleCharacterRenderer.Update()
+[CHARACTER_SPRITE_TEST] Found 13 sprite renderer layers
+  ✓ Layer 'Body' has sprite:  (10x19)
+    - Enabled: True, Active: True
+    - Sorting: Player order 0
+  ✓ Layer 'Head' has sprite:  (39x35)
+    - Enabled: True, Active: True
+    - Sorting: Player order 1
+  ✗ Layer 'Cape' is enabled but has no sprite
+  ✓ Layer 'Face' has sprite:  (26x16)
+    - Enabled: True, Active: True
+    - Sorting: Player order 2
+  ✓ Layer 'Hair' has sprite:  (35x20)
+    - Enabled: True, Active: True
+    - Sorting: Player order 3
+  ✗ Layer 'Bottom' is enabled but has no sprite
+  ✗ Layer 'Top' is enabled but has no sprite
+  ✗ Layer 'Shoes' is enabled but has no sprite
+  ✗ Layer 'Glove' is enabled but has no sprite
+  ✗ Layer 'Hat' is enabled but has no sprite
+  ✗ Layer 'Weapon' is enabled but has no sprite
+  ✗ Layer 'Shield' is enabled but has no sprite
+
+[CHARACTER_SPRITE_TEST] Summary:
+  - Total sprite layers: 13
+  - Loaded sprites: 4
+[CHARACTER_SPRITE_TEST] ✓ SUCCESS! Character sprites are loading correctly!
+[CHARACTER_SPRITE_TEST] ✓ Blue rectangle sprite renderer is disabled

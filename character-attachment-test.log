@@ -1,0 +1,29 @@
+=== CHARACTER ATTACHMENT BATCH TEST ===
+Started at: 7/30/2025 7:04:30 PM
+
+Setting up mock NX files...
+
+--- Loaded 2 body parts ---
+  - body
+  - arm
+
+--- Found 3 attachment points ---
+  body.origin: (16.00, 48.00) (Unity: (0.16, 0.48))
+  body.map.neck: (0.00, 28.00) (Unity: (0.00, 0.28))
+  arm.origin: (12.00, 16.00) (Unity: (0.12, 0.16))
+
+--- Creating Test Character ---
+Added MapleCharacterRenderer component
+
+--- Analyzing sprite positions ---
+Body not found!
+Arm not found!
+Head not found!
+Face not found!
+
+--- Expected vs Actual Positions ---
+Expected: Body at Y=0.00, Arm at Y=0.20, Head at Y=0.28+
+Actual: Body=-1.00, Arm=-1.00, Head=-1.00
+
+=== TEST COMPLETE - SUCCESS ===
+Ended at: 7/30/2025 7:04:30 PM

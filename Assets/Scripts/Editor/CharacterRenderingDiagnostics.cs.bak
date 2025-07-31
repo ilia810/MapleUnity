@@ -1,0 +1,133 @@
+using UnityEngine;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using System.Text;
+using System.IO;
+using System.Reflection;
+using System.Collections.Generic;
+
+public static class CharacterRenderingDiagnostics
+{
+    [MenuItem("MapleUnity/Test Character Rendering")]
+    public static void TestCharacterRendering()
+    {
+        var log = new StringBuilder();
+        log.AppendLine("=== Character Rendering Diagnostics ===");
+        log.AppendLine($"Time: {System.DateTime.Now}");
+        
+        try
+        {
+            // Load henesys scene since it has characters
+            var scene = EditorSceneManager.OpenScene("Assets/henesys.unity");
+            log.AppendLine($"Loaded scene: {scene.name}");
+            
+            // Find all MapleCharacterRenderer components
+            var renderers = GameObject.FindObjectsOfType<MapleCharacterRenderer>();
+            log.AppendLine($"\nFound {renderers.Length} MapleCharacterRenderer components");
+            
+            foreach (var renderer in renderers)
+            {
+                log.AppendLine($"\n=== Analyzing {renderer.gameObject.name} ===");
+                log.AppendLine($"Position: {renderer.transform.position}");
+                log.AppendLine($"Parent: {(renderer.transform.parent ? renderer.transform.parent.name : "None")}");
+                
+                // Use reflection to get private fields
+                var type = renderer.GetType();
+                var bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
+                
+                // Check body part renderers
+                var bodyPartsField = type.GetField("bodyPartRenderers", bindingFlags);
+                if (bodyPartsField != null)
+                {
+                    var bodyParts = bodyPartsField.GetValue(renderer) as Dictionary<string, SpriteRenderer>;
+                    if (bodyParts != null)
+                    {
+                        log.AppendLine($"\nBody Parts ({bodyParts.Count}):");
+                        foreach (var kvp in bodyParts)
+                        {
+                            var sr = kvp.Value;
+                            if (sr != null)
+                            {
+                                log.AppendLine($"  {kvp.Key}:");
+                                log.AppendLine($"    GameObject: {sr.gameObject.name}");
+                                log.AppendLine($"    Active: {sr.gameObject.activeInHierarchy}");
+                                log.AppendLine($"    Enabled: {sr.enabled}");
+                                log.AppendLine($"    World Pos: {sr.transform.position}");
+                                log.AppendLine($"    Local Pos: {sr.transform.localPosition}");
+                                log.AppendLine($"    Sprite: {(sr.sprite ? sr.sprite.name : "NULL")}");
+                                log.AppendLine($"    Sorting Order: {sr.sortingOrder}");
+                                log.AppendLine($"    Flip X: {sr.flipX}");
+                                
+                                // Special check for head
+                                if (kvp.Key.ToLower() == "head")
+                                {
+                                    log.AppendLine($"    HEAD SPECIAL CHECK:");
+                                    log.AppendLine($"      Parent: {sr.transform.parent.name}");
+                                    log.AppendLine($"      Parent Pos: {sr.transform.parent.position}");
+                                    
+                                    // Check for attachment point
+                                    var headPosField = type.GetField("headPosition", bindingFlags);
+                                    if (headPosField != null)
+                                    {
+                                        var headPos = (Vector2)headPosField.GetValue(renderer);
+                                        log.AppendLine($"      Stored Head Position: {headPos}");
+                                    }
+                                }
+                                
+                                // Check face visibility
+                                if (kvp.Key.ToLower() == "face")
+                                {
+                                    log.AppendLine($"    FACE SPECIAL CHECK:");
+                                    log.AppendLine($"      Behind head? Check sorting orders");
+                                    log.AppendLine($"      Color alpha: {sr.color.a}");
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                // Check current animation state
+                var currentAnimField = type.GetField("currentAnimation", bindingFlags);
+                if (currentAnimField != null)
+                {
+                    var currentAnim = currentAnimField.GetValue(renderer) as string;
+                    log.AppendLine($"\nCurrent Animation: {currentAnim ?? "NULL"}");
+                }
+                
+                // Check facing direction
+                var facingRightField = type.GetField("isFacingRight", bindingFlags);
+                if (facingRightField != null)
+                {
+                    var facingRight = (bool)facingRightField.GetValue(renderer);
+                    log.AppendLine($"Is Facing Right: {facingRight}");
+                }
+                
+                // Check for PlayerView
+                var playerView = renderer.GetComponentInParent<PlayerView>();
+                if (playerView != null)
+                {
+                    log.AppendLine($"\nPlayerView Info:");
+                    log.AppendLine($"  Facing Right: {playerView.facingRight}");
+                    log.AppendLine($"  Character ID: {playerView.characterId}");
+                    log.AppendLine($"  Position: {playerView.transform.position}");
+                }
+            }
+            
+            // Save results
+            var logPath = Path.Combine(Application.dataPath, "..", "character-rendering-diagnostics.log");
+            File.WriteAllText(logPath, log.ToString());
+            Debug.Log($"Diagnostics saved to: {logPath}");
+            Debug.Log(log.ToString());
+            
+            EditorUtility.DisplayDialog("Character Rendering Test", 
+                $"Test completed. Results saved to:\n{logPath}", "OK");
+        }
+        catch (System.Exception e)
+        {
+            log.AppendLine($"\nERROR: {e.Message}");
+            log.AppendLine(e.StackTrace);
+            Debug.LogError("Test failed: " + e.Message);
+            Debug.LogError(log.ToString());
+        }
+    }
+}

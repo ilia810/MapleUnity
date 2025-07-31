@@ -631,23 +631,14 @@ namespace MapleClient.GameView
         
         private void SetFlipX(bool flip)
         {
-            // Flip all sprite layers
-            if (backBodyRenderer != null) backBodyRenderer.flipX = flip;
-            if (bodyRenderer != null) bodyRenderer.flipX = flip;
-            if (armRenderer != null) armRenderer.flipX = flip;
-            if (armOverHairRenderer != null) armOverHairRenderer.flipX = flip;
-            if (headRenderer != null) headRenderer.flipX = flip;
-            if (faceRenderer != null) faceRenderer.flipX = flip;
-            if (hairRenderer != null) hairRenderer.flipX = flip;
-            if (hatRenderer != null) hatRenderer.flipX = flip;
-            if (topRenderer != null) topRenderer.flipX = flip;
-            if (bottomRenderer != null) bottomRenderer.flipX = flip;
-            if (shoesRenderer != null) shoesRenderer.flipX = flip;
-            if (gloveRenderer != null) gloveRenderer.flipX = flip;
-            if (handRenderer != null) handRenderer.flipX = flip;
-            if (weaponRenderer != null) weaponRenderer.flipX = flip;
-            if (capeRenderer != null) capeRenderer.flipX = flip;
-            if (shieldRenderer != null) shieldRenderer.flipX = flip;
+            // Use scale-based flipping like the C++ client
+            // This preserves pivot points and attachment positions
+            float scaleX = flip ? -1f : 1f;
+            transform.localScale = new Vector3(scaleX, 1f, 1f);
+            
+            // Don't flip individual sprites - the parent transform handles it
+            // This matches the C++ client's xscale = -1 approach
+            Debug.Log($"[MapleCharacterRenderer] Set character scale.x to {scaleX} (flip={flip})");
         }
         
         public void UpdateAppearance()

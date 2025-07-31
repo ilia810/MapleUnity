@@ -1,0 +1,287 @@
+using UnityEngine;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using System.IO;
+using System;
+using MapleClient.SceneGeneration;
+using MapleClient.GameView;
+using MapleClient.GameLogic.Data;
+using System.Collections;
+
+public class TestAndFixCharacterRendering : MonoBehaviour
+{
+    private static string logPath = @"C:\Users\me\MapleUnity\character-rendering-fix.log";
+    
+    [MenuItem("MapleUnity/Tests/Test and Fix Character Rendering")]
+    public static void RunTest()
+    {
+        try
+        {
+            File.WriteAllText(logPath, $"[RENDER_FIX_TEST] Starting at {DateTime.Now}\n");
+            
+            GameObject testObj = new GameObject("CharacterRenderingTest");
+            var test = testObj.AddComponent<TestAndFixCharacterRendering>();
+            test.StartCoroutine(test.RunTestSequence());
+        }
+        catch (Exception e)
+        {
+            LogToFile($"[RENDER_FIX_TEST] ERROR: {e.Message}\n{e.StackTrace}");
+            if (Application.isBatchMode) EditorApplication.Exit(1);
+        }
+    }
+    
+    private IEnumerator RunTestSequence()
+    {
+        LogToFile("[RENDER_FIX_TEST] Creating test scene...");
+        
+        // Create a new scene
+        var newScene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
+        
+        // Create MapSceneGenerator
+        GameObject generatorObj = new GameObject("MapSceneGenerator");
+        MapSceneGenerator generator = generatorObj.AddComponent<MapSceneGenerator>();
+        generator.InitializeGenerators();
+        
+        // Generate map
+        GameObject mapRoot = generator.GenerateMapScene(100000000);
+        if (mapRoot == null)
+        {
+            LogToFile("[RENDER_FIX_TEST] ERROR: Failed to generate map!");
+            if (Application.isBatchMode) EditorApplication.Exit(1);
+            yield break;
+        }
+        
+        // Clean up generator
+        GameObject.DestroyImmediate(generatorObj);
+        
+        // Create GameManager
+        GameObject gameManagerObj = new GameObject("GameManager");
+        GameManager gameManager = gameManagerObj.AddComponent<GameManager>();
+        
+        yield return null; // Wait for initialization
+        
+        // Find player
+        var playerGO = GameObject.Find("Player");
+        if (playerGO == null)
+        {
+            LogToFile("[RENDER_FIX_TEST] ERROR: Player not found!");
+            if (Application.isBatchMode) EditorApplication.Exit(1);
+            yield break;
+        }
+        
+        LogToFile($"[RENDER_FIX_TEST] Player found at: {playerGO.transform.position}");
+        
+        // Get character renderer
+        var characterRenderer = playerGO.GetComponentInChildren<MapleCharacterRenderer>();
+        if (characterRenderer == null)
+        {
+            LogToFile("[RENDER_FIX_TEST] ERROR: MapleCharacterRenderer not found!");
+            if (Application.isBatchMode) EditorApplication.Exit(1);
+            yield break;
+        }
+        
+        // Wait a moment for sprites to load
+        yield return new WaitForSeconds(0.5f);
+        
+        // Analyze current state
+        AnalyzeCharacterRendering(characterRenderer);
+        
+        // Test facing direction
+        yield return TestFacingDirection(playerGO);
+        
+        // Apply fixes
+        ApplyRenderingFixes(characterRenderer);
+        
+        // Wait and re-analyze
+        yield return new WaitForSeconds(0.5f);
+        AnalyzeCharacterRendering(characterRenderer, "AFTER FIXES");
+        
+        LogToFile("\n[RENDER_FIX_TEST] Test complete!");
+        
+        if (Application.isBatchMode)
+        {
+            EditorApplication.Exit(0);
+        }
+    }
+    
+    private void AnalyzeCharacterRendering(MapleCharacterRenderer renderer, string phase = "INITIAL")
+    {
+        LogToFile($"\n[RENDER_FIX_TEST] === {phase} ANALYSIS ===");
+        
+        var spriteRenderers = renderer.GetComponentsInChildren<SpriteRenderer>();
+        LogToFile($"Total sprite renderers: {spriteRenderers.Length}");
+        
+        // Track important sprites
+        SpriteRenderer bodyRenderer = null;
+        SpriteRenderer headRenderer = null;
+        SpriteRenderer faceRenderer = null;
+        SpriteRenderer armRenderer = null;
+        
+        foreach (var sr in spriteRenderers)
+        {
+            if (sr.name == "Player") continue; // Skip main player renderer
+            
+            LogToFile($"\nRenderer: {sr.name}");
+            LogToFile($"  - GameObject active: {sr.gameObject.activeSelf}");
+            LogToFile($"  - Renderer enabled: {sr.enabled}");
+            LogToFile($"  - World position: {sr.transform.position}");
+            LogToFile($"  - Local position: {sr.transform.localPosition}");
+            LogToFile($"  - Sorting order: {sr.sortingOrder}");
+            LogToFile($"  - Flip X: {sr.flipX}");
+            
+            if (sr.sprite != null)
+            {
+                LogToFile($"  - Sprite: {sr.sprite.name} ({sr.sprite.rect.width}x{sr.sprite.rect.height})");
+                LogToFile($"  - Sprite pivot: {sr.sprite.pivot}");
+                LogToFile($"  - Sprite bounds: {sr.sprite.bounds}");
+            }
+            else
+            {
+                LogToFile($"  - Sprite: NULL");
+            }
+            
+            // Track specific renderers
+            if (sr.name == "Body") bodyRenderer = sr;
+            else if (sr.name == "Head") headRenderer = sr;
+            else if (sr.name == "Face") faceRenderer = sr;
+            else if (sr.name == "Arm") armRenderer = sr;
+        }
+        
+        // Analyze relationships
+        if (bodyRenderer != null && headRenderer != null)
+        {
+            LogToFile($"\n[POSITION ANALYSIS]");
+            LogToFile($"Body world pos: {bodyRenderer.transform.position}");
+            LogToFile($"Head world pos: {headRenderer.transform.position}");
+            float yDiff = headRenderer.transform.position.y - bodyRenderer.transform.position.y;
+            LogToFile($"Head Y offset from body: {yDiff}");
+            
+            if (yDiff < 0)
+            {
+                LogToFile("WARNING: Head is BELOW body!");
+            }
+        }
+        
+        // Check for head attachment point issue
+        LogToFile($"\n[HEAD ATTACHMENT CHECK]");
+        var playerTransform = renderer.transform.parent;
+        if (playerTransform != null)
+        {
+            LogToFile($"Player position: {playerTransform.position}");
+            LogToFile($"CharacterRenderer local position: {renderer.transform.localPosition}");
+        }
+    }
+    
+    private IEnumerator TestFacingDirection(GameObject playerGO)
+    {
+        LogToFile("\n[RENDER_FIX_TEST] === FACING DIRECTION TEST ===");
+        
+        var playerView = playerGO.GetComponent<PlayerView>();
+        if (playerView == null)
+        {
+            LogToFile("ERROR: PlayerView not found!");
+            yield break;
+        }
+        
+        // Get player through reflection
+        var playerField = playerView.GetType().GetField("player", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        var player = playerField?.GetValue(playerView) as MapleClient.GameLogic.Core.Player;
+        
+        if (player == null)
+        {
+            LogToFile("ERROR: Could not access Player!");
+            yield break;
+        }
+        
+        // Test movement right
+        LogToFile("\nMoving RIGHT...");
+        player.ProcessInput(new MapleClient.GameLogic.InputState { MoveRight = true });
+        yield return new WaitForSeconds(0.5f);
+        CheckFacing(playerGO);
+        
+        // Stop
+        player.ProcessInput(new MapleClient.GameLogic.InputState());
+        yield return new WaitForSeconds(0.2f);
+        
+        // Test movement left
+        LogToFile("\nMoving LEFT...");
+        player.ProcessInput(new MapleClient.GameLogic.InputState { MoveLeft = true });
+        yield return new WaitForSeconds(0.5f);
+        CheckFacing(playerGO);
+        
+        // Stop
+        player.ProcessInput(new MapleClient.GameLogic.InputState());
+    }
+    
+    private void CheckFacing(GameObject playerGO)
+    {
+        var spriteRenderers = playerGO.GetComponentsInChildren<SpriteRenderer>();
+        foreach (var sr in spriteRenderers)
+        {
+            if (sr.sprite != null && (sr.name == "Body" || sr.name == "Head"))
+            {
+                LogToFile($"{sr.name} flipX: {sr.flipX}");
+            }
+        }
+    }
+    
+    private void ApplyRenderingFixes(MapleCharacterRenderer renderer)
+    {
+        LogToFile("\n[RENDER_FIX_TEST] === APPLYING FIXES ===");
+        
+        // Fix 1: Head position
+        var headRenderer = FindChildRenderer(renderer, "Head");
+        var bodyRenderer = FindChildRenderer(renderer, "Body");
+        
+        if (headRenderer != null && bodyRenderer != null)
+        {
+            // Calculate proper head offset based on typical MapleStory proportions
+            // Head should be above body by approximately 40-50 pixels (0.4-0.5 units)
+            float headOffset = 0.45f;
+            Vector3 newHeadPos = new Vector3(0, headOffset, 0);
+            headRenderer.transform.localPosition = newHeadPos;
+            LogToFile($"Fixed head position to: {newHeadPos}");
+            
+            // Also fix face and hair positions
+            var faceRenderer = FindChildRenderer(renderer, "Face");
+            var hairRenderer = FindChildRenderer(renderer, "Hair");
+            
+            if (faceRenderer != null)
+            {
+                faceRenderer.transform.localPosition = newHeadPos;
+                LogToFile($"Fixed face position to: {newHeadPos}");
+            }
+            
+            if (hairRenderer != null)
+            {
+                hairRenderer.transform.localPosition = newHeadPos;
+                LogToFile($"Fixed hair position to: {newHeadPos}");
+            }
+        }
+        
+        // Fix 2: Force sprite update
+        var updateMethod = renderer.GetType().GetMethod("UpdateSprites", 
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (updateMethod != null)
+        {
+            updateMethod.Invoke(renderer, null);
+            LogToFile("Forced sprite update");
+        }
+    }
+    
+    private SpriteRenderer FindChildRenderer(MapleCharacterRenderer renderer, string name)
+    {
+        var renderers = renderer.GetComponentsInChildren<SpriteRenderer>();
+        foreach (var r in renderers)
+        {
+            if (r.name == name) return r;
+        }
+        return null;
+    }
+    
+    private static void LogToFile(string message)
+    {
+        File.AppendAllText(logPath, message + "\n");
+        Debug.Log(message);
+    }
+}

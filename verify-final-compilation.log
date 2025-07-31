@@ -1,0 +1,1577 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Connection attempt to the License Client on channel: "LicenseClient-me" failed because channel doesn't exist; code: "0x80000002"
+[Licensing::Module] Successfully launched the LicensingClient (PId: 66008)
+Starting IPC server.
+Waiting for clients to connect on \\.\pipe\Unity-LicenseClient-me, press Ctrl-C to exit.
+[Licensing::IpcConnector] Successfully connected to the License Client on channel: "LicenseClient-me" at "2025-07-30T12:21:34.7428132Z"
+[Licensing::Client] Error: Code 10 while verifying Licensing Client signature (process Id: 66008, path: "C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] Error: LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.15.4+eee609c
+  Session Id:              04587d78b65b49cc950938ffc68b9e0d
+  Correlation Id:          18ae14616ba3919caeed47bec322462c
+  External correlation Id: 426513540610078689
+  Machine Id:              fw9NS9oOv+gVm0W/XOWIT1jtXq8=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-me" (connect: 0.60s, validation: 0.04s, handshake: 0.02s)
+[Licensing::IpcConnector] Successfully connected to the License Notification on channel: "LicenseClient-me-notifications" at "2025-07-30T12:21:34.8083121Z"
+[Licensing::Module] Connected to LicensingClient (PId: 66008, launch time: 0.00, total connection time: 0.67s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully updated license
+Built from '2023.2/staging' branch; Version is '2023.2.20f1 (0e25a174756c) revision 927137'; Using compiler version '193431935'; Build Type 'Release'
+OS: 'Windows 10  (10.0.19045) 64bit Professional' Language: 'en' Physical Memory: 65444 MB
+[Licensing::Client] Successfully resolved entitlements
+[Licensing::Module] Serial number assigned to: "F4-Z43B-MXRR-JRKJ-G65K-XXXX"
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Unity.exe
+-batchmode
+-nographics
+-quit
+-projectPath
+C:\Users\me\MapleUnity
+-logFile
+C:\Users\me\MapleUnity\verify-final-compilation.log
+-ignoreCompilerErrors
+-noHub
+-silent-crashes
+Successfully changed project path to: C:\Users\me\MapleUnity
+C:/Users/me/MapleUnity
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [84656] Host "[IP] 192.168.1.190 [Port] 55504 [Flags] 2 [Guid] 4221755089 [EditorId] 4221755089 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-8EKS4JU) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+Player connection [84656] Host "[IP] 192.168.1.190 [Port] 55504 [Flags] 2 [Guid] 4221755089 [EditorId] 4221755089 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-8EKS4JU) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+[Physics::Module] Initialized MultithreadedJobDispatcher with 31 workers.
+[Package Manager] Connected to IPC stream "Upm-88736" after 0.3 seconds.
+Library Redirect Path: Library/
+[Licensing::Client] Successfully resolved entitlements
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 46 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.collab-proxy@2.3.1 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.collab-proxy@2.3.1)
+    com.unity.timeline@1.8.6 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.timeline@1.8.6)
+    com.unity.visualscripting@1.8.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.visualscripting@1.8.0)
+    com.unity.ext.nunit@2.0.5 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.ext.nunit@2.0.5)
+    com.unity.ide.visualstudio@2.0.22 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.ide.visualstudio@2.0.22)
+    com.unity.ide.rider@3.0.28 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.ide.rider@3.0.28)
+    com.unity.editorcoroutines@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.editorcoroutines@1.0.0)
+    com.unity.performance.profile-analyzer@1.2.2 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.performance.profile-analyzer@1.2.2)
+    com.unity.test-framework@1.3.9 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.test-framework@1.3.9)
+    com.unity.testtools.codecoverage@1.2.5 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.testtools.codecoverage@1.2.5)
+    com.unity.settings-manager@2.0.1 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.settings-manager@2.0.1)
+  Built-in packages:
+    com.unity.feature.development@1.0.2 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.feature.development@1.0.2)
+    com.unity.ugui@2.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.ugui@2.0.0)
+    com.unity.modules.ai@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.ai@1.0.0)
+    com.unity.modules.androidjni@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.androidjni@1.0.0)
+    com.unity.modules.animation@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.animation@1.0.0)
+    com.unity.modules.assetbundle@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.assetbundle@1.0.0)
+    com.unity.modules.audio@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.audio@1.0.0)
+    com.unity.modules.cloth@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.cloth@1.0.0)
+    com.unity.modules.director@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.director@1.0.0)
+    com.unity.modules.imageconversion@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.imageconversion@1.0.0)
+    com.unity.modules.imgui@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.imgui@1.0.0)
+    com.unity.modules.jsonserialize@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.jsonserialize@1.0.0)
+    com.unity.modules.particlesystem@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.particlesystem@1.0.0)
+    com.unity.modules.physics@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.physics@1.0.0)
+    com.unity.modules.physics2d@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.physics2d@1.0.0)
+    com.unity.modules.screencapture@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.screencapture@1.0.0)
+    com.unity.modules.terrain@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.terrain@1.0.0)
+    com.unity.modules.terrainphysics@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.terrainphysics@1.0.0)
+    com.unity.modules.tilemap@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.tilemap@1.0.0)
+    com.unity.modules.ui@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.ui@1.0.0)
+    com.unity.modules.uielements@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.uielements@1.0.0)
+    com.unity.modules.umbra@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.umbra@1.0.0)
+    com.unity.modules.unityanalytics@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.unityanalytics@1.0.0)
+    com.unity.modules.unitywebrequest@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.unitywebrequest@1.0.0)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle@1.0.0)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.unitywebrequestaudio@1.0.0)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.unitywebrequesttexture@1.0.0)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.unitywebrequestwww@1.0.0)
+    com.unity.modules.vehicles@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.vehicles@1.0.0)
+    com.unity.modules.video@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.video@1.0.0)
+    com.unity.modules.vr@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.vr@1.0.0)
+    com.unity.modules.wind@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.wind@1.0.0)
+    com.unity.modules.xr@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.xr@1.0.0)
+    com.unity.modules.subsystems@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.subsystems@1.0.0)
+    com.unity.modules.hierarchycore@1.0.0 (location: C:\Users\me\MapleUnity\Library\PackageCache\com.unity.modules.hierarchycore@1.0.0)
+[Subsystems] No new subsystems found in resolved package list.
+Package Manager log level set to [2]
+[Package Manager] Done registering packages in 0.06 seconds
+Refreshing native plugins compatible for Editor in 1.40 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2023.2.20f1 (0e25a174756c)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/me/MapleUnity/Assets
+Forcing GfxDevice: Null
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+[Licensing::Client] Successfully resolved entitlements
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56736
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.002579 seconds.
+- Loaded All Assemblies, in  0.317 seconds
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.241 seconds
+Domain Reload Profiling: 556ms
+	BeginReloadAssembly (113ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (30ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (41ms)
+	LoadAllAssembliesAndSetupDomain (121ms)
+		LoadAssemblies (111ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (119ms)
+			TypeCache.Refresh (117ms)
+				TypeCache.ScanAssembly (107ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (241ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (203ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (8ms)
+			SetLoadedEditorAssemblies (4ms)
+			BeforeProcessingInitializeOnLoad (4ms)
+			ProcessInitializeOnLoadAttributes (147ms)
+			ProcessInitializeOnLoadMethodAttributes (41ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Client] Successfully resolved entitlements
+Application.AssetDatabase Initial Refresh Start
+The GUID inside 'Assets/Scripts/Editor/VerySimpleTest.cs.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+The GUID inside 'Assets/Scripts/Editor/SimpleRenderingTest.cs.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+The GUID inside 'Assets/Plugins/lz4_64.dll.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+The GUID inside 'Assets/Scripts/Editor/CharacterRenderingAnalysisTest.cs.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+The GUID inside 'Assets/Plugins/lz4_32.dll.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+The GUID inside 'Assets/Scripts/GameLogic/Tests/Core/FootholdServiceTests.cs.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+The GUID inside 'Assets/Scripts/GameLogic/Tests/Core/MaplePhysicsConverterTests.cs.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+The GUID inside 'Assets/Scripts/Editor/CharacterRenderingTest.cs.meta' cannot be extracted by the YAML Parser. Attempting to extract it via string matching instead. Please verify the file does not contain unexpected data.
+The .meta file Assets/Plugins/lz4_32.dll.meta does not have a valid GUID and its corresponding Asset file will be ignored. If this file is not malformed, please add a GUID, or delete the .meta file and it will be recreated correctly
+The .meta file Assets/Plugins/lz4_64.dll.meta does not have a valid GUID and its corresponding Asset file will be ignored. If this file is not malformed, please add a GUID, or delete the .meta file and it will be recreated correctly
+The .meta file Assets/Scripts/Editor/CharacterRenderingAnalysisTest.cs.meta does not have a valid GUID and its corresponding Asset file will be ignored. If this file is not malformed, please add a GUID, or delete the .meta file and it will be recreated correctly
+The .meta file Assets/Scripts/Editor/CharacterRenderingTest.cs.meta does not have a valid GUID and its corresponding Asset file will be ignored. If this file is not malformed, please add a GUID, or delete the .meta file and it will be recreated correctly
+The .meta file Assets/Scripts/Editor/SimpleRenderingTest.cs.meta does not have a valid GUID and its corresponding Asset file will be ignored. If this file is not malformed, please add a GUID, or delete the .meta file and it will be recreated correctly
+The .meta file Assets/Scripts/Editor/VerySimpleTest.cs.meta does not have a valid GUID and its corresponding Asset file will be ignored. If this file is not malformed, please add a GUID, or delete the .meta file and it will be recreated correctly
+The .meta file Assets/Scripts/GameLogic/Tests/Core/FootholdServiceTests.cs.meta does not have a valid GUID and its corresponding Asset file will be ignored. If this file is not malformed, please add a GUID, or delete the .meta file and it will be recreated correctly
+The .meta file Assets/Scripts/GameLogic/Tests/Core/MaplePhysicsConverterTests.cs.meta does not have a valid GUID and its corresponding Asset file will be ignored. If this file is not malformed, please add a GUID, or delete the .meta file and it will be recreated correctly
+A meta data file (.meta) exists but its asset 'Assets/Scripts/Editor/CompilationCheck.cs' can't be found. When moving or deleting files outside of Unity, please ensure that the corresponding .meta file is moved or deleted along with it.
+A meta data file (.meta) exists but its asset 'Assets/Scripts/Editor/ExtractCompilationErrors.cs' can't be found. When moving or deleting files outside of Unity, please ensure that the corresponding .meta file is moved or deleted along with it.
+A meta data file (.meta) exists but its asset 'Assets/Scripts/Editor/MinimalCompileTest.cs' can't be found. When moving or deleting files outside of Unity, please ensure that the corresponding .meta file is moved or deleted along with it.
+A meta data file (.meta) exists but its asset 'Assets/Scripts/Editor/TestCharacterPositioningBatch.cs' can't be found. When moving or deleting files outside of Unity, please ensure that the corresponding .meta file is moved or deleted along with it.
+A meta data file (.meta) exists but its asset 'Assets/Scripts/Editor/TestSceneRendering.cs' can't be found. When moving or deleting files outside of Unity, please ensure that the corresponding .meta file is moved or deleted along with it.
+[ScriptCompilation] Requested script compilation because: Assetdatabase observed changes in script compilation related files
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:80
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\me\MapleUnity\
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 33.1106ms
+Starting: C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\bee_backend.exe --dont-print-to-structured-log --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: C:/Users/me/MapleUnity
+DisplayProgressbar: Compiling Scripts
+Starting: C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\Tools\netcorerun\netcorerun.exe "C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library\Bee\buildprogram0.traceevents"
+WorkingDir: C:/Users/me/MapleUnity
+ExitCode: 4 Duration: 0s553ms
+Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inputdata.json
+[419/425    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Editor.dll (+2 others)
+##### CommandLine
+"C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\NetCoreRuntime\dotnet.exe" exec "C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/DotNetSdkRoslyn/csc.dll" /nostdlib /noconfig /shared "@Library/Bee/artifacts/1900b0aE.dag/Editor.rsp" "@Library/Bee/artifacts/1900b0aE.dag/Editor.rsp2"
+##### Contents of Library\Bee\artifacts\1900b0aE.dag\Editor.rsp
+-target:library
+
+-out:"Library/Bee/artifacts/1900b0aE.dag/Editor.dll"
+
+-refout:"Library/Bee/artifacts/1900b0aE.dag/Editor.ref.dll"
+
+-define:UNITY_2023_2_20
+
+-define:UNITY_2023_2
+
+-define:UNITY_2023
+
+-define:UNITY_5_3_OR_NEWER
+
+-define:UNITY_5_4_OR_NEWER
+
+-define:UNITY_5_5_OR_NEWER
+
+-define:UNITY_5_6_OR_NEWER
+
+-define:UNITY_2017_1_OR_NEWER
+
+-define:UNITY_2017_2_OR_NEWER
+
+-define:UNITY_2017_3_OR_NEWER
+
+-define:UNITY_2017_4_OR_NEWER
+
+-define:UNITY_2018_1_OR_NEWER
+
+-define:UNITY_2018_2_OR_NEWER
+
+-define:UNITY_2018_3_OR_NEWER
+
+-define:UNITY_2018_4_OR_NEWER
+
+-define:UNITY_2019_1_OR_NEWER
+
+-define:UNITY_2019_2_OR_NEWER
+
+-define:UNITY_2019_3_OR_NEWER
+
+-define:UNITY_2019_4_OR_NEWER
+
+-define:UNITY_2020_1_OR_NEWER
+
+-define:UNITY_2020_2_OR_NEWER
+
+-define:UNITY_2020_3_OR_NEWER
+
+-define:UNITY_2021_1_OR_NEWER
+
+-define:UNITY_2021_2_OR_NEWER
+
+-define:UNITY_2021_3_OR_NEWER
+
+-define:UNITY_2022_1_OR_NEWER
+
+-define:UNITY_2022_2_OR_NEWER
+
+-define:UNITY_2022_3_OR_NEWER
+
+-define:UNITY_2023_1_OR_NEWER
+
+-define:UNITY_2023_2_OR_NEWER
+
+-define:PLATFORM_ARCH_64
+
+-define:UNITY_64
+
+-define:UNITY_INCLUDE_TESTS
+
+-define:ENABLE_AR
+
+-define:ENABLE_AUDIO
+
+-define:ENABLE_CACHING
+
+-define:ENABLE_CLOTH
+
+-define:ENABLE_EVENT_QUEUE
+
+-define:ENABLE_MICROPHONE
+
+-define:ENABLE_MULTIPLE_DISPLAYS
+
+-define:ENABLE_PHYSICS
+
+-define:ENABLE_TEXTURE_STREAMING
+
+-define:ENABLE_VIRTUALTEXTURING
+
+-define:ENABLE_LZMA
+
+-define:ENABLE_UNITYEVENTS
+
+-define:ENABLE_VR
+
+-define:ENABLE_WEBCAM
+
+-define:ENABLE_UNITYWEBREQUEST
+
+-define:ENABLE_WWW
+
+-define:ENABLE_CLOUD_SERVICES
+
+-define:ENABLE_CLOUD_SERVICES_ADS
+
+-define:ENABLE_CLOUD_SERVICES_USE_WEBREQUEST
+
+-define:ENABLE_CLOUD_SERVICES_CRASH_REPORTING
+
+-define:ENABLE_CLOUD_SERVICES_PURCHASING
+
+-define:ENABLE_CLOUD_SERVICES_ANALYTICS
+
+-define:ENABLE_CLOUD_SERVICES_BUILD
+
+-define:ENABLE_EDITOR_GAME_SERVICES
+
+-define:ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT
+
+-define:ENABLE_CLOUD_LICENSE
+
+-define:ENABLE_EDITOR_HUB_LICENSE
+
+-define:ENABLE_WEBSOCKET_CLIENT
+
+-define:ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API
+
+-define:ENABLE_DIRECTOR_AUDIO
+
+-define:ENABLE_DIRECTOR_TEXTURE
+
+-define:ENABLE_MANAGED_JOBS
+
+-define:ENABLE_MANAGED_TRANSFORM_JOBS
+
+-define:ENABLE_MANAGED_ANIMATION_JOBS
+
+-define:ENABLE_MANAGED_AUDIO_JOBS
+
+-define:ENABLE_MANAGED_UNITYTLS
+
+-define:INCLUDE_DYNAMIC_GI
+
+-define:ENABLE_SCRIPTING_GC_WBARRIERS
+
+-define:PLATFORM_SUPPORTS_MONO
+
+-define:RENDER_SOFTWARE_CURSOR
+
+-define:ENABLE_MARSHALLING_TESTS
+
+-define:ENABLE_VIDEO
+
+-define:ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK
+
+-define:ENABLE_ACCELERATOR_CLIENT_DEBUGGING
+
+-define:TEXTCORE_1_0_OR_NEWER
+
+-define:PLATFORM_STANDALONE_WIN
+
+-define:PLATFORM_STANDALONE
+
+-define:UNITY_STANDALONE_WIN
+
+-define:UNITY_STANDALONE
+
+-define:ENABLE_RUNTIME_GI
+
+-define:ENABLE_MOVIES
+
+-define:ENABLE_NETWORK
+
+-define:ENABLE_NVIDIA
+
+-define:ENABLE_CRUNCH_TEXTURE_COMPRESSION
+
+-define:ENABLE_OUT_OF_PROCESS_CRASH_HANDLER
+
+-define:ENABLE_CLUSTER_SYNC
+
+-define:ENABLE_CLUSTERINPUT
+
+-define:PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP
+
+-define:GFXDEVICE_WAITFOREVENT_MESSAGEPUMP
+
+-define:PLATFORM_USES_EXPLICIT_MEMORY_MANAGER_INITIALIZER
+
+-define:PLATFORM_SUPPORTS_WAIT_FOR_PRESENTATION
+
+-define:PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS
+
+-define:ENABLE_MONO
+
+-define:NET_4_6
+
+-define:NET_UNITY_4_8
+
+-define:ENABLE_PROFILER
+
+-define:DEBUG
+
+-define:TRACE
+
+-define:UNITY_ASSERTIONS
+
+-define:UNITY_EDITOR
+
+-define:UNITY_EDITOR_64
+
+-define:UNITY_EDITOR_WIN
+
+-define:ENABLE_UNITY_COLLECTIONS_CHECKS
+
+-define:ENABLE_BURST_AOT
+
+-define:UNITY_TEAM_LICENSE
+
+-define:ENABLE_CUSTOM_RENDER_TEXTURE
+
+-define:ENABLE_DIRECTOR
+
+-define:ENABLE_LOCALIZATION
+
+-define:ENABLE_SPRITES
+
+-define:ENABLE_TERRAIN
+
+-define:ENABLE_TILEMAP
+
+-define:ENABLE_TIMELINE
+
+-define:ENABLE_LEGACY_INPUT_MANAGER
+
+-define:TEXTCORE_FONT_ENGINE_1_5_OR_NEWER
+
+-define:TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER
+
+-define:CSHARP_7_OR_LATER
+
+-define:CSHARP_7_3_OR_NEWER
+
+-define:UNITY_EDITOR_ONLY_COMPILATION
+
+-r:"Assets/Plugins/reNX.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEditor.Graphs.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.AccessibilityModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.AdaptivePerformanceModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.CoreModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.DeviceSimulatorModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.DiagnosticsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.EditorToolbarModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.GraphToolsFoundationModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.GraphViewModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.GridAndSnapModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.GridModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.Physics2DModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.PhysicsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.PresetsUIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.PropertiesModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.QuickSearchModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SafeModeModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SceneTemplateModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SceneViewModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.ShaderFoundryModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SketchUpModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SpriteMaskModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.SpriteShapeModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TerrainModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TextCoreFontEngineModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TextCoreTextEngineModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TextRenderingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TilemapModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.TreeModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.UIAutomationModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.UIBuilderModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.UIElementsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.UIElementsSamplesModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.VFXModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.VideoModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEditor.XRModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AccessibilityModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AndroidJNIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AnimationModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ARModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AssetBundleModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.AudioModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ClothModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterInputModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ClusterRendererModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.CommandStateObserverModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ContentLoadModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.CrashReportingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.DirectorModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.DSPGraphModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.GameCenterModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.GIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.GraphToolsFoundationModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.GridModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.HierarchyCoreModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.HotReloadModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ImageConversionModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.IMGUIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.InputForUIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.InputLegacyModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.InputModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.JSONSerializeModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.LocalizationModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.MarshallingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.MultiplayerModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.NVIDIAModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ParticleSystemModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.PerformanceReportingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.Physics2DModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.PhysicsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ProfilerModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.PropertiesModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.ScreenCaptureModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.SharedInternalsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteMaskModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.SpriteShapeModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.StreamingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.SubstanceModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.SubsystemsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TerrainPhysicsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TextCoreFontEngineModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TextCoreTextEngineModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TextRenderingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TilemapModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.TLSModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UIElementsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UIModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UmbraModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityAnalyticsCommonModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityAnalyticsModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityConnectModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityCurlModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityTestProtocolModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAssetBundleModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestTextureModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.VehiclesModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.VFXModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.VirtualTexturingModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.VRModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/Microsoft.Win32.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/netstandard.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.AppContext.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Buffers.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Collections.Concurrent.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Collections.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Collections.NonGeneric.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Collections.Specialized.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ComponentModel.Annotations.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ComponentModel.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ComponentModel.EventBasedAsync.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ComponentModel.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ComponentModel.TypeConverter.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Console.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Data.Common.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.Contracts.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.Debug.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.FileVersionInfo.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.Process.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.StackTrace.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.TextWriterTraceListener.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.Tools.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Diagnostics.TraceSource.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Drawing.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Dynamic.Runtime.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Globalization.Calendars.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Globalization.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Globalization.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.Compression.ZipFile.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.FileSystem.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.FileSystem.DriveInfo.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.FileSystem.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.FileSystem.Watcher.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.IsolatedStorage.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.MemoryMappedFiles.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.Pipes.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.IO.UnmanagedMemoryStream.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Linq.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Linq.Expressions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Linq.Parallel.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Linq.Queryable.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Memory.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Http.Rtc.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.NameResolution.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.NetworkInformation.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Ping.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Requests.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Security.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.Sockets.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.WebHeaderCollection.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.WebSockets.Client.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Net.WebSockets.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ObjectModel.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.DispatchProxy.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.Emit.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.Emit.ILGeneration.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.Emit.Lightweight.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Reflection.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Resources.Reader.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Resources.ResourceManager.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Resources.Writer.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.CompilerServices.VisualC.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Handles.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.RuntimeInformation.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.InteropServices.WindowsRuntime.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Numerics.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Serialization.Formatters.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Serialization.Json.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Serialization.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Runtime.Serialization.Xml.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Claims.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Cryptography.Algorithms.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Cryptography.Csp.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Cryptography.Encoding.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Cryptography.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Cryptography.X509Certificates.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.Principal.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Security.SecureString.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ServiceModel.Duplex.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ServiceModel.Http.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ServiceModel.NetTcp.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ServiceModel.Primitives.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ServiceModel.Security.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Text.Encoding.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Text.Encoding.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Text.RegularExpressions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Overlapped.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Tasks.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Tasks.Extensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Tasks.Parallel.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Thread.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.ThreadPool.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Threading.Timer.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.ValueTuple.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.ReaderWriter.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.XDocument.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.XmlDocument.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.XmlSerializer.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.XPath.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Facades/System.Xml.XPath.XDocument.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/Microsoft.CSharp.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/mscorlib.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.ComponentModel.Composition.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Core.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Data.DataSetExtensions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Data.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Drawing.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.IO.Compression.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.IO.Compression.FileSystem.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Net.Http.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Numerics.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Numerics.Vectors.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Runtime.Serialization.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Transactions.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Xml.dll"
+
+-r:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/UnityReferenceAssemblies/unity-4.8-api/System.Xml.Linq.dll"
+
+-r:"Library/PackageCache/com.unity.collab-proxy@2.3.1/Lib/Editor/PlasticSCM/log4netPlastic.dll"
+
+-r:"Library/PackageCache/com.unity.collab-proxy@2.3.1/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll"
+
+-r:"Library/PackageCache/com.unity.collab-proxy@2.3.1/Lib/Editor/PlasticSCM/Unity.Plastic.Newtonsoft.Json.dll"
+
+-r:"Library/PackageCache/com.unity.collab-proxy@2.3.1/Lib/Editor/PlasticSCM/unityplastic.dll"
+
+-r:"Library/PackageCache/com.unity.ext.nunit@2.0.5/net40/unity-custom/nunit.framework.dll"
+
+-r:"Library/PackageCache/com.unity.ext.nunit@2.0.5/net40/unity-custom/nunit.framework.dll"
+
+-r:"Library/PackageCache/com.unity.testtools.codecoverage@1.2.5/lib/ReportGenerator/ReportGeneratorMerged.dll"
+
+-r:"Library/PackageCache/com.unity.visualscripting@1.8.0/Editor/VisualScripting.Core/Dependencies/DotNetZip/Unity.VisualScripting.IonicZip.dll"
+
+-r:"Library/PackageCache/com.unity.visualscripting@1.8.0/Editor/VisualScripting.Core/Dependencies/YamlDotNet/Unity.VisualScripting.YamlDotNet.dll"
+
+-r:"Library/PackageCache/com.unity.visualscripting@1.8.0/Editor/VisualScripting.Core/EditorAssetResources/Unity.VisualScripting.TextureAssets.dll"
+
+-r:"Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/GameData.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/GameLogic.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/GameLogic.Tests.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/GameView.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/SceneGeneration.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.TestRunner.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.TestRunner.ref.dll"
+
+-r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
+
+-analyzer:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll"
+
+-analyzer:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
+
+-analyzer:"C:/Program Files/Unity/Hub/Editor/2023.2.20f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll"
+
+"Assets/Scripts/Editor/AnalyzeHenesysTiles.cs"
+
+"Assets/Scripts/Editor/AnalyzeHenesysTileUsage.cs"
+
+"Assets/Scripts/Editor/AutomatedCollisionTest.cs"
+
+"Assets/Scripts/Editor/BatchCharacterRenderTest.cs"
+
+"Assets/Scripts/Editor/BatchEquipmentExplorer.cs"
+
+"Assets/Scripts/Editor/BatchEquipmentTest.cs"
+
+"Assets/Scripts/Editor/BatchModeCollisionTest.cs"
+
+"Assets/Scripts/Editor/CameraTargetDiagnostic.cs"
+
+"Assets/Scripts/Editor/CharacterRenderingDiagnostics.cs"
+
+"Assets/Scripts/Editor/CheckBrownBrickTiles.cs"
+
+"Assets/Scripts/Editor/CheckDefaultTileset.cs"
+
+"Assets/Scripts/Editor/CheckFaceStructure.cs"
+
+"Assets/Scripts/Editor/CheckGrassySoilTiles.cs"
+
+"Assets/Scripts/Editor/CheckHenesysTileDetails.cs"
+
+"Assets/Scripts/Editor/CheckHenesysTileInfo.cs"
+
+"Assets/Scripts/Editor/CheckMapsWithTilesets.cs"
+
+"Assets/Scripts/Editor/CheckTileOrigins.cs"
+
+"Assets/Scripts/Editor/CompareNodeStructures.cs"
+
+"Assets/Scripts/Editor/CompilationCheck.cs"
+
+"Assets/Scripts/Editor/CreateFootholdTestScene.cs"
+
+"Assets/Scripts/Editor/DebugCharacterTest.cs"
+
+"Assets/Scripts/Editor/DebugFootholdExtraction.cs"
+
+"Assets/Scripts/Editor/DirectCharacterRenderingTest.cs"
+
+"Assets/Scripts/Editor/DirectCharacterTest.cs"
+
+"Assets/Scripts/Editor/DirectPositioningTest.cs"
+
+"Assets/Scripts/Editor/EditorDebugLogCapture.cs"
+
+"Assets/Scripts/Editor/ExploreCharacterNX.cs"
+
+"Assets/Scripts/Editor/ExploreEquipmentStructure.cs"
+
+"Assets/Scripts/Editor/ExploreFace20000.cs"
+
+"Assets/Scripts/Editor/ExtractCompilationErrors.cs"
+
+"Assets/Scripts/Editor/FinalCharacterTest.cs"
+
+"Assets/Scripts/Editor/FinalCollisionSystemTest.cs"
+
+"Assets/Scripts/Editor/Find12345678Source.cs"
+
+"Assets/Scripts/Editor/FindGreyStoneTilesets.cs"
+
+"Assets/Scripts/Editor/FindTilesetByVariants.cs"
+
+"Assets/Scripts/Editor/FixedCollisionTest.cs"
+
+"Assets/Scripts/Editor/FixedTestCharacterRendering.cs"
+
+"Assets/Scripts/Editor/FootholdCollisionDebugTool.cs"
+
+"Assets/Scripts/Editor/FootholdCoverageTest.cs"
+
+"Assets/Scripts/Editor/FullPhysicsCollisionTest.cs"
+
+"Assets/Scripts/Editor/GenerateAndTestCollision.cs"
+
+"Assets/Scripts/Editor/InspectNXNode.cs"
+
+"Assets/Scripts/Editor/InspectRemainingIssues.cs"
+
+"Assets/Scripts/Editor/InvestigateFootholdFlow.cs"
+
+"Assets/Scripts/Editor/InvestigateFootholdLoading.cs"
+
+"Assets/Scripts/Editor/MapNXDebugger.cs"
+
+"Assets/Scripts/Editor/MinimalBatchTest.cs"
+
+"Assets/Scripts/Editor/MinimalCompilationStatus.cs"
+
+"Assets/Scripts/Editor/MinimalCompileTest.cs"
+
+"Assets/Scripts/Editor/MinimalUnityTest.cs"
+
+"Assets/Scripts/Editor/PhysicsTestScene.cs"
+
+"Assets/Scripts/Editor/PreviewWoodMarbleTiles.cs"
+
+"Assets/Scripts/Editor/ProperBatchCollisionTest.cs"
+
+"Assets/Scripts/Editor/QuickCollisionTest.cs"
+
+"Assets/Scripts/Editor/QuickEquipmentTest.cs"
+
+"Assets/Scripts/Editor/QuickTestCppNx.cs"
+
+"Assets/Scripts/Editor/RealMapCollisionTest.cs"
+
+"Assets/Scripts/Editor/RenderingDebugWindow.cs"
+
+"Assets/Scripts/Editor/RunCharacterRenderingTest.cs"
+
+"Assets/Scripts/Editor/RunEquipmentExploration.cs"
+
+"Assets/Scripts/Editor/RunEquipmentLoadingTest.cs"
+
+"Assets/Scripts/Editor/RunEquipmentTestDirect.cs"
+
+"Assets/Scripts/Editor/SceneGenerationTest.cs"
+
+"Assets/Scripts/Editor/SceneSetup.cs"
+
+"Assets/Scripts/Editor/SetupSortingLayers.cs"
+
+"Assets/Scripts/Editor/SimpleBatchTest.cs"
+
+"Assets/Scripts/Editor/SimpleCharacterRenderingBatchTest.cs"
+
+"Assets/Scripts/Editor/SimpleCharacterRenderingTest.cs"
+
+"Assets/Scripts/Editor/SimpleCharacterVerification.cs"
+
+"Assets/Scripts/Editor/SimpleCompilationTest.cs"
+
+"Assets/Scripts/Editor/SimpleEquipmentTest.cs"
+
+"Assets/Scripts/Editor/SimpleFootholdCheck.cs"
+
+"Assets/Scripts/Editor/SimplePositioningTest.cs"
+
+"Assets/Scripts/Editor/StandaloneEquipmentTest.cs"
+
+"Assets/Scripts/Editor/StandaloneMinimalTest.cs"
+
+"Assets/Scripts/Editor/SynchronousCollisionTest.cs"
+
+"Assets/Scripts/Editor/TestCharacterPositioningBatch.cs"
+
+"Assets/Scripts/Editor/TestCharacterSpritesSimple.cs"
+
+"Assets/Scripts/Editor/TestCharacterWithEquipment.cs"
+
+"Assets/Scripts/Editor/TestCompilation.cs"
+
+"Assets/Scripts/Editor/TestEquipmentLoading.cs"
+
+"Assets/Scripts/Editor/TestFootholdFlow.cs"
+
+"Assets/Scripts/Editor/TestFootholdIntegration.cs"
+
+"Assets/Scripts/Editor/TestFootholdVisualizerFix.cs"
+
+"Assets/Scripts/Editor/TestHenesysCharacter.cs"
+
+"Assets/Scripts/Editor/TestHenesysScene.cs"
+
+"Assets/Scripts/Editor/TestLoadFaceFix.cs"
+
+"Assets/Scripts/Editor/TestMapleCharacterSprites.cs"
+
+"Assets/Scripts/Editor/TestMultiPartBodyRendering.cs"
+
+"Assets/Scripts/Editor/TestPhysicsDebugger.cs"
+
+"Assets/Scripts/Editor/TestPlatformCollision.cs"
+
+"Assets/Scripts/Editor/TestSceneRendering.cs"
+
+"Assets/Scripts/Editor/TestSmoothLanding.cs"
+
+"Assets/Scripts/Editor/VerifyFootholdFix.cs"
+
+"Assets/Scripts/Editor/VerifyGoldTempleTownTH.cs"
+
+"Assets/Scripts/Editor/VerifyGrassySoilVariants.cs"
+
+-langversion:9.0
+
+
+
+/deterministic
+
+/optimize+
+
+/debug:portable
+
+/nologo
+
+/RuntimeMetadataVersion:v4.0.30319
+
+
+
+/nowarn:0169
+
+/nowarn:0649
+
+/nowarn:0282
+
+/nowarn:1701
+
+/nowarn:1702
+
+-nowarn:0649
+
+/utf8output
+
+/preferreduilang:en-US
+
+
+
+
+
+
+
+/additionalfile:"Library/Bee/artifacts/1900b0aE.dag/Editor.UnityAdditionalFile.txt"
+##### Custom Environment Variables
+DOTNET_MULTILEVEL_LOOKUP=0
+##### ExitCode
+1
+##### Output
+error CS2001: Source file 'C:\Users\me\MapleUnity\Assets/Scripts/Editor/CompilationCheck.cs' could not be found.
+
+error CS2001: Source file 'C:\Users\me\MapleUnity\Assets/Scripts/Editor/MinimalCompileTest.cs' could not be found.
+
+error CS2001: Source file 'C:\Users\me\MapleUnity\Assets/Scripts/Editor/TestCharacterPositioningBatch.cs' could not be found.
+
+error CS2001: Source file 'C:\Users\me\MapleUnity\Assets/Scripts/Editor/TestSceneRendering.cs' could not be found.
+
+error CS2001: Source file 'C:\Users\me\MapleUnity\Assets/Scripts/Editor/ExtractCompilationErrors.cs' could not be found.
+*** Tundra requires additional run (0.53 seconds), 1 items updated, 418 evaluated
+ExitCode: 0 Duration: 0s277ms
+Starting: C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\bee_backend.exe --dont-print-to-structured-log --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --dagfilejson="Library\Bee\1900b0aE.dag.json" --profile="Library/Bee/backend2.traceevents" ScriptAssemblies
+WorkingDir: C:/Users/me/MapleUnity
+ExitCode: 0 Duration: 1s597ms
+Finished compiling graph: 428 nodes, 5762 flattened edges (5220 ToBuild, 70 ToUse), maximum node priority 301
+[262/425    0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Editor.rsp
+[419/425    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Editor.dll (+2 others)
+Assets\Scripts\Editor\CameraTargetDiagnostic.cs(84,30): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+
+Assets\Scripts\Editor\BatchModeCollisionTest.cs(60,37): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+
+Assets\Scripts\Editor\BatchModeCollisionTest.cs(76,31): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+
+Assets\Scripts\Editor\InvestigateFootholdFlow.cs(104,39): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+
+Assets\Scripts\Editor\GenerateAndTestCollision.cs(133,31): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+
+Assets\Scripts\Editor\SceneSetup.cs(61,25): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+
+Assets\Scripts\Editor\SceneSetup.cs(73,13): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+
+Assets\Scripts\Editor\Find12345678Source.cs(45,35): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+
+Assets\Scripts\Editor\TestFootholdVisualizerFix.cs(45,42): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+
+Assets\Scripts\Editor\TestFootholdVisualizerFix.cs(50,17): warning CS0219: The variable 'count' is assigned but its value is never used
+
+Assets\Scripts\Editor\Find12345678Source.cs(73,29): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+
+Assets\Scripts\Editor\InspectRemainingIssues.cs(56,25): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+
+Assets\Scripts\Editor\RenderingDebugWindow.cs(84,29): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+
+Assets\Scripts\Editor\InspectRemainingIssues.cs(85,25): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+
+Assets\Scripts\Editor\InspectRemainingIssues.cs(121,25): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+
+Assets\Scripts\Editor\InspectRemainingIssues.cs(147,25): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+
+Assets\Scripts\Editor\InspectRemainingIssues.cs(191,28): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+
+Assets\Scripts\Editor\InspectRemainingIssues.cs(221,25): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+
+Assets\Scripts\Editor\TestHenesysScene.cs(11,26): warning CS0414: The field 'TestHenesysScene.testDuration' is assigned but its value is never used
+
+Assets\Scripts\Editor\ProperBatchCollisionTest.cs(12,24): warning CS0414: The field 'ProperBatchCollisionTest.exitCode' is assigned but its value is never used
+[420/425    0s] CopyFiles Library/ScriptAssemblies/Editor.pdb
+[421/425    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
+Assets\Scripts\CharacterRenderingDebugger.cs(37,24): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+
+Assets\Scripts\CharacterRenderingDebugger.cs(121,26): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+
+Assets\Scripts\CharacterRenderingAnalyzer.cs(37,30): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+[422/425    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[423/425    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+[424/425    0s] CopyFiles Library/ScriptAssemblies/Editor.dll
+*** Tundra build success (1.58 seconds), 7 items updated, 425 evaluated
+Assets\Scripts\Editor\CameraTargetDiagnostic.cs(84,30): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\Scripts\Editor\BatchModeCollisionTest.cs(60,37): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+Assets\Scripts\Editor\BatchModeCollisionTest.cs(76,31): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+Assets\Scripts\Editor\InvestigateFootholdFlow.cs(104,39): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\Scripts\Editor\GenerateAndTestCollision.cs(133,31): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+Assets\Scripts\Editor\SceneSetup.cs(61,25): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+Assets\Scripts\Editor\SceneSetup.cs(73,13): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+Assets\Scripts\Editor\Find12345678Source.cs(45,35): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\Scripts\Editor\TestFootholdVisualizerFix.cs(45,42): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\Scripts\Editor\TestFootholdVisualizerFix.cs(50,17): warning CS0219: The variable 'count' is assigned but its value is never used
+Assets\Scripts\Editor\Find12345678Source.cs(73,29): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\Scripts\Editor\InspectRemainingIssues.cs(56,25): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\Scripts\Editor\RenderingDebugWindow.cs(84,29): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\Scripts\Editor\InspectRemainingIssues.cs(85,25): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\Scripts\Editor\InspectRemainingIssues.cs(121,25): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\Scripts\Editor\InspectRemainingIssues.cs(147,25): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\Scripts\Editor\InspectRemainingIssues.cs(191,28): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\Scripts\Editor\InspectRemainingIssues.cs(221,25): warning CS0618: 'Object.FindObjectsOfType<T>()' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets\Scripts\Editor\TestHenesysScene.cs(11,26): warning CS0414: The field 'TestHenesysScene.testDuration' is assigned but its value is never used
+Assets\Scripts\Editor\ProperBatchCollisionTest.cs(12,24): warning CS0414: The field 'ProperBatchCollisionTest.exitCode' is assigned but its value is never used
+Assets\Scripts\CharacterRenderingDebugger.cs(37,24): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+Assets\Scripts\CharacterRenderingDebugger.cs(121,26): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+Assets\Scripts\CharacterRenderingAnalyzer.cs(37,30): warning CS0618: 'Object.FindObjectOfType<T>()' is obsolete: 'Object.FindObjectOfType has been deprecated. Use Object.FindFirstObjectByType instead or if finding any instance is acceptable the faster Object.FindAnyObjectByType'
+AssetDatabase: script compilation time: 2.768429s
+Total cache size 35829696
+Total cache size after purge 35829696
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image C:\Users\me\MapleUnity\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\YamlDotNet\Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image C:\Users\me\MapleUnity\Library\PackageCache\com.unity.visualscripting@1.8.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll
+- Loaded All Assemblies, in  1.367 seconds
+Refreshing native plugins compatible for Editor in 1.03 ms, found 5 plugins.
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.631 seconds
+Domain Reload Profiling: 1996ms
+	BeginReloadAssembly (308ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (9ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (30ms)
+	RebuildCommonClasses (26ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (21ms)
+	LoadAllAssembliesAndSetupDomain (1000ms)
+		LoadAssemblies (957ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (125ms)
+			TypeCache.Refresh (103ms)
+				TypeCache.ScanAssembly (95ms)
+			BuildScriptInfoCaches (17ms)
+			ResolveRequiredComponents (3ms)
+	FinalizeReload (631ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (469ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (6ms)
+			SetLoadedEditorAssemblies (4ms)
+			BeforeProcessingInitializeOnLoad (77ms)
+			ProcessInitializeOnLoadAttributes (360ms)
+			ProcessInitializeOnLoadMethodAttributes (19ms)
+			AfterProcessingInitializeOnLoad (4ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (8ms)
+Refreshing native plugins compatible for Editor in 1.19 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=196a5c34e701b584e85d45ba7d67a7a3): Total: 5.311 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=889 ms
+		Asset DB Callback time: managed=198 ms, native=3 ms
+		Scripting: domain reloads=1, domain reload time=1409 ms, compile time=2770 ms, other=39 ms
+		Project Asset Count: scripts=654, non-scripts=576
+		Asset File Changes: new=0, changed=0, moved=0, deleted=5
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 1.183ms
+	ApplyChangesToAssetFolders: 0.300ms
+	Scan: 74.626ms
+	OnSourceAssetsModified: 0.636ms
+	CategorizeAssetsWithTransientArtifact: 45.218ms
+	ProcessAssetsWithTransientArtifactChanges: 33.767ms
+	UnregisterDeletedAssets: 0.003ms
+	CategorizeAssets: 9.108ms
+	ImportOutOfDateAssets: 637.396ms (-2134.365ms without children)
+		CompileScripts: 2770.476ms
+		ReloadNativeAssets: 0.000ms
+		UnloadImportedAssets: 0.958ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.166ms
+		InitializingProgressBar: 0.000ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
+		OnDemandSchedulerStart: 0.160ms
+	PostProcessAllAssets: 198.173ms
+	Hotreload: 3.519ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.002ms
+	UnloadStreamsBegin: 0.216ms
+	PersistCurrentRevisions: 0.026ms
+	UnloadStreamsEnd: 0.001ms
+	GenerateScriptTypeHashes: 0.714ms
+	Untracked: 4307.186ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 15.195ms
+Initializing Unity extensions:
+[Licensing::Client] Successfully resolved entitlements
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-MapleUnity
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 3411 unused Assets / (1.5 MB). Loaded Objects now: 4013.
+Memory consumption went from 132.7 MB to 131.2 MB.
+Total: 7.120900 ms (FindLiveObjects: 0.325400 ms CreateObjectMapping: 0.269600 ms MarkObjects: 5.501000 ms  DeleteObjects: 1.024300 ms)
+
+Batchmode quit successfully invoked - shutting down!
+Curl error 42: Callback aborted
+[Licensing::IpcConnector] License Notification channel disconnected successfully.
+[Licensing::IpcConnector] License Client channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+Shut down.
+Cleanup mono
+abort_threads: Failed aborting id: 000000000000C874, mono_thread_manage will ignore it
+
+abort_threads: Failed aborting id: 000000000000F3AC, mono_thread_manage will ignore it
+
+abort_threads: Failed aborting id: 000000000000C874, mono_thread_manage will ignore it
+
+abort_threads: Failed aborting id: 000000000000F3AC, mono_thread_manage will ignore it
+
+debugger-agent: Unable to listen on 3320
+[Performance] WinEditorMain                                                                                                  :        1 samples, Peak.  2.66 s (1.0x), Avg.  2.66 s, Total. 2.662 s (27.1%)
+[Performance] WinEditorMain.ConfigureCrashHandler                                                                            :        1 samples, Peak.  19.5 us (1.0x), Avg.  19.5 us, Total. 19.50 us (0.0%)
+[Performance] WinEditorMain.CurlRequestInitialize                                                                            :        1 samples, Peak.   916 us (1.0x), Avg.   916 us, Total. 915.9 us (0.0%)
+[Performance] WinEditorMain.SetupLogFile                                                                                     :        1 samples, Peak.   334 us (1.0x), Avg.   334 us, Total. 334.1 us (0.0%)
+[Performance] WinEditorMain.RunNativeTestsIfRequiredAndExit                                                                  :        1 samples, Peak.   100 ns (1.0x), Avg.   100 ns, Total. 100.0 ns (0.0%)
+[Performance] WinEditorMain.Licensing                                                                                        :        1 samples, Peak.  2.64 s (1.0x), Avg.  2.64 s, Total. 2.642 s (26.9%)
+[Performance] WinEditorMain.InitializeCrashHandler                                                                           :        1 samples, Peak.  16.1 ms (1.0x), Avg.  16.1 ms, Total. 16.06 ms (0.2%)
+[Performance] WinEditorMain.CreateApplication                                                                                :        1 samples, Peak.   234 us (1.0x), Avg.   234 us, Total. 233.9 us (0.0%)
+[Performance] Application.InitializeProject                                                                                  :        1 samples, Peak.  6.82 s (1.0x), Avg.  6.82 s, Total. 6.816 s (69.5%)
+[Performance] Application.PackageManager.StartServer                                                                         :        1 samples, Peak.  1.84 ms (1.0x), Avg.  1.84 ms, Total. 1.838 ms (0.0%)
+[Performance] Application.AcquireProjectLock                                                                                 :        1 samples, Peak.  5.31 ms (1.0x), Avg.  5.31 ms, Total. 5.309 ms (0.1%)
+[Performance] Application.InitializeEngineNoGraphics                                                                         :        1 samples, Peak.  44.5 ms (1.0x), Avg.  44.5 ms, Total. 44.47 ms (0.5%)
+[Performance] Application.PackageManager.Initialize                                                                          :        1 samples, Peak.   310 ms (1.0x), Avg.   310 ms, Total. 310.1 ms (3.2%)
+[Performance] Connecting to Package Manager                                                                                  :       32 samples, Peak.  53.1 us (25.4x), Avg.  2.09 us, Total. 66.80 us (0.0%)
+[Performance] Application.EngineGraphics.Initialize                                                                          :        1 samples, Peak.  19.8 ms (1.0x), Avg.  19.8 ms, Total. 19.79 ms (0.2%)
+[Performance] Application.GI.Initialize                                                                                      :        1 samples, Peak.  2.67 ms (1.0x), Avg.  2.67 ms, Total. 2.673 ms (0.0%)
+[Performance] Application.LoadAllDefaultResourcesFromEditor                                                                  :        1 samples, Peak.  1.44 ms (1.0x), Avg.  1.44 ms, Total. 1.436 ms (0.0%)
+[Performance] Application.LoadMonoAssemblies                                                                                 :        1 samples, Peak.   565 ms (1.0x), Avg.   565 ms, Total. 565.1 ms (5.8%)
+[Performance] RestoreManagedReferences                                                                                       :        2 samples, Peak.  44.2 ms (2.0x), Avg.  22.1 ms, Total. 44.21 ms (0.5%)
+[Performance] AssemblyReloadEvents.afterAssemblyReload: UnityEditor.SceneTemplate.SceneTemplateService.AfterAssemblyReload   :        2 samples, Peak.  3.64 ms (1.7x), Avg.  2.11 ms, Total. 4.215 ms (0.0%)
+[Performance] ProcessService.EditorAfterLoadAllAssemblies                                                                    :        2 samples, Peak.   308 us (1.1x), Avg.   271 us, Total. 542.9 us (0.0%)
+[Performance] Application.ReadLicenseInfo                                                                                    :        1 samples, Peak.  12.9 ms (1.0x), Avg.  12.9 ms, Total. 12.91 ms (0.1%)
+[Performance] Application.InitialRefresh                                                                                     :        1 samples, Peak.  5.31 s (1.0x), Avg.  5.31 s, Total. 5.314 s (54.2%)
+[Performance] AssetDatabase.InitialRefresh                                                                                   :        1 samples, Peak.  5.31 s (1.0x), Avg.  5.31 s, Total. 5.311 s (54.2%)
+[Performance] BuilderAssetModificationProcessor.OnWillDeleteAsset                                                            :        5 samples, Peak.   719 us (4.9x), Avg.   145 us, Total. 727.3 us (0.0%)
+[Performance] TMP_FontAssetPostProcessor.OnWillDeleteAsset                                                                   :        5 samples, Peak.   409 us (4.8x), Avg.  85.8 us, Total. 428.9 us (0.0%)
+[Performance] WindowAssetModificationWatcher_Internal.OnWillDeleteAsset                                                      :        5 samples, Peak.   691 us (4.9x), Avg.   140 us, Total. 701.4 us (0.0%)
+[Performance] CancelSplashScreenOnAssetDelete.OnWillDeleteAsset                                                              :        5 samples, Peak.   136 us (4.9x), Avg.  27.9 us, Total. 139.5 us (0.0%)
+[Performance] VersionControl.Task.Wait                                                                                       :        1 samples, Peak.  13.6 us (1.0x), Avg.  13.6 us, Total. 13.60 us (0.0%)
+[Performance] ShaderImporter.SourceAssetModified                                                                             :        1 samples, Peak.   200 ns (1.0x), Avg.   200 ns, Total. 200.0 ns (0.0%)
+[Performance] ShaderIncludeImporter.SourceAssetModified                                                                      :        1 samples, Peak.   800 ns (1.0x), Avg.   800 ns, Total. 800.0 ns (0.0%)
+[Performance] Compiling Scripts                                                                                              :        1 samples, Peak.  2.77 s (1.0x), Avg.  2.77 s, Total. 2.768 s (28.2%)
+[Performance] AssemblyReloadEvents.beforeAssemblyReload: UnityEditor.SceneTemplate.SceneTemplateService.BeforeAssemblyReload :        1 samples, Peak.   690 us (1.0x), Avg.   690 us, Total. 689.6 us (0.0%)
+[Performance] EditorResources.Load                                                                                           :       13 samples, Peak.  27.4 ms (12.8x), Avg.  2.14 ms, Total. 27.78 ms (0.3%)
+[Performance] DidReloadScriptsTestListCache.ScriptReloaded                                                                   :        1 samples, Peak.   842 us (1.0x), Avg.   842 us, Total. 841.9 us (0.0%)
+[Performance] DidReloadScriptsTestRunnerWindow.CompilationCallback                                                           :        1 samples, Peak.  1.43 ms (1.0x), Avg.  1.43 ms, Total. 1.425 ms (0.0%)
+[Performance] DidReloadScriptsAdvancedDropdownWindow.OnScriptReload                                                          :        1 samples, Peak.   224 us (1.0x), Avg.   224 us, Total. 224.0 us (0.0%)
+[Performance] DidReloadScriptsEditorMenuExtensions.FindAndCloseAllContextMenus                                               :        1 samples, Peak.  2.29 ms (1.0x), Avg.  2.29 ms, Total. 2.287 ms (0.0%)
+[Performance] AssetDatabase.ImportAssets                                                                                     :        3 samples, Peak.  2.20 us (1.9x), Avg.  1.13 us, Total. 3.400 us (0.0%)
+[Performance] TMPro_TexturePostProcessor.OnPostprocessAllAssets                                                              :        2 samples, Peak.   364 us (1.2x), Avg.   303 us, Total. 605.7 us (0.0%)
+[Performance] WindowAssetPostprocessingWatcher_Internal.OnPostprocessAllAssets                                               :        2 samples, Peak.  1.70 ms (1.0x), Avg.  1.70 ms, Total. 3.399 ms (0.0%)
+[Performance] AssetPostprocessor.OnPostprocessAllAssets                                                                      :        2 samples, Peak.   202 us (1.0x), Avg.   201 us, Total. 402.3 us (0.0%)
+[Performance] BuilderAssetPostprocessor.OnPostprocessAllAssets                                                               :        2 samples, Peak.   609 us (1.0x), Avg.   608 us, Total. 1.216 ms (0.0%)
+[Performance] ArtifactBrowserPostProcessor.OnPostprocessAllAssets                                                            :        2 samples, Peak.   430 us (1.0x), Avg.   429 us, Total. 857.9 us (0.0%)
+[Performance] AssetEvents.OnPostprocessAllAssets                                                                             :        4 samples, Peak.   224 us (1.6x), Avg.   138 us, Total. 551.9 us (0.0%)
+[Performance] AudioContainerPostProcessor.OnPostprocessAllAssets                                                             :        2 samples, Peak.  77.8 us (1.0x), Avg.  76.1 us, Total. 152.3 us (0.0%)
+[Performance] AudioMixerPostprocessor.OnPostprocessAllAssets                                                                 :        2 samples, Peak.   266 us (1.0x), Avg.   265 us, Total. 529.5 us (0.0%)
+[Performance] StyleCatalogPostProcessor.OnPostprocessAllAssets                                                               :        2 samples, Peak.  10.5 ms (1.0x), Avg.  10.5 ms, Total. 21.04 ms (0.2%)
+[Performance] BuildCatalog                                                                                                   :        1 samples, Peak.  9.48 ms (1.0x), Avg.  9.48 ms, Total. 9.479 ms (0.1%)
+[Performance] ModelImporterPostProcessor.OnPostprocessAllAssets                                                              :        2 samples, Peak.   926 us (1.0x), Avg.   924 us, Total. 1.849 ms (0.0%)
+[Performance] AssetDatabaseProxy.OnPostprocessAllAssets                                                                      :        2 samples, Peak.  46.5 ms (1.0x), Avg.  46.5 ms, Total. 92.96 ms (0.9%)
+[Performance] RetainedModeAssetPostprocessor.OnPostprocessAllAssets                                                          :        2 samples, Peak.  2.16 ms (1.0x), Avg.  2.16 ms, Total. 4.320 ms (0.0%)
+[Performance] AssetChangedListener.OnPostprocessAllAssets                                                                    :        2 samples, Peak.  1.67 ms (1.0x), Avg.  1.67 ms, Total. 3.334 ms (0.0%)
+[Performance] SpeedTreePostProcessor.OnPostprocessAllAssets                                                                  :        2 samples, Peak.   131 us (1.0x), Avg.   129 us, Total. 258.6 us (0.0%)
+[Performance] TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets                                                      :        2 samples, Peak.   300 us (1.0x), Avg.   296 us, Total. 591.9 us (0.0%)
+[Performance] TextAssetPostProcessor.OnPostprocessAllAssets                                                                  :        2 samples, Peak.   298 us (1.0x), Avg.   297 us, Total. 594.4 us (0.0%)
+[Performance] SyncVS.PostprocessSyncProject                                                                                  :        1 samples, Peak.   123 ms (1.0x), Avg.   123 ms, Total. 122.7 ms (1.3%)
+[Performance] EditorApplication.projectChanged: UnityEditor.Audio.MixerEffectDefinitionReloader.OnProjectChanged             :        1 samples, Peak.   375 us (1.0x), Avg.   375 us, Total. 374.7 us (0.0%)
+[Performance] Application.ImportPackagesAndSetTemplateWhenCreatingProject                                                    :        1 samples, Peak.  12.7 ms (1.0x), Avg.  12.7 ms, Total. 12.72 ms (0.1%)
+[Performance] Application.SyncCurrentColorSpace                                                                              :        1 samples, Peak.  6.52 ms (1.0x), Avg.  6.52 ms, Total. 6.523 ms (0.1%)
+[Performance] Application.OnUsbDevicesChanged                                                                                :        1 samples, Peak.  15.3 ms (1.0x), Avg.  15.3 ms, Total. 15.26 ms (0.2%)
+[Performance] Application.AssetInstanceCacheUpdate                                                                           :        1 samples, Peak.   300 ns (1.0x), Avg.   300 ns, Total. 300.0 ns (0.0%)
+[Performance] Application.UnityExtensions.Initialize                                                                         :        1 samples, Peak.  7.12 ms (1.0x), Avg.  7.12 ms, Total. 7.123 ms (0.1%)
+[Performance] CodeEditorProjectSync.SyncEditorProject                                                                        :        1 samples, Peak.  74.9 ms (1.0x), Avg.  74.9 ms, Total. 74.87 ms (0.8%)
+[Performance] Application.ExecuteStartups                                                                                    :        1 samples, Peak.  21.4 ms (1.0x), Avg.  21.4 ms, Total. 21.38 ms (0.2%)
+[Performance] Menu.RegisterMenuInterface                                                                                     :       26 samples, Peak.   700 ns (4.6x), Avg.   154 ns, Total. 4.000 us (0.0%)
+[Performance] Gizmo.RebuildRenderers                                                                                         :        1 samples, Peak.  20.6 ms (1.0x), Avg.  20.6 ms, Total. 20.57 ms (0.2%)
+[Performance] Gizmo.AddGizmoRenderers                                                                                        :       86 samples, Peak.  1.15 ms (54.6x), Avg.  21.1 us, Total. 1.815 ms (0.0%)
+[Performance] Application.editorInitializingProject                                                                          :        1 samples, Peak.   220 ms (1.0x), Avg.   220 ms, Total. 219.7 ms (2.2%)
+[Performance] Application.InitializeMenu                                                                                     :        1 samples, Peak.  45.9 ms (1.0x), Avg.  45.9 ms, Total. 45.89 ms (0.5%)
+[Performance] Menu.RebuildAll                                                                                                :        1 samples, Peak.  45.9 ms (1.0x), Avg.  45.9 ms, Total. 45.87 ms (0.5%)
+[Performance] Menu.BuildRegisteredMenuInterfaces                                                                             :        1 samples, Peak.  41.1 ms (1.0x), Avg.  41.1 ms, Total. 41.06 ms (0.4%)
+[Performance] Menu.FilterMenuItem                                                                                            :      709 samples, Peak.  11.1 ms (698.6x), Avg.  15.9 us, Total. 11.28 ms (0.1%)
+[Performance] UpdateAllMenus                                                                                                 :        1 samples, Peak.   463 us (1.0x), Avg.   463 us, Total. 463.5 us (0.0%)
+[Performance] Menu.RebuildOSMainMenu                                                                                         :        2 samples, Peak.  4.21 ms (1.2x), Avg.  3.59 ms, Total. 7.176 ms (0.1%)
+[Performance] EditorSceneManager.sceneClosing: UnityEditor.SceneVisibilityManager.EditorSceneManagerOnSceneClosing           :        1 samples, Peak.   224 us (1.0x), Avg.   224 us, Total. 223.9 us (0.0%)
+[Performance] GUIView.RepaintAll.PlayerLoopController                                                                        :        1 samples, Peak.   800 ns (1.0x), Avg.   800 ns, Total. 800.0 ns (0.0%)
+[Performance] EditorSceneManager.newSceneCreated: UnityEditor.SceneTemplate.SceneTemplateService.OnNewSceneCreated           :        1 samples, Peak.   221 us (1.0x), Avg.   221 us, Total. 221.0 us (0.0%)
+[Performance] EditorSceneManager.newSceneCreated: UnityEditor.SceneVisibilityManager.EditorSceneManagerOnNewSceneCreated     :        1 samples, Peak.   458 us (1.0x), Avg.   458 us, Total. 457.9 us (0.0%)
+[Performance] EditorSceneManager.newSceneCreated: UnityEditor.SceneManagement.StageNavigationManager.OnNewSceneCreated       :        1 samples, Peak.  59.0 us (1.0x), Avg.  59.0 us, Total. 59.00 us (0.0%)
+[Performance] Application.InvokeFinishedLoadingProject                                                                       :        1 samples, Peak.  7.54 ms (1.0x), Avg.  7.54 ms, Total. 7.537 ms (0.1%)
+[Performance] ProcessService.OnProjectLoaded                                                                                 :        1 samples, Peak.  49.4 us (1.0x), Avg.  49.4 us, Total. 49.40 us (0.0%)
+[Performance] EditorApplication.quitting: UnityEditor.SettingsManagement.FileSettingsRepository.Save                         :        1 samples, Peak.  1.32 ms (1.0x), Avg.  1.32 ms, Total. 1.315 ms (0.0%)
+[Performance] EditorApplication.quitting: callback in TMPro.EditorEventCallbacks                                             :        1 samples, Peak.  5.35 ms (1.0x), Avg.  5.35 ms, Total. 5.354 ms (0.1%)
+[Performance] EditorApplication.quitting: callback in UnityEditor.TextCore.Text.EditorEventCallbacks                         :        1 samples, Peak.  3.59 ms (1.0x), Avg.  3.59 ms, Total. 3.588 ms (0.0%)
+[Performance] Application.Shutdown.PauseProfilerSession                                                                      :        1 samples, Peak.  32.0 us (1.0x), Avg.  32.0 us, Total. 32.00 us (0.0%)
+[Performance] Application.Shutdown.PauseAssetImportWorkers                                                                   :        1 samples, Peak.  88.2 us (1.0x), Avg.  88.2 us, Total. 88.20 us (0.0%)
+[Performance] Application.Shutdown.SaveAssets                                                                                :        1 samples, Peak.  31.8 ms (1.0x), Avg.  31.8 ms, Total. 31.83 ms (0.3%)
+[Performance] StateMacroSavedEvent.OnWillSaveAssets                                                                          :        1 samples, Peak.   159 us (1.0x), Avg.   159 us, Total. 158.7 us (0.0%)
+[Performance] FlowMacroSavedEvent.OnWillSaveAssets                                                                           :        1 samples, Peak.   129 us (1.0x), Avg.   129 us, Total. 128.8 us (0.0%)
+[Performance] AssetModificationProcessor.OnWillSaveAssets                                                                    :        1 samples, Peak.   271 us (1.0x), Avg.   271 us, Total. 270.5 us (0.0%)
+[Performance] BuilderAssetModificationProcessor.OnWillSaveAssets                                                             :        1 samples, Peak.   323 us (1.0x), Avg.   323 us, Total. 322.7 us (0.0%)
+[Performance] TerrainModificationProcessor.OnWillSaveAssets                                                                  :        1 samples, Peak.   634 us (1.0x), Avg.   634 us, Total. 634.4 us (0.0%)
+[Performance] AudioContainerModificationProcessor.OnWillSaveAssets                                                           :        1 samples, Peak.  70.4 us (1.0x), Avg.  70.4 us, Total. 70.40 us (0.0%)
+[Performance] Application.Shutdown.CleanupRenderPipeline                                                                     :        1 samples, Peak.  7.50 us (1.0x), Avg.  7.50 us, Total. 7.500 us (0.0%)
+[Performance] Application.Shutdown.StopPreloadManager                                                                        :        1 samples, Peak.  10.3 ms (1.0x), Avg.  10.3 ms, Total. 10.28 ms (0.1%)
+[Performance] Application.Shutdown.DestroyWorld                                                                              :        1 samples, Peak.   440 us (1.0x), Avg.   440 us, Total. 439.6 us (0.0%)
+[Performance] Application.Shutdown.CleanupAfterLoad                                                                          :        1 samples, Peak.  3.87 ms (1.0x), Avg.  3.87 ms, Total. 3.874 ms (0.0%)
+[Performance] Application.Shutdown.Progress                                                                                  :        1 samples, Peak.  5.00 us (1.0x), Avg.  5.00 us, Total. 5.000 us (0.0%)
+[Performance] Application.Shutdown.GICleanupManagers                                                                         :        1 samples, Peak.   851 us (1.0x), Avg.   851 us, Total. 850.9 us (0.0%)
+[Performance] Application.Shutdown.MenuCleanupClass                                                                          :        1 samples, Peak.   151 us (1.0x), Avg.   151 us, Total. 151.3 us (0.0%)
+[Performance] Application.Shutdown.ADBSaveStateBeforeShutdown                                                                :        1 samples, Peak.  7.20 us (1.0x), Avg.  7.20 us, Total. 7.200 us (0.0%)
+[Performance] Application.Shutdown.RemoteShutdown                                                                            :        1 samples, Peak.   900 ns (1.0x), Avg.   900 ns, Total. 900.0 ns (0.0%)
+[Performance] Application.Shutdown.CleanupVCProvider                                                                         :        1 samples, Peak.  9.10 us (1.0x), Avg.  9.10 us, Total. 9.100 us (0.0%)
+[Performance] Application.Shutdown.InputShutdown                                                                             :        1 samples, Peak.   500 ns (1.0x), Avg.   500 ns, Total. 500.0 ns (0.0%)
+[Performance] Application.Shutdown.GizmoManagerDestroy                                                                       :        1 samples, Peak.   629 us (1.0x), Avg.   629 us, Total. 628.7 us (0.0%)
+[Performance] Application.Shutdown.ProfilerSession                                                                           :        1 samples, Peak.   222 us (1.0x), Avg.   222 us, Total. 221.7 us (0.0%)
+[Performance] Application.Shutdown.ReleaseGfxWindowOnAllGUIViews                                                             :        1 samples, Peak.   300 ns (1.0x), Avg.   300 ns, Total. 300.0 ns (0.0%)
+[Performance] Application.Shutdown.CleanupEngine                                                                             :        1 samples, Peak.  55.7 ms (1.0x), Avg.  55.7 ms, Total. 55.66 ms (0.6%)
+[Performance] Application.Shutdown.CleanupAssetDatabase                                                                      :        1 samples, Peak.  7.48 ms (1.0x), Avg.  7.48 ms, Total. 7.484 ms (0.1%)
+[Performance] Application.Shutdown.ScriptCompilationCleanUp                                                                  :        1 samples, Peak.  27.7 ms (1.0x), Avg.  27.7 ms, Total. 27.73 ms (0.3%)
+[Performance] Application.Shutdown.DestroyJobSystem                                                                          :        1 samples, Peak.   126 us (1.0x), Avg.   126 us, Total. 125.9 us (0.0%)
+[Performance] Application.Shutdown.CleanupPersistentManager                                                                  :        1 samples, Peak.   832 us (1.0x), Avg.   832 us, Total. 831.7 us (0.0%)
+[Performance] Application.Shutdown.CleanupAsyncReadManager                                                                   :        1 samples, Peak.   212 us (1.0x), Avg.   212 us, Total. 212.0 us (0.0%)
+[Performance] Application.Shutdown.CleanupProgressBar                                                                        :        1 samples, Peak.   400 ns (1.0x), Avg.   400 ns, Total. 400.0 ns (0.0%)
+[Performance] Application.Shutdown.CleanupMono                                                                               :        1 samples, Peak.  56.8 ms (1.0x), Avg.  56.8 ms, Total. 56.81 ms (0.6%)
+[Performance] Application.Shutdown.CleanupStdConverters                                                                      :        1 samples, Peak.  7.50 us (1.0x), Avg.  7.50 us, Total. 7.500 us (0.0%)
+[Performance] Application.Shutdown.UnloadAllPlatformSupportModuleNativeDlls                                                  :        1 samples, Peak.   700 ns (1.0x), Avg.   700 ns, Total. 700.0 ns (0.0%)
+[Performance] Application.Shutdown.UnloadAllPlatformSupportNativeLibraries                                                   :        1 samples, Peak.   100 ns (1.0x), Avg.   100 ns, Total. 100.0 ns (0.0%)
+[Performance] Application.Shutdown.CleanupAutoDocumentation                                                                  :        1 samples, Peak.   333 us (1.0x), Avg.   333 us, Total. 333.3 us (0.0%)
+[Performance] Application.Shutdown.ShaderNameManagerDestroy                                                                  :        1 samples, Peak.  45.6 us (1.0x), Avg.  45.6 us, Total. 45.60 us (0.0%)
+[Performance] Application.Shutdown.CleanupCacheServer                                                                        :        1 samples, Peak. 100.0 ns (1.0x), Avg. 100.0 ns, Total. 100.00 ns (0.0%)
+[Performance] Application.Shutdown.Virtualization_Shutdown                                                                   :        1 samples, Peak.   300 ns (1.0x), Avg.   300 ns, Total. 300.0 ns (0.0%)
+[Performance] Application.Shutdown.DevConnections                                                                            :        1 samples, Peak.   178 us (1.0x), Avg.   178 us, Total. 177.8 us (0.0%)
+Exiting batchmode successfully now!
+Exiting without the bug reporter. Application will terminate with return code 0

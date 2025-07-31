@@ -3,6 +3,8 @@ using UnityEngine;
 using MapleClient.GameLogic;
 using MapleClient.GameLogic.Core;
 
+using Debug = UnityEngine.Debug;
+
 namespace MapleClient.GameView
 {
     /// <summary>

@@ -1,0 +1,276 @@
+using UnityEngine;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using MapleClient.GameView;
+
+public static class TestCharacterRenderingIssues
+{
+    public static void RunTest()
+    {
+        var log = new StringBuilder();
+        log.AppendLine("=== MapleUnity Character Rendering Test ===");
+        log.AppendLine($"Test started at: {System.DateTime.Now}");
+        
+        try
+        {
+            // Load the test scene
+            log.AppendLine("\n--- Loading Scene ---");
+            var scenePath = "Assets/Scenes/TestScene.unity";
+            var scene = EditorSceneManager.OpenScene(scenePath);
+            log.AppendLine($"Scene loaded: {scene.name} (path: {scenePath})");
+            
+            // Find GameManager and initialize
+            log.AppendLine("\n--- Initializing Game Systems ---");
+            var gameManager = GameObject.Find("GameManager");
+            if (gameManager == null)
+            {
+                log.AppendLine("ERROR: GameManager not found!");
+                SaveLogAndExit(log.ToString(), 1);
+                return;
+            }
+            
+            var gmComponent = gameManager.GetComponent<GameManager>();
+            if (gmComponent == null)
+            {
+                log.AppendLine("ERROR: GameManager component not found!");
+                SaveLogAndExit(log.ToString(), 1);
+                return;
+            }
+            
+            // Initialize game systems
+            log.AppendLine("Initializing GameManager...");
+            var initMethod = gmComponent.GetType().GetMethod("InitializeGameSystems", 
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (initMethod != null)
+            {
+                initMethod.Invoke(gmComponent, null);
+                log.AppendLine("Game systems initialized");
+            }
+            
+            // Wait a frame for initialization
+            EditorApplication.Step();
+            
+            // Find or create a test player
+            log.AppendLine("\n--- Creating Test Player ---");
+            GameObject playerObj = GameObject.Find("Player");
+            
+            if (playerObj == null)
+            {
+                // Create player manually
+                playerObj = new GameObject("TestPlayer");
+                var playerView = playerObj.AddComponent<PlayerView>();
+                
+                // Set default character appearance
+                playerView.characterId = 10001; // Default character ID
+                playerView.facingRight = true;
+                
+                // Try to initialize the player
+                var startMethod = playerView.GetType().GetMethod("Start", 
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                if (startMethod != null)
+                {
+                    startMethod.Invoke(playerView, null);
+                }
+                
+                log.AppendLine("Created test player manually");
+            }
+            else
+            {
+                log.AppendLine("Found existing player object");
+            }
+            
+            // Analyze character rendering
+            log.AppendLine("\n--- Character Rendering Analysis ---");
+            AnalyzeCharacterRendering(playerObj, log);
+            
+            // Check for MapleCharacterRenderer
+            var charRenderer = playerObj.GetComponentInChildren<MapleCharacterRenderer>();
+            if (charRenderer != null)
+            {
+                log.AppendLine("\n--- MapleCharacterRenderer Analysis ---");
+                AnalyzeMapleCharacterRenderer(charRenderer, log);
+            }
+            else
+            {
+                log.AppendLine("\nWARNING: No MapleCharacterRenderer found!");
+            }
+            
+            // Simulate a frame to let rendering update
+            log.AppendLine("\n--- Simulating Frame Update ---");
+            EditorApplication.Step();
+            Physics.Simulate(Time.fixedDeltaTime);
+            
+            // Re-analyze after update
+            log.AppendLine("\n--- Post-Update Analysis ---");
+            AnalyzeCharacterRendering(playerObj, log);
+            
+            log.AppendLine("\n--- Test Completed Successfully ---");
+            SaveLogAndExit(log.ToString(), 0);
+        }
+        catch (System.Exception e)
+        {
+            log.AppendLine($"\nERROR: Test failed with exception: {e.Message}");
+            log.AppendLine($"Stack trace:\n{e.StackTrace}");
+            SaveLogAndExit(log.ToString(), 1);
+        }
+    }
+    
+    private static void AnalyzeCharacterRendering(GameObject playerObj, StringBuilder log)
+    {
+        log.AppendLine($"Player GameObject: {playerObj.name}");
+        log.AppendLine($"Player Position: {playerObj.transform.position}");
+        log.AppendLine($"Player Rotation: {playerObj.transform.rotation.eulerAngles}");
+        log.AppendLine($"Player Scale: {playerObj.transform.localScale}");
+        
+        // Find all sprite renderers
+        var spriteRenderers = playerObj.GetComponentsInChildren<SpriteRenderer>(true);
+        log.AppendLine($"\nFound {spriteRenderers.Length} SpriteRenderers:");
+        
+        foreach (var sr in spriteRenderers)
+        {
+            log.AppendLine($"\n  SpriteRenderer: {sr.name}");
+            log.AppendLine($"    - Active: {sr.gameObject.activeInHierarchy}");
+            log.AppendLine($"    - Local Position: {sr.transform.localPosition}");
+            log.AppendLine($"    - World Position: {sr.transform.position}");
+            log.AppendLine($"    - Rotation: {sr.transform.rotation.eulerAngles}");
+            log.AppendLine($"    - Scale: {sr.transform.localScale}");
+            log.AppendLine($"    - Sprite: {(sr.sprite != null ? sr.sprite.name : "NULL")}");
+            log.AppendLine($"    - Sorting Layer: {sr.sortingLayerName}");
+            log.AppendLine($"    - Order in Layer: {sr.sortingOrder}");
+            log.AppendLine($"    - Flip X: {sr.flipX}");
+            log.AppendLine($"    - Color: {sr.color}");
+            log.AppendLine($"    - Enabled: {sr.enabled}");
+            
+            // Check parent hierarchy
+            var parent = sr.transform.parent;
+            if (parent != null)
+            {
+                log.AppendLine($"    - Parent: {parent.name}");
+                log.AppendLine($"    - Parent Position: {parent.position}");
+            }
+            
+            // Check specific body parts
+            var nameLower = sr.name.ToLower();
+            if (nameLower.Contains("head"))
+            {
+                log.AppendLine("    - TYPE: HEAD COMPONENT");
+                CheckHeadAttachment(sr, log);
+            }
+            else if (nameLower.Contains("face"))
+            {
+                log.AppendLine("    - TYPE: FACE COMPONENT");
+            }
+            else if (nameLower.Contains("body"))
+            {
+                log.AppendLine("    - TYPE: BODY COMPONENT");
+            }
+            else if (nameLower.Contains("arm"))
+            {
+                log.AppendLine("    - TYPE: ARM COMPONENT");
+            }
+            else if (nameLower.Contains("foot") || nameLower.Contains("feet"))
+            {
+                log.AppendLine("    - TYPE: FOOT COMPONENT");
+            }
+        }
+        
+        // Check for animation components
+        var animator = playerObj.GetComponentInChildren<Animator>();
+        if (animator != null)
+        {
+            log.AppendLine($"\nAnimator found: {animator.name}");
+            log.AppendLine($"  - Controller: {(animator.runtimeAnimatorController != null ? animator.runtimeAnimatorController.name : "NULL")}");
+            log.AppendLine($"  - Enabled: {animator.enabled}");
+        }
+        
+        // Check PlayerView component
+        var playerView = playerObj.GetComponent<PlayerView>();
+        if (playerView != null)
+        {
+            log.AppendLine($"\nPlayerView Component:");
+            log.AppendLine($"  - Character ID: {playerView.characterId}");
+            log.AppendLine($"  - Facing Right: {playerView.facingRight}");
+            log.AppendLine($"  - Horizontal Speed: {playerView.horizontalSpeed}");
+            log.AppendLine($"  - Is Grounded: {playerView.isGrounded}");
+        }
+    }
+    
+    private static void AnalyzeMapleCharacterRenderer(MapleCharacterRenderer renderer, StringBuilder log)
+    {
+        log.AppendLine($"MapleCharacterRenderer Analysis:");
+        
+        // Use reflection to access private fields
+        var type = renderer.GetType();
+        
+        // Check body parts dictionary
+        var bodyPartsField = type.GetField("bodyPartRenderers", 
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (bodyPartsField != null)
+        {
+            var bodyParts = bodyPartsField.GetValue(renderer) as Dictionary<string, SpriteRenderer>;
+            if (bodyParts != null)
+            {
+                log.AppendLine($"  Body Parts ({bodyParts.Count} total):");
+                foreach (var kvp in bodyParts)
+                {
+                    log.AppendLine($"    - {kvp.Key}: {(kvp.Value != null ? kvp.Value.name : "NULL")}");
+                    if (kvp.Value != null && kvp.Value.sprite != null)
+                    {
+                        log.AppendLine($"      Sprite: {kvp.Value.sprite.name}");
+                        log.AppendLine($"      Position: {kvp.Value.transform.localPosition}");
+                    }
+                }
+            }
+        }
+        
+        // Check current animation state
+        var currentAnimField = type.GetField("currentAnimation", 
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (currentAnimField != null)
+        {
+            var currentAnim = currentAnimField.GetValue(renderer) as string;
+            log.AppendLine($"  Current Animation: {currentAnim ?? "NULL"}");
+        }
+        
+        // Check facing direction
+        var facingRightField = type.GetField("isFacingRight", 
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (facingRightField != null)
+        {
+            var facingRight = (bool)facingRightField.GetValue(renderer);
+            log.AppendLine($"  Is Facing Right: {facingRight}");
+        }
+    }
+    
+    private static void CheckHeadAttachment(SpriteRenderer headRenderer, StringBuilder log)
+    {
+        // Look for body renderer to check relative positioning
+        var parent = headRenderer.transform.parent;
+        if (parent != null)
+        {
+            var bodySR = parent.GetComponentsInChildren<SpriteRenderer>()
+                .FirstOrDefault(sr => sr != headRenderer && sr.name.ToLower().Contains("body"));
+            
+            if (bodySR != null)
+            {
+                var relativePos = headRenderer.transform.position - bodySR.transform.position;
+                log.AppendLine($"    - Relative to body: {relativePos}");
+                log.AppendLine($"    - Distance from body: {relativePos.magnitude}");
+            }
+        }
+    }
+    
+    private static void SaveLogAndExit(string logContent, int exitCode)
+    {
+        var logPath = Path.Combine(Application.dataPath, "..", "character-rendering-test.log");
+        File.WriteAllText(logPath, logContent);
+        Debug.Log($"Test log saved to: {logPath}");
+        Debug.Log("Test Summary:\n" + logContent);
+        
+        EditorApplication.Exit(exitCode);
+    }
+}

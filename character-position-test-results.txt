@@ -1,0 +1,41 @@
+Character Position Verification Test
+Test run at: 7/30/2025 11:18:09 PM
+
+Testing MapleStory C++ Client Position Formulas
+===============================================
+
+1. Body Position: (0, 0) [Base position]
+
+2. Arm Position Formula: arm_pos = body_pos + arm_map - body_navel
+   Given: arm_map = (3.00, -2.00), body_navel = (4.00, 12.00)
+   Calculation: (0,0) + (3,-2) - (4,12) = (-1, -14)
+
+3. Head Position Formula: head_pos = body_pos + body_neck - head_neck
+   Given: body_neck = (6.00, 23.00), head_neck = (10.00, 2.00)
+   Calculation: (0,0) + (6,23) - (10,2) = (-4, 21)
+
+4. Face Position Formula: face_pos = head_pos + head_brow - face_brow
+   Given: head_brow = (15.00, 10.00), face_brow = (10.00, 5.00)
+   Calculation: (-4,21) + (15,10) - (10,5) = (1, 26)
+
+5. Equipment Position Formula: equip_pos = part_pos + part_point - equip_point
+   Example: Hat on head
+   Given: head_vslot = (8.00, 25.00), hat_vslot = (12.00, 8.00)
+   Calculation: (-4,21) + (8,25) - (12,8) = (-8, 38)
+
+6. Creating Visual Test Objects
+================================
+Created test objects in scene hierarchy
+Body: (0.00, 0.00, 0.00)
+Arm: (-0.01, -0.14, -0.10)
+Head: (-0.04, 0.21, -0.20)
+Face: (0.01, 0.26, -0.30)
+
+SUMMARY
+=======
+✓ All position calculations follow C++ client formulas
+✓ Body anchored at (0, 0)
+✓ Child parts positioned relative to parent attachment points
+✓ Formula: child_pos = parent_pos + parent_attach - child_attach
+
+Test completed successfully!
