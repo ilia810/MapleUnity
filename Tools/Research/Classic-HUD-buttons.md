@@ -1,4 +1,35 @@
-# Reference menu buttons — 2026-09-07
+# Classic HUD buttons — original artwork with GIMP effects, 2026-09-07
+
+The current art preserves the original icons, caption pixels, placement and
+colors. The three normal PNGs are restored byte for byte from commit
+`afe2633853c884a38c338d0561d29b5d1d250ac4`. The geometric redraw, replacement font
+and palette changes from the first GIMP pass have been removed after review.
+The original screenshot-derived softness is retained.
+
+GIMP 3.2.4 was used through its Python batch API to edit interaction effects:
+a soft narrow hover rim, an inset pressed bevel with the existing one-HUD-pixel
+right/down depression, and a readable grayscale disabled state. The original
+caption and icon pixels are reused, not retyped or redrawn. Hover no longer
+applies the older diffuse white halo over the content.
+
+Three layered XCF files, four state groups per button, effect layers and a live
+disabled-state desaturation filter are retained under
+[`ArtSource/HudButtons/`](../../ArtSource/HudButtons/README.md). The captions are
+original raster art, not editable replacement-font text. This was a GIMP batch
+edit, not manual painting or AI image generation.
+
+- [Original art / current interaction states](../ArtReferences/MenuButtons/gimp-cleanup-comparison.png)
+- [Actual 74 × 34 display size](../ArtReferences/MenuButtons/gimp-cleanup-actual-size.png)
+- [Static HUD-context mockup](../ArtReferences/MenuButtons/gimp-cleanup-context.png)
+
+All twelve PNGs remain 148 × 68, 8-bit RGBA with the exact original alpha masks.
+Normal-state PNG bytes and source/export visible pixels were checked. Runtime
+paths and `.meta` GUIDs are unchanged. No Unity runtime or C# changes were made.
+The Windows PC still needs to review this revision in-game; the tests below
+belong to the historical baseline. Do not run the old PowerShell builder over
+these exports, as it would overwrite the revised effects.
+
+## Historical screenshot-crop baseline — 2026-09-07
 
 The Cash Shop, Menu and Short Cut controls now use complete 74 × 34 faces matching
 the user's nine screenshots in `Tools/ArtReferences/MapleClassic`. This supersedes
