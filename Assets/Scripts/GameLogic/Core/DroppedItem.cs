@@ -7,6 +7,9 @@ namespace MapleClient.GameLogic.Core
         public int Quantity { get; }
         public Vector2 Position { get; set; }
         public float LifeTime { get; set; }
+        public bool IsMeso => ItemId == 0;
+        public int FootholdLayer { get; set; }
+        public float Age { get; private set; }
 
         public DroppedItem(int itemId, int quantity, Vector2 position)
         {
@@ -19,6 +22,7 @@ namespace MapleClient.GameLogic.Core
         public void Update(float deltaTime)
         {
             LifeTime -= deltaTime;
+            Age += deltaTime;
         }
 
         public bool IsExpired => LifeTime <= 0;

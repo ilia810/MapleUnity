@@ -9,10 +9,14 @@ namespace MapleClient.GameData
     /// <summary>
     /// Provides character sprite data from NX files
     /// </summary>
-    public class CharacterDataProvider : ICharacterDataProvider
+    public class CharacterDataProvider : ICharacterDataProvider, IStanceDataProvider, IFaceDataProvider
     {
         private readonly NXAssetLoader assetLoader;
         private readonly Dictionary<string, int> animationFrameCounts;
+        private readonly Dictionary<string, int> sourceFrameCounts = new Dictionary<string, int>();
+        private INxFile frameCountSource;
+        private readonly Dictionary<int, FaceAnimationData> faceAnimations = new Dictionary<int, FaceAnimationData>();
+        private readonly Dictionary<string, IReadOnlyList<int>> stanceDelays = new Dictionary<string, IReadOnlyList<int>>();
         
         public CharacterDataProvider()
         {
@@ -104,95 +108,76 @@ namespace MapleClient.GameData
         public int GetAnimationFrameCount(CharacterState state)
         {
             string stateName = ConvertStateToAnimationName(state);
-            return animationFrameCounts.TryGetValue(stateName, out int count) ? count : 1;
-        }
-        
-        private string ConvertStateToAnimationName(CharacterState state)
-        {
-            // Based on C++ client Stance.cpp, animation names are different
-            switch (state)
+            var source = assetLoader.GetNxFile("character");
+            if (!ReferenceEquals(source, frameCountSource))
             {
-                case CharacterState.Stand: return "stand1"; // C++ uses stand1/stand2
-                case CharacterState.Walk: return "walk1"; // C++ uses walk1/walk2
-                case CharacterState.Jump: return "jump";
-                case CharacterState.Fall: return "jump"; // Fall uses jump animation
-                case CharacterState.Alert: return "alert";
-                case CharacterState.Prone: return "prone";
-                case CharacterState.Fly: return "fly";
-                case CharacterState.Ladder: return "ladder";
-                case CharacterState.Rope: return "rope";
-                case CharacterState.Attack1: return "stabO1"; // Stab one-hand
-                case CharacterState.Attack2: return "swingO1"; // Swing one-hand
-                case CharacterState.Skill: return "skill";
-                default: return "stand1";
+                frameCountSource = source;
+                sourceFrameCounts.Clear();
+                stanceDelays.Clear();
+                faceAnimations.Clear();
             }
-        }
-        
-        private string ConvertExpressionToName(CharacterExpression expression)
-        {
-            switch (expression)
+            if (source != null)
             {
-                case CharacterExpression.Default: return "default";
-                case CharacterExpression.Blink: return "blink";
-                case CharacterExpression.Hit: return "hit";
-                case CharacterExpression.Smile: return "smile";
-                case CharacterExpression.Troubled: return "troubled";
-                case CharacterExpression.Cry: return "cry";
-                case CharacterExpression.Angry: return "angry";
-                case CharacterExpression.Bewildered: return "bewildered";
-                case CharacterExpression.Stunned: return "stunned";
-                case CharacterExpression.Vomit: return "vomit";
-                case CharacterExpression.Oops: return "oops";
-                default: return "default";
+                if (sourceFrameCounts.TryGetValue(stateName, out int authoredCount)) return authoredCount;
+                var node = source.GetNode("00002000.img/" + stateName);
+                int count = 0;
+                while (node?[count.ToString()] != null) count++;
+                if (count > 0) { sourceFrameCounts[stateName] = count; return count; }
             }
+            return animationFrameCounts.TryGetValue(stateName, out int fallbackCount) ? fallbackCount : 1;
         }
         
-        private string GetEquipmentCategory(int itemId)
+        public IReadOnlyList<int> GetStanceDelays(CharacterState state)
         {
-            // MapleStory equipment categories based on item ID ranges
-            int subtype = (itemId / 1000) % 100;
-            
-            switch (subtype)
+            int count = GetAnimationFrameCount(state); // Also invalidates caches after source replacement.
+            string name = ConvertStateToAnimationName(state);
+            if (stanceDelays.TryGetValue(name, out var cached)) return cached;
+            var frames = new int[count];
+            var source = assetLoader.GetNxFile("character");
+            for (int frame = 0; frame < count; frame++)
             {
-                case 0: return "Cap"; // Hats
-                case 1: return "FaceAccessory"; // Face accessories
-                case 2: return "EyeAccessory"; // Eye accessories
-                case 3: return "Earring"; // Earrings
-                case 4: return "Coat"; // Top/Overall
-                case 5: return "Longcoat"; // Overall
-                case 6: return "Pants"; // Bottom
-                case 7: return "Shoes"; // Shoes
-                case 8: return "Glove"; // Gloves
-                case 9: return "Shield"; // Shields
-                case 10: return "Cape"; // Capes
-                case 11: return "Ring"; // Rings
-                case 12: return "Pendant"; // Pendants
-                case 13: return "Belt"; // Belts
-                case 14: return "Medal"; // Medals
-                case 30:
-                case 31:
-                case 32:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
-                case 38:
-                case 39:
-                case 40:
-                case 41:
-                case 42:
-                case 43:
-                case 44:
-                case 45:
-                case 46:
-                case 47:
-                case 48:
-                case 49: return "Weapon"; // Various weapon types
-                default: return "Etc";
+                // BodyDrawInfo imports a signed 16-bit delay, defaulting nonpositive entries to 100.
+                short delay = unchecked((short)(source?.GetNode($"00002000.img/{name}/{frame}/delay")?.GetValue<int>() ?? 100));
+                frames[frame] = delay > 0 ? delay : 100;
             }
+            var result = Array.AsReadOnly(frames);
+            if (source != null) stanceDelays[name] = result;
+            return result;
         }
-        
+
+        private string ConvertStateToAnimationName(CharacterState state) => MapleClient.GameLogic.Data.CharacterStances.Name(state);
+
+        public FaceAnimationData GetFaceAnimation(int faceId)
+        {
+            GetAnimationFrameCount(CharacterState.Stand); // Invalidate all metadata after replacing the NX source.
+            if (faceAnimations.TryGetValue(faceId, out var cached)) return cached;
+            var file = assetLoader.GetNxFile("character");
+            var root = assetLoader.FaceRoot(file, faceId, out int resolvedFaceId);
+            if (root == null) return null;
+            var expressions = new Dictionary<CharacterExpression, int[]>();
+            foreach (var expression in CharacterExpressions.SourceOrder)
+            {
+                var delays = new List<int>();
+                string name = CharacterExpressions.Name(expression);
+                for (int frame = 0; frame < 256; frame++)
+                {
+                    var node = assetLoader.FaceFrame(root, file, name, frame);
+                    if (node == null && expression != CharacterExpression.Default) break;
+                    ushort delay = unchecked((ushort)(node?["delay"]?.GetValue<int>() ?? 0));
+                    delays.Add(delay == 0 ? 2500 : delay);
+                    if (expression == CharacterExpression.Default) break;
+                }
+                expressions[expression] = delays.ToArray();
+            }
+            var result = new FaceAnimationData(resolvedFaceId, expressions);
+            faceAnimations[faceId] = result;
+            return result;
+        }
+
+        private string ConvertExpressionToName(CharacterExpression expression) => CharacterExpressions.Name(expression);
+
+        private string GetEquipmentCategory(int itemId) => MapleClient.GameLogic.Data.ItemPaths.EquipmentCategory(itemId);
+
         private int GetEquipmentZIndex(string category)
         {
             // Layer ordering for equipment sprites

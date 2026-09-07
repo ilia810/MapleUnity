@@ -1,0 +1,14 @@
+{
+  "source": "C:\\HeavenClient\\MapleStory-Client",
+  "head": "e87467833d0ce34fef4a920551607998233932e6",
+  "sha256": {
+    "Util/Lerp.h": "b4aed7df7908769468de28efdff54823bfc8ee1f19b2139c9a40751430f16621",
+    "Template/Interpolated.h": "1c588b8daab0e84707efb7398ca3f4296c9489929e9760cc3a39bfd1102fd5a7",
+    "Character/Look/CharLook.cpp": "a1c6e6bbbe947715baf579d5933820c459cbefb404fff01d8f4660c010a9de50",
+    "Character/Char.cpp": "31f15da091a7868b4ca4297a66105ccdd5715beb9a1e3bdfcf9a1e205f2d354b",
+    "Character/Look/BodyDrawInfo.cpp": "2ad7123566bab6dfb953567dc03ceb02f2d91756889e05cb523c7a54349326f4"
+  },
+  "rows": 33000,
+  "fixtureSha256": "d0909535d5856636a456b6177880baf3cc3dfbb199b12860983a8d0d3d493fd1",
+  "scope": "Unmodified CharLook ordinary-body/zero-step branches, set_stance and delay/frame wrappers; BodyDrawInfo delay/nextframe; Char speed selection/conversion; original Nominal. Synthetic delays, velocities and adjusted equipment stances. Excludes named actions, face/blink/alert timers, NX parsing and drawing."
+}

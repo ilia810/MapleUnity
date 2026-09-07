@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using MapleClient.GameLogic.Core;
+using MapleClient.GameView.UI;
 
 namespace MapleClient.GameView
 {
@@ -28,6 +29,7 @@ namespace MapleClient.GameView
         private bool hadDoubleJump = false;
         private bool hadFlashJump = false;
         private PlayerState lastPlayerState = PlayerState.Standing;
+        private int promptMapId = -1;
         
         void Awake()
         {
@@ -75,8 +77,8 @@ namespace MapleClient.GameView
             rectTransform.anchorMin = new Vector2(1, 0);
             rectTransform.anchorMax = new Vector2(1, 0);
             rectTransform.pivot = new Vector2(1, 0);
-            rectTransform.anchoredPosition = new Vector2(-20, 20);
-            rectTransform.sizeDelta = new Vector2(300, 400);
+            rectTransform.anchoredPosition = new Vector2(-12, 164);
+            rectTransform.sizeDelta = new Vector2(286, 300);
             
             // Vertical layout
             var layout = promptContainer.AddComponent<VerticalLayoutGroup>();
@@ -99,11 +101,21 @@ namespace MapleClient.GameView
         
         private void CheckForPrompts()
         {
+            if (gameWorld.CurrentMapId != promptMapId)
+            {
+                promptMapId = gameWorld.CurrentMapId;
+                if (gameWorld.CurrentMap?.IsUnderwater == true)
+                {
+                    HidePrompt("BasicControls");
+                    ShowPrompt("SwimmingControls", "Use Jump to leave the ground.\nUse movement controls to swim.", 10f);
+                }
+                else HidePrompt("SwimmingControls");
+            }
             // Check ladder proximity
             bool nearLadder = IsNearLadder();
             if (nearLadder && !wasNearLadder && player.State != PlayerState.Climbing)
             {
-                ShowPrompt("Ladder", "[↑/↓] Climb ladder", 5f);
+                ShowPrompt("Ladder", "Use Up / Down to climb the ladder.", 5f);
             }
             else if (!nearLadder && wasNearLadder)
             {
@@ -117,13 +129,13 @@ namespace MapleClient.GameView
             
             if (hasDoubleJump && !hadDoubleJump)
             {
-                ShowPrompt("DoubleJump", "[Alt] Double Jump (while airborne)", 10f);
+                ShowPrompt("DoubleJump", "Use Jump again while airborne.", 10f);
             }
             hadDoubleJump = hasDoubleJump;
             
             if (hasFlashJump && !hadFlashJump)
             {
-                ShowPrompt("FlashJump", "[Alt + →/←] Flash Jump (while airborne)", 10f);
+                ShowPrompt("FlashJump", "Use Jump and a direction while airborne.", 10f);
             }
             hadFlashJump = hasFlashJump;
             
@@ -149,9 +161,9 @@ namespace MapleClient.GameView
             }
             
             // Basic controls reminder (show once at start)
-            if (!activePrompts.ContainsKey("BasicControls") && Time.time < 5f)
+            if (GetComponent<StatusBar>() == null && gameWorld.CurrentMap?.IsUnderwater != true && !activePrompts.ContainsKey("BasicControls") && Time.time < 5f)
             {
-                ShowPrompt("BasicControls", "[←/→] Move | [Alt] Jump | [Ctrl] Attack", 8f);
+                ShowPrompt("BasicControls", "Use movement, Jump and Attack.\nShort Cut shows your assigned keys.", 8f);
             }
         }
         
@@ -160,7 +172,7 @@ namespace MapleClient.GameView
             // Climbing prompts
             if (newState == PlayerState.Climbing)
             {
-                ShowPrompt("ClimbingControls", "[↑/↓] Climb | [←/→] + [Alt] Jump off", 5f);
+                ShowPrompt("ClimbingControls", "Use Up / Down to climb.\nJump with a direction to leave the ladder.", 5f);
             }
             else if (oldState == PlayerState.Climbing)
             {
@@ -171,15 +183,15 @@ namespace MapleClient.GameView
             if (newState == PlayerState.Jumping && (hadDoubleJump || hadFlashJump))
             {
                 if (hadDoubleJump)
-                    ShowPrompt("AirborneDouble", "[Alt] Double Jump available!", 2f);
+                    ShowPrompt("AirborneDouble", "Double Jump available!", 2f);
                 if (hadFlashJump)
-                    ShowPrompt("AirborneFlash", "[Alt + →/←] Flash Jump available!", 2f);
+                    ShowPrompt("AirborneFlash", "Flash Jump available!", 2f);
             }
             
             // Crouching prompt
             if (newState == PlayerState.Crouching)
             {
-                ShowPrompt("CrouchingInfo", "[↓] Crouching (reduces hitbox)", 3f);
+                ShowPrompt("CrouchingInfo", "Use Down to crouch (reduces hitbox).", 3f);
             }
         }
         
@@ -230,17 +242,10 @@ namespace MapleClient.GameView
             promptObj.transform.SetParent(promptContainer.transform, false);
             
             var rectTransform = promptObj.AddComponent<RectTransform>();
-            rectTransform.sizeDelta = new Vector2(280, 40);
+            rectTransform.sizeDelta = new Vector2(266, 104);
             
-            // Background
-            var bg = promptObj.AddComponent<Image>();
-            bg.color = new Color(0, 0, 0, 0.8f);
-            
-            // Add rounded corners effect
-            var outline = promptObj.AddComponent<Outline>();
-            outline.effectColor = new Color(1f, 1f, 1f, 0.3f);
-            outline.effectDistance = new Vector2(1, 1);
-            
+            var frame = ClassicUI.Companion("PromptFrame", rectTransform, 0, 0, 104);
+            foreach (var graphic in frame.GetComponentsInChildren<Graphic>()) graphic.raycastTarget = false;
             // Text
             var textObj = new GameObject("Text");
             textObj.transform.SetParent(promptObj.transform, false);
@@ -248,22 +253,24 @@ namespace MapleClient.GameView
             var textComp = textObj.AddComponent<Text>();
             textComp.text = text;
             textComp.font = Font.CreateDynamicFontFromOSFont("Arial", 14);
-            textComp.fontSize = 14;
+            textComp.fontSize = 12;
+            textComp.raycastTarget = false;
             textComp.color = Color.white;
             textComp.alignment = TextAnchor.MiddleCenter;
             
             var textRect = textObj.GetComponent<RectTransform>();
             textRect.anchorMin = Vector2.zero;
             textRect.anchorMax = Vector2.one;
-            textRect.offsetMin = new Vector2(10, 5);
-            textRect.offsetMax = new Vector2(-10, -5);
+            textRect.offsetMin = new Vector2(12, 44);
+            textRect.offsetMax = new Vector2(-12, -20);
             
             // Add icon based on prompt type
-            AddPromptIcon(promptObj, id);
+            // The original frame and text provide the contextual hint.
             
             // Fade in animation
             var canvasGroup = promptObj.AddComponent<CanvasGroup>();
             canvasGroup.alpha = 0f;
+            canvasGroup.blocksRaycasts = false;
             StartCoroutine(FadePrompt(canvasGroup, 1f, 0.3f));
             
             activePrompts[id] = promptObj;

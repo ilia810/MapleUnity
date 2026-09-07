@@ -1,0 +1,4641 @@
+[
+  {
+    "id": 4001002,
+    "nodes": {
+      "path": "400.img/skill/4001002",
+      "kind": 0,
+      "origin": [
+        0,
+        0
+      ],
+      "children": [
+        "icon",
+        "iconDisabled",
+        "iconMouseOver",
+        "level",
+        "mob"
+      ]
+    },
+    "text": [
+      {
+        "path": "Skill.img/4001002",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "desc",
+          "h1",
+          "h10",
+          "h11",
+          "h12",
+          "h13",
+          "h14",
+          "h15",
+          "h16",
+          "h17",
+          "h18",
+          "h19",
+          "h2",
+          "h20",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "h7",
+          "h8",
+          "h9",
+          "name"
+        ]
+      },
+      {
+        "path": "Skill.img/4001002/desc",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "[Master Level : 20]\\nTemporarily decreases the weapon def. and attacking abilities of the affected, even stunting the ongoing attacks. Can't use this skill on a monster that's already in \"disorder.\""
+      },
+      {
+        "path": "Skill.img/4001002/h1",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -5; enemy's weapon attack -1, weapon def. -1 for 7 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h10",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -7; enemy's weapon attack -10, weapon def. -10 for 31 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h11",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -7; enemy's weapon attack -11, weapon def. -11 for 33 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h12",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -8; enemy's weapon attack -12, weapon def. -12 for 38 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h13",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -8; enemy's weapon attack -13, weapon def. -13 for 40 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h14",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -8; enemy's weapon attack -14, weapon def. -14 for 42 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h15",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -9; enemy's weapon attack -15, weapon def. -15 for 47 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h16",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -9; enemy's weapon attack -16, weapon def. -16 for 49 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h17",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -9; enemy's weapon attack -17, weapon def. -17 for 51 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h18",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -10; enemy's weapon attack -18, weapon def. -18 for 56 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h19",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -10; enemy's weapon attack -19, weapon def. -19 for 58 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h2",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -5; enemy's weapon attack -2, weapon def. -2 for 9 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h20",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -10; enemy's weapon attack -20, weapon def. -20 for 60 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h3",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -5; enemy's weapon attack -3, weapon def. -3 for 11 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h4",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -5; enemy's weapon attack -4, weapon def. -4 for 13 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h5",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -5; enemy's weapon attack -5, weapon def. -5 for 15 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h6",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -6; enemy's weapon attack -6, weapon def. -6 for 20 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h7",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -6; enemy's weapon attack -7, weapon def. -7 for 22 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h8",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -6; enemy's weapon attack -8, weapon def. -8 for 24 sec."
+      },
+      {
+        "path": "Skill.img/4001002/h9",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -7; enemy's weapon attack -9, weapon def. -9 for 29 sec."
+      },
+      {
+        "path": "Skill.img/4001002/name",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "Disorder"
+      }
+    ],
+    "data": [
+      {
+        "path": "400.img/skill/4001002/level",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "1",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "2",
+          "20",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/1",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/1/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h1"
+      },
+      {
+        "path": "400.img/skill/4001002/level/1/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 5
+      },
+      {
+        "path": "400.img/skill/4001002/level/1/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 7
+      },
+      {
+        "path": "400.img/skill/4001002/level/1/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -1
+      },
+      {
+        "path": "400.img/skill/4001002/level/1/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -1
+      },
+      {
+        "path": "400.img/skill/4001002/level/10",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/10/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h10"
+      },
+      {
+        "path": "400.img/skill/4001002/level/10/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 7
+      },
+      {
+        "path": "400.img/skill/4001002/level/10/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 31
+      },
+      {
+        "path": "400.img/skill/4001002/level/10/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -10
+      },
+      {
+        "path": "400.img/skill/4001002/level/10/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -10
+      },
+      {
+        "path": "400.img/skill/4001002/level/11",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/11/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h11"
+      },
+      {
+        "path": "400.img/skill/4001002/level/11/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 7
+      },
+      {
+        "path": "400.img/skill/4001002/level/11/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 33
+      },
+      {
+        "path": "400.img/skill/4001002/level/11/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -11
+      },
+      {
+        "path": "400.img/skill/4001002/level/11/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -11
+      },
+      {
+        "path": "400.img/skill/4001002/level/12",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/12/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h12"
+      },
+      {
+        "path": "400.img/skill/4001002/level/12/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 8
+      },
+      {
+        "path": "400.img/skill/4001002/level/12/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 38
+      },
+      {
+        "path": "400.img/skill/4001002/level/12/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -12
+      },
+      {
+        "path": "400.img/skill/4001002/level/12/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -12
+      },
+      {
+        "path": "400.img/skill/4001002/level/13",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/13/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h13"
+      },
+      {
+        "path": "400.img/skill/4001002/level/13/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 8
+      },
+      {
+        "path": "400.img/skill/4001002/level/13/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 40
+      },
+      {
+        "path": "400.img/skill/4001002/level/13/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -13
+      },
+      {
+        "path": "400.img/skill/4001002/level/13/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -13
+      },
+      {
+        "path": "400.img/skill/4001002/level/14",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/14/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h14"
+      },
+      {
+        "path": "400.img/skill/4001002/level/14/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 8
+      },
+      {
+        "path": "400.img/skill/4001002/level/14/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 42
+      },
+      {
+        "path": "400.img/skill/4001002/level/14/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -14
+      },
+      {
+        "path": "400.img/skill/4001002/level/14/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -14
+      },
+      {
+        "path": "400.img/skill/4001002/level/15",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/15/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h15"
+      },
+      {
+        "path": "400.img/skill/4001002/level/15/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 9
+      },
+      {
+        "path": "400.img/skill/4001002/level/15/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 47
+      },
+      {
+        "path": "400.img/skill/4001002/level/15/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -15
+      },
+      {
+        "path": "400.img/skill/4001002/level/15/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -15
+      },
+      {
+        "path": "400.img/skill/4001002/level/16",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/16/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h16"
+      },
+      {
+        "path": "400.img/skill/4001002/level/16/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 9
+      },
+      {
+        "path": "400.img/skill/4001002/level/16/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 49
+      },
+      {
+        "path": "400.img/skill/4001002/level/16/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -16
+      },
+      {
+        "path": "400.img/skill/4001002/level/16/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -16
+      },
+      {
+        "path": "400.img/skill/4001002/level/17",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/17/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h17"
+      },
+      {
+        "path": "400.img/skill/4001002/level/17/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 9
+      },
+      {
+        "path": "400.img/skill/4001002/level/17/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 51
+      },
+      {
+        "path": "400.img/skill/4001002/level/17/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -17
+      },
+      {
+        "path": "400.img/skill/4001002/level/17/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -17
+      },
+      {
+        "path": "400.img/skill/4001002/level/18",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/18/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h18"
+      },
+      {
+        "path": "400.img/skill/4001002/level/18/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 10
+      },
+      {
+        "path": "400.img/skill/4001002/level/18/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 56
+      },
+      {
+        "path": "400.img/skill/4001002/level/18/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -18
+      },
+      {
+        "path": "400.img/skill/4001002/level/18/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -18
+      },
+      {
+        "path": "400.img/skill/4001002/level/19",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/19/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h19"
+      },
+      {
+        "path": "400.img/skill/4001002/level/19/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 10
+      },
+      {
+        "path": "400.img/skill/4001002/level/19/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 58
+      },
+      {
+        "path": "400.img/skill/4001002/level/19/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -19
+      },
+      {
+        "path": "400.img/skill/4001002/level/19/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -19
+      },
+      {
+        "path": "400.img/skill/4001002/level/2",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/2/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h2"
+      },
+      {
+        "path": "400.img/skill/4001002/level/2/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 5
+      },
+      {
+        "path": "400.img/skill/4001002/level/2/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 9
+      },
+      {
+        "path": "400.img/skill/4001002/level/2/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -2
+      },
+      {
+        "path": "400.img/skill/4001002/level/2/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -2
+      },
+      {
+        "path": "400.img/skill/4001002/level/20",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/20/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h20"
+      },
+      {
+        "path": "400.img/skill/4001002/level/20/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 10
+      },
+      {
+        "path": "400.img/skill/4001002/level/20/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 60
+      },
+      {
+        "path": "400.img/skill/4001002/level/20/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -20
+      },
+      {
+        "path": "400.img/skill/4001002/level/20/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -20
+      },
+      {
+        "path": "400.img/skill/4001002/level/3",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/3/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h3"
+      },
+      {
+        "path": "400.img/skill/4001002/level/3/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 5
+      },
+      {
+        "path": "400.img/skill/4001002/level/3/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 11
+      },
+      {
+        "path": "400.img/skill/4001002/level/3/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -3
+      },
+      {
+        "path": "400.img/skill/4001002/level/3/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -3
+      },
+      {
+        "path": "400.img/skill/4001002/level/4",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/4/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h4"
+      },
+      {
+        "path": "400.img/skill/4001002/level/4/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 5
+      },
+      {
+        "path": "400.img/skill/4001002/level/4/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 13
+      },
+      {
+        "path": "400.img/skill/4001002/level/4/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -4
+      },
+      {
+        "path": "400.img/skill/4001002/level/4/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -4
+      },
+      {
+        "path": "400.img/skill/4001002/level/5",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/5/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h5"
+      },
+      {
+        "path": "400.img/skill/4001002/level/5/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 5
+      },
+      {
+        "path": "400.img/skill/4001002/level/5/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 15
+      },
+      {
+        "path": "400.img/skill/4001002/level/5/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -5
+      },
+      {
+        "path": "400.img/skill/4001002/level/5/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -5
+      },
+      {
+        "path": "400.img/skill/4001002/level/6",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/6/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h6"
+      },
+      {
+        "path": "400.img/skill/4001002/level/6/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 6
+      },
+      {
+        "path": "400.img/skill/4001002/level/6/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 20
+      },
+      {
+        "path": "400.img/skill/4001002/level/6/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -6
+      },
+      {
+        "path": "400.img/skill/4001002/level/6/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -6
+      },
+      {
+        "path": "400.img/skill/4001002/level/7",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/7/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h7"
+      },
+      {
+        "path": "400.img/skill/4001002/level/7/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 6
+      },
+      {
+        "path": "400.img/skill/4001002/level/7/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 22
+      },
+      {
+        "path": "400.img/skill/4001002/level/7/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -7
+      },
+      {
+        "path": "400.img/skill/4001002/level/7/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -7
+      },
+      {
+        "path": "400.img/skill/4001002/level/8",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/8/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h8"
+      },
+      {
+        "path": "400.img/skill/4001002/level/8/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 6
+      },
+      {
+        "path": "400.img/skill/4001002/level/8/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 24
+      },
+      {
+        "path": "400.img/skill/4001002/level/8/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -8
+      },
+      {
+        "path": "400.img/skill/4001002/level/8/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -8
+      },
+      {
+        "path": "400.img/skill/4001002/level/9",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hs",
+          "mpCon",
+          "time",
+          "x",
+          "y"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/level/9/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h9"
+      },
+      {
+        "path": "400.img/skill/4001002/level/9/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 7
+      },
+      {
+        "path": "400.img/skill/4001002/level/9/time",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 29
+      },
+      {
+        "path": "400.img/skill/4001002/level/9/x",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -9
+      },
+      {
+        "path": "400.img/skill/4001002/level/9/y",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": -9
+      },
+      {
+        "path": "400.img/skill/4001002/req",
+        "missing": true
+      },
+      {
+        "path": "400.img/skill/4001002/action",
+        "missing": true
+      },
+      {
+        "path": "400.img/skill/4001002/hit",
+        "missing": true
+      },
+      {
+        "path": "400.img/skill/4001002/effect",
+        "missing": true
+      },
+      {
+        "path": "400.img/skill/4001002/mob",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "pos"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/mob/0",
+        "kind": 5,
+        "origin": [
+          13,
+          20
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9636,
+        "width": 26,
+        "height": 41
+      },
+      {
+        "path": "400.img/skill/4001002/mob/0/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          13,
+          20
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/mob/0/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001002/mob/1",
+        "kind": 5,
+        "origin": [
+          15,
+          32
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9637,
+        "width": 28,
+        "height": 49
+      },
+      {
+        "path": "400.img/skill/4001002/mob/1/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          15,
+          32
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/mob/1/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001002/mob/2",
+        "kind": 5,
+        "origin": [
+          15,
+          41
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9638,
+        "width": 28,
+        "height": 56
+      },
+      {
+        "path": "400.img/skill/4001002/mob/2/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          15,
+          41
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/mob/2/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001002/mob/3",
+        "kind": 5,
+        "origin": [
+          15,
+          51
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9639,
+        "width": 28,
+        "height": 64
+      },
+      {
+        "path": "400.img/skill/4001002/mob/3/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          15,
+          51
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/mob/3/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001002/mob/4",
+        "kind": 5,
+        "origin": [
+          15,
+          58
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9640,
+        "width": 28,
+        "height": 71
+      },
+      {
+        "path": "400.img/skill/4001002/mob/4/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          15,
+          58
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/mob/4/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001002/mob/5",
+        "kind": 5,
+        "origin": [
+          15,
+          64
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9641,
+        "width": 28,
+        "height": 65
+      },
+      {
+        "path": "400.img/skill/4001002/mob/5/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          15,
+          64
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/mob/5/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001002/mob/6",
+        "kind": 5,
+        "origin": [
+          15,
+          67
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9642,
+        "width": 28,
+        "height": 63
+      },
+      {
+        "path": "400.img/skill/4001002/mob/6/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          15,
+          67
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/mob/6/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001002/mob/7",
+        "kind": 5,
+        "origin": [
+          15,
+          64
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9643,
+        "width": 32,
+        "height": 35
+      },
+      {
+        "path": "400.img/skill/4001002/mob/7/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          15,
+          64
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/mob/7/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001002/mob/8",
+        "kind": 5,
+        "origin": [
+          4,
+          61
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9644,
+        "width": 24,
+        "height": 36
+      },
+      {
+        "path": "400.img/skill/4001002/mob/8/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          4,
+          61
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/mob/8/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001002/mob/9",
+        "kind": 5,
+        "origin": [
+          -1,
+          47
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9645,
+        "width": 19,
+        "height": 38
+      },
+      {
+        "path": "400.img/skill/4001002/mob/9/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          -1,
+          47
+        ]
+      },
+      {
+        "path": "400.img/skill/4001002/mob/9/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001002/mob/pos",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 3
+      },
+      {
+        "path": "400.img/skill/4001002/CharLevel",
+        "missing": true
+      },
+      {
+        "path": "400.img/skill/4001002/weapon",
+        "missing": true
+      }
+    ]
+  },
+  {
+    "id": 4001334,
+    "nodes": {
+      "path": "400.img/skill/4001334",
+      "kind": 0,
+      "origin": [
+        0,
+        0
+      ],
+      "children": [
+        "CharLevel",
+        "hit",
+        "icon",
+        "iconDisabled",
+        "iconMouseOver",
+        "level",
+        "weapon"
+      ]
+    },
+    "text": [
+      {
+        "path": "Skill.img/4001334",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "desc",
+          "h1",
+          "h10",
+          "h11",
+          "h12",
+          "h13",
+          "h14",
+          "h15",
+          "h16",
+          "h17",
+          "h18",
+          "h19",
+          "h2",
+          "h20",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "h7",
+          "h8",
+          "h9",
+          "name"
+        ]
+      },
+      {
+        "path": "Skill.img/4001334/desc",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "[Master Level : 20]\\nUse MP to quickly stab a monster twice in one turn using a dagger."
+      },
+      {
+        "path": "Skill.img/4001334/h1",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -8; damage 98%"
+      },
+      {
+        "path": "Skill.img/4001334/h10",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -10; damage 116%"
+      },
+      {
+        "path": "Skill.img/4001334/h11",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -11; damage 118%"
+      },
+      {
+        "path": "Skill.img/4001334/h12",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -11; damage 120%"
+      },
+      {
+        "path": "Skill.img/4001334/h13",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -11; damage 122%"
+      },
+      {
+        "path": "Skill.img/4001334/h14",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -12; damage 124%"
+      },
+      {
+        "path": "Skill.img/4001334/h15",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -12; damage 126%"
+      },
+      {
+        "path": "Skill.img/4001334/h16",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -12; damage 128%"
+      },
+      {
+        "path": "Skill.img/4001334/h17",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -1; damage 130%"
+      },
+      {
+        "path": "Skill.img/4001334/h18",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -13; damage 132%"
+      },
+      {
+        "path": "Skill.img/4001334/h19",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -13; damage 134%"
+      },
+      {
+        "path": "Skill.img/4001334/h2",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -8; damage 100%"
+      },
+      {
+        "path": "Skill.img/4001334/h20",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -14; damage 140%"
+      },
+      {
+        "path": "Skill.img/4001334/h3",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -8; damage 102%"
+      },
+      {
+        "path": "Skill.img/4001334/h4",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -8; damage 104%"
+      },
+      {
+        "path": "Skill.img/4001334/h5",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -9; damage 106%"
+      },
+      {
+        "path": "Skill.img/4001334/h6",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -9; damage 108%"
+      },
+      {
+        "path": "Skill.img/4001334/h7",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -9; damage 110%"
+      },
+      {
+        "path": "Skill.img/4001334/h8",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -10; damage 112%"
+      },
+      {
+        "path": "Skill.img/4001334/h9",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "MP -10; damage 114%"
+      },
+      {
+        "path": "Skill.img/4001334/name",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "Double Stab"
+      }
+    ],
+    "data": [
+      {
+        "path": "400.img/skill/4001334/level",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "1",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "2",
+          "20",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/1",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/1/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/1/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 98
+      },
+      {
+        "path": "400.img/skill/4001334/level/1/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h1"
+      },
+      {
+        "path": "400.img/skill/4001334/level/1/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 8
+      },
+      {
+        "path": "400.img/skill/4001334/level/10",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/10/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/10/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 116
+      },
+      {
+        "path": "400.img/skill/4001334/level/10/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h10"
+      },
+      {
+        "path": "400.img/skill/4001334/level/10/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 10
+      },
+      {
+        "path": "400.img/skill/4001334/level/11",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/11/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/11/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 118
+      },
+      {
+        "path": "400.img/skill/4001334/level/11/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h11"
+      },
+      {
+        "path": "400.img/skill/4001334/level/11/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 11
+      },
+      {
+        "path": "400.img/skill/4001334/level/12",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/12/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/12/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 120
+      },
+      {
+        "path": "400.img/skill/4001334/level/12/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h12"
+      },
+      {
+        "path": "400.img/skill/4001334/level/12/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 11
+      },
+      {
+        "path": "400.img/skill/4001334/level/13",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/13/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/13/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 122
+      },
+      {
+        "path": "400.img/skill/4001334/level/13/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h13"
+      },
+      {
+        "path": "400.img/skill/4001334/level/13/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 11
+      },
+      {
+        "path": "400.img/skill/4001334/level/14",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/14/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/14/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 124
+      },
+      {
+        "path": "400.img/skill/4001334/level/14/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h14"
+      },
+      {
+        "path": "400.img/skill/4001334/level/14/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 12
+      },
+      {
+        "path": "400.img/skill/4001334/level/15",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/15/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/15/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 126
+      },
+      {
+        "path": "400.img/skill/4001334/level/15/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h15"
+      },
+      {
+        "path": "400.img/skill/4001334/level/15/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 12
+      },
+      {
+        "path": "400.img/skill/4001334/level/16",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/16/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/16/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 128
+      },
+      {
+        "path": "400.img/skill/4001334/level/16/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h16"
+      },
+      {
+        "path": "400.img/skill/4001334/level/16/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 12
+      },
+      {
+        "path": "400.img/skill/4001334/level/17",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/17/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/17/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 130
+      },
+      {
+        "path": "400.img/skill/4001334/level/17/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h17"
+      },
+      {
+        "path": "400.img/skill/4001334/level/17/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 13
+      },
+      {
+        "path": "400.img/skill/4001334/level/18",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/18/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/18/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 132
+      },
+      {
+        "path": "400.img/skill/4001334/level/18/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h18"
+      },
+      {
+        "path": "400.img/skill/4001334/level/18/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 13
+      },
+      {
+        "path": "400.img/skill/4001334/level/19",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/19/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/19/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 134
+      },
+      {
+        "path": "400.img/skill/4001334/level/19/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h19"
+      },
+      {
+        "path": "400.img/skill/4001334/level/19/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 13
+      },
+      {
+        "path": "400.img/skill/4001334/level/2",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/2/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/2/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 100
+      },
+      {
+        "path": "400.img/skill/4001334/level/2/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h2"
+      },
+      {
+        "path": "400.img/skill/4001334/level/2/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 8
+      },
+      {
+        "path": "400.img/skill/4001334/level/20",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/20/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/20/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 140
+      },
+      {
+        "path": "400.img/skill/4001334/level/20/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h20"
+      },
+      {
+        "path": "400.img/skill/4001334/level/20/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 14
+      },
+      {
+        "path": "400.img/skill/4001334/level/3",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/3/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/3/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 102
+      },
+      {
+        "path": "400.img/skill/4001334/level/3/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h3"
+      },
+      {
+        "path": "400.img/skill/4001334/level/3/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 8
+      },
+      {
+        "path": "400.img/skill/4001334/level/4",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/4/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/4/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 104
+      },
+      {
+        "path": "400.img/skill/4001334/level/4/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h4"
+      },
+      {
+        "path": "400.img/skill/4001334/level/4/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 8
+      },
+      {
+        "path": "400.img/skill/4001334/level/5",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/5/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/5/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 106
+      },
+      {
+        "path": "400.img/skill/4001334/level/5/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h5"
+      },
+      {
+        "path": "400.img/skill/4001334/level/5/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 9
+      },
+      {
+        "path": "400.img/skill/4001334/level/6",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/6/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/6/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 108
+      },
+      {
+        "path": "400.img/skill/4001334/level/6/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h6"
+      },
+      {
+        "path": "400.img/skill/4001334/level/6/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 9
+      },
+      {
+        "path": "400.img/skill/4001334/level/7",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/7/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/7/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 110
+      },
+      {
+        "path": "400.img/skill/4001334/level/7/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h7"
+      },
+      {
+        "path": "400.img/skill/4001334/level/7/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 9
+      },
+      {
+        "path": "400.img/skill/4001334/level/8",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/8/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/8/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 112
+      },
+      {
+        "path": "400.img/skill/4001334/level/8/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h8"
+      },
+      {
+        "path": "400.img/skill/4001334/level/8/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 10
+      },
+      {
+        "path": "400.img/skill/4001334/level/9",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "attackCount",
+          "damage",
+          "hs",
+          "mpCon"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/level/9/attackCount",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 2
+      },
+      {
+        "path": "400.img/skill/4001334/level/9/damage",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 114
+      },
+      {
+        "path": "400.img/skill/4001334/level/9/hs",
+        "kind": 3,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": "h9"
+      },
+      {
+        "path": "400.img/skill/4001334/level/9/mpCon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 10
+      },
+      {
+        "path": "400.img/skill/4001334/req",
+        "missing": true
+      },
+      {
+        "path": "400.img/skill/4001334/action",
+        "missing": true
+      },
+      {
+        "path": "400.img/skill/4001334/hit",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "0",
+          "1"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/hit/0",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/hit/0/0",
+        "kind": 5,
+        "origin": [
+          37,
+          34
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9713,
+        "width": 74,
+        "height": 68
+      },
+      {
+        "path": "400.img/skill/4001334/hit/0/0/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          37,
+          34
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/hit/0/0/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/hit/0/1",
+        "kind": 5,
+        "origin": [
+          28,
+          64
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9714,
+        "width": 94,
+        "height": 86
+      },
+      {
+        "path": "400.img/skill/4001334/hit/0/1/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          28,
+          64
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/hit/0/1/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/hit/0/2",
+        "kind": 5,
+        "origin": [
+          11,
+          83
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9715,
+        "width": 95,
+        "height": 91
+      },
+      {
+        "path": "400.img/skill/4001334/hit/0/2/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          11,
+          83
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/hit/0/2/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/hit/1",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/hit/1/0",
+        "kind": 5,
+        "origin": [
+          37,
+          34
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9716,
+        "width": 74,
+        "height": 68
+      },
+      {
+        "path": "400.img/skill/4001334/hit/1/0/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          37,
+          34
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/hit/1/0/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/hit/1/1",
+        "kind": 5,
+        "origin": [
+          66,
+          64
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9717,
+        "width": 94,
+        "height": 86
+      },
+      {
+        "path": "400.img/skill/4001334/hit/1/1/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          66,
+          64
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/hit/1/1/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/hit/1/2",
+        "kind": 5,
+        "origin": [
+          82,
+          80
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9718,
+        "width": 95,
+        "height": 91
+      },
+      {
+        "path": "400.img/skill/4001334/hit/1/2/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          82,
+          80
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/hit/1/2/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 1
+      },
+      {
+        "path": "400.img/skill/4001334/effect",
+        "missing": true
+      },
+      {
+        "path": "400.img/skill/4001334/mob",
+        "missing": true
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "10",
+          "15",
+          "20",
+          "25"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hit"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "0"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0/0",
+        "kind": 5,
+        "origin": [
+          22,
+          62
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9719,
+        "width": 96,
+        "height": 80
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0/0/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          22,
+          62
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0/0/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0/1",
+        "kind": 5,
+        "origin": [
+          51,
+          29
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9720,
+        "width": 82,
+        "height": 68
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0/1/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          51,
+          29
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0/1/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0/2",
+        "kind": 5,
+        "origin": [
+          68,
+          51
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9721,
+        "width": 96,
+        "height": 96
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0/2/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          68,
+          51
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0/2/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0/3",
+        "kind": 5,
+        "origin": [
+          25,
+          18
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9722,
+        "width": 82,
+        "height": 68
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0/3/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          25,
+          18
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0/3/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0/4",
+        "kind": 5,
+        "origin": [
+          21,
+          13
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9723,
+        "width": 84,
+        "height": 69
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0/4/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          21,
+          13
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/10/hit/0/4/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hit"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "0"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0/0",
+        "kind": 5,
+        "origin": [
+          22,
+          62
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9724,
+        "width": 96,
+        "height": 80
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0/0/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          22,
+          62
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0/0/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0/1",
+        "kind": 5,
+        "origin": [
+          51,
+          29
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9725,
+        "width": 82,
+        "height": 68
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0/1/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          51,
+          29
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0/1/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0/2",
+        "kind": 5,
+        "origin": [
+          68,
+          51
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9726,
+        "width": 96,
+        "height": 96
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0/2/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          68,
+          51
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0/2/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0/3",
+        "kind": 5,
+        "origin": [
+          25,
+          18
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9727,
+        "width": 82,
+        "height": 68
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0/3/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          25,
+          18
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0/3/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0/4",
+        "kind": 5,
+        "origin": [
+          21,
+          13
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9728,
+        "width": 84,
+        "height": 69
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0/4/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          21,
+          13
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/15/hit/0/4/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hit"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "0"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0/0",
+        "kind": 5,
+        "origin": [
+          22,
+          62
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9729,
+        "width": 96,
+        "height": 80
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0/0/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          22,
+          62
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0/0/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0/1",
+        "kind": 5,
+        "origin": [
+          51,
+          29
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9730,
+        "width": 82,
+        "height": 68
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0/1/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          51,
+          29
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0/1/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0/2",
+        "kind": 5,
+        "origin": [
+          68,
+          51
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9731,
+        "width": 96,
+        "height": 96
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0/2/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          68,
+          51
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0/2/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0/3",
+        "kind": 5,
+        "origin": [
+          25,
+          18
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9732,
+        "width": 82,
+        "height": 68
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0/3/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          25,
+          18
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0/3/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0/4",
+        "kind": 5,
+        "origin": [
+          21,
+          13
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9733,
+        "width": 84,
+        "height": 69
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0/4/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          21,
+          13
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/20/hit/0/4/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "hit"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "0"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0",
+        "kind": 0,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0/0",
+        "kind": 5,
+        "origin": [
+          22,
+          62
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9734,
+        "width": 96,
+        "height": 80
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0/0/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          22,
+          62
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0/0/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0/1",
+        "kind": 5,
+        "origin": [
+          51,
+          29
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9735,
+        "width": 82,
+        "height": 68
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0/1/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          51,
+          29
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0/1/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0/2",
+        "kind": 5,
+        "origin": [
+          68,
+          51
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9736,
+        "width": 96,
+        "height": 96
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0/2/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          68,
+          51
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0/2/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0/3",
+        "kind": 5,
+        "origin": [
+          25,
+          18
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9737,
+        "width": 82,
+        "height": 68
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0/3/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          25,
+          18
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0/3/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0/4",
+        "kind": 5,
+        "origin": [
+          21,
+          13
+        ],
+        "children": [
+          "origin",
+          "z"
+        ],
+        "bitmap": 9738,
+        "width": 84,
+        "height": 69
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0/4/origin",
+        "kind": 4,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": [
+          21,
+          13
+        ]
+      },
+      {
+        "path": "400.img/skill/4001334/CharLevel/25/hit/0/4/z",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 0
+      },
+      {
+        "path": "400.img/skill/4001334/weapon",
+        "kind": 1,
+        "origin": [
+          0,
+          0
+        ],
+        "children": [],
+        "value": 33
+      }
+    ]
+  }
+]

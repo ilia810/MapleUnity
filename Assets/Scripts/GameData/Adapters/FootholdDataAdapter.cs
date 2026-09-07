@@ -27,34 +27,23 @@ namespace MapleClient.GameData.Adapters
                     Y2 = platform.Y2,
                     
                     // Platform type mapping
-                    IsWall = platform.Type == PlatformType.Ladder || platform.Type == PlatformType.Rope,
+                    IsWall = platform.X1 == platform.X2 || platform.Type == PlatformType.Ladder || platform.Type == PlatformType.Rope,
                     
                     // Environmental properties
                     IsSlippery = platform.IsSlippery,
                     IsConveyor = platform.IsConveyor,
                     ConveyorSpeed = platform.ConveyorSpeed,
                     
-                    // Default values for now - these would need to be populated from NX data
-                    PreviousId = 0,
-                    NextId = 0,
-                    Layer = 0
+                    PreviousId = platform.PreviousId,
+                    NextId = platform.NextId,
+                    Layer = platform.Layer
                 };
-                
-                // TEMPORARY FIX: Adjust Y coordinates for testing
-                // MapleStory ground platforms are typically around Y=200-400
-                // If Y is less than 100, assume it needs adjustment
-                if (System.Math.Abs(platform.Y1) < 100 && System.Math.Abs(platform.Y2) < 100 && platform.Type != PlatformType.Ladder)
-                {
-                    foothold.Y1 = 200; // Typical ground height in MapleStory
-                    foothold.Y2 = 200;
-                    System.Console.WriteLine($"[FOOTHOLD_COLLISION] Adjusted platform {platform.Id} Y from [{platform.Y1},{platform.Y2}] to [200,200]");
-                }
                 
                 footholds.Add(foothold);
             }
             
-            // Sort by ID to maintain consistency
-            return footholds.OrderBy(f => f.Id).ToList();
+            // Source insertion order decides equal-height support ties.
+            return footholds;
         }
         
         // Removed ConvertSceneFootholdsToGameLogic as GameData should not depend on SceneGeneration
@@ -71,11 +60,15 @@ namespace MapleClient.GameData.Adapters
                 var platform = new Platform
                 {
                     Id = foothold.Id,
+                    PreviousId = foothold.PreviousId,
+                    NextId = foothold.NextId,
+                    Layer = foothold.Layer,
+                    HasSourceTopology = true,
                     X1 = foothold.X1,
                     Y1 = foothold.Y1,
                     X2 = foothold.X2,
                     Y2 = foothold.Y2,
-                    Type = foothold.IsWall ? PlatformType.Ladder : PlatformType.Normal,
+                    Type = PlatformType.Normal,
                     IsSlippery = foothold.IsSlippery,
                     IsConveyor = foothold.IsConveyor,
                     ConveyorSpeed = foothold.ConveyorSpeed

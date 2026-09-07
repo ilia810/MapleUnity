@@ -1,0 +1,29 @@
+{
+  "source": "C:\\HeavenClient\\MapleStory-Client",
+  "source_sha256": {
+    "Constants.h": "6daf30edea5038f8cff2d42ca2117517680a25da6ad01a740c90f6cd3fab25e2",
+    "Util/TimedBool.h": "b970a082d584e4f079999c58cbdca3629c631f18a7b999f20cadda5ae59f36d7",
+    "Util/Lerp.h": "b4aed7df7908769468de28efdff54823bfc8ee1f19b2139c9a40751430f16621",
+    "Template/Interpolated.h": "1c588b8daab0e84707efb7398ca3f4296c9489929e9760cc3a39bfd1102fd5a7",
+    "Template/Range.h": "46dd26fa487d637b314f38e66dda71d867eeb0343a6b35d8c0223e05c263fe73",
+    "Template/Point.h": "6d6d2a280eae626825da784c6d1b20e540e305fb3d07626c31f8310ffe4f0839",
+    "Gameplay/Physics/PhysicsObject.h": "87f75ac6f2587e8b131704a93720386aa89187620ce8f5cc9f1830ffa92c5add",
+    "Gameplay/Physics/Foothold.h": "bcc957ba6a05fb065ad18073d347c136871ed2d13615f203048b9c27e808041c",
+    "Gameplay/Physics/FootholdTree.h": "13f12484e08e88a3ae6f2e319f8144f6d6c97583f4ce1d9186e9e272ee10dc68",
+    "Gameplay/Physics/Foothold.cpp": "eaa1fe4d150f16444a19ab427cecf619d186fdcbe59cd0c2cd8fa8a8b44703de",
+    "Gameplay/Physics/FootholdTree.cpp": "11bc4cf08c0a621ed9f9cfe804be160c2e8781ffdcd62416ab6d8a46f236debe",
+    "Gameplay/Physics/Physics.cpp": "ebf080db4c59bf1662eb4ce8bfc6da6601d592db3886aeb4b66aad4915ea5ede",
+    "Gameplay/MapleMap/Mob.cpp": "c1bb8a07238eb61642717aa23e540a3b6ec01db62ee16a7317e147288d3b00b8"
+  },
+  "method": "Unmodified C++ Physics/FootholdTree methods and Mob MOVE/HIT switch branches; controlled walking/hit adapter; 8 ms ticks.",
+  "excluded": [
+    "random AI/next_move",
+    "flying",
+    "network",
+    "NX loading",
+    "animation",
+    "custom oscillation watchdogs"
+  ],
+  "rows": 5000,
+  "trace_sha256": "a1579098be748356f88df9a8db763c7768bf3e8108cfadfaec20c94c16910c36"
+}

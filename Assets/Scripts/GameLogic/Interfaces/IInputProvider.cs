@@ -1,5 +1,10 @@
 namespace MapleClient.GameLogic.Interfaces
 {
+    public interface IExpressionInputProvider
+    {
+        CharacterExpression? ExpressionPressed { get; }
+    }
+
     public interface IInputProvider
     {
         bool IsLeftPressed { get; }

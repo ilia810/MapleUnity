@@ -1,0 +1,1298 @@
+{
+  "3000001": {
+    "root": "300.img/skill/3000001",
+    "texts": {
+      "name": "Critical Shot",
+      "desc": "[Master Level : 20]\\nLaunches a critical attack with a given success rate.",
+      "h1": "12% success rate, critical damage 105%",
+      "h20": "40% success rate, critical damage 200%"
+    },
+    "requirements": {},
+    "levels": {
+      "1": {
+        "damage": 105,
+        "hs": "h1",
+        "prop": 12
+      },
+      "10": {
+        "damage": 150,
+        "hs": "h10",
+        "prop": 30
+      },
+      "11": {
+        "damage": 155,
+        "hs": "h11",
+        "prop": 31
+      },
+      "12": {
+        "damage": 160,
+        "hs": "h12",
+        "prop": 32
+      },
+      "13": {
+        "damage": 165,
+        "hs": "h13",
+        "prop": 33
+      },
+      "14": {
+        "damage": 170,
+        "hs": "h14",
+        "prop": 34
+      },
+      "15": {
+        "damage": 175,
+        "hs": "h15",
+        "prop": 35
+      },
+      "16": {
+        "damage": 180,
+        "hs": "h16",
+        "prop": 36
+      },
+      "17": {
+        "damage": 185,
+        "hs": "h17",
+        "prop": 37
+      },
+      "18": {
+        "damage": 190,
+        "hs": "h18",
+        "prop": 38
+      },
+      "19": {
+        "damage": 195,
+        "hs": "h19",
+        "prop": 39
+      },
+      "2": {
+        "damage": 110,
+        "hs": "h2",
+        "prop": 14
+      },
+      "20": {
+        "damage": 200,
+        "hs": "h20",
+        "prop": 40
+      },
+      "3": {
+        "damage": 115,
+        "hs": "h3",
+        "prop": 16
+      },
+      "4": {
+        "damage": 120,
+        "hs": "h4",
+        "prop": 18
+      },
+      "5": {
+        "damage": 125,
+        "hs": "h5",
+        "prop": 20
+      },
+      "6": {
+        "damage": 130,
+        "hs": "h6",
+        "prop": 22
+      },
+      "7": {
+        "damage": 135,
+        "hs": "h7",
+        "prop": 24
+      },
+      "8": {
+        "damage": 140,
+        "hs": "h8",
+        "prop": 26
+      },
+      "9": {
+        "damage": 145,
+        "hs": "h9",
+        "prop": 28
+      }
+    }
+  },
+  "3000002": {
+    "root": "300.img/skill/3000002",
+    "texts": {
+      "name": "The Eye of Amazon",
+      "desc": "[Master Level : 8]\\nIncreases the range of attack for bows and crossbows.\\nRequired Skill : #cAt least Level 3 on The Blessing of Amazon#",
+      "h1": "Range of attack for bows and crossbows: +15",
+      "h8": "Range of attack for bows and crossbows: +120"
+    },
+    "requirements": {
+      "3000000": 3
+    },
+    "levels": {
+      "1": {
+        "hs": "h1",
+        "range": 15
+      },
+      "2": {
+        "hs": "h2",
+        "range": 30
+      },
+      "3": {
+        "hs": "h3",
+        "range": 45
+      },
+      "4": {
+        "hs": "h4",
+        "range": 60
+      },
+      "5": {
+        "hs": "h5",
+        "range": 75
+      },
+      "6": {
+        "hs": "h6",
+        "range": 90
+      },
+      "7": {
+        "hs": "h7",
+        "range": 105
+      },
+      "8": {
+        "hs": "h8",
+        "range": 120
+      }
+    }
+  },
+  "4000001": {
+    "root": "400.img/skill/4000001",
+    "texts": {
+      "name": "Keen Eyes",
+      "desc": "[Master Level : 8]\\nIncreases the range of attack using throwing weapons such as throwing stars & knives.\\nRequired Skill : #cAt least Level 3 on Nimble Body#",
+      "h1": "Range of attack for the throwing weapon: +25",
+      "h8": "Range of attack for the throwing weapon: +200"
+    },
+    "requirements": {
+      "4000000": 3
+    },
+    "levels": {
+      "1": {
+        "hs": "h1",
+        "range": 25
+      },
+      "2": {
+        "hs": "h2",
+        "range": 50
+      },
+      "3": {
+        "hs": "h3",
+        "range": 75
+      },
+      "4": {
+        "hs": "h4",
+        "range": 100
+      },
+      "5": {
+        "hs": "h5",
+        "range": 125
+      },
+      "6": {
+        "hs": "h6",
+        "range": 150
+      },
+      "7": {
+        "hs": "h7",
+        "range": 175
+      },
+      "8": {
+        "hs": "h8",
+        "range": 200
+      }
+    }
+  },
+  "4101004": {
+    "root": "410.img/skill/4101004",
+    "texts": {
+      "name": "Haste",
+      "desc": "[Master Level : 20]\\nTemporarily improves the speed and jumping ability of every member of the party.",
+      "h1": "For MP -15, +2 in speed and +1 in jump for 10 sec.",
+      "h20": "For MP -30, +40 in speed and +20 in jump for 200 sec."
+    },
+    "requirements": {},
+    "levels": {
+      "1": {
+        "hs": "h1",
+        "jump": 1,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 2,
+        "time": 10
+      },
+      "10": {
+        "hs": "h10",
+        "jump": 10,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 20,
+        "time": 100
+      },
+      "11": {
+        "hs": "h11",
+        "jump": 11,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 22,
+        "time": 110
+      },
+      "12": {
+        "hs": "h12",
+        "jump": 12,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 24,
+        "time": 120
+      },
+      "13": {
+        "hs": "h13",
+        "jump": 13,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 26,
+        "time": 130
+      },
+      "14": {
+        "hs": "h14",
+        "jump": 14,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 28,
+        "time": 140
+      },
+      "15": {
+        "hs": "h15",
+        "jump": 15,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 30,
+        "time": 150
+      },
+      "16": {
+        "hs": "h16",
+        "jump": 16,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 32,
+        "time": 160
+      },
+      "17": {
+        "hs": "h17",
+        "jump": 17,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 34,
+        "time": 170
+      },
+      "18": {
+        "hs": "h18",
+        "jump": 18,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 36,
+        "time": 180
+      },
+      "19": {
+        "hs": "h19",
+        "jump": 19,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 38,
+        "time": 190
+      },
+      "2": {
+        "hs": "h2",
+        "jump": 2,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 4,
+        "time": 20
+      },
+      "20": {
+        "hs": "h20",
+        "jump": 20,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 40,
+        "time": 200
+      },
+      "3": {
+        "hs": "h3",
+        "jump": 3,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 6,
+        "time": 30
+      },
+      "4": {
+        "hs": "h4",
+        "jump": 4,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 8,
+        "time": 40
+      },
+      "5": {
+        "hs": "h5",
+        "jump": 5,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 10,
+        "time": 50
+      },
+      "6": {
+        "hs": "h6",
+        "jump": 6,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 12,
+        "time": 60
+      },
+      "7": {
+        "hs": "h7",
+        "jump": 7,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 14,
+        "time": 70
+      },
+      "8": {
+        "hs": "h8",
+        "jump": 8,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 16,
+        "time": 80
+      },
+      "9": {
+        "hs": "h9",
+        "jump": 9,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 18,
+        "time": 90
+      }
+    }
+  },
+  "4201003": {
+    "root": "420.img/skill/4201003",
+    "texts": {
+      "name": "Haste",
+      "desc": "[Master Level : 20]\\nTemporarily boosts the speed and jumping ability of everyone in the party.",
+      "h1": "MP -15; speed +2, jump +1 for 10 sec.",
+      "h20": "MP -30; speed +40, jump +20 for 200 sec."
+    },
+    "requirements": {},
+    "levels": {
+      "1": {
+        "hs": "h1",
+        "jump": 1,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 2,
+        "time": 10
+      },
+      "10": {
+        "hs": "h10",
+        "jump": 10,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 20,
+        "time": 100
+      },
+      "11": {
+        "hs": "h11",
+        "jump": 11,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 22,
+        "time": 110
+      },
+      "12": {
+        "hs": "h12",
+        "jump": 12,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 24,
+        "time": 120
+      },
+      "13": {
+        "hs": "h13",
+        "jump": 13,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 26,
+        "time": 130
+      },
+      "14": {
+        "hs": "h14",
+        "jump": 14,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 28,
+        "time": 140
+      },
+      "15": {
+        "hs": "h15",
+        "jump": 15,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 30,
+        "time": 150
+      },
+      "16": {
+        "hs": "h16",
+        "jump": 16,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 32,
+        "time": 160
+      },
+      "17": {
+        "hs": "h17",
+        "jump": 17,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 34,
+        "time": 170
+      },
+      "18": {
+        "hs": "h18",
+        "jump": 18,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 36,
+        "time": 180
+      },
+      "19": {
+        "hs": "h19",
+        "jump": 19,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 38,
+        "time": 190
+      },
+      "2": {
+        "hs": "h2",
+        "jump": 2,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 4,
+        "time": 20
+      },
+      "20": {
+        "hs": "h20",
+        "jump": 20,
+        "lt": [
+          -300,
+          -200
+        ],
+        "mpCon": 30,
+        "rb": [
+          300,
+          200
+        ],
+        "speed": 40,
+        "time": 200
+      },
+      "3": {
+        "hs": "h3",
+        "jump": 3,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 6,
+        "time": 30
+      },
+      "4": {
+        "hs": "h4",
+        "jump": 4,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 8,
+        "time": 40
+      },
+      "5": {
+        "hs": "h5",
+        "jump": 5,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 10,
+        "time": 50
+      },
+      "6": {
+        "hs": "h6",
+        "jump": 6,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 12,
+        "time": 60
+      },
+      "7": {
+        "hs": "h7",
+        "jump": 7,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 14,
+        "time": 70
+      },
+      "8": {
+        "hs": "h8",
+        "jump": 8,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 16,
+        "time": 80
+      },
+      "9": {
+        "hs": "h9",
+        "jump": 9,
+        "lt": [
+          -250,
+          -150
+        ],
+        "mpCon": 15,
+        "rb": [
+          250,
+          150
+        ],
+        "speed": 18,
+        "time": 90
+      }
+    }
+  },
+  "3100000": {
+    "root": "310.img/skill/3100000",
+    "texts": {
+      "name": "Bow Mastery",
+      "desc": "[Master Level : 20]\\nIncreases the bow mastery and accuracy. It only applies when a bow is in hand.",
+      "h1": "+15% bow mastery, +1 accuracy",
+      "h20": "+60% bow mastery, +20 accuracy"
+    },
+    "requirements": {},
+    "levels": {
+      "1": {
+        "hs": "h1",
+        "mastery": 1,
+        "x": 1
+      },
+      "10": {
+        "hs": "h10",
+        "mastery": 5,
+        "x": 10
+      },
+      "11": {
+        "hs": "h11",
+        "mastery": 6,
+        "x": 11
+      },
+      "12": {
+        "hs": "h12",
+        "mastery": 6,
+        "x": 12
+      },
+      "13": {
+        "hs": "h13",
+        "mastery": 7,
+        "x": 13
+      },
+      "14": {
+        "hs": "h14",
+        "mastery": 7,
+        "x": 14
+      },
+      "15": {
+        "hs": "h15",
+        "mastery": 8,
+        "x": 15
+      },
+      "16": {
+        "hs": "h16",
+        "mastery": 8,
+        "x": 16
+      },
+      "17": {
+        "hs": "h17",
+        "mastery": 9,
+        "x": 17
+      },
+      "18": {
+        "hs": "h18",
+        "mastery": 9,
+        "x": 18
+      },
+      "19": {
+        "hs": "h19",
+        "mastery": 10,
+        "x": 19
+      },
+      "2": {
+        "hs": "h2",
+        "mastery": 1,
+        "x": 2
+      },
+      "20": {
+        "hs": "h20",
+        "mastery": 10,
+        "x": 20
+      },
+      "3": {
+        "hs": "h3",
+        "mastery": 2,
+        "x": 3
+      },
+      "4": {
+        "hs": "h4",
+        "mastery": 2,
+        "x": 4
+      },
+      "5": {
+        "hs": "h5",
+        "mastery": 3,
+        "x": 5
+      },
+      "6": {
+        "hs": "h6",
+        "mastery": 3,
+        "x": 6
+      },
+      "7": {
+        "hs": "h7",
+        "mastery": 4,
+        "x": 7
+      },
+      "8": {
+        "hs": "h8",
+        "mastery": 4,
+        "x": 8
+      },
+      "9": {
+        "hs": "h9",
+        "mastery": 5,
+        "x": 9
+      }
+    }
+  },
+  "3200000": {
+    "root": "320.img/skill/3200000",
+    "texts": {
+      "name": "Crossbow Mastery",
+      "desc": "[Master Level : 20]\\nIncreases the crossbow mastery and accuracy. It only applies when a crossbow is in hand.",
+      "h1": "Crossbow mastery +15%, accuracy +1",
+      "h20": "Crossbow mastery +60%, accuracy +20"
+    },
+    "requirements": {},
+    "levels": {
+      "1": {
+        "hs": "h1",
+        "mastery": 1,
+        "x": 1
+      },
+      "10": {
+        "hs": "h10",
+        "mastery": 5,
+        "x": 10
+      },
+      "11": {
+        "hs": "h11",
+        "mastery": 6,
+        "x": 11
+      },
+      "12": {
+        "hs": "h12",
+        "mastery": 6,
+        "x": 12
+      },
+      "13": {
+        "hs": "h13",
+        "mastery": 7,
+        "x": 13
+      },
+      "14": {
+        "hs": "h14",
+        "mastery": 7,
+        "x": 14
+      },
+      "15": {
+        "hs": "h15",
+        "mastery": 8,
+        "x": 15
+      },
+      "16": {
+        "hs": "h16",
+        "mastery": 8,
+        "x": 16
+      },
+      "17": {
+        "hs": "h17",
+        "mastery": 9,
+        "x": 17
+      },
+      "18": {
+        "hs": "h18",
+        "mastery": 9,
+        "x": 18
+      },
+      "19": {
+        "hs": "h19",
+        "mastery": 10,
+        "x": 19
+      },
+      "2": {
+        "hs": "h2",
+        "mastery": 1,
+        "x": 2
+      },
+      "20": {
+        "hs": "h20",
+        "mastery": 10,
+        "x": 20
+      },
+      "3": {
+        "hs": "h3",
+        "mastery": 2,
+        "x": 3
+      },
+      "4": {
+        "hs": "h4",
+        "mastery": 2,
+        "x": 4
+      },
+      "5": {
+        "hs": "h5",
+        "mastery": 3,
+        "x": 5
+      },
+      "6": {
+        "hs": "h6",
+        "mastery": 3,
+        "x": 6
+      },
+      "7": {
+        "hs": "h7",
+        "mastery": 4,
+        "x": 7
+      },
+      "8": {
+        "hs": "h8",
+        "mastery": 4,
+        "x": 8
+      },
+      "9": {
+        "hs": "h9",
+        "mastery": 5,
+        "x": 9
+      }
+    }
+  },
+  "4100000": {
+    "root": "410.img/skill/4100000",
+    "texts": {
+      "name": "Claw Mastery",
+      "desc": "[Master Level : 20]\\nIncreases the mastery of throwing stars and accuracy, along with the maximum number of throwing stars to recharge. It only applies when the character is throwing stars.",
+      "h1": "Mastery of claw-related weapons 15%, accuracy +1%,\\r\\n10 extra throwing stars.",
+      "h20": "Mastery of claw-related weapons 60%, accuracy +20%,\\r\\n200 extra throwing stars."
+    },
+    "requirements": {},
+    "levels": {
+      "1": {
+        "hs": "h1",
+        "mastery": 1,
+        "x": 1,
+        "y": 10
+      },
+      "10": {
+        "hs": "h10",
+        "mastery": 5,
+        "x": 10,
+        "y": 100
+      },
+      "11": {
+        "hs": "h11",
+        "mastery": 6,
+        "x": 11,
+        "y": 110
+      },
+      "12": {
+        "hs": "h12",
+        "mastery": 6,
+        "x": 12,
+        "y": 120
+      },
+      "13": {
+        "hs": "h13",
+        "mastery": 7,
+        "x": 13,
+        "y": 130
+      },
+      "14": {
+        "hs": "h14",
+        "mastery": 7,
+        "x": 14,
+        "y": 140
+      },
+      "15": {
+        "hs": "h15",
+        "mastery": 8,
+        "x": 15,
+        "y": 150
+      },
+      "16": {
+        "hs": "h16",
+        "mastery": 8,
+        "x": 16,
+        "y": 160
+      },
+      "17": {
+        "hs": "h17",
+        "mastery": 9,
+        "x": 17,
+        "y": 170
+      },
+      "18": {
+        "hs": "h18",
+        "mastery": 9,
+        "x": 18,
+        "y": 180
+      },
+      "19": {
+        "hs": "h19",
+        "mastery": 10,
+        "x": 19,
+        "y": 190
+      },
+      "2": {
+        "hs": "h2",
+        "mastery": 1,
+        "x": 2,
+        "y": 20
+      },
+      "20": {
+        "hs": "h20",
+        "mastery": 10,
+        "x": 20,
+        "y": 200
+      },
+      "3": {
+        "hs": "h3",
+        "mastery": 2,
+        "x": 3,
+        "y": 30
+      },
+      "4": {
+        "hs": "h4",
+        "mastery": 2,
+        "x": 4,
+        "y": 40
+      },
+      "5": {
+        "hs": "h5",
+        "mastery": 3,
+        "x": 5,
+        "y": 50
+      },
+      "6": {
+        "hs": "h6",
+        "mastery": 3,
+        "x": 6,
+        "y": 60
+      },
+      "7": {
+        "hs": "h7",
+        "mastery": 4,
+        "x": 7,
+        "y": 70
+      },
+      "8": {
+        "hs": "h8",
+        "mastery": 4,
+        "x": 8,
+        "y": 80
+      },
+      "9": {
+        "hs": "h9",
+        "mastery": 5,
+        "x": 9,
+        "y": 90
+      }
+    }
+  },
+  "1200000": {
+    "root": "120.img/skill/1200000",
+    "texts": {
+      "name": "Sword Mastery",
+      "desc": "[Master Level : 20]\\nIncreases the sword mastery and accuracy. It only applies when either a one-handed or a two-handed sword is in hand.",
+      "h1": "Sword Mastery +15%, accuracy +1",
+      "h20": "Sword Mastery +60%, accuracy +20"
+    },
+    "requirements": {},
+    "levels": {
+      "1": {
+        "hs": "h1",
+        "mastery": 1,
+        "x": 1
+      },
+      "10": {
+        "hs": "h10",
+        "mastery": 5,
+        "x": 10
+      },
+      "11": {
+        "hs": "h11",
+        "mastery": 6,
+        "x": 11
+      },
+      "12": {
+        "hs": "h12",
+        "mastery": 6,
+        "x": 12
+      },
+      "13": {
+        "hs": "h13",
+        "mastery": 7,
+        "x": 13
+      },
+      "14": {
+        "hs": "h14",
+        "mastery": 7,
+        "x": 14
+      },
+      "15": {
+        "hs": "h15",
+        "mastery": 8,
+        "x": 15
+      },
+      "16": {
+        "hs": "h16",
+        "mastery": 8,
+        "x": 16
+      },
+      "17": {
+        "hs": "h17",
+        "mastery": 9,
+        "x": 17
+      },
+      "18": {
+        "hs": "h18",
+        "mastery": 9,
+        "x": 18
+      },
+      "19": {
+        "hs": "h19",
+        "mastery": 10,
+        "x": 19
+      },
+      "2": {
+        "hs": "h2",
+        "mastery": 1,
+        "x": 2
+      },
+      "20": {
+        "hs": "h20",
+        "mastery": 10,
+        "x": 20
+      },
+      "3": {
+        "hs": "h3",
+        "mastery": 2,
+        "x": 3
+      },
+      "4": {
+        "hs": "h4",
+        "mastery": 2,
+        "x": 4
+      },
+      "5": {
+        "hs": "h5",
+        "mastery": 3,
+        "x": 5
+      },
+      "6": {
+        "hs": "h6",
+        "mastery": 3,
+        "x": 6
+      },
+      "7": {
+        "hs": "h7",
+        "mastery": 4,
+        "x": 7
+      },
+      "8": {
+        "hs": "h8",
+        "mastery": 4,
+        "x": 8
+      },
+      "9": {
+        "hs": "h9",
+        "mastery": 5,
+        "x": 9
+      }
+    }
+  }
+}

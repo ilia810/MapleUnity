@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using MapleClient.GameLogic.Core;
@@ -16,7 +17,7 @@ namespace MapleClient.GameView
     {
         [Header("Debug Display Settings")]
         [SerializeField] private bool showDebugOverlay = true;
-        [SerializeField] private KeyCode toggleKey = KeyCode.F3;
+        [SerializeField] private KeyCode toggleKey = KeyCode.F9; // F1-F7 are character expressions.
         [SerializeField] private int fontSize = 14;
         [SerializeField] private Color textColor = Color.green;
         [SerializeField] private Vector2 displayPosition = new Vector2(10, 10);
@@ -75,7 +76,8 @@ namespace MapleClient.GameView
         private void Update()
         {
             // Toggle debug overlay
-            if (Input.GetKeyDown(toggleKey))
+            if (Input.GetKeyDown(toggleKey) && !MapleClient.GameView.UI.ClassicWindowManager.IsTyping &&
+                !(FindFirstObjectByType<MapleClient.GameView.UI.SkillBar>()?.Bindings.Pressed(k => MapleClient.GameView.UI.ClassicKeyboardLayout.Native(k) == toggleKey).Any() ?? false))
             {
                 showDebugOverlay = !showDebugOverlay;
             }

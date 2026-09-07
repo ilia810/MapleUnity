@@ -1,0 +1,1916 @@
+[
+  {
+    "path": "Basic.img/BtClose",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "disabled",
+      "mouseOver",
+      "normal",
+      "pressed"
+    ]
+  },
+  {
+    "path": "Basic.img/BtClose/disabled",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0"
+    ]
+  },
+  {
+    "path": "Basic.img/BtClose/disabled/0",
+    "kind": 5,
+    "image": [
+      9255,
+      12,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/BtClose/mouseOver",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0"
+    ]
+  },
+  {
+    "path": "Basic.img/BtClose/normal",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0"
+    ]
+  },
+  {
+    "path": "Basic.img/BtClose/normal/0",
+    "kind": 5,
+    "image": [
+      9253,
+      12,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/BtClose/pressed",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0"
+    ]
+  },
+  {
+    "path": "Basic.img/BtClose2",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "disabled",
+      "mouseOver",
+      "normal",
+      "pressed"
+    ]
+  },
+  {
+    "path": "Basic.img/BtClose2/disabled",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0"
+    ]
+  },
+  {
+    "path": "Basic.img/BtClose2/disabled/0",
+    "kind": 5,
+    "image": [
+      9259,
+      14,
+      14
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/BtClose2/mouseOver",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0"
+    ]
+  },
+  {
+    "path": "Basic.img/BtClose2/normal",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0"
+    ]
+  },
+  {
+    "path": "Basic.img/BtClose2/normal/0",
+    "kind": 5,
+    "image": [
+      9257,
+      14,
+      14
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/BtClose2/pressed",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0"
+    ]
+  },
+  {
+    "path": "Basic.img/BtClose3",
+    "missing": true
+  },
+  {
+    "path": "Basic.img/VScr",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "disabled",
+      "enabled"
+    ]
+  },
+  {
+    "path": "Basic.img/VScr/disabled",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "base",
+      "next",
+      "prev"
+    ]
+  },
+  {
+    "path": "Basic.img/VScr/disabled/base",
+    "kind": 5,
+    "image": [
+      9010,
+      12,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin",
+      "z"
+    ]
+  },
+  {
+    "path": "Basic.img/VScr/disabled/next",
+    "kind": 5,
+    "image": [
+      9009,
+      12,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin",
+      "z"
+    ]
+  },
+  {
+    "path": "Basic.img/VScr/disabled/prev",
+    "kind": 5,
+    "image": [
+      9008,
+      12,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin",
+      "z"
+    ]
+  },
+  {
+    "path": "Basic.img/VScr/enabled",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "base",
+      "next0",
+      "next1",
+      "prev0",
+      "prev1",
+      "thumb0",
+      "thumb1"
+    ]
+  },
+  {
+    "path": "Basic.img/VScr/enabled/base",
+    "kind": 5,
+    "image": [
+      9005,
+      12,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin",
+      "z"
+    ]
+  },
+  {
+    "path": "Basic.img/VScr/enabled/next0",
+    "kind": 5,
+    "image": [
+      9003,
+      12,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin",
+      "z"
+    ]
+  },
+  {
+    "path": "Basic.img/VScr/enabled/next1",
+    "kind": 5,
+    "image": [
+      9004,
+      12,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin",
+      "z"
+    ]
+  },
+  {
+    "path": "Basic.img/VScr/enabled/prev0",
+    "kind": 5,
+    "image": [
+      9001,
+      12,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin",
+      "z"
+    ]
+  },
+  {
+    "path": "Basic.img/VScr/enabled/prev1",
+    "kind": 5,
+    "image": [
+      9002,
+      12,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin",
+      "z"
+    ]
+  },
+  {
+    "path": "Basic.img/VScr/enabled/thumb0",
+    "kind": 5,
+    "image": [
+      9006,
+      12,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin",
+      "z"
+    ]
+  },
+  {
+    "path": "Basic.img/VScr/enabled/thumb1",
+    "kind": 5,
+    "image": [
+      9007,
+      12,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin",
+      "z"
+    ]
+  },
+  {
+    "path": "Basic.img/LevelNo",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "blank"
+    ]
+  },
+  {
+    "path": "Basic.img/LevelNo/0",
+    "kind": 5,
+    "image": [
+      9200,
+      11,
+      13
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/LevelNo/1",
+    "kind": 5,
+    "image": [
+      9201,
+      11,
+      13
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/LevelNo/2",
+    "kind": 5,
+    "image": [
+      9202,
+      11,
+      13
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/LevelNo/3",
+    "kind": 5,
+    "image": [
+      9203,
+      11,
+      13
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/LevelNo/4",
+    "kind": 5,
+    "image": [
+      9204,
+      11,
+      13
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/LevelNo/5",
+    "kind": 5,
+    "image": [
+      9205,
+      11,
+      13
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/LevelNo/6",
+    "kind": 5,
+    "image": [
+      9206,
+      11,
+      13
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/LevelNo/7",
+    "kind": 5,
+    "image": [
+      9207,
+      11,
+      13
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/LevelNo/8",
+    "kind": 5,
+    "image": [
+      9208,
+      11,
+      13
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/LevelNo/9",
+    "kind": 5,
+    "image": [
+      9209,
+      11,
+      13
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/LevelNo/blank",
+    "kind": 5,
+    "image": [
+      9210,
+      11,
+      13
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/ItemNo",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ]
+  },
+  {
+    "path": "Basic.img/ItemNo/0",
+    "kind": 5,
+    "image": [
+      9186,
+      8,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/ItemNo/1",
+    "kind": 5,
+    "image": [
+      9187,
+      5,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/ItemNo/2",
+    "kind": 5,
+    "image": [
+      9188,
+      8,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/ItemNo/3",
+    "kind": 5,
+    "image": [
+      9189,
+      8,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/ItemNo/4",
+    "kind": 5,
+    "image": [
+      9190,
+      8,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/ItemNo/5",
+    "kind": 5,
+    "image": [
+      9191,
+      8,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/ItemNo/6",
+    "kind": 5,
+    "image": [
+      9192,
+      8,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/ItemNo/7",
+    "kind": 5,
+    "image": [
+      9193,
+      8,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/ItemNo/8",
+    "kind": 5,
+    "image": [
+      9194,
+      8,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "Basic.img/ItemNo/9",
+    "kind": 5,
+    "image": [
+      9195,
+      8,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "StatusBar.img/base",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "backgrnd",
+      "backgrnd2",
+      "box",
+      "chat",
+      "chatTarget",
+      "iconBlue",
+      "iconMemo",
+      "iconRed",
+      "quickSlot"
+    ]
+  },
+  {
+    "path": "StatusBar.img/base/backgrnd",
+    "kind": 5,
+    "image": [
+      6960,
+      800,
+      71
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": []
+  },
+  {
+    "path": "StatusBar.img/base/backgrnd2",
+    "kind": 5,
+    "image": [
+      6961,
+      570,
+      71
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": []
+  },
+  {
+    "path": "StatusBar.img/base/box",
+    "kind": 5,
+    "image": [
+      6964,
+      42,
+      19
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": []
+  },
+  {
+    "path": "StatusBar.img/base/chat",
+    "kind": 5,
+    "image": [
+      6968,
+      566,
+      5
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": []
+  },
+  {
+    "path": "StatusBar.img/base/chatTarget",
+    "kind": 5,
+    "image": [
+      6963,
+      81,
+      20
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": []
+  },
+  {
+    "path": "StatusBar.img/base/iconBlue",
+    "kind": 5,
+    "image": [
+      6966,
+      12,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": []
+  },
+  {
+    "path": "StatusBar.img/base/iconMemo",
+    "kind": 5,
+    "image": [
+      6967,
+      14,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": []
+  },
+  {
+    "path": "StatusBar.img/base/iconRed",
+    "kind": 5,
+    "image": [
+      6965,
+      12,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": []
+  },
+  {
+    "path": "StatusBar.img/base/quickSlot",
+    "kind": 5,
+    "image": [
+      6962,
+      151,
+      80
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": []
+  },
+  {
+    "path": "StatusBar.img/gauge",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "bar",
+      "graduation",
+      "gray",
+      "hpFlash",
+      "mpFlash",
+      "tempExp"
+    ]
+  },
+  {
+    "path": "StatusBar.img/gauge/bar",
+    "kind": 5,
+    "image": [
+      6970,
+      340,
+      31
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "StatusBar.img/gauge/graduation",
+    "kind": 5,
+    "image": [
+      6969,
+      340,
+      31
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "StatusBar.img/gauge/gray",
+    "kind": 5,
+    "image": [
+      6971,
+      1,
+      16
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": []
+  },
+  {
+    "path": "StatusBar.img/gauge/hpFlash",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4"
+    ]
+  },
+  {
+    "path": "StatusBar.img/gauge/mpFlash",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4"
+    ]
+  },
+  {
+    "path": "StatusBar.img/gauge/tempExp",
+    "kind": 5,
+    "image": [
+      6972,
+      1,
+      16
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": []
+  },
+  {
+    "path": "UIWindow.img/Item/Tab",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "disabled",
+      "enabled"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Item/Tab/disabled",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Item/Tab/disabled/0",
+    "kind": 5,
+    "image": [
+      1782,
+      24,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Item/Tab/disabled/1",
+    "kind": 5,
+    "image": [
+      1783,
+      16,
+      9
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Item/Tab/disabled/2",
+    "kind": 5,
+    "image": [
+      1784,
+      27,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Item/Tab/disabled/3",
+    "kind": 5,
+    "image": [
+      1785,
+      14,
+      9
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Item/Tab/disabled/4",
+    "kind": 5,
+    "image": [
+      1786,
+      21,
+      8
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Item/Tab/enabled",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Item/Tab/enabled/0",
+    "kind": 5,
+    "image": [
+      1777,
+      22,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Item/Tab/enabled/1",
+    "kind": 5,
+    "image": [
+      1778,
+      13,
+      9
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Item/Tab/enabled/2",
+    "kind": 5,
+    "image": [
+      1779,
+      26,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Item/Tab/enabled/3",
+    "kind": 5,
+    "image": [
+      1780,
+      13,
+      9
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Item/Tab/enabled/4",
+    "kind": 5,
+    "image": [
+      1781,
+      20,
+      8
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Skill/Tab",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "AranButton",
+      "disabled",
+      "enabled"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Skill/Tab/AranButton",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "Bt1",
+      "Bt2",
+      "Bt3",
+      "Bt4"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Skill/Tab/disabled",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Skill/Tab/disabled/0",
+    "kind": 5,
+    "image": [
+      2025,
+      7,
+      7
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Skill/Tab/disabled/1",
+    "kind": 5,
+    "image": [
+      2026,
+      5,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Skill/Tab/disabled/2",
+    "kind": 5,
+    "image": [
+      2027,
+      9,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Skill/Tab/disabled/3",
+    "kind": 5,
+    "image": [
+      2028,
+      13,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Skill/Tab/disabled/4",
+    "kind": 5,
+    "image": [
+      2029,
+      13,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin",
+      "z"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Skill/Tab/enabled",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Skill/Tab/enabled/0",
+    "kind": 5,
+    "image": [
+      2030,
+      7,
+      7
+    ],
+    "origin": [
+      3,
+      3
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Skill/Tab/enabled/1",
+    "kind": 5,
+    "image": [
+      2031,
+      5,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Skill/Tab/enabled/2",
+    "kind": 5,
+    "image": [
+      2032,
+      9,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Skill/Tab/enabled/3",
+    "kind": 5,
+    "image": [
+      2033,
+      13,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Skill/Tab/enabled/4",
+    "kind": 5,
+    "image": [
+      2034,
+      13,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabBuy",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "disabled",
+      "enabled"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabBuy/disabled",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabBuy/disabled/0",
+    "kind": 5,
+    "image": [
+      2395,
+      16,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabBuy/disabled/1",
+    "kind": 5,
+    "image": [
+      2396,
+      28,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabBuy/disabled/2",
+    "kind": 5,
+    "image": [
+      2397,
+      20,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabBuy/disabled/3",
+    "kind": 5,
+    "image": [
+      2398,
+      20,
+      15
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabBuy/enabled",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabBuy/enabled/0",
+    "kind": 5,
+    "image": [
+      2391,
+      16,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabBuy/enabled/1",
+    "kind": 5,
+    "image": [
+      2392,
+      28,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabBuy/enabled/2",
+    "kind": 5,
+    "image": [
+      2393,
+      20,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabBuy/enabled/3",
+    "kind": 5,
+    "image": [
+      2394,
+      20,
+      15
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "disabled",
+      "enabled"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/disabled",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/disabled/0",
+    "kind": 5,
+    "image": [
+      2384,
+      28,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/disabled/1",
+    "kind": 5,
+    "image": [
+      2385,
+      17,
+      10
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/disabled/2",
+    "kind": 5,
+    "image": [
+      2386,
+      27,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/disabled/3",
+    "kind": 5,
+    "image": [
+      2387,
+      15,
+      10
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/disabled/4",
+    "kind": 5,
+    "image": [
+      2388,
+      24,
+      9
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/disabled/5",
+    "kind": 5,
+    "image": [
+      2389,
+      16,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/disabled/6",
+    "kind": 5,
+    "image": [
+      2390,
+      28,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/enabled",
+    "kind": 0,
+    "image": null,
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/enabled/0",
+    "kind": 5,
+    "image": [
+      2377,
+      28,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/enabled/1",
+    "kind": 5,
+    "image": [
+      2378,
+      17,
+      10
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/enabled/2",
+    "kind": 5,
+    "image": [
+      2379,
+      27,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/enabled/3",
+    "kind": 5,
+    "image": [
+      2380,
+      15,
+      10
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/enabled/4",
+    "kind": 5,
+    "image": [
+      2381,
+      24,
+      9
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/enabled/5",
+    "kind": 5,
+    "image": [
+      2382,
+      16,
+      12
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  },
+  {
+    "path": "UIWindow.img/Shop/TabSell/enabled/6",
+    "kind": 5,
+    "image": [
+      2383,
+      28,
+      11
+    ],
+    "origin": [
+      0,
+      0
+    ],
+    "children": [
+      "origin"
+    ]
+  }
+]

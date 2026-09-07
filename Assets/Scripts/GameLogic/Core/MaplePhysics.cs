@@ -1,16 +1,16 @@
 namespace MapleClient.GameLogic.Core
 {
     /// <summary>
-    /// MapleStory v83 physics constants and calculations
-    /// Based on actual game values, converted to Unity units (1 unit = 100 pixels)
+    /// Legacy approximations used by swimming, special skills, and monsters.
+    /// Normal player movement uses NormalMovement and HeavenClient's source equations.
     /// </summary>
     public static class MaplePhysics
     {
         // Pixel to Unity unit conversion
         private const float PIXELS_TO_UNITS = 100f;
         
-        // Fixed timestep for 60 FPS physics
-        public const float FIXED_TIMESTEP = 1f / 60f;
+        // All simulation participants share the source 8 ms clock.
+        public const float FIXED_TIMESTEP = PhysicsUpdateManager.FIXED_TIMESTEP;
         
         // Movement constants (units per second, adjusted for Unity scale)
         // MapleStory v83 typical walk speed is ~125 pixels/second at 100% speed

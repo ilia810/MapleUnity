@@ -5,6 +5,7 @@ using Debug = UnityEngine.Debug;
 
 namespace MapleClient.GameView
 {
+    [DefaultExecutionOrder(-50)]
     public class PlayerView : MonoBehaviour
     {
         private Player player;
@@ -97,17 +98,7 @@ namespace MapleClient.GameView
             }
         }
         
-        private void FixedUpdate()
-        {
-            if (player != null)
-            {
-                // Store positions for interpolation
-                previousPosition = currentPosition;
-                currentPosition = new Vector3(player.Position.X, player.Position.Y, 0);
-            }
-        }
-
-        private void Update()
+        private void LateUpdate()
         {
             // The MapleCharacterRenderer handles all visual updates
             // We just need to handle any additional effects or UI elements here
@@ -120,8 +111,10 @@ namespace MapleClient.GameView
                 {
                     float interpolationFactor = manualInterpolationFactor >= 0f ? 
                         manualInterpolationFactor : 
-                        (gameWorld != null ? gameWorld.GetPhysicsInterpolationFactor() : 0f);
-                    transform.position = Vector3.Lerp(previousPosition, currentPosition, interpolationFactor);
+                        (gameWorld != null ? gameWorld.GetPhysicsInterpolationFactor() : 1f);
+                    var previous = player.PreviousPosition;
+                    transform.position = Vector3.Lerp(new Vector3(previous.X, previous.Y, 0),
+                        new Vector3(player.Position.X, player.Position.Y, 0), interpolationFactor);
                 }
                 else
                 {

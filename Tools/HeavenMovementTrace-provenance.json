@@ -1,0 +1,38 @@
+{
+  "source": "C:\\HeavenClient\\MapleStory-Client",
+  "source_sha256": {
+    "Constants.h": "6daf30edea5038f8cff2d42ca2117517680a25da6ad01a740c90f6cd3fab25e2",
+    "Util/TimedBool.h": "b970a082d584e4f079999c58cbdca3629c631f18a7b999f20cadda5ae59f36d7",
+    "Util/Lerp.h": "b4aed7df7908769468de28efdff54823bfc8ee1f19b2139c9a40751430f16621",
+    "Template/Interpolated.h": "1c588b8daab0e84707efb7398ca3f4296c9489929e9760cc3a39bfd1102fd5a7",
+    "Template/Range.h": "46dd26fa487d637b314f38e66dda71d867eeb0343a6b35d8c0223e05c263fe73",
+    "Template/Point.h": "6d6d2a280eae626825da784c6d1b20e540e305fb3d07626c31f8310ffe4f0839",
+    "Gameplay/Physics/PhysicsObject.h": "87f75ac6f2587e8b131704a93720386aa89187620ce8f5cc9f1830ffa92c5add",
+    "Gameplay/Physics/Foothold.h": "bcc957ba6a05fb065ad18073d347c136871ed2d13615f203048b9c27e808041c",
+    "Gameplay/Physics/FootholdTree.h": "13f12484e08e88a3ae6f2e319f8144f6d6c97583f4ce1d9186e9e272ee10dc68",
+    "Gameplay/Physics/Foothold.cpp": "eaa1fe4d150f16444a19ab427cecf619d186fdcbe59cd0c2cd8fa8a8b44703de",
+    "Gameplay/Physics/FootholdTree.cpp": "11bc4cf08c0a621ed9f9cfe804be160c2e8781ffdcd62416ab6d8a46f236debe",
+    "Gameplay/Physics/Physics.cpp": "ebf080db4c59bf1662eb4ce8bfc6da6601d592db3886aeb4b66aad4915ea5ede",
+    "Character/Player.cpp": "d528b26d16246e9409e672d96b72525d7aab1f1d3b4f5eb71a7dd28b1789642a",
+    "Character/PlayerStates.cpp": "93bc11a1607445547c654be754d609d7ecfda01646235d2958ebae19c4087990",
+    "Gameplay/MapleMap/MapInfo.cpp": "4a59bf71b87e06b9975e1b196ad7191feba914dfc4f3f7223e83fdaa08d6e92d"
+  },
+  "method": "Unmodified selected C++ methods; headless Player adapter; synthetic footholds; 8 ms ticks.",
+  "excluded": [
+    "NX loading",
+    "audio",
+    "animation",
+    "network",
+    "custom oscillation watchdogs",
+    "swimming",
+    "flying"
+  ],
+  "trace_sha256": "ff9fae8e92ec4df59ced929d247f27cffd9f2c72eeb6d94f4aa4ed4a739c07e1",
+  "rows": 1920,
+  "traversal_trace_sha256": "e0383cabf1b5c9b52c316d73d3a16cb777d4601890dd893d88574335a0a769b6",
+  "traversal_rows": 5200,
+  "terrain_trace_sha256": "5aabb2f1eab2db33688449d263da6cd11eda3d7cdc325a4ce7635e5b4f0342da",
+  "terrain_rows": 2560,
+  "terrain_adapter": "Actual source lookup/contact/layer rules; synthetic overlapping surfaces and boundaries. Empty/null foothold behavior is tested separately as an intentional correction.",
+  "traversal_adapter": "Actual Ladder, TimedBool, ClimbState and Player ladder/force methods; Stage entry order reproduced without portals/combat."
+}

@@ -33,6 +33,13 @@ namespace MapleClient.GameData
             nxFiles[name.ToLower()] = file;
         }
         
+        public void UnregisterNxFile(string name, INxFile file)
+        {
+            string key = name.ToLower();
+            if (nxFiles.TryGetValue(key, out var registered) && ReferenceEquals(registered, file))
+                nxFiles.Remove(key);
+        }
+
         public INxFile GetNxFile(string name)
         {
             nxFiles.TryGetValue(name.ToLower(), out var file);
@@ -345,74 +352,40 @@ namespace MapleClient.GameData
         {
             var parts = new Dictionary<string, Sprite>();
             attachmentPoints = new Dictionary<string, Vector2>();
-            
-            // First check for attachment points at frame level
-            // These are used for positioning other parts relative to the body
-            ExtractAttachmentPoints(frameNode, attachmentPoints, "frame");
-            
-            // Look for all body parts within the frame
-            foreach (var partNode in frameNode.Children)
+            var nodes = new Dictionary<string, INxNode>();
+            foreach (var part in frameNode.Children)
             {
-                string partName = partNode.Name;
-                
-                // Skip non-sprite parts
-                if (partName == "delay" || partName == "face" || partName == "head")
-                    continue;
-                
-                Debug.Log($"Processing part '{partName}' at: {path}/{partName}");
-                
-                // Handle link resolution
-                var resolvedNode = ResolveLinks(partNode, charFile);
-                if (resolvedNode == null)
-                {
-                    Debug.LogWarning($"Could not resolve links for part: {partName}");
-                    continue;
-                }
-                
-                // Extract attachment points from body parts
-                if (partName == "body")
-                {
-                    // Body has special attachment points for other parts
-                    ExtractAttachmentPoints(resolvedNode, attachmentPoints, "body");
-                    
-                    // Also check the map node which contains attachment points
-                    var mapNode = resolvedNode["map"];
-                    if (mapNode != null)
-                    {
-                        ExtractAttachmentPoints(mapNode, attachmentPoints, "body.map");
-                    }
-                }
-                else if (partName == "arm" || partName == "hand" || partName == "lHand" || partName == "rHand")
-                {
-                    // Arms have their own attachment points
-                    ExtractAttachmentPoints(resolvedNode, attachmentPoints, partName);
-                    
-                    var mapNode = resolvedNode["map"];
-                    if (mapNode != null)
-                    {
-                        ExtractAttachmentPoints(mapNode, attachmentPoints, $"{partName}.map");
-                    }
-                }
-                
-                // Get the origin for this part
-                Vector2 origin = Vector2.zero;
-                var originNode = resolvedNode["origin"];
-                if (originNode != null && originNode.Value is Vector2 vec)
-                {
-                    origin = vec;
-                }
-                
-                var sprite = SpriteLoader.ConvertCharacterNodeToSprite(resolvedNode, $"{path}/{partName}", origin);
-                if (sprite != null)
-                {
-                    parts[partName] = sprite;
-                    Debug.Log($"Loaded part '{partName}': {sprite.rect.width}x{sprite.rect.height}, origin: {origin}");
-                }
+                if (part.Name == "delay" || part.Name == "face") continue;
+                var node = ResolveLinks(part, charFile);
+                if (node == null) continue;
+                nodes[part.Name] = node;
+                var map = node["map"];
+                if (map == null) continue;
+                foreach (var point in map.Children)
+                    if (point.Value is Vector2 position)
+                        attachmentPoints[$"{part.Name}.map.{point.Name}"] = position;
             }
-            
+            Vector2 bodyPosition = attachmentPoints.TryGetValue("body.map.navel", out var navel) ? navel : Vector2.zero;
+            Vector2 handPosition = Vector2.zero;
+            foreach (var entry in nodes)
+                if (entry.Value["z"]?.GetValue<string>() == "handBelowWeapon")
+                    handPosition = entry.Value["map"]?["handMove"]?.GetValue<Vector2>() ?? Vector2.zero;
+            attachmentPoints["source.handPosition"] = handPosition;
+            foreach (var entry in nodes)
+            {
+                if (entry.Key == "head") continue;
+                var node = entry.Value;
+                string layer = node["z"]?.GetValue<string>() ?? entry.Key;
+                if (layer == "backBody") layer = "body";
+                Vector2 shift = layer == "handBelowWeapon"
+                    ? handPosition - (node["map"]?["handMove"]?.GetValue<Vector2>() ?? Vector2.zero)
+                    : bodyPosition - (node["map"]?["navel"]?.GetValue<Vector2>() ?? Vector2.zero);
+                var sprite = SpriteLoader.LoadSpriteWithShift(node, shift, $"{path}/{entry.Key}");
+                if (sprite != null && !parts.ContainsKey(layer)) parts[layer] = sprite;
+            }
             return parts;
         }
-        
+
         /// <summary>
         /// Resolve _inlink and _outlink references to get the actual image data
         /// </summary>
@@ -504,84 +477,135 @@ namespace MapleClient.GameData
         public Sprite LoadCharacterHead(int skin, string state, int frame, out Dictionary<string, Vector2> attachmentPoints)
         {
             attachmentPoints = new Dictionary<string, Vector2>();
-            
+
             var charFile = GetNxFile("character");
             if (charFile == null) return null;
-            
+
             // Head sprites follow same structure as body
             string path = $"00012000.img/{state}/{frame}";
             var frameNode = charFile.GetNode(path);
-            
+
             if (frameNode == null) return null;
-            
+
             // Extract head attachment points from the frame
             ExtractAttachmentPoints(frameNode, attachmentPoints, "head");
-            
+
             // Look for head part within the frame
             var headPart = frameNode["head"];
             if (headPart != null)
             {
                 var resolvedNode = ResolveLinks(headPart, charFile);
-                
+
                 // Also extract attachment points from the head part itself
                 ExtractAttachmentPoints(resolvedNode, attachmentPoints, "head");
-                
+
                 // Check for map node which may contain additional attachment points
                 var mapNode = resolvedNode["map"];
                 if (mapNode != null)
                 {
                     ExtractAttachmentPoints(mapNode, attachmentPoints, "head.map");
                 }
-                
+
                 return SpriteLoader.LoadSprite(resolvedNode, $"head/{skin}/{state}/{frame}");
             }
-            
+
             // Try loading the frame directly
             var resolvedFrame = ResolveLinks(frameNode, charFile);
             return SpriteLoader.LoadSprite(resolvedFrame, $"head/{skin}/{state}/{frame}");
+        }
+
+        /// <summary>
+        /// Load character head sprite with shift applied (C++ style)
+        /// The shift is calculated as: body.neck - head.neck
+        /// </summary>
+        public Sprite LoadCharacterHeadWithShift(int skin, string state, int frame, Vector2 headShift, out Dictionary<string, Vector2> attachmentPoints)
+        {
+            attachmentPoints = new Dictionary<string, Vector2>();
+
+            var charFile = GetNxFile("character");
+            if (charFile == null) return null;
+
+            string path = $"00012000.img/{state}/{frame}";
+            var frameNode = charFile.GetNode(path);
+
+            if (frameNode == null) return null;
+
+            ExtractAttachmentPoints(frameNode, attachmentPoints, "head");
+
+            var headPart = frameNode["head"];
+            if (headPart != null)
+            {
+                var resolvedNode = ResolveLinks(headPart, charFile);
+                ExtractAttachmentPoints(resolvedNode, attachmentPoints, "head");
+
+                var mapNode = resolvedNode["map"];
+                if (mapNode != null)
+                {
+                    ExtractAttachmentPoints(mapNode, attachmentPoints, "head.map");
+                }
+
+                Debug.Log($"[NXAssetLoader] Loading head with shift: {headShift}");
+                return SpriteLoader.LoadSpriteWithShift(resolvedNode, headShift, $"head/{skin}/{state}/{frame}");
+            }
+
+            var resolvedFrame = ResolveLinks(frameNode, charFile);
+            return SpriteLoader.LoadSpriteWithShift(resolvedFrame, headShift, $"head/{skin}/{state}/{frame}");
         }
         
         /// <summary>
         /// Load face sprite
         /// </summary>
-        public Sprite LoadFace(int faceId, string expression = "default")
+        public Sprite LoadFace(int faceId, string expression = "default", int frame = 0)
         {
             var charFile = GetNxFile("character");
-            if (charFile == null) return null;
-            
-            // Face sprites can be in different locations:
-            // 1. Character/Face/{faceId:D8}.img/{expression}/face
-            // 2. Character/Face/{faceId:D8}.img/{expression} (directly)
-            // 3. Character/Face/{faceId:D8}.img/{expression}/0 (legacy)
-            
-            string basePath = $"Face/{faceId:D8}.img/{expression}";
-            
-            // Try path 1: face subdirectory
-            var faceNode = charFile.GetNode($"{basePath}/face");
-            
-            // Try path 2: expression node directly
-            if (faceNode == null)
-            {
-                faceNode = charFile.GetNode(basePath);
-                // Only use it if it contains image data
-                if (faceNode != null && !(faceNode.Value is byte[]))
-                {
-                    faceNode = null;
-                }
-            }
-            
-            // Try path 3: legacy /0 path
-            if (faceNode == null)
-            {
-                faceNode = charFile.GetNode($"{basePath}/0");
-            }
-            
-            if (faceNode == null) return null;
-            
-            var resolvedNode = ResolveLinks(faceNode, charFile);
-            return SpriteLoader.LoadSprite(resolvedNode, $"face/{faceId}/{expression}");
+            var faceNode = FaceBitmap(charFile, faceId, expression, frame, out int resolvedFaceId);
+            return faceNode == null ? null : SpriteLoader.LoadSprite(faceNode, $"face/{resolvedFaceId}/{expression}/{frame}");
         }
-        
+
+        internal INxNode FaceRoot(INxFile file, int faceId, out int resolvedFaceId)
+        {
+            resolvedFaceId = faceId;
+            var root = file?.GetNode($"Face/{faceId:D8}.img");
+            if (root == null && faceId != 20000)
+            {
+                resolvedFaceId = 20000;
+                root = file?.GetNode("Face/00020000.img");
+            }
+            return ResolveLinks(root, file);
+        }
+
+        internal INxNode FaceFrame(INxNode root, INxFile file, string expression, int frame)
+        {
+            if (root == null || frame < 0) return null;
+            var exp = ResolveLinks(root[expression], file);
+            return expression == "default" ? (frame == 0 ? exp : null) : ResolveLinks(exp?[frame.ToString()], file);
+        }
+
+        private INxNode FaceBitmap(INxFile file, int faceId, string expression, int frame, out int resolvedFaceId)
+        {
+            var root = FaceRoot(file, faceId, out resolvedFaceId);
+            var node = FaceFrame(root, file, expression, frame);
+            if (node == null) return null;
+            var bitmap = node["face"];
+            // Retain the older direct-bitmap/default frame-zero layout when present.
+            if (bitmap == null && expression == "default") bitmap = node["0"]?["face"] ?? node["0"];
+            return ResolveLinks(bitmap ?? node, file);
+        }
+
+        /// <summary>Face.h shifts each bitmap by its own brow; CharLook adds the current head brow.</summary>
+        public Sprite LoadFaceWithShift(int faceId, string expression, Vector2 faceShift,
+            out Dictionary<string, Vector2> attachmentPoints, int frame = 0)
+        {
+            attachmentPoints = new Dictionary<string, Vector2>();
+            var faceNode = FaceBitmap(GetNxFile("character"), faceId, expression, frame, out int resolvedFaceId);
+            if (faceNode == null) return null;
+            ExtractAttachmentPoints(faceNode, attachmentPoints, "face");
+            var mapNode = faceNode["map"];
+            if (mapNode != null) ExtractAttachmentPoints(mapNode, attachmentPoints, "face.map");
+            Vector2 faceBrow = mapNode?["brow"]?.GetValue<Vector2>() ?? Vector2.zero;
+            return SpriteLoader.LoadSpriteWithShift(faceNode, faceShift - faceBrow, $"face/{resolvedFaceId}/{expression}/{frame}");
+        }
+
         /// <summary>
         /// Load hair sprite
         /// </summary>
@@ -589,20 +613,58 @@ namespace MapleClient.GameData
         {
             var charFile = GetNxFile("character");
             if (charFile == null) return null;
-            
+
             // Hair sprites are in Character/Hair/{hairId:D8}.img/{state}/{frame}
             var hairNode = charFile.GetNode($"Hair/{hairId:D8}.img/{state}/{frame}");
-            
+
             if (hairNode == null) return null;
-            
+
             var resolvedNode = ResolveLinks(hairNode, charFile);
             return SpriteLoader.LoadSprite(resolvedNode, $"hair/{hairId}/{state}/{frame}");
         }
-        
+
+        /// <summary>
+        /// Load hair sprite with shift applied (C++ style)
+        /// C++ formula: hair_position = head.brow - head.neck + body.neck
+        /// Each layer shift = hair_position - layer.map.brow
+        /// </summary>
+        public Sprite LoadHairWithShift(int hairId, string state, int frame, Vector2 hairShift,
+            out Dictionary<string, Vector2> attachmentPoints, string layerName = "hair")
+        {
+            attachmentPoints = new Dictionary<string, Vector2>();
+            var charFile = GetNxFile("character");
+            if (charFile == null) return null;
+            string basePath = $"Hair/{hairId:D8}.img/{state}/{frame}";
+            var hairNode = charFile.GetNode(basePath) ?? charFile.GetNode($"Hair/{hairId:D8}.img/{state}");
+            if (hairNode == null) return null;
+            var partNode = hairNode[layerName];
+            if (partNode == null)
+            {
+                if (layerName != "hair") return null;
+                partNode = hairNode;
+            }
+            // ReNX may expose a container's first bitmap as Value; retain the
+            // bitmap node itself so its authored origin is not lost.
+            if (layerName == "hairShade") partNode = partNode["0"] ?? partNode;
+            var resolvedNode = ResolveLinks(partNode, charFile);
+            if (resolvedNode != null && !(resolvedNode.Value is byte[]))
+                resolvedNode = ResolveLinks(resolvedNode["0"], charFile);
+            if (resolvedNode == null) return null;
+            ExtractAttachmentPoints(resolvedNode, attachmentPoints, layerName);
+            var mapNode = resolvedNode["map"];
+            if (mapNode != null) ExtractAttachmentPoints(mapNode, attachmentPoints, $"{layerName}.map");
+            // HeavenClient Hair.cpp aligns each layer's brow with the head.
+            Vector2 brow = mapNode?["brow"]?.GetValue<Vector2>() ?? Vector2.zero;
+            return SpriteLoader.LoadSpriteWithShift(resolvedNode, hairShift - brow,
+                $"hair/{hairId}/{state}/{frame}/{layerName}");
+        }
+
         /// <summary>
         /// Load equipment sprite
         /// </summary>
-        public Sprite LoadEquipment(int itemId, string category, string state, int frame)
+        internal INxNode ResolveEquipmentNode(INxNode node, INxFile file) => ResolveLinks(node, file);
+
+        public Sprite LoadEquipment(int itemId, string category, string state, int frame, Dictionary<string, Vector2> attachments = null)
         {
             var charFile = GetNxFile("character");
             if (charFile == null) return null;
@@ -640,7 +702,36 @@ namespace MapleClient.GameData
                         origin = vec;
                     }
                     
-                    var sprite = SpriteLoader.ConvertCharacterNodeToSprite(resolvedNode, $"{equipPath}/{partName}", origin);
+                    Vector2 shift = Vector2.zero;
+                    if (attachments != null)
+                    {
+                        string anchorName = null;
+                        Vector2 anchor = Vector2.zero;
+                        var map = resolvedNode["map"];
+                        if (map != null)
+                            foreach (var point in map.Children)
+                                if (point.Value is Vector2 position) { anchorName = point.Name; anchor = position; }
+                        Vector2 body = attachments.TryGetValue("body.map.navel", out var b) ? b : Vector2.zero;
+                        Vector2 bodyNeck = attachments.TryGetValue("body.map.neck", out var bn) ? bn : Vector2.zero;
+                        Vector2 headNeck = attachments.TryGetValue("head.map.neck", out var hn) ? hn : Vector2.zero;
+                        Vector2 headBrow = attachments.TryGetValue("head.map.brow", out var hb) ? hb : Vector2.zero;
+                        Vector2 target = body;
+                        if (category == "Cap" || category == "Earring" || category == "EyeAccessory" || category == "FaceAccessory")
+                            target = bodyNeck - headNeck + headBrow;
+                        else if (category == "Weapon" || category == "Shield")
+                        {
+                            if (anchorName == "handMove")
+                                target = attachments.TryGetValue("lHand.map.handMove", out var hm) ? hm : Vector2.zero;
+                            else if (anchorName == "hand")
+                            {
+                                Vector2 armHand = attachments.TryGetValue("arm.map.hand", out var ah) ? ah : Vector2.zero;
+                                Vector2 armNavel = attachments.TryGetValue("arm.map.navel", out var an) ? an : Vector2.zero;
+                                target = body + armHand - armNavel;
+                            }
+                        }
+                        shift = target - anchor;
+                    }
+                    var sprite = SpriteLoader.LoadSpriteWithShift(resolvedNode, shift, $"{equipPath}/{partName}");
                     if (sprite != null)
                     {
                         return sprite; // Return first valid sprite part
@@ -658,16 +749,40 @@ namespace MapleClient.GameData
         /// </summary>
         public Sprite LoadItemIcon(int itemId)
         {
-            var itemFile = GetNxFile("item");
-            if (itemFile == null) return null;
-            
-            // Determine item category
-            string category = GetItemCategory(itemId);
-            
-            // Icons are in Item/{category}/{itemId:D8}.img/info/icon
-            var iconNode = itemFile.GetNode($"{category}/{itemId:D8}.img/info/icon");
-            
-            return iconNode != null ? SpriteLoader.LoadSprite(iconNode) : null;
+            string path = MapleClient.GameLogic.Data.ItemPaths.Node(itemId);
+            if (path == null) return null;
+            string file = MapleClient.GameLogic.Data.ItemPaths.File(itemId);
+            var node = GetNxFile(file)?.GetNode(path + "/info/icon");
+            return node != null ? SpriteLoader.LoadSprite(node, $"{file}/{path}/info/icon") : null;
+        }
+        public Sprite LoadMesoIcon(int amount, int frame)
+        {
+            int kind = amount > 999 ? 3 : amount > 99 ? 2 : amount > 49 ? 1 : 0;
+            string path = $"Special/0900.img/0900000{kind}/iconRaw/{frame}";
+            var node = GetNxFile("item")?.GetNode(path);
+            return node == null ? null : SpriteLoader.LoadSpriteWithShift(node, Vector2.zero, "item/" + path);
+        }
+        public Sprite LoadDroppedItemIcon(int id)
+        {
+            string path = MapleClient.GameLogic.Data.ItemPaths.Node(id);
+            if (path == null) return null;
+            string file = MapleClient.GameLogic.Data.ItemPaths.File(id);
+            var node = GetNxFile(file)?.GetNode(path + "/info/iconRaw");
+            return node == null ? null : SpriteLoader.LoadSpriteWithShift(node, Vector2.zero, file + "/" + path + "/info/iconRaw");
+        }
+        public int MesoFrameAt(int amount, float seconds)
+        {
+            int kind = amount > 999 ? 3 : amount > 99 ? 2 : amount > 49 ? 1 : 0;
+            var node = GetNxFile("item")?.GetNode($"Special/0900.img/0900000{kind}/iconRaw");
+            if (node == null) return 0;
+            int duration = 0, count = 0;
+            while (count < 256 && node[count.ToString()] != null)
+            { duration += Math.Max(1, node[count.ToString()]["delay"]?.GetValue<int>() ?? 100); count++; }
+            if (duration == 0) return 0;
+            int time = (int)(Math.Max(0, seconds) * 1000) % duration;
+            for (int frame = 0; frame < count; frame++)
+            { time -= Math.Max(1, node[frame.ToString()]["delay"]?.GetValue<int>() ?? 100); if (time < 0) return frame; }
+            return 0;
         }
         
         /// <summary>

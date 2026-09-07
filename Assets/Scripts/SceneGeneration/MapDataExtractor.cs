@@ -45,11 +45,9 @@ namespace MapleClient.SceneGeneration
                 return null;
             }
             
-            // Extract map info
-            ExtractMapInfo(mapNode, mapData);
-            
-            // Extract footholds (platforms)
+            // Missing VR bounds are derived from the source platform envelope.
             ExtractFootholds(mapNode, mapData);
+            ExtractMapInfo(mapNode, mapData);
             
             // Extract portals
             ExtractPortals(mapNode, mapData);
@@ -71,28 +69,42 @@ namespace MapleClient.SceneGeneration
         
         private void ExtractMapInfo(INxNode mapNode, MapData mapData)
         {
-            var infoNode = mapNode["info"];
-            if (infoNode != null)
+            var info = mapNode["info"];
+            int? left = info?["VRLeft"]?.GetValue<int>();
+            int? right = info?["VRRight"]?.GetValue<int>();
+            int? top = info?["VRTop"]?.GetValue<int>();
+            int? bottom = info?["VRBottom"]?.GetValue<int>();
+            if (left.HasValue && right.HasValue && top.HasValue && bottom.HasValue &&
+                left.Value < right.Value && top.Value < bottom.Value)
             {
-                mapData.VRBounds = new Bounds();
-                
-                // Extract VR bounds
-                var vrLeft = infoNode["VRLeft"]?.GetValue<int>() ?? -1000;
-                var vrRight = infoNode["VRRight"]?.GetValue<int>() ?? 1000;
-                var vrTop = infoNode["VRTop"]?.GetValue<int>() ?? -1000;
-                var vrBottom = infoNode["VRBottom"]?.GetValue<int>() ?? 1000;
-                
-                mapData.VRBounds = CoordinateConverter.ToUnityBounds(vrLeft, vrRight, vrTop, vrBottom);
-                
-                // Extract other info
-                mapData.BGM = infoNode["bgm"]?.GetValue<string>() ?? "";
-                mapData.Cloud = infoNode["cloud"]?.GetValue<int>() ?? 0;
-                mapData.FieldLimit = infoNode["fieldLimit"]?.GetValue<int>() ?? 0;
-                mapData.ReturnMap = infoNode["returnMap"]?.GetValue<int>() ?? 0;
-                mapData.ForcedReturn = infoNode["forcedReturn"]?.GetValue<int>() ?? 999999999;
+                mapData.VRBounds = CoordinateConverter.ToUnityBounds(
+                    left.Value, right.Value, top.Value, bottom.Value);
             }
+            else
+            {
+                // HeavenClient Camera.cpp uses non-wall platform limits and
+                // allows the viewport to extend 200px below the lowest platform.
+                var platforms = mapData.Footholds?.Where(fh => fh.X1 != fh.X2).ToList();
+                if (platforms != null && platforms.Count > 0)
+                {
+                    int platformLeft = platforms.Min(fh => Math.Min(fh.X1, fh.X2));
+                    int platformRight = platforms.Max(fh => Math.Max(fh.X1, fh.X2));
+                    int platformBottom = platforms.Max(fh => Math.Max(fh.Y1, fh.Y2));
+                    mapData.VRBounds = CoordinateConverter.ToUnityBounds(
+                        platformLeft, platformRight, -30000, platformBottom + 200);
+                }
+                else
+                {
+                    mapData.VRBounds = CoordinateConverter.ToUnityBounds(-1000, 1000, -1000, 1000);
+                }
+            }
+            mapData.BGM = info?["bgm"]?.GetValue<string>() ?? "";
+            mapData.Cloud = info?["cloud"]?.GetValue<int>() ?? 0;
+            mapData.FieldLimit = info?["fieldLimit"]?.GetValue<int>() ?? 0;
+            mapData.ReturnMap = info?["returnMap"]?.GetValue<int>() ?? 0;
+            mapData.ForcedReturn = info?["forcedReturn"]?.GetValue<int>() ?? 999999999;
         }
-        
+
         private void ExtractFootholds(INxNode mapNode, MapData mapData)
         {
             mapData.Footholds = new List<Foothold>();
@@ -110,6 +122,7 @@ namespace MapleClient.SceneGeneration
                         var foothold = new Foothold
                         {
                             Id = int.Parse(fh.Name),
+                            Layer = int.Parse(layer.Name),
                             X1 = fh["x1"]?.GetValue<int>() ?? 0,
                             Y1 = fh["y1"]?.GetValue<int>() ?? 0,
                             X2 = fh["x2"]?.GetValue<int>() ?? 0,
@@ -158,6 +171,7 @@ namespace MapleClient.SceneGeneration
             
             foreach (var life in lifeNode.Children)
             {
+                if ((life["hide"]?.GetValue<int>() ?? 0) != 0) continue;
                 var type = life["type"]?.GetValue<string>() ?? "";
                 var lifeData = new LifeData
                 {
@@ -188,11 +202,14 @@ namespace MapleClient.SceneGeneration
             foreach (var bg in backNode.Children)
             {
                 var bgName = bg["bS"]?.GetValue<string>() ?? "";
-                var layerNo = bg["no"]?.GetValue<int>() ?? int.Parse(bg.Name);
+                if (!int.TryParse(bg.Name, out int layerNo)) continue;
                 
                 var bgData = new BackgroundData
                 {
                     No = layerNo,
+                    SpriteNo = bg["no"]?.GetValue<int>() ?? 0,
+                    CX = bg["cx"]?.GetValue<int>() ?? 0,
+                    CY = bg["cy"]?.GetValue<int>() ?? 0,
                     BgName = bgName,
                     X = bg["x"]?.GetValue<int>() ?? 0,
                     Y = bg["y"]?.GetValue<int>() ?? 0,
@@ -468,6 +485,7 @@ namespace MapleClient.SceneGeneration
     
     public class Foothold
     {
+        public int Layer { get; set; }
         public int Id { get; set; }
         public int X1 { get; set; }
         public int Y1 { get; set; }
@@ -500,19 +518,23 @@ namespace MapleClient.SceneGeneration
         public int F { get; set; }
     }
     
+    [Serializable]
     public class BackgroundData
     {
-        public int No { get; set; }
-        public string BgName { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int RX { get; set; }
-        public int RY { get; set; }
-        public int Type { get; set; }
-        public int A { get; set; }
-        public int Front { get; set; }
-        public int Ani { get; set; }
-        public int F { get; set; }
+        public int No; // Layer order in the map back node.
+        public int SpriteNo; // Asset selector within Back/{bS}.img.
+        public int CX;
+        public int CY;
+        public string BgName;
+        public int X;
+        public int Y;
+        public int RX;
+        public int RY;
+        public int Type;
+        public int A;
+        public int Front;
+        public int Ani;
+        public int F;
     }
     
     public class ObjectData

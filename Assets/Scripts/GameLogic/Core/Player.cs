@@ -7,9 +7,29 @@ using MapleClient.GameLogic.Interfaces;
 
 namespace MapleClient.GameLogic.Core
 {
-    public class Player : IPhysicsObject
+    public partial class Player : IPhysicsObject
     {
         public event Action Landed;
+        public event Action Jumped;
+        public Vector2 PreviousPosition { get; private set; }
+        public bool? FacingRight { get; private set; }
+        public int CurrentFootholdId => normalMovement?.FootholdId ?? 0;
+        public int CurrentFootholdLayer => normalMovement?.FootholdLayer ?? 0;
+        private NormalMovement normalMovement;
+        private NormalTerrain normalTerrain;
+        private MapData normalTerrainMap;
+        private MapData movementMap;
+        private int normalTerrainRevision = -1;
+        private double movementAccumulator;
+        private bool updatingPhysics;
+        private bool jumpRequested;
+        private bool jumpDownRequested;
+        private bool crouchRequested;
+        private LadderInfo requestedLadder;
+        private bool stopClimbingRequested;
+        public bool CanDropThroughPlatform => normalMovement?.CanDrop == true && IsGrounded;
+        public bool CanClimb => (normalMovement?.ClimbCooldownMilliseconds ?? 0) == 0;
+        public int ClimbCooldownMilliseconds => normalMovement?.ClimbCooldownMilliseconds ?? 0;
         
         // View listener management
         private readonly List<IPlayerViewListener> viewListeners = new List<IPlayerViewListener>();
@@ -19,15 +39,14 @@ namespace MapleClient.GameLogic.Core
         private readonly IFootholdService footholdService;
         
         // Player dimensions (in units)
-        private const float PLAYER_HEIGHT = 0.6f; // 60 pixels / 100
+        public const float Height = 0.6f;
+        private const float PLAYER_HEIGHT = Height; // 60 pixels / 100
         private const float PLAYER_WIDTH = 0.3f;  // 30 pixels / 100
         
         // Movement state
         private float actualWalkSpeed;
         private float actualJumpPower;
         private bool jumpKeyPressed = false; // Track jump key state for subsequent jumps
-        private bool droppingThroughPlatform = false; // For one-way platform drop-down
-        private float dropThroughTimer = 0f; // Timer to prevent immediate re-landing
         
         // Special movement
         private bool hasDoubleJump = false;
@@ -57,6 +76,16 @@ namespace MapleClient.GameLogic.Core
                         System.Console.WriteLine($"[FOOTHOLD_COLLISION] Player.Position changed #{positionSetCount}: ({position.X:F2}, {position.Y:F2}) -> ({value.X:F2}, {value.Y:F2})");
                         positionSetCount++;
                     }
+                    if (!updatingPhysics)
+                    {
+                        PreviousPosition = value;
+                        normalMovement = null;
+                        pendingContactKnockback = null;
+                        jumpRequested = false;
+                        requestedLadder = null;
+                        stopClimbingRequested = false;
+                        currentLadder = null;
+                    }
                     position = value;
                     NotifyViewListeners(l => l.OnPositionChanged(value));
                 }
@@ -71,6 +100,7 @@ namespace MapleClient.GameLogic.Core
             {
                 if (velocity != value)
                 {
+                    if (!updatingPhysics) normalMovement = null;
                     velocity = value;
                     NotifyViewListeners(l => l.OnVelocityChanged(value));
                 }
@@ -85,6 +115,7 @@ namespace MapleClient.GameLogic.Core
             {
                 if (isGrounded != value)
                 {
+                    if (!updatingPhysics) normalMovement = null;
                     isGrounded = value;
                     NotifyViewListeners(l => l.OnGroundedStateChanged(value));
                 }
@@ -101,39 +132,82 @@ namespace MapleClient.GameLogic.Core
             get => state;
             private set
             {
-                if (state != value)
+                if (!IsBasicAttacking && state != value)
                 {
                     state = value;
+                    SynchronizeBodyStance();
                     NotifyViewListeners(l => l.OnStateChanged(value));
                 }
             }
         }
 
         // Combat stats
+        private int invulnerableMilliseconds;
+        private bool? pendingContactKnockback;
+        private long experience;
+        public bool IsDead => hp <= 0;
+        public bool IsInvulnerable => IsDead || invulnerableMilliseconds > 0;
+        public int InvulnerableMilliseconds => invulnerableMilliseconds;
+        public long Experience => experience;
+        public long ExperienceToNextLevel => ExperienceTable.RequiredForLevel(level);
+        public event Action<int> DamageTaken;
+        public event Action Died;
+        public event Action<long> ExperienceGained;
+        public event Action<int> LeveledUp;
         private int baseDamage = 20;
+        public bool HasPracticeDamageOverride { get; private set; }
+        private float combatMastery;
+        public float CombatMastery { get => Passives.Mastery ?? combatMastery; set => combatMastery = value; }
+        private float combatDamagePercent;
+        public float CombatDamagePercent { get => Passives.DamagePercent ?? combatDamagePercent; set => combatDamagePercent = value; }
+        private float criticalChance = .05f;
+        public float CriticalChance { get => Math.Max(0, Math.Min(1, Passives.CriticalChance ?? criticalChance)); set => criticalChance = value; }
+        public float CriticalDamageMultiplier => Passives.CriticalDamageMultiplier ?? 1.5f;
+        public int ProjectileRangePixels => 400 + Passives.ProjectileRangeBonus;
         private int level = 1;
         private int hp = 100;
-        private int maxHp = 100;
+        private int baseMaxHp = 100;
+        private int maxHp => WithPercentBuff(Math.Max(1, baseMaxHp + EquipmentBonus(StatType.MaxHP)), BuffType.MaxHPPercent);
         private int mp = 50;
-        private int maxMp = 50;
+        private int baseMaxMp = 50;
+        private int maxMp => WithPercentBuff(Math.Max(0, baseMaxMp + EquipmentBonus(StatType.MaxMP)), BuffType.MaxMPPercent);
         
         // Character stats
-        public int STR { get; set; } = 15;
-        public int DEX { get; set; } = 15;
-        public int INT { get; set; } = 15;
-        public int LUK { get; set; } = 15;
-        public int WeaponAttack { get; set; } = 20;
-        public int MagicAttack { get; set; } = 0;
-        public int WeaponDefense { get; set; } = 10;
-        public int MagicDefense { get; set; } = 10;
-        public int Accuracy { get; set; } = 100;
-        public int Avoidability { get; set; } = 0;
-        public int Speed { get; set; } = 100;
-        public int JumpPower { get; set; } = 120;
+        private int baseSTR = 15;
+        public int STR { get => baseSTR + EquipmentBonus(StatType.STR); set => baseSTR = value; }
+        private int baseDEX = 15;
+        public int DEX { get => baseDEX + EquipmentBonus(StatType.DEX); set => baseDEX = value; }
+        private int baseINT = 15;
+        public int INT { get => baseINT + EquipmentBonus(StatType.INT); set => baseINT = value; }
+        private int baseLUK = 15;
+        public int LUK { get => baseLUK + EquipmentBonus(StatType.LUK); set => baseLUK = value; }
+        private int baseWeaponAttack;
+        public int WeaponAttack { get => WithBuff(baseWeaponAttack + EquipmentBonus(StatType.WeaponAttack) + AmmunitionAttack + Passives.WeaponAttack, BuffType.WeaponAttack, 999); set => baseWeaponAttack = value; }
+        private int baseMagicAttack = 0;
+        public int MagicAttack { get => WithBuff(baseMagicAttack + EquipmentBonus(StatType.MagicAttack) + Passives.MagicAttack, BuffType.MagicAttack, 2000); set => baseMagicAttack = value; }
+        private int baseWeaponDefense = 10;
+        public int WeaponDefense { get => WithBuff(baseWeaponDefense + EquipmentBonus(StatType.WeaponDefense), BuffType.WeaponDefense, 999); set => baseWeaponDefense = value; }
+        private int baseMagicDefense = 10;
+        public int MagicDefense { get => WithBuff(baseMagicDefense + EquipmentBonus(StatType.MagicDefense), BuffType.MagicDefense, 999); set => baseMagicDefense = value; }
+        private int baseAccuracy;
+        private int AccuracyBonus => Math.Min(999, WithBuff(baseAccuracy + EquipmentBonus(StatType.Accuracy) + Passives.Accuracy, BuffType.Accuracy, 999));
+        public int Accuracy {
+            get => AccuracyBonus +
+                (int)(Math.Min(999, DEX) * .8f + Math.Min(999, LUK) * .5f);
+            set => baseAccuracy = value;
+        }
+        private int baseAvoidability = 0;
+        public int Avoidability { get => WithBuff(baseAvoidability + EquipmentBonus(StatType.Avoidability) + Passives.Avoidability, BuffType.Avoidability, 999); set => baseAvoidability = value; }
+        private int baseSpeed = 100;
+        public int Speed { get => WithBuff(baseSpeed + EquipmentBonus(StatType.Speed), BuffType.Speed, 140); set => baseSpeed = value; }
+        private int baseJumpPower = 120;
+        public int JumpPower { get => WithBuff(baseJumpPower + EquipmentBonus(StatType.Jump), BuffType.Jump, 123); set => baseJumpPower = value; }
         public int JobId { get; set; } = 0; // Beginner
 
         private bool isMovingLeft;
         private bool isMovingRight;
+        private int pendingSwimFacing;
+        public long SwimAnimationTicks { get; private set; }
         private bool isClimbingUp;
         private bool isClimbingDown;
         private LadderInfo currentLadder;
@@ -195,17 +269,17 @@ namespace MapleClient.GameLogic.Core
 
         public void MoveLeft(bool active)
         {
+            if (active && !isMovingLeft && State == PlayerState.Swimming && !IsBasicAttacking) pendingSwimFacing = -1;
             isMovingLeft = active;
-            UpdateHorizontalVelocity();
         }
 
         public void MoveRight(bool active)
         {
+            if (active && !isMovingRight && State == PlayerState.Swimming && !IsBasicAttacking) pendingSwimFacing = 1;
             isMovingRight = active;
-            UpdateHorizontalVelocity();
         }
 
-        private void UpdateHorizontalVelocity()
+        private void UpdateHorizontalVelocity(float deltaTime)
         {
             // Don't move horizontally when crouching or climbing
             if (State == PlayerState.Crouching || State == PlayerState.Climbing)
@@ -229,7 +303,7 @@ namespace MapleClient.GameLogic.Core
             {
                 // Apply friction to stop movement
                 float velocityX = Velocity.X;
-                velocityX = MaplePhysics.ApplyFriction(velocityX, 1f/60f, IsGrounded);
+                velocityX = MaplePhysics.ApplyFriction(velocityX, deltaTime, IsGrounded);
                 Velocity = new Vector2(velocityX, Velocity.Y);
                 return;
             }
@@ -253,7 +327,7 @@ namespace MapleClient.GameLogic.Core
             if (targetVelocityX != 0)
             {
                 // Accelerate towards target velocity
-                currentVelocityX = MaplePhysics.ApplyMovementAcceleration(currentVelocityX, targetVelocityX, MaplePhysics.FIXED_TIMESTEP, IsGrounded);
+                currentVelocityX = MaplePhysics.ApplyMovementAcceleration(currentVelocityX, targetVelocityX, deltaTime, IsGrounded);
                 
                 // Update state to walking if we're moving
                 if (IsGrounded && State != PlayerState.Walking && State != PlayerState.Swimming && System.Math.Abs(currentVelocityX) > 0.1f)
@@ -275,7 +349,7 @@ namespace MapleClient.GameLogic.Core
                 if (IsGrounded && frictionMultiplier > 0)
                 {
                     float friction = MaplePhysics.WalkFriction * frictionMultiplier;
-                    float deceleration = friction * MaplePhysics.FIXED_TIMESTEP;
+                    float deceleration = friction * deltaTime;
                     
                     if (currentVelocityX > 0)
                     {
@@ -302,12 +376,16 @@ namespace MapleClient.GameLogic.Core
 
         public void Jump()
         {
-            // Check if jump key was previously released (for subsequent jumps)
-            if (jumpKeyPressed)
-            {
-                return; // Can't jump again until key is released
-            }
-            
+            if (jumpKeyPressed) return;
+// Keep held keys, but discard blocked jump edges instead of buffering a jump.
+            jumpKeyPressed = true;
+            if (IsBasicAttacking && State != PlayerState.Crouching) return;
+            jumpRequested = true;
+            jumpDownRequested = crouchRequested || isClimbingDown;
+        }
+
+        private void ExecuteSpecialJump()
+        {
             // Check if jumping is prevented
             foreach (var modifier in movementModifiers)
             {
@@ -317,23 +395,9 @@ namespace MapleClient.GameLogic.Core
                 }
             }
             
-            jumpKeyPressed = true;
             float modifiedJumpPower = GetModifiedJumpPower();
             
-            if (State == PlayerState.Climbing)
-            {
-                // Jump off ladder - apply horizontal velocity if moving
-                StopClimbing();
-                float horizontalVelocity = 0f;
-                if (isMovingLeft) horizontalVelocity = -GetModifiedWalkSpeed();
-                else if (isMovingRight) horizontalVelocity = GetModifiedWalkSpeed();
-                
-                Velocity = new Vector2(horizontalVelocity, modifiedJumpPower);
-                IsJumping = true;
-                State = PlayerState.Jumping;
-                TriggerAnimationEvent(PlayerAnimationEvent.Jump);
-            }
-            else if (IsGrounded && State != PlayerState.Crouching)
+            if (IsGrounded && State != PlayerState.Crouching)
             {
                 Velocity = new Vector2(Velocity.X, modifiedJumpPower);
                 IsJumping = true;
@@ -341,6 +405,7 @@ namespace MapleClient.GameLogic.Core
                 State = PlayerState.Jumping;
                 jumpCount = 0; // Reset jump count
                 TriggerAnimationEvent(PlayerAnimationEvent.Jump);
+                Jumped?.Invoke();
             }
             else if (!IsGrounded && hasDoubleJump && jumpCount == 0)
             {
@@ -350,6 +415,7 @@ namespace MapleClient.GameLogic.Core
                 Velocity = new Vector2(Velocity.X, doubleJumpPower);
                 State = PlayerState.DoubleJumping;
                 TriggerAnimationEvent(PlayerAnimationEvent.Jump);
+                Jumped?.Invoke();
             }
         }
         
@@ -358,307 +424,377 @@ namespace MapleClient.GameLogic.Core
             jumpKeyPressed = false;
         }
 
+        public void ResetMovementForMap()
+        {
+            CombatContextVersion++;
+            BasicAttack?.Cancel();
+            SkillEffect = null;
+            ArmorEchoMilliseconds = 0;
+            normalMovement = null;
+            pendingContactKnockback = null;
+            normalTerrain = null;
+            normalTerrainMap = null;
+            movementMap = null;
+            normalTerrainRevision = -1;
+            jumpRequested = false;
+            jumpKeyPressed = false;
+            requestedLadder = null;
+            stopClimbingRequested = false;
+            currentLadder = null;
+            isClimbingUp = false;
+            isClimbingDown = false;
+            isMovingLeft = false;
+            isMovingRight = false;
+            pendingSwimFacing = 0;
+            SwimAnimationTicks = 0;
+            StanceAnimation.Reset();
+            pendingExpression = null;
+            crouchRequested = false;
+            IsJumping = false;
+            State = IsGrounded ? PlayerState.Standing : PlayerState.Falling;
+            movementAccumulator = 0;
+            PreviousPosition = Position;
+        }
+
         public void UpdatePhysics(float deltaTime, MapData mapData)
         {
-            // Store current map data for fallback platform detection
-            currentMapData = mapData;
-            
-            // Debug first few physics updates
-            if (debugCallCount < 3)
+            if (deltaTime <= 0 || float.IsNaN(deltaTime) || float.IsInfinity(deltaTime)) return;
+            movementAccumulator += deltaTime == PhysicsUpdateManager.FIXED_TIMESTEP ? NormalMovement.TickSeconds : Math.Min(deltaTime, 0.25f);
+            while (movementAccumulator + 1e-8 >= NormalMovement.TickSeconds)
             {
-                System.Console.WriteLine($"[FOOTHOLD_COLLISION] === Physics Update {debugCallCount} ===");
-                System.Console.WriteLine($"[FOOTHOLD_COLLISION] Position: {Position}, Velocity: {Velocity}, Grounded: {IsGrounded}");
-                System.Console.WriteLine($"[FOOTHOLD_COLLISION] This is BEFORE any physics calculations");
+                movementAccumulator = Math.Max(0, movementAccumulator - NormalMovement.TickSeconds);
+                TickStatBuffs();
+                invulnerableMilliseconds = Math.Max(0, invulnerableMilliseconds - 8);
+                PreviousPosition = Position;
+                if (IsDead) continue;
+                updatingPhysics = true;
+                try { StepMovement(mapData); }
+                finally { updatingPhysics = false; }
             }
-            
-            // Update movement modifiers
-            UpdateMovementModifiers(deltaTime);
-            
-            // Update flash jump cooldown
-            if (flashJumpCooldown > 0)
-                flashJumpCooldown -= deltaTime;
-            
-            // Handle environmental effects
+        }
+
+        private static bool IsFinite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
+
+        private void StepMovement(MapData mapData)
+        {
+            // Let GameWorld relocate invalid external/network positions before
+            // publishing another physics update into the views.
+            if (!IsFinite(Position.X) || !IsFinite(Position.Y) || !IsFinite(Velocity.X) || !IsFinite(Velocity.Y)) return;
+            ApplyExpressionInput();
+            movementMap = mapData;
+            const float step = PhysicsUpdateManager.FIXED_TIMESTEP;
+            UpdateMovementModifiers(step);
+            if (flashJumpCooldown > 0) flashJumpCooldown -= step;
             UpdateEnvironmentalEffects(mapData);
-            
-            // Handle climbing physics separately
-            if (State == PlayerState.Climbing)
+
+            bool special = mapData?.IsUnderwater != true && State != PlayerState.Climbing &&
+                (State == PlayerState.DoubleJumping || State == PlayerState.FlashJumping);
+            if (mapData?.IsUnderwater != true && !IsBasicAttacking && jumpRequested && State != PlayerState.Climbing && (!IsGrounded && hasDoubleJump || special))
             {
-                UpdateClimbingPhysics(deltaTime);
+                ExecuteSpecialJump();
+                special = true;
+                jumpRequested = false;
+            }
+            if (special)
+            {
+                normalMovement = null;
+                UpdateLegacyPhysics(step, mapData);
+                SynchronizeBodyStance();
+                if (!IsBasicAttacking) StanceAnimation.Advance(1);
+                AdvanceFace(1);
+                jumpRequested = false;
+                requestedLadder = null;
                 return;
             }
-            
-            // Update drop-through timer
-            if (droppingThroughPlatform)
-            {
-                dropThroughTimer -= deltaTime;
-                if (dropThroughTimer <= 0)
-                {
-                    droppingThroughPlatform = false;
-                }
-            }
-            
-            // Update horizontal velocity based on input and physics
-            UpdateHorizontalVelocity();
 
-            // Apply gravity if not grounded
+            int revision = (footholdService as FootholdService)?.Revision ?? 0;
+            if (normalTerrain == null || (footholdService == null && normalTerrainMap != mapData) || normalTerrainRevision != revision)
+            {
+                IEnumerable<Foothold> footholds = footholdService != null
+                    ? footholdService.GetFootholdsInArea(float.MinValue, float.MinValue, float.MaxValue, float.MaxValue)
+                    : GetCollisionFootholds(float.MinValue, float.MaxValue, mapData);
+                normalTerrain = new NormalTerrain(footholds);
+                normalTerrainMap = mapData;
+                normalTerrainRevision = revision;
+            }
+            if (normalMovement == null)
+            {
+                normalMovement = new NormalMovement
+                {
+                    // Remove float conversion noise at external pixel/half-pixel positions.
+                    X = Math.Round(Position.X * 100.0, 5),
+                    Y = -(Position.Y - PLAYER_HEIGHT / 2) * 100.0,
+                    HSpeed = NormalMovement.ToTickSpeed(Velocity.X),
+                    VSpeed = -NormalMovement.ToTickSpeed(Velocity.Y),
+                    OnGround = IsGrounded,
+                    State = State == PlayerState.Walking ? NormalMovement.Stance.Walk :
+                        State == PlayerState.Crouching ? NormalMovement.Stance.Prone :
+                        State == PlayerState.Swimming && mapData?.IsUnderwater == true ? NormalMovement.Stance.Swim :
+                        !IsGrounded ? NormalMovement.Stance.Fall : NormalMovement.Stance.Stand
+                };
+                // Undo only float conversion noise at an externally supplied ground contact.
+                int floor = normalTerrain.Below(normalMovement.X, normalMovement.Y - 0.0001);
+                var support = normalTerrain.Get(floor);
+                if (support != null && Math.Abs(NormalTerrain.Ground(support, normalMovement.X) - normalMovement.Y) < 0.0001)
+                    normalMovement.Y = NormalTerrain.Ground(support, normalMovement.X);
+            }
+            normalMovement.SetTerrain(normalTerrain);
+            if (pendingContactKnockback.HasValue)
+            {
+                normalMovement.ApplyContactKnockback(pendingContactKnockback.Value);
+                pendingContactKnockback = null;
+            }
+            bool preventMovement = movementModifiers.Any(m => m.PreventsMovement);
+            float friction = 1;
+            foreach (var modifier in movementModifiers) friction *= modifier.FrictionMultiplier;
+            float walkForce = (float)(NormalMovement.ToTickSpeed(GetModifiedWalkSpeed()) / 5);
+            float jumpForce = (float)NormalMovement.ToTickSpeed(GetModifiedJumpPower());
+            if (stopClimbingRequested) normalMovement.CancelClimbing();
+            bool down = crouchRequested || isClimbingDown;
+            bool up = isClimbingUp || (requestedLadder != null && !down);
+            IEnumerable<LadderInfo> ladders = requestedLadder != null ? new[] { requestedLadder } : mapData?.Ladders;
+            bool wasSwimming = State == PlayerState.Swimming && !IsBasicAttacking;
+            normalMovement.Step(!preventMovement && isMovingLeft, !preventMovement && isMovingRight,
+                down, jumpRequested && jumpForce > 0, walkForce, jumpForce, friction,
+                up, jumpKeyPressed && jumpForce > 0, preventMovement ? 0 : (float)Speed / 100,
+                ladders, !preventMovement && !stopClimbingRequested, jumpDownRequested, IsBasicAttacking,
+                mapData?.IsUnderwater == true, preventMovement ? 0 : .25f, pendingSwimFacing);
+            SwimAnimationTicks = normalMovement.State == NormalMovement.Stance.Swim && !IsBasicAttacking
+                ? (wasSwimming ? SwimAnimationTicks + 1 : 0) : 0;
+            AdvanceBodyStance(normalMovement.AnimationState, normalMovement.AnimationSpeed);
+            AdvanceFace(normalMovement.AnimationSpeed);
+            pendingSwimFacing = 0;
+            jumpRequested = false;
+            requestedLadder = null;
+            stopClimbingRequested = false;
+            PublishNormalMovement(true);
+        }
+
+        private void PublishNormalMovement(bool physicsEvents)
+        {
+            var previousLadder = currentLadder;
+            currentLadder = normalMovement.CurrentLadder;
+            if (previousLadder == null && currentLadder != null)
+                PreviousPosition = new Vector2((float)(normalMovement.X / 100), PreviousPosition.Y);
+            if (!IsBasicAttacking && normalMovement.FacingDirection != 0) FacingRight = normalMovement.FacingDirection > 0;
+            Velocity = new Vector2(NormalMovement.ToWorldSpeed(normalMovement.HSpeed),
+                -NormalMovement.ToWorldSpeed(normalMovement.VSpeed));
+            IsGrounded = normalMovement.OnGround;
+            Position = new Vector2((float)(normalMovement.X / 100),
+                (float)(-normalMovement.Y / 100) + PLAYER_HEIGHT / 2);
+            if (physicsEvents && normalMovement.Jumped) { IsJumping = true; jumpCount = 0; }
+            if (physicsEvents && normalMovement.Landed) { IsJumping = false; jumpCount = 0; }
+            if (normalMovement.Dropped || normalMovement.IsClimbing || normalMovement.State == NormalMovement.Stance.Swim) IsJumping = false;
+            var nextState = normalMovement.IsClimbing ? PlayerState.Climbing :
+                normalMovement.State == NormalMovement.Stance.Walk ? PlayerState.Walking :
+                normalMovement.State == NormalMovement.Stance.Prone ? PlayerState.Crouching :
+                normalMovement.State == NormalMovement.Stance.Swim ? PlayerState.Swimming :
+                normalMovement.State == NormalMovement.Stance.Fall ? (IsJumping ? PlayerState.Jumping : PlayerState.Falling) :
+                physicsEvents && normalMovement.Jumped ? PlayerState.Jumping : PlayerState.Standing;
+            var previousState = State;
+            State = nextState;
+            SynchronizeBodyStance();
+            if (previousLadder == null && currentLadder != null) TriggerAnimationEvent(PlayerAnimationEvent.StartClimb);
+            else if (previousLadder != null && currentLadder == null) TriggerAnimationEvent(PlayerAnimationEvent.StopClimb);
+            if (physicsEvents && normalMovement.Jumped)
+            {
+                TriggerAnimationEvent(PlayerAnimationEvent.Jump);
+                Jumped?.Invoke();
+            }
+            if (physicsEvents && normalMovement.Landed)
+            {
+                Landed?.Invoke();
+                TriggerAnimationEvent(PlayerAnimationEvent.Land);
+            }
+            if (previousState != State)
+            {
+                if (State == PlayerState.Walking) TriggerAnimationEvent(PlayerAnimationEvent.StartWalk);
+                else if (previousState == PlayerState.Walking && State == PlayerState.Standing)
+                    TriggerAnimationEvent(PlayerAnimationEvent.StopWalk);
+                else if (State == PlayerState.Crouching) TriggerAnimationEvent(PlayerAnimationEvent.Crouch);
+                else if (previousState == PlayerState.Crouching) TriggerAnimationEvent(PlayerAnimationEvent.StandUp);
+            }
+        }
+
+        private void UpdateLegacyPhysics(float deltaTime, MapData mapData)
+        {
+            if (deltaTime <= 0 || float.IsNaN(deltaTime) || float.IsInfinity(deltaTime)) return;
+            // Like HeavenClient Physics::move_normal, integrate intent once per tick.
+            if (!IsBasicAttacking) UpdateHorizontalVelocity(deltaTime);
             if (!IsGrounded)
-            {
-                bool inWater = mapData?.IsUnderwater ?? false;
-                var newVelocityY = MaplePhysics.ApplyGravity(Velocity.Y, deltaTime, inWater);
-                Velocity = new Vector2(Velocity.X, newVelocityY);
-            }
-
-            // Update position
+                Velocity = new Vector2(Velocity.X, MaplePhysics.ApplyGravity(Velocity.Y, deltaTime, mapData?.IsUnderwater ?? false));
             var newPosition = Position + Velocity * deltaTime;
-
-            // Check for ground collision using foothold service
-            if (Velocity.Y <= 0 && !droppingThroughPlatform) // Only check when falling and not dropping through
+            if (Velocity.Y <= 0)
             {
-                var groundY = GetGroundBelow(newPosition);
-                
-                if (debugCallCount < 10)
+                var previousFeet = MaplePhysicsConverter.UnityToMaple(new Vector2(Position.X, Position.Y - PLAYER_HEIGHT / 2));
+                var nextFeet = MaplePhysicsConverter.UnityToMaple(new Vector2(newPosition.X, newPosition.Y - PLAYER_HEIGHT / 2));
+                var surfaces = GetCollisionFootholds(previousFeet.X, nextFeet.X, mapData).ToList();
+                float supportY;
+                if (IsGrounded && TryGetSupportedGround(previousFeet, nextFeet.X, surfaces, out supportY))
                 {
-                    System.Console.WriteLine($"[FOOTHOLD_COLLISION] GetGroundBelow returned: {(groundY.HasValue ? groundY.Value.ToString("F2") : "null")}");
+                    newPosition = new Vector2(newPosition.X, MaplePhysicsConverter.MapleToUnityY(supportY) + PLAYER_HEIGHT / 2);
+                    Velocity = new Vector2(Velocity.X, 0);
                 }
-                
-                if (groundY.HasValue)
+                else
                 {
-                    // Check if we're falling through the ground (account for player height)
-                    var playerBottom = newPosition.Y - PLAYER_HEIGHT / 2;
-                    var prevPlayerBottom = Position.Y - PLAYER_HEIGHT / 2;
-                    
-                    // Debug log collision check
-                    if (debugCallCount < 10)
+                    IsGrounded = false;
+                    Vector2 landingFeet;
+                    if (TryFindLanding(previousFeet, nextFeet, surfaces, out landingFeet))
                     {
-                        System.Console.WriteLine($"[FOOTHOLD_COLLISION] Collision check: prevBottom={prevPlayerBottom:F2}, currBottom={playerBottom:F2}, groundY={groundY.Value:F2}, willCollide={(prevPlayerBottom >= groundY.Value - 0.01f && playerBottom <= groundY.Value)}");
-                    }
-                    
-                    // Check for collision: if we're moving down and would pass through or land on the ground
-                    // In Unity, negative Y is up, so ground should be below player (more negative)
-                    bool isAboveGround = playerBottom > groundY.Value;
-                    bool wasAboveGround = prevPlayerBottom > groundY.Value;
-                    bool crossingGround = wasAboveGround && !isAboveGround;
-                    bool closeToGround = !isAboveGround && System.Math.Abs(playerBottom - groundY.Value) < 0.5f;
-                    
-                    if (debugCallCount < 10)
-                    {
-                        System.Console.WriteLine($"[FOOTHOLD_COLLISION] Ground check: wasAbove={wasAboveGround}, isAbove={isAboveGround}, crossing={crossingGround}, close={closeToGround}");
-                    }
-                    
-                    if (crossingGround || (closeToGround && Velocity.Y <= 0))
-                    {
-                        // Calculate how far we would penetrate the ground
-                        float penetration = groundY.Value - playerBottom;
-                        
-                        // Only snap if we're very close or would pass through
-                        if (penetration > -0.1f) // Within 0.1 units of ground
-                        {
-                            // Smoothly land on ground - adjust position only by the penetration amount
-                            newPosition = new Vector2(newPosition.X, newPosition.Y + penetration);
-                            Velocity = new Vector2(Velocity.X, 0);
-                        }
-                        
-                        bool wasInAir = !IsGrounded;
+                        var landingPosition = MaplePhysicsConverter.MapleToUnity(landingFeet);
+                        newPosition = new Vector2(landingPosition.X, landingPosition.Y + PLAYER_HEIGHT / 2);
+                        Velocity = new Vector2(Velocity.X, 0);
                         IsGrounded = true;
                         IsJumping = false;
-                        
-                        if (wasInAir)
-                        {
-                            System.Console.WriteLine($"[FOOTHOLD_COLLISION] Player landed at Unity({newPosition.X:F2}, {newPosition.Y:F2}), ground at Y={groundY.Value:F2}");
-                            jumpCount = 0; // Reset jump count on landing
-                            Landed?.Invoke();
-                            TriggerAnimationEvent(PlayerAnimationEvent.Land);
-                        }
-                        
-                        // Update state when landing based on horizontal movement
-                        if (State == PlayerState.Jumping)
-                        {
-                            if (System.Math.Abs(Velocity.X) > 0.01f && (isMovingLeft || isMovingRight))
-                            {
-                                State = PlayerState.Walking;
-                            }
-                            else
-                            {
-                                State = PlayerState.Standing;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    // No ground below, we're falling
-                    if (IsGrounded)
-                    {
-                        IsGrounded = false;
-                        if (State != PlayerState.Jumping)
-                        {
-                            State = PlayerState.Jumping; // Falling state
-                        }
+                        jumpCount = 0;
+                        if (State != PlayerState.Crouching && State != PlayerState.Swimming)
+                            State = Math.Abs(Velocity.X) > 0.01f && (isMovingLeft || isMovingRight)
+                                ? PlayerState.Walking : PlayerState.Standing;
+                        Landed?.Invoke();
+                        TriggerAnimationEvent(PlayerAnimationEvent.Land);
                     }
                 }
             }
-            
-            // Check if we walked off a platform or need to adjust Y for slopes
-            if (IsGrounded)
-            {
-                var currentGroundY = GetGroundBelow(newPosition);
-                if (!currentGroundY.HasValue)
-                {
-                    // We've moved off the platform
-                    System.Console.WriteLine($"[FOOTHOLD_COLLISION] Player walked off edge at Unity({newPosition.X:F2}, {newPosition.Y:F2})");
-                    IsGrounded = false;
-                    State = PlayerState.Jumping; // Start falling
-                }
-                else
-                {
-                    // Adjust Y position to stay on sloped platforms
-                    // Keep player on the ground surface
-                    newPosition = new Vector2(newPosition.X, currentGroundY.Value + PLAYER_HEIGHT / 2);
-                }
-            }
-
             Position = newPosition;
-            
-            // Update state for falling
-            if (!IsGrounded && Velocity.Y < 0 && State != PlayerState.Jumping && State != PlayerState.DoubleJumping && State != PlayerState.FlashJumping)
-            {
+            if (!IsGrounded && Velocity.Y <= 0 && State != PlayerState.Jumping &&
+                State != PlayerState.DoubleJumping && State != PlayerState.FlashJumping)
                 State = PlayerState.Falling;
+        }
+
+        // HeavenClient lands on the surface; ground-1 belongs only to its spawn query.
+        private const float GroundOffset = 0f;
+        private const float GroundContactTolerance = 1.01f; // Maple pixels.
+
+        private IEnumerable<Foothold> GetCollisionFootholds(float startX, float endX, MapData mapData)
+        {
+            float minX = Math.Min(startX, endX);
+            float maxX = Math.Max(startX, endX);
+            if (footholdService != null)
+            {
+                foreach (var foothold in footholdService.GetFootholdsInArea(minX, float.MinValue, maxX, float.MaxValue))
+                    if (!footholdService.IsWall(foothold)) yield return foothold;
+            }
+            else if (mapData?.Platforms != null)
+            {
+                foreach (var platform in mapData.Platforms)
+                    if ((platform.Type == PlatformType.Normal || platform.Type == PlatformType.OneWay) &&
+                        Math.Abs(platform.X2 - platform.X1) >= 0.1f &&
+                        Math.Max(platform.X1, platform.X2) >= minX && Math.Min(platform.X1, platform.X2) <= maxX)
+                        yield return new Foothold(platform.Id, platform.X1, platform.Y1, platform.X2, platform.Y2);
             }
         }
 
-        private MapData currentMapData; // Store current map data for fallback
-        private float lastNoGroundLogX = float.MinValue; // Track last position where we logged no ground
-        private int debugCallCount = 0; // Debug counter for limiting logs
-        
-        private float? GetGroundBelow(Vector2 position)
+        private bool TryGetSupportedGround(Vector2 previousFeet, float nextX, List<Foothold> surfaces, out float groundY)
         {
-            if (footholdService == null)
+            groundY = 0;
+            Foothold support = null;
+            float closestDistance = GroundContactTolerance;
+            foreach (var surface in surfaces)
             {
-                // Fallback to platform-based detection if no foothold service
-                return GetPlatformGroundBelow(position);
-            }
-
-            // Convert player bottom position to MapleStory coordinates
-            Vector2 playerBottom = new Vector2(position.X, position.Y - PLAYER_HEIGHT / 2);
-            Vector2 maplePos = MaplePhysicsConverter.UnityToMaple(playerBottom);
-            
-            // Debug first few calls
-            if (debugCallCount < 5)
-            {
-                System.Console.WriteLine($"[FOOTHOLD_COLLISION] GetGroundBelow: Unity({playerBottom.X:F2}, {playerBottom.Y:F2}) -> Maple({maplePos.X:F0}, {maplePos.Y:F0})");
-                debugCallCount++;
-            }
-            
-            // Get ground below from foothold service
-            float mapleGroundY = footholdService.GetGroundBelow(maplePos.X, maplePos.Y);
-            
-            if (mapleGroundY == float.MaxValue)
-            {
-                // No ground found - log only when player moves into new areas
-                if (System.Math.Abs(position.X - lastNoGroundLogX) > 1f)
+                float distance = Math.Abs(previousFeet.Y - (surface.GetYAtX(previousFeet.X) - GroundOffset));
+                if (!float.IsNaN(distance) && distance <= closestDistance)
                 {
-                    System.Console.WriteLine($"[FOOTHOLD_COLLISION] No ground at Unity({position.X:F2}, {position.Y:F2}) -> Maple({maplePos.X:F0}, {maplePos.Y:F0})");
-                    lastNoGroundLogX = position.X;
+                    closestDistance = distance;
+                    support = surface;
                 }
-                return null;
             }
-            
-            // Convert back to Unity coordinates
-            // Don't add 1 back - we want the exact ground position
-            float unityGroundY = MaplePhysicsConverter.MapleToUnityY(mapleGroundY);
-            
-            // Debug the conversion
-            if (debugCallCount < 10)
+            bool movingRight = nextX >= previousFeet.X;
+            // Follow the supporting surface or a shared endpoint, never an arbitrary floor below.
+            for (int i = 0; support != null && i < surfaces.Count; i++)
             {
-                System.Console.WriteLine($"[FOOTHOLD_COLLISION] Ground found: MapleY={mapleGroundY} (+1={mapleGroundY + 1}) -> UnityY={unityGroundY}");
+                float surfaceY = support.GetYAtX(nextX);
+                if (!float.IsNaN(surfaceY))
+                {
+                    groundY = surfaceY - GroundOffset;
+                    return true;
+                }
+                float edgeX = movingRight ? Math.Max(support.X1, support.X2) : Math.Min(support.X1, support.X2);
+                float edgeY = support.GetYAtX(edgeX);
+                Foothold adjacent = null;
+                foreach (var candidate in surfaces)
+                {
+                    float entryX = movingRight ? Math.Min(candidate.X1, candidate.X2) : Math.Max(candidate.X1, candidate.X2);
+                    float exitX = movingRight ? Math.Max(candidate.X1, candidate.X2) : Math.Min(candidate.X1, candidate.X2);
+                    if (candidate != support && Math.Abs(entryX - edgeX) < 0.01f &&
+                        (movingRight ? exitX > edgeX : exitX < edgeX) &&
+                        Math.Abs(candidate.GetYAtX(entryX) - edgeY) < 0.01f)
+                    {
+                        adjacent = candidate;
+                        break;
+                    }
+                }
+                support = adjacent;
             }
-            
-            return unityGroundY;
+            return false;
         }
-        
-        private float? GetPlatformGroundBelow(Vector2 position)
+
+        private bool TryFindLanding(Vector2 previousFeet, Vector2 nextFeet, List<Foothold> surfaces, out Vector2 landingFeet)
         {
-            // Legacy platform-based detection for backwards compatibility
-            var platform = GetPlatformBelow(position, currentMapData);
-            if (platform == null) return null;
-            
-            float posX = position.X * 100f;
-            float platformY = platform.GetYAtX(posX);
-            if (float.IsNaN(platformY)) return null;
-            
-            return platformY / 100f;
+            landingFeet = Vector2.Zero;
+            float earliestHit = float.MaxValue;
+            float deltaX = nextFeet.X - previousFeet.X;
+            float deltaY = nextFeet.Y - previousFeet.Y;
+            foreach (var surface in surfaces)
+            {
+                float slope = (surface.Y2 - surface.Y1) / (surface.X2 - surface.X1);
+                float previousSurfaceY = surface.Y1 + (previousFeet.X - surface.X1) * slope - GroundOffset;
+                float previousDistance = previousFeet.Y - previousSurfaceY;
+                float relativeMovement = deltaY - deltaX * slope;
+                // Sweep feet from previous to next position, approaching one-way terrain from above.
+                if (previousDistance > GroundContactTolerance || relativeMovement <= 0) continue;
+                float hitTime = Math.Max(0, -previousDistance / relativeMovement);
+                if (hitTime > 1 || hitTime >= earliestHit) continue;
+                float hitX = previousFeet.X + deltaX * hitTime;
+                float hitY = surface.GetYAtX(hitX);
+                if (float.IsNaN(hitY)) continue;
+                earliestHit = hitTime;
+                float finalY = surface.GetYAtX(nextFeet.X);
+                landingFeet = float.IsNaN(finalY)
+                    ? new Vector2(hitX, hitY - GroundOffset)
+                    : new Vector2(nextFeet.X, finalY - GroundOffset);
+            }
+            return earliestHit != float.MaxValue;
         }
-        
+
         private Platform GetPlatformBelow(Vector2 position, MapData mapData)
         {
-            if (mapData?.Platforms == null || mapData.Platforms.Count == 0)
-            {
-                // No platforms available - this should be logged by the GameView layer
-                return null;
-            }
-
-            // Convert position to pixels for platform comparison (use player's bottom)
-            float posX = position.X * 100f;
-            float posY = (position.Y - PLAYER_HEIGHT / 2) * 100f; // Player's bottom position
-
-            Platform closestPlatform = null;
+            if (mapData?.Platforms == null) return null;
+            var feet = MaplePhysicsConverter.UnityToMaple(new Vector2(position.X, position.Y - PLAYER_HEIGHT / 2));
+            Platform closest = null;
             float closestDistance = float.MaxValue;
-
-            // Find the closest platform below the player
             foreach (var platform in mapData.Platforms)
             {
-                // Only consider landable platforms
-                if (platform.Type != PlatformType.Normal && platform.Type != PlatformType.OneWay)
-                    continue;
-
-                // Check if player X is within platform range
-                if (posX < platform.X1 || posX > platform.X2)
-                    continue;
-
-                // Get platform Y at player's X position
-                float platformY = platform.GetYAtX(posX);
-                if (float.IsNaN(platformY))
-                    continue;
-
-                // In MapleStory coordinates, larger Y = lower position
-                // Platform must be below player: platformY > posY
-                float distance = platformY - posY;
-                
-                // Only consider platforms below the player (positive distance in MS coords) or very close
-                // Allow some tolerance for floating point precision
-                if (distance >= -5f && distance < closestDistance)
+                if ((platform.Type != PlatformType.Normal && platform.Type != PlatformType.OneWay) ||
+                    Math.Abs(platform.X2 - platform.X1) < 0.1f ||
+                    feet.X < Math.Min(platform.X1, platform.X2) || feet.X > Math.Max(platform.X1, platform.X2)) continue;
+                float t = (feet.X - platform.X1) / (platform.X2 - platform.X1);
+                float distance = platform.Y1 + t * (platform.Y2 - platform.Y1) - feet.Y;
+                if (distance >= -GroundContactTolerance && distance < closestDistance)
                 {
-                    closestPlatform = platform;
+                    closest = platform;
                     closestDistance = distance;
                 }
             }
-
-            // Only return platform if it's within a reasonable distance (not too far below)
-            if (closestPlatform != null && closestDistance <= 100f) // 1 unit in pixels
-            {
-                return closestPlatform;
-            }
-
-            return null;
+            return closestDistance <= GroundContactTolerance ? closest : null;
         }
 
         // Combat methods
         public int GetBaseDamage()
         {
-            return baseDamage;
+            return Math.Max(1, baseDamage + EquipmentBonus(StatType.WeaponAttack));
         }
 
         public void SetBaseDamage(int damage)
         {
             baseDamage = damage;
+            HasPracticeDamageOverride = true;
         }
 
         public int CurrentHP => hp;
         public int MaxHP
         {
             get => maxHp;
-            set => maxHp = value;
+            set { baseMaxHp = Math.Max(1, value); hp = Math.Min(hp, maxHp); }
         }
         public int CurrentMP
         {
@@ -668,12 +804,12 @@ namespace MapleClient.GameLogic.Core
         public int MaxMP
         {
             get => maxMp;
-            set => maxMp = value;
+            set { baseMaxMp = Math.Max(0, value); mp = Math.Min(mp, maxMp); }
         }
         public int Level
         {
             get => level;
-            set => level = value;
+            set { level = Math.Max(1, Math.Min(value, ExperienceTable.LevelCap)); experience = 0; }
         }
         
         // Inventory
@@ -683,12 +819,60 @@ namespace MapleClient.GameLogic.Core
 
         public void TakeDamage(int damage)
         {
-            hp = System.Math.Max(0, hp - damage);
+            if (IsDead || damage <= 0) return;
+            int actual = Math.Min(hp, damage);
+            hp -= actual;
+            if (IsDead)
+            {
+                ClearStatBuffs();
+                pendingContactKnockback = null;
+                ResetMovementForMap();
+                Velocity = Vector2.Zero;
+                Died?.Invoke();
+            }
+            DamageTaken?.Invoke(actual);
+        }
+
+        public bool ReceiveContactDamage(int damage, bool sourceToRight)
+        {
+            if (IgnoresContact || damage < 0) return false;
+            invulnerableMilliseconds = 2000; // Char::show_damage
+            if (damage > 0 && State != PlayerState.Climbing) pendingContactKnockback = sourceToRight;
+            if (damage == 0) DamageTaken?.Invoke(0);
+            else TakeDamage(GuardContactDamage(damage));
+            OnStatsChanged();
+            return true;
+        }
+
+        public void Revive()
+        {
+            hp = maxHp; mp = maxMp;
+            pendingContactKnockback = null;
+            invulnerableMilliseconds = 2000;
+            ResetMovementForMap();
+            Velocity = Vector2.Zero;
+        }
+
+        public void AddExperience(long amount)
+        {
+            if (amount <= 0 || IsDead || level >= ExperienceTable.LevelCap) return;
+            experience += Math.Min(amount, long.MaxValue - experience);
+            while (level < ExperienceTable.LevelCap && experience >= ExperienceTable.RequiredForLevel(level))
+            {
+                experience -= ExperienceTable.RequiredForLevel(level);
+                level++;
+                AwardLevelProgression();
+                // Local play restores current HP/MP. Server-owned HP/MP growth remains separate.
+                hp = maxHp; mp = maxMp;
+                LeveledUp?.Invoke(level);
+            }
+            if (level == ExperienceTable.LevelCap) experience = 0;
+            ExperienceGained?.Invoke(amount);
         }
 
         public void Heal(int amount)
         {
-            hp = System.Math.Min(maxHp, hp + amount);
+            if (!IsDead && amount > 0) hp += Math.Min(amount, maxHp - hp);
         }
 
         public void UseMana(int amount)
@@ -698,7 +882,7 @@ namespace MapleClient.GameLogic.Core
 
         public void RestoreMana(int amount)
         {
-            mp = System.Math.Min(maxMp, mp + amount);
+            mp = (int)System.Math.Min(maxMp, (long)mp + amount);
         }
         
         // For network synchronization
@@ -708,167 +892,41 @@ namespace MapleClient.GameLogic.Core
             mp = System.Math.Max(0, System.Math.Min(newMp, maxMp));
         }
 
-        public bool UseItem(int itemId)
-        {
-            if (!inventory.HasItem(itemId))
-                return false;
-
-            bool itemUsed = false;
-
-            // Handle different item types
-            switch (itemId)
-            {
-                case 2000000: // Red Potion - restores 50 HP
-                    if (hp < maxHp)
-                    {
-                        Heal(50);
-                        itemUsed = true;
-                    }
-                    break;
-
-                case 2000001: // Orange Potion - restores 30 MP
-                    if (mp < maxMp)
-                    {
-                        RestoreMana(30);
-                        itemUsed = true;
-                    }
-                    break;
-
-                // Add more items as needed
-                default:
-                    return false; // Unknown item
-            }
-
-            if (itemUsed)
-            {
-                inventory.RemoveItem(itemId, 1);
-            }
-
-            return itemUsed;
-        }
+        public bool UseItem(int itemId) => TryUseItem(itemId, out _);
 
         // Crouching methods
         public void Crouch(bool active)
         {
-            if (active && IsGrounded && State != PlayerState.Climbing)
-            {
-                State = PlayerState.Crouching;
-                Velocity = new Vector2(0, Velocity.Y); // Stop horizontal movement
-                TriggerAnimationEvent(PlayerAnimationEvent.Crouch);
-            }
-            else if (!active && State == PlayerState.Crouching)
-            {
-                State = PlayerState.Standing;
-                TriggerAnimationEvent(PlayerAnimationEvent.StandUp);
-            }
+            crouchRequested = active;
         }
-        
-        // Drop through one-way platforms (called when down+jump is pressed)
+
+        // Compatibility commands queue intent; all movement changes occur on an 8 ms tick.
         public void DropThroughPlatform()
         {
-            if (IsGrounded && State != PlayerState.Climbing)
-            {
-                // Set the flag to drop through platforms
-                // The actual check happens in UpdatePhysics where we have access to mapData
-                droppingThroughPlatform = true;
-                dropThroughTimer = 0.3f; // 300ms to fall through
-                IsGrounded = false;
-                State = PlayerState.Jumping;
-                Velocity = new Vector2(Velocity.X, -0.5f); // Small downward velocity to start
-            }
+            Crouch(true);
+            Jump();
         }
 
-        // Climbing methods
         public void StartClimbing(LadderInfo ladder)
         {
-            if (ladder == null || !ladder.ContainsPosition(Position))
-                return;
-
-            currentLadder = ladder;
-            State = PlayerState.Climbing;
-            IsGrounded = false;
-            IsJumping = false;
-            Velocity = Vector2.Zero; // Stop all movement
-            
-            // Snap to ladder X position
-            Position = new Vector2(ladder.X, Position.Y);
-            TriggerAnimationEvent(PlayerAnimationEvent.StartClimb);
+            requestedLadder = ladder;
         }
 
         public void StopClimbing()
         {
-            if (State == PlayerState.Climbing)
-            {
-                State = PlayerState.Standing;
-                currentLadder = null;
-                // Will start falling due to gravity
-                TriggerAnimationEvent(PlayerAnimationEvent.StopClimb);
-            }
+            stopClimbingRequested = true;
         }
 
         public void ClimbUp(bool active)
         {
-            if (State == PlayerState.Climbing)
-            {
-                isClimbingUp = active;
-                UpdateClimbingVelocity();
-            }
+            isClimbingUp = active;
         }
 
         public void ClimbDown(bool active)
         {
-            if (State == PlayerState.Climbing)
-            {
-                isClimbingDown = active;
-                UpdateClimbingVelocity();
-            }
+            isClimbingDown = active;
         }
 
-        private void UpdateClimbingVelocity()
-        {
-            if (State != PlayerState.Climbing)
-                return;
-
-            if (isClimbingUp && !isClimbingDown)
-            {
-                Velocity = new Vector2(0, MaplePhysics.ClimbSpeed);
-            }
-            else if (isClimbingDown && !isClimbingUp)
-            {
-                Velocity = new Vector2(0, -MaplePhysics.ClimbSpeed);
-            }
-            else
-            {
-                Velocity = Vector2.Zero;
-            }
-        }
-
-        private void UpdateClimbingPhysics(float deltaTime)
-        {
-            if (currentLadder == null)
-            {
-                StopClimbing();
-                return;
-            }
-
-            // Update position
-            var newPosition = Position + Velocity * deltaTime;
-
-            // Clamp to ladder bounds
-            if (newPosition.Y > currentLadder.Y2)
-            {
-                newPosition = new Vector2(newPosition.X, currentLadder.Y2);
-                Velocity = Vector2.Zero;
-            }
-            else if (newPosition.Y < currentLadder.Y1)
-            {
-                newPosition = new Vector2(newPosition.X, currentLadder.Y1);
-                Velocity = Vector2.Zero;
-            }
-
-            Position = newPosition;
-        }
-        
         public Dictionary<EquipSlot, int> GetEquippedItems()
         {
             return new Dictionary<EquipSlot, int>(equippedItems);
@@ -876,17 +934,10 @@ namespace MapleClient.GameLogic.Core
         
         public void EquipItem(int itemId, EquipSlot slot)
         {
-            equippedItems[slot] = itemId;
+            if (itemData?.GetItem(itemId)?.EquipmentSlot == slot) TryEquipItem(itemId, out _);
         }
-        
-        public void UnequipItem(EquipSlot slot)
-        {
-            if (equippedItems.ContainsKey(slot))
-            {
-                equippedItems.Remove(slot);
-            }
-        }
-        
+        public void UnequipItem(EquipSlot slot) => TryUnequipItem(slot, out _);
+
         // Update movement speeds based on character stats
         private void UpdateMovementSpeeds()
         {
@@ -903,19 +954,11 @@ namespace MapleClient.GameLogic.Core
         // Special movement methods
         public void TryStartClimbing(MapData mapData, bool upPressed)
         {
-            if (mapData?.Ladders == null) return;
-            
-            // Find nearest ladder within range
-            foreach (var ladder in mapData.Ladders)
-            {
-                if (ladder.ContainsPosition(Position))
-                {
-                    StartClimbing(ladder);
-                    return;
-                }
-            }
+            isClimbingUp = upPressed;
+            isClimbingDown = !upPressed;
+            requestedLadder = mapData?.Ladders?.FirstOrDefault(l => l.CanEnter(Position, upPressed));
         }
-        
+
         public void EnableDoubleJump(bool enabled)
         {
             hasDoubleJump = enabled;
@@ -938,12 +981,12 @@ namespace MapleClient.GameLogic.Core
         
         public float GetWalkSpeed()
         {
-            return actualWalkSpeed;
+            return GetModifiedWalkSpeed();
         }
         
         public bool CanFlashJump()
         {
-            return hasFlashJump && flashJumpCooldown <= 0 && !IsGrounded && (isMovingLeft || isMovingRight);
+            return !IsBasicAttacking && hasFlashJump && flashJumpCooldown <= 0 && !IsGrounded && (isMovingLeft || isMovingRight);
         }
         
         public void FlashJump()
@@ -996,7 +1039,7 @@ namespace MapleClient.GameLogic.Core
         
         public float GetModifiedWalkSpeed()
         {
-            float speed = actualWalkSpeed;
+            float speed = NormalMovement.ToWorldSpeed(NormalMovement.WalkForce(Speed) * 5.0);
             foreach (var modifier in movementModifiers)
             {
                 if (modifier.PreventsMovement) return 0f;
@@ -1007,7 +1050,7 @@ namespace MapleClient.GameLogic.Core
         
         public float GetModifiedJumpPower()
         {
-            float power = actualJumpPower;
+            float power = NormalMovement.ToWorldSpeed(NormalMovement.JumpForce(JumpPower));
             foreach (var modifier in movementModifiers)
             {
                 if (modifier.PreventsJumping) return 0f;
@@ -1040,15 +1083,7 @@ namespace MapleClient.GameLogic.Core
             RemoveMovementModifierById("conveyor_belt");
             RemoveMovementModifierById("swimming");
             
-            // Check for underwater
-            if (mapData.IsUnderwater)
-            {
-                AddMovementModifier(new SwimmingModifier());
-                if (State != PlayerState.Climbing)
-                {
-                    State = PlayerState.Swimming;
-                }
-            }
+            // Water is a source physics/state transition, not a Speed/Jump multiplier.
             
             // Check current platform for special properties
             if (IsGrounded && footholdService == null)
@@ -1073,7 +1108,7 @@ namespace MapleClient.GameLogic.Core
             else if (IsGrounded && footholdService != null)
             {
                 // Use foothold-based environmental effects
-                Vector2 maplePos = MaplePhysicsConverter.UnityToMaple(Position);
+                Vector2 maplePos = MaplePhysicsConverter.UnityToMaple(new Vector2(Position.X, Position.Y - PLAYER_HEIGHT / 2));
                 var foothold = footholdService.GetFootholdAt(maplePos.X, maplePos.Y);
                 if (foothold != null)
                 {
@@ -1122,6 +1157,50 @@ namespace MapleClient.GameLogic.Core
             }
         }
         
+        public PhysicalAttackStats PhysicalAttackStats => PhysicalAttackStats.Calculate(
+            equippedItems.TryGetValue(EquipSlot.Weapon, out int weaponId) ? weaponId : 0,
+            JobId, STR, DEX, INT, LUK, WeaponAttack, AccuracyBonus, Level, CombatMastery, CombatDamagePercent,
+            CriticalChance, State == PlayerState.Crouching, criticalDamageMultiplier: CriticalDamageMultiplier);
+        public void ClearPracticeDamageOverride() => HasPracticeDamageOverride = false;
+
+        public BasicAttackMotion BasicAttack { get; private set; }
+        public bool IsBasicAttacking => BasicAttack != null && !BasicAttack.IsComplete;
+        public bool PlayBasicAttackAnimation(int choice = 0)
+        {
+            if (IsDead || IsHidden || IsBasicAttacking || State == PlayerState.Climbing) return false;
+            BasicAttack = CurrentWeapon == null ? BasicAttackMotion.Unarmed() : CurrentWeapon.CreateAttack(choice, State == PlayerState.Crouching, AttackSpeedModifier);
+            if (BasicAttack == null) return false;
+            BasicAttack.FacingRight = FacingRight ?? true;
+            BasicAttack.Completed += FinishBasicAttack;
+            if (CurrentWeapon != null) BasicAttack.TickAdvance = () => Math.Max(1, (int)(8 * (1.7f - EffectiveAttackSpeed / 10f)));
+            TriggerAnimationEvent(PlayerAnimationEvent.Attack);
+            return true;
+        }
+
+        private void FinishBasicAttack()
+        {
+            StanceAnimation.Reset();
+            bool down = crouchRequested || isClimbingDown;
+            if (normalMovement != null)
+            {
+                normalMovement.FinishAttack(isMovingLeft, isMovingRight, down);
+                // Stage checks ladder entry after the attack animation ends on this tick.
+                if (!movementModifiers.Any(m => m.PreventsMovement) && !stopClimbingRequested)
+                    normalMovement.TryEnterLadder(isClimbingUp, down, movementMap?.Ladders);
+                bool wasUpdating = updatingPhysics;
+                updatingPhysics = true;
+                try { PublishNormalMovement(false); }
+                finally { updatingPhysics = wasUpdating; }
+            }
+            else
+            {
+                if (IsGrounded && (isMovingLeft || isMovingRight)) FacingRight = !isMovingLeft;
+                State = !IsGrounded ? PlayerState.Falling : isMovingLeft || isMovingRight ? PlayerState.Walking :
+                    down ? PlayerState.Crouching : PlayerState.Standing;
+            }
+            SynchronizeBodyStance();
+        }
+
         private void TriggerAnimationEvent(PlayerAnimationEvent animEvent)
         {
             NotifyViewListeners(l => l.OnAnimationEvent(animEvent));

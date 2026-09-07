@@ -1,0 +1,15 @@
+{
+  "source": "C:\\HeavenClient\\MapleStory-Client",
+  "head": "e87467833d0ce34fef4a920551607998233932e6",
+  "sha256": {
+    "Util/Lerp.h": "b4aed7df7908769468de28efdff54823bfc8ee1f19b2139c9a40751430f16621",
+    "Template/Interpolated.h": "1c588b8daab0e84707efb7398ca3f4296c9489929e9760cc3a39bfd1102fd5a7",
+    "Util/TimedBool.h": "b970a082d584e4f079999c58cbdca3629c631f18a7b999f20cadda5ae59f36d7",
+    "Character/Look/CharLook.cpp": "a1c6e6bbbe947715baf579d5933820c459cbefb404fff01d8f4660c010a9de50",
+    "Character/Look/Face.cpp": "a102fcb4581861522f05667c2b0be2571adcf08a7eddb2c6b0b1d4c1c452572c",
+    "Character/Look/Face.h": "7dde7015e97f9e7f1d1ca602bc90027467105182dac3c6ba82b4465ca9940671"
+  },
+  "rows": 60000,
+  "fixtureSha256": "69e9cb5acc25152ff96045e6e58bf29f184d2f7f7ef248d3be92ef3ccdded799",
+  "scope": "Unmodified CharLook zero-step, cooldown update and face branches/set_expression, Face delay/nextframe and original Nominal/TimedBool. Synthetic face delays and supplied body timesteps; excludes body/named-action playback, bitmap drawing, NX frame parsing and alerted overlay."
+}

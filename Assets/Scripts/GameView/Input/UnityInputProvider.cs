@@ -1,30 +1,41 @@
 using UnityEngine;
 using MapleClient.GameLogic.Interfaces;
+using MapleClient.GameLogic.Core;
+using MapleClient.GameView.UI;
 
 namespace MapleClient.GameView
 {
-    public class UnityInputProvider : IInputProvider
+    public class UnityInputProvider : IInputProvider, IExpressionInputProvider
     {
-        public bool IsLeftPressed => Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A);
-        public bool IsRightPressed => Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D);
-        public bool IsJumpPressed => Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftAlt);
-        public bool IsAttackPressed => Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.Z);
-        public bool IsUpPressed => Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W);
-        public bool IsDownPressed => Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S);
-
-        public void Update()
+        public SkillBar Quickslots { get; set; }
+        private static readonly KeyboardMap fallback = new KeyboardMap();
+        private bool Pressed(QuickslotAction action)
         {
-            // No longer needed for simple jumping
+            if (Quickslots != null) return Quickslots.ActionPressed(action);
+            if (ClassicWindowManager.IsTyping) return false;
+            return fallback.IsPressed(action, key => action == QuickslotAction.Attack ?
+                Input.GetKeyDown(ClassicKeyboardLayout.Native(key)) : Input.GetKey(ClassicKeyboardLayout.Native(key)));
         }
-
-        public void ResetJump()
+        public bool IsLeftPressed => Pressed(QuickslotAction.Left);
+        public bool IsRightPressed => Pressed(QuickslotAction.Right);
+        public bool IsUpPressed => Pressed(QuickslotAction.Up);
+        public bool IsDownPressed => Pressed(QuickslotAction.Down);
+        public bool IsJumpPressed => Pressed(QuickslotAction.Jump);
+        public bool IsAttackPressed => Pressed(QuickslotAction.Attack);
+        public CharacterExpression? ExpressionPressed
         {
-            // No longer needed for simple jumping
+            get
+            {
+                if (Quickslots != null) return Quickslots.ExpressionPressed();
+                if (ClassicWindowManager.IsTyping) return null;
+                for (int face = 0; face < 7; face++)
+                    if (fallback.IsPressed((QuickslotAction)(100 + face), key => Input.GetKeyDown(ClassicKeyboardLayout.Native(key))))
+                        return MapleClient.GameLogic.Data.CharacterExpressions.ForFunctionKey(face + 1);
+                return null;
+            }
         }
-
-        public void ConsumeJump()
-        {
-            // No longer needed for simple jumping
-        }
+        public void Update() { }
+        public void ResetJump() { }
+        public void ConsumeJump() { }
     }
 }

@@ -1,0 +1,160 @@
+using UnityEngine;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using MapleClient.GameView;
+using System.IO;
+
+public static class DirectFaceOffsetTest
+{
+    public static void RunTest()
+    {
+        string logPath = Path.Combine(Application.dataPath, "..", "face-offset-test-results.txt");
+        System.Text.StringBuilder results = new System.Text.StringBuilder();
+        
+        try
+        {
+            Debug.Log("=== DIRECT FACE OFFSET TEST ===");
+            results.AppendLine("=== DIRECT FACE OFFSET TEST ===");
+            results.AppendLine($"Test started at: {System.DateTime.Now}");
+            
+            // Create a new scene
+            var scene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
+            
+            // Create a MapleCharacter directly
+            Debug.Log("Creating MapleCharacter...");
+            results.AppendLine("\nCreating MapleCharacter...");
+            
+            var characterObj = new GameObject("MapleCharacter");
+            var renderer = characterObj.AddComponent<MapleCharacterRenderer>();
+            
+            // Set character appearance
+            renderer.SetCharacterAppearance(0, 20000, 30000); // Default skin, face ID 20000, hair
+            
+            // Position character
+            characterObj.transform.position = Vector3.zero;
+            
+            // Force initialization using SendMessage
+            renderer.SendMessage("Awake", SendMessageOptions.DontRequireReceiver);
+            renderer.SendMessage("Start", SendMessageOptions.DontRequireReceiver);
+            
+            // Analyze face offset immediately
+            Debug.Log("\n=== ANALYZING FACE OFFSET ===");
+            results.AppendLine("\n=== ANALYZING FACE OFFSET ===");
+            
+            // Check character structure
+            Transform body = characterObj.transform.Find("Body");
+            Transform head = characterObj.transform.Find("Head");
+            Transform face = null;
+            
+            if (head != null)
+            {
+                face = head.Find("Face");
+                results.AppendLine($"Found Head at: {head.localPosition}");
+            }
+            else if (body != null)
+            {
+                head = body.Find("Head");
+                if (head != null)
+                {
+                    face = head.Find("Face");
+                    results.AppendLine($"Found Head under Body at: {head.localPosition}");
+                }
+            }
+            
+            // If no face under head, check directly under character
+            if (face == null)
+            {
+                face = characterObj.transform.Find("Face");
+                if (face != null)
+                {
+                    results.AppendLine("Face found directly under character root");
+                }
+            }
+            
+            if (face != null)
+            {
+                Vector3 faceWorldPos = face.position;
+                Vector3 faceLocalPos = face.localPosition;
+                
+                results.AppendLine($"\nFace Transform Found:");
+                results.AppendLine($"  Local Position: {faceLocalPos}");
+                results.AppendLine($"  World Position: {faceWorldPos}");
+                
+                // Calculate total offset from character origin
+                Vector3 totalOffset = face.position - characterObj.transform.position;
+                results.AppendLine($"  Total offset from character: {totalOffset}");
+                
+                // Convert to pixels (assuming 100 pixels per unit)
+                Vector2 pixelOffset = new Vector2(totalOffset.x * 100, totalOffset.y * 100);
+                results.AppendLine($"\nFace pixel offset: ({pixelOffset.x:F1}, {pixelOffset.y:F1})");
+                
+                // Expected C++ offset
+                Vector2 expectedPixels = new Vector2(-8, -52);
+                results.AppendLine($"Expected C++ offset: ({expectedPixels.x}, {expectedPixels.y})");
+                
+                float distance = Vector2.Distance(pixelOffset, expectedPixels);
+                results.AppendLine($"Distance from expected: {distance:F2} pixels");
+                
+                if (distance < 1f)
+                {
+                    results.AppendLine("\n✓ TEST PASSED: Face offset MATCHES C++ runtime!");
+                    Debug.Log("✓ Face offset MATCHES C++ runtime!");
+                }
+                else
+                {
+                    results.AppendLine($"\n✗ TEST FAILED: Face offset mismatch");
+                    results.AppendLine($"  Difference: ({pixelOffset.x - expectedPixels.x:F1}, {pixelOffset.y - expectedPixels.y:F1}) pixels");
+                    Debug.LogWarning($"✗ Face offset mismatch: Expected {expectedPixels}, Got {pixelOffset}");
+                }
+                
+                // Check face sprite
+                var faceSR = face.GetComponent<SpriteRenderer>();
+                if (faceSR != null && faceSR.sprite != null)
+                {
+                    results.AppendLine($"\nFace sprite: {faceSR.sprite.name}");
+                    results.AppendLine($"Sprite pivot: {faceSR.sprite.pivot}");
+                    results.AppendLine($"Sprite bounds: {faceSR.sprite.bounds}");
+                }
+            }
+            else
+            {
+                results.AppendLine("\n✗ TEST FAILED: Face transform not found!");
+                Debug.LogError("Face transform not found!");
+            }
+            
+            // Log character hierarchy
+            results.AppendLine("\n=== CHARACTER HIERARCHY ===");
+            LogHierarchy(characterObj.transform, 0, results);
+            
+            // Write results
+            File.WriteAllText(logPath, results.ToString());
+            Debug.Log($"Test results written to: {logPath}");
+            
+            // Clean up
+            GameObject.DestroyImmediate(characterObj);
+            
+            EditorApplication.Exit(0);
+        }
+        catch (System.Exception e)
+        {
+            string error = $"Test failed with exception: {e.Message}\n{e.StackTrace}";
+            Debug.LogError(error);
+            results.AppendLine($"\nFATAL ERROR: {error}");
+            File.WriteAllText(logPath, results.ToString());
+            EditorApplication.Exit(1);
+        }
+    }
+    
+    private static void LogHierarchy(Transform t, int depth, System.Text.StringBuilder sb)
+    {
+        string indent = new string(' ', depth * 2);
+        var sr = t.GetComponent<SpriteRenderer>();
+        string spriteInfo = sr != null && sr.sprite != null ? $" [Sprite: {sr.sprite.name}]" : "";
+        sb.AppendLine($"{indent}{t.name}: {t.localPosition}{spriteInfo}");
+        
+        foreach (Transform child in t)
+        {
+            LogHierarchy(child, depth + 1, sb);
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+  "source": "C:\\HeavenClient\\MapleStory-Client",
+  "head": "e87467833d0ce34fef4a920551607998233932e6",
+  "sha256": {
+    "Util/Lerp.h": "b4aed7df7908769468de28efdff54823bfc8ee1f19b2139c9a40751430f16621",
+    "Template/Interpolated.h": "1c588b8daab0e84707efb7398ca3f4296c9489929e9760cc3a39bfd1102fd5a7",
+    "Graphics/Animation.cpp": "59ab7df1f7c0586c654a488aa0d190488048933bc522cb859acd30b91d385f4f"
+  },
+  "rows": 44040,
+  "scope": "Unmodified Animation update/reset, Frame steps and Interpolated/Lerp; supplied metadata, no texture drawing or NX parsing."
+}

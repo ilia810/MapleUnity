@@ -102,6 +102,8 @@ namespace MapleClient.Tests.GameLogic
 
             // Act
             player.StartClimbing(ladderInfo);
+            Assert.That(player.State, Is.Not.EqualTo(PlayerState.Climbing));
+            player.UpdatePhysics(0.008f,null);
 
             // Assert
             Assert.That(player.State, Is.EqualTo(PlayerState.Climbing));

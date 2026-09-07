@@ -227,7 +227,7 @@ namespace MapleClient.GameLogic.Tests
             float slope = service.GetSlopeAt(foothold, 50);
             
             // Assert
-            float expectedSlope = System.Math.Atan2(100, 100); // Rise over run
+            float expectedSlope = (float)System.Math.Atan2(100, 100); // Rise over run
             Assert.AreEqual(expectedSlope, slope, 0.001f);
         }
         

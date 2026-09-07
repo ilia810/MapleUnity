@@ -17,6 +17,12 @@ namespace MapleClient.GameLogic
         public int Accuracy { get; set; }
         public int Avoidability { get; set; }
         public float Speed { get; set; }
+        public bool CanMove { get; set; }
+        public bool CanFly { get; set; }
+        public bool NoFlip { get; set; }
+        public bool BodyAttack { get; set; }
+        public Dictionary<string, MobContactAnimation> ContactAnimations { get; set; }
+        public int KnockbackThreshold { get; set; }
         public int MesoMin { get; set; }
         public int MesoMax { get; set; }
         public List<DropInfo> DropTable { get; set; }

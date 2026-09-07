@@ -6,21 +6,21 @@ using MapleClient.GameLogic.Interfaces;
 namespace MapleClient.GameLogic.Core
 {
     /// <summary>
-    /// Manages physics updates at a fixed 60 FPS timestep to match MapleStory v83.
+    /// Advances HeavenClient's 8 ms simulation independently of rendering.
     /// Ensures deterministic, frame-perfect physics calculations.
     /// </summary>
     public class PhysicsUpdateManager
     {
-        // Fixed timestep for 60 FPS (1/60 = 0.01667 seconds)
-        public const float FIXED_TIMESTEP = 1f / 60f;
-        public const int TARGET_FPS = 60;
+        // HeavenClient Constants::TIMESTEP, in seconds.
+        public const float FIXED_TIMESTEP = 0.008f;
+        public const int TARGET_FPS = 125;
         
         private readonly Dictionary<int, IPhysicsObject> physicsObjects;
         private readonly List<IPhysicsObject> activeObjects;
         private readonly Stopwatch frameTimer;
         
         private int nextPhysicsId = 1;
-        private float accumulator = 0f;
+        private double accumulator;
         private long totalFrames = 0;
         private long totalPhysicsSteps = 0;
         private float currentFrameTime = 0f;
@@ -32,7 +32,7 @@ namespace MapleClient.GameLogic.Core
         public float CurrentFrameTime => currentFrameTime;
         public float AverageFrameTime => averageFrameTime;
         public int ActiveObjectCount => activeObjects.Count;
-        public float Accumulator => accumulator;
+        public float Accumulator => (float)accumulator;
         
         // Events
         public event Action<long> PhysicsStepCompleted;
@@ -97,12 +97,14 @@ namespace MapleClient.GameLogic.Core
         
         /// <summary>
         /// Process physics updates using fixed timestep with accumulator pattern.
-        /// This ensures consistent 60 FPS physics regardless of rendering framerate.
+        /// Keeps fractional time between frames. At most 250 ms is accepted per call.
         /// </summary>
         /// <param name="deltaTime">Time since last update (from Unity or game loop)</param>
         /// <param name="mapData">Current map data for collision detection</param>
-        public void Update(float deltaTime, MapData mapData)
+        public void Update(float deltaTime, MapData mapData, Func<MapData> mapForTick = null)
         {
+            if (deltaTime <= 0 || float.IsNaN(deltaTime) || float.IsInfinity(deltaTime))
+                return;
             totalFrames++;
             frameTimer.Restart();
             
@@ -114,21 +116,17 @@ namespace MapleClient.GameLogic.Core
             
             // Process fixed timesteps
             int stepsThisFrame = 0;
-            while (accumulator >= FIXED_TIMESTEP)
+            while (accumulator + 1e-8 >= NormalMovement.TickSeconds)
             {
                 // Update all active physics objects
-                UpdatePhysicsStep(mapData);
+                UpdatePhysicsStep(mapForTick != null ? mapForTick() : mapData);
                 
-                accumulator -= FIXED_TIMESTEP;
+                accumulator = Math.Max(0, accumulator - NormalMovement.TickSeconds);
                 totalPhysicsSteps++;
+                PhysicsStepCompleted?.Invoke(totalPhysicsSteps);
                 stepsThisFrame++;
                 
-                // Prevent infinite loops - max 4 physics steps per frame
-                if (stepsThisFrame >= 4)
-                {
-                    accumulator = 0f;
-                    break;
-                }
+
             }
             
             // Update timing metrics
@@ -164,7 +162,7 @@ namespace MapleClient.GameLogic.Core
                 }
             }
             
-            PhysicsStepCompleted?.Invoke(totalPhysicsSteps);
+
         }
         
         /// <summary>
@@ -173,7 +171,7 @@ namespace MapleClient.GameLogic.Core
         /// <returns>Value between 0 and 1 representing position between physics frames</returns>
         public float GetInterpolationFactor()
         {
-            return accumulator / FIXED_TIMESTEP;
+            return (float)Math.Min(1, accumulator / NormalMovement.TickSeconds);
         }
         
         /// <summary>
@@ -204,7 +202,7 @@ namespace MapleClient.GameLogic.Core
                 AverageFrameTime = averageFrameTime,
                 ActiveObjectCount = activeObjects.Count,
                 TotalObjectCount = physicsObjects.Count,
-                Accumulator = accumulator,
+                Accumulator = (float)accumulator,
                 StepsPerSecond = totalFrames > 0 ? (float)totalPhysicsSteps / (totalFrames * averageFrameTime) : 0f
             };
         }

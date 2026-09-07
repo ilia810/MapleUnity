@@ -7,39 +7,74 @@ namespace MapleClient.GameView
     /// <summary>
     /// Utility class for converting NX image data to Unity Sprites
     /// Handles coordinate system conversion and pivot calculations
+    ///
+    /// C++ Client Rendering Model:
+    /// - Sprites have an "origin" point (anchor point in MapleStory coordinates)
+    /// - When drawing at position P, the sprite renders at: P - origin
+    /// - The "shift" operation modifies origin: origin -= shift
+    /// - This means after shift, sprite draws at: P - (origin - shift) = P - origin + shift
+    ///
+    /// Unity Model:
+    /// - Sprites have a "pivot" (normalized 0-1 coordinates from bottom-left)
+    /// - The pivot point is placed at the transform's position
+    /// - To match C++ behavior, we bake the shift into the pivot
     /// </summary>
     public static class SpriteLoader
     {
         // MapleStory uses 100 pixels per unit in the physics system
         private const float PIXELS_PER_UNIT = 100f;
-        
+
         /// <summary>
         /// Convert an NX node containing image data to a Unity Sprite
         /// </summary>
         public static Sprite LoadSprite(INxNode node, string spriteName = null)
         {
             if (node == null) return null;
-            
+
             // Check if this node contains image data
             var imageData = GetImageData(node);
             if (imageData == null) return null;
-            
+
             // Get origin point if available
             Vector2 origin = GetOrigin(node);
-            
+
             return ConvertToSprite(imageData, origin, spriteName ?? node.Name);
         }
-        
+
+        /// <summary>
+        /// Load a sprite with a shift applied to its origin (like C++ client's Texture::shift)
+        /// C++ does: origin -= shift
+        /// So the new origin = original_origin - shift
+        /// </summary>
+        public static Sprite LoadSpriteWithShift(INxNode node, Vector2 shift, string spriteName = null)
+        {
+            if (node == null) return null;
+
+            var imageData = GetImageData(node);
+            if (imageData == null) return null;
+
+            // Get original origin and apply shift (C++ style: origin -= shift)
+            Vector2 originalOrigin = GetOrigin(node);
+            Vector2 shiftedOrigin = originalOrigin - shift;
+
+            Debug.Log($"[SpriteLoader] LoadSpriteWithShift '{spriteName ?? node.Name}':");
+            Debug.Log($"  Original origin: {originalOrigin}");
+            Debug.Log($"  Shift: {shift}");
+            Debug.Log($"  Shifted origin: {shiftedOrigin}");
+
+            return ConvertToSprite(imageData, shiftedOrigin, spriteName ?? node.Name);
+        }
+
         /// <summary>
         /// Convert a character sprite node to Unity Sprite with proper origin handling
         /// </summary>
         public static Sprite ConvertCharacterNodeToSprite(INxNode node, string spriteName, Vector2 origin)
         {
             if (node == null) return null;
-            
+
             var imageData = GetImageData(node);
             if (imageData == null) return null;
-            
+
             return ConvertToSprite(imageData, origin, spriteName);
         }
         
@@ -133,7 +168,13 @@ namespace MapleClient.GameView
             Sprite sprite = Sprite.Create(texture, rect, pivot, PIXELS_PER_UNIT);
             sprite.name = name;
             
-            Debug.Log($"[SpriteLoader] Created sprite '{name}': {texture.width}x{texture.height}, origin=({origin.x},{origin.y}), pivot=({pivotX:F2},{pivotY:F2})");
+            // Enhanced logging as per research7.txt
+            Debug.Log($"[SpriteLoader] Created sprite '{name}':");
+            Debug.Log($"  Texture dimensions: {texture.width}x{texture.height}");
+            Debug.Log($"  Origin from NX (MapleStory coords): {origin}");
+            Debug.Log($"  Pivot normalized (Unity coords): ({pivotX:F3}, {pivotY:F3})");
+            Debug.Log($"  Pivot in pixels (Unity coords): ({pivotX * texture.width:F1}, {pivotY * texture.height:F1})");
+            Debug.Log($"  Pixels per unit: {PIXELS_PER_UNIT}");
             
             return sprite;
         }

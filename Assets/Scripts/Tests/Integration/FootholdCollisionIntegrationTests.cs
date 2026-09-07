@@ -191,11 +191,16 @@ namespace MapleClient.Tests.Integration
         [Test]
         public void Player_WalksOnSlope_MaintainsGroundContact()
         {
+            // The flat surface and slope share a height at X=1000. Source lookup
+            // keeps the first authored surface, then follows its next connection.
+            testMapData.Platforms[1].NextId = 3;
+            testMapData.Platforms[2].PreviousId = 2;
+            footholdService.LoadFootholds(FootholdDataAdapter.ConvertPlatformsToFootholds(testMapData.Platforms));
             // Arrange - place player at start of slope
             player.Position = new Vector2(10f, 2.3f); // Start of slope
             player.IsGrounded = true;
             
-            // Act - walk down slope
+            // Act - walk up slope
             player.MoveRight(true);
             float startY = player.Position.Y;
             
@@ -212,7 +217,7 @@ namespace MapleClient.Tests.Integration
             Assert.IsTrue(player.IsGrounded, "Player should remain grounded on slope");
             Assert.Greater(player.Position.X, 10f, "Player should have moved right");
             
-            // Check that Y position increases smoothly (going down slope)
+            // Check that Y position increases smoothly (going up slope)
             float lastY = startY;
             int increasingCount = 0;
             foreach (float y in yPositions)
@@ -221,8 +226,12 @@ namespace MapleClient.Tests.Integration
                 lastY = y;
             }
             
-            Assert.Greater(increasingCount, yPositions.Count / 2, "Y position should increase as player walks down slope");
-            Assert.Greater(player.Position.Y, startY, "Player should be lower after walking down slope");
+            Assert.Greater(increasingCount, yPositions.Count / 2, "Y position should increase as player walks up slope");
+            Assert.Greater(player.Position.Y, startY, "Player should be higher after walking up slope");
+            Assert.That(player.CurrentFootholdId, Is.EqualTo(3));
+            // Source updates the grounded slope height before horizontal integration.
+            float groundY = -200f - (player.PreviousPosition.X * 100f - 1000f) * 0.2f;
+            Assert.That(player.Position.Y - Player.Height / 2, Is.EqualTo(-groundY / 100f).Within(0.001f));
         }
         
         [Test]

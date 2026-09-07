@@ -11,6 +11,7 @@ namespace MapleClient.GameView
     /// Visual player controller that syncs with GameLogic physics
     /// This controller acts as a visual representation only - all physics are handled by GameLogic
     /// </summary>
+    [DefaultExecutionOrder(-50)]
     public class SimplePlayerController : MonoBehaviour, IPlayerViewListener
     {
         [Header("Components")]
@@ -40,6 +41,7 @@ namespace MapleClient.GameView
         private float debugInterval = 1f; // Log position every second
         
         // Visual feedback components
+        [SerializeField] private bool showStateDebug = false;
         private GameObject stateIndicator;
         private TextMesh stateText;
         private GameObject ladderPrompt;
@@ -131,39 +133,16 @@ namespace MapleClient.GameView
             gameWorld = world;
         }
         
-        void FixedUpdate()
-        {
-            // In batch mode, force position sync in FixedUpdate as well
-            if (Application.isBatchMode && gameLogicPlayer != null)
-            {
-                transform.position = new Vector3(gameLogicPlayer.Position.X, gameLogicPlayer.Position.Y, 0);
-            }
-        }
-        
-        void Update()
+        void LateUpdate()
         {
             if (gameLogicPlayer == null) return;
-            
-            // In batch mode, always use direct position sync
-            if (Application.isBatchMode)
-            {
-                transform.position = new Vector3(gameLogicPlayer.Position.X, gameLogicPlayer.Position.Y, 0);
-            }
-            else
-            {
-                // Interpolate position for smooth visual movement
-                if (useInterpolation && gameWorld != null)
-                {
-                    float interpolationFactor = gameWorld.GetPhysicsInterpolationFactor();
-                    transform.position = Vector3.Lerp(previousPosition, currentPosition, interpolationFactor);
-                }
-                else
-                {
-                    // Fallback to direct position sync
-                    transform.position = currentPosition;
-                }
-            }
-            
+            var previous = gameLogicPlayer.PreviousPosition;
+            var current = gameLogicPlayer.Position;
+            float alpha = useInterpolation && gameWorld != null
+                ? gameWorld.GetPhysicsInterpolationFactor() : 1;
+            transform.position = Vector3.Lerp(new Vector3(previous.X, previous.Y, 0),
+                new Vector3(current.X, current.Y, 0), alpha);
+
             // Debug logging
             if (Time.time - lastDebugTime > debugInterval)
             {
@@ -194,12 +173,8 @@ namespace MapleClient.GameView
         
         public void OnVelocityChanged(MapleClient.GameLogic.Vector2 velocity)
         {
-            // Update facing direction based on velocity
-            if (velocity.X != 0)
-            {
-                facingRight = velocity.X > 0;
-                transform.localScale = new Vector3(facingRight ? 1 : -1, 1, 1);
-            }
+            // Facing direction is handled by MapleCharacterRenderer
+            // Don't modify transform.localScale here
         }
         
         public void OnGroundedStateChanged(bool isGrounded)
@@ -267,6 +242,7 @@ namespace MapleClient.GameView
         // Visual feedback methods
         private void CreateStateIndicator()
         {
+            if (!showStateDebug) return;
             stateIndicator = new GameObject("StateIndicator");
             stateIndicator.transform.SetParent(transform);
             stateIndicator.transform.localPosition = new Vector3(0, 0.5f, 0);

@@ -368,20 +368,19 @@ namespace MapleClient.GameLogic.Tests
         #region Special Movement Tests
         
         [Test]
-        public void ClimbSpeed_Is120PixelsPerSecond()
+        public void ClimbSpeed_UsesSourceSpeedStatPerEightMillisecondTick()
         {
-            // Research3.txt: "fixed upward/downward movement at a set speed (e.g. ~120 px/s on ladders)"
-            
-            Assert.That(MaplePhysics.ClimbSpeed, Is.EqualTo(1.2f).Within(EPSILON));
-            
-            // Test climbing
-            var ladder = new LadderInfo { X = 0, Y1 = 0, Y2 = 5 };
+            // HeavenClient Player::get_climbforce: Speed / 100 pixels per tick.
+            var ladder = new LadderInfo { X=0,Y1=0,Y2=5 };
+            player.Position=new Vector2(0,1);
             player.StartClimbing(ladder);
             player.ClimbUp(true);
-            
-            Assert.That(player.Velocity.Y, Is.EqualTo(1.2f).Within(EPSILON));
+            Assert.That(player.Velocity.Y, Is.Zero);
+            player.UpdatePhysics(0.008f,testMap); // Attach after normal movement.
+            player.UpdatePhysics(0.008f,testMap);
+            Assert.That(player.Velocity.Y, Is.EqualTo(1.25f).Within(EPSILON));
         }
-        
+
         [Test]
         public void SwimGravity_Is280PixelsPerSecondSquared()
         {

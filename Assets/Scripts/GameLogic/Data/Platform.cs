@@ -3,6 +3,10 @@ namespace MapleClient.GameLogic
     public class Platform
     {
         public int Id { get; set; }
+        public int PreviousId { get; set; }
+        public int NextId { get; set; }
+        public int Layer { get; set; }
+        public bool HasSourceTopology { get; set; }
         public float X1 { get; set; }
         public float Y1 { get; set; }
         public float X2 { get; set; }

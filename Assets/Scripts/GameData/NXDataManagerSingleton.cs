@@ -63,6 +63,8 @@ namespace GameData
         
         private void OnDestroy()
         {
+            if (instance == this)
+                instance = null;
             if (dataManager != null)
             {
                 dataManager.Shutdown();
@@ -855,6 +857,23 @@ namespace GameData
                 return (null, Vector2.zero);
             }
             
+            // Npc::Npc resolves info/link before reading its stance frames.
+            // Keep the authored identity on the life object; only the art is shared.
+            string requestedId = npcId;
+            var visited = new System.Collections.Generic.HashSet<string>();
+            while (true)
+            {
+                npcId = npcId.PadLeft(7, '0');
+                if (!visited.Add(npcId))
+                {
+                    Debug.LogWarning($"Cyclic NPC sprite link for ID: {requestedId}");
+                    return (null, Vector2.zero);
+                }
+                var link = dataManager.GetNode("npc", $"{npcId}.img/info/link")?.Value?.ToString();
+                if (string.IsNullOrEmpty(link)) break;
+                npcId = link.EndsWith(".img", StringComparison.Ordinal) ? link.Substring(0, link.Length - 4) : link;
+            }
+
             // NPCs are in Npc.nx/{npcId}.img/stand/0
             string[] possiblePaths = {
                 $"{npcId}.img/stand/0",

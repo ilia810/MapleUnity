@@ -54,7 +54,7 @@ namespace MapleClient.GameView
             if (cam != null)
             {
                 cam.orthographic = true;
-                cam.orthographicSize = 6f; // Show more of the scene (600 pixels height / 100)
+                cam.orthographicSize = RenderingConfiguration.CAMERA_ORTHOGRAPHIC_SIZE; // 768 source pixels vertically
             }
             
             currentSmoothSpeed = smoothSpeed;

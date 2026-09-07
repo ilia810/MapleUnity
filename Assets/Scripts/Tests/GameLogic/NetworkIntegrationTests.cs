@@ -214,6 +214,28 @@ namespace Tests.GameLogic
             Assert.That(gameWorld.Player.CurrentMP, Is.EqualTo(40));
         }
 
+        [Test]
+        public void GameWorld_SendsMovementAfterCompletedPhysics_NotDuringInputPolling()
+        {
+            gameWorld.LoadMap(1);
+            gameWorld.Player.Position = new Vector2(0, Player.Height / 2f);
+            gameWorld.Player.Velocity = Vector2.Zero;
+            gameWorld.Player.IsGrounded = true;
+            mockInput.IsRightPressed = true;
+            for (int i = 0; i < 4; i++) gameWorld.ProcessInput();
+            Assert.That(mockNetwork.MovementsSent, Is.Empty);
+            Assert.That(gameWorld.Player.Position.X, Is.EqualTo(0));
+            gameWorld.UpdatePhysics(PhysicsUpdateManager.FIXED_TIMESTEP / 2f);
+            Assert.That(mockNetwork.MovementsSent, Is.Empty);
+            gameWorld.UpdatePhysics(PhysicsUpdateManager.FIXED_TIMESTEP / 2f);
+            Assert.That(mockNetwork.MovementsSent, Is.Empty, "Source STAND changes to WALK on its first tick.");
+            gameWorld.UpdatePhysics(PhysicsUpdateManager.FIXED_TIMESTEP);
+            Assert.That(mockNetwork.MovementsSent.Count, Is.EqualTo(1));
+            Assert.That(mockNetwork.MovementsSent[0].X, Is.GreaterThan(0));
+            Assert.That(mockNetwork.MovementsSent[0].X, Is.EqualTo(gameWorld.Player.Position.X));
+            Assert.That(mockNetwork.MovementsSent[0].Y, Is.EqualTo(gameWorld.Player.Position.Y));
+        }
+
         private class MockNetworkClient : INetworkClient
         {
             public bool IsConnected { get; private set; } = true;

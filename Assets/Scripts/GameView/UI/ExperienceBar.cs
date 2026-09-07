@@ -1,116 +1,46 @@
 using UnityEngine;
 using UnityEngine.UI;
 using MapleClient.GameLogic.Core;
-
 namespace MapleClient.GameView.UI
 {
     public class ExperienceBar : MonoBehaviour
     {
         private Player player;
-        private GameObject expBar;
-        private Image expFill;
-        private Text expText;
-
-        void Start()
+        private Image missing, missingBacking;
+        private Text text;
+        private Font font;
+        private void Start()
         {
-            CreateUI();
+            font = Font.CreateDynamicFontFromOSFont("Arial", 11);
+            var root = ClassicUI.Rect("ExperienceBar", ClassicUI.Hud(transform), 115, 14); ClassicUI.Place(root, 440, 53, 115, 14);
+            ClassicUI.GaugeInterior("Fill",root,0,0,115,new Color(.78f,1,0));
+            missingBacking=ClassicUI.Art("MissingBacking",root,"StatusBar.img/gauge/gray",0,0);
+            missingBacking.color=new Color(.3f,.3f,.3f);
+            missing = ClassicUI.GaugeInterior("Missing",root,0,0,115,Color.white);
+            text = ClassicUI.Text("Text", root, font, "", 11, true); text.alignment = TextAnchor.MiddleLeft;
+            ClassicUI.Place(text.rectTransform, 22, -15, 94, 13);
+            var shadow=text.gameObject.AddComponent<Shadow>();shadow.effectDistance=new Vector2(0,-1);shadow.effectColor=new Color(0,0,0,.65f);
+            text.resizeTextForBestFit=true; text.resizeTextMinSize=9; text.resizeTextMaxSize=11;
             StartCoroutine(WaitForPlayer());
         }
-
         private System.Collections.IEnumerator WaitForPlayer()
         {
-            GameManager gameManager = null;
-            
-            while (gameManager == null)
-            {
-                gameManager = FindObjectOfType<GameManager>();
-                yield return null;
-            }
-            
-            while (gameManager.Player == null)
-            {
-                yield return null;
-            }
-            
-            SetPlayer(gameManager.Player);
+            GameManager manager;
+            while ((manager = FindFirstObjectByType<GameManager>()) == null || manager.Player == null) yield return null;
+            SetPlayer(manager.Player);
         }
-
-        private void CreateUI()
+        public void SetPlayer(Player value) { player = value; Update(); }
+        private void Update()
         {
-            // Create experience bar at bottom of screen
-            expBar = new GameObject("ExperienceBar");
-            expBar.transform.SetParent(transform, false);
-            
-            RectTransform barRect = expBar.AddComponent<RectTransform>();
-            barRect.anchorMin = new Vector2(0, 0);
-            barRect.anchorMax = new Vector2(1, 0);
-            barRect.pivot = new Vector2(0.5f, 0);
-            barRect.anchoredPosition = new Vector2(0, 5);
-            barRect.sizeDelta = new Vector2(-20, 15);
-
-            // Background
-            Image bgImage = expBar.AddComponent<Image>();
-            bgImage.color = new Color(0.1f, 0.1f, 0.1f, 0.9f);
-
-            // Fill
-            GameObject fillObj = new GameObject("Fill");
-            fillObj.transform.SetParent(expBar.transform, false);
-            
-            RectTransform fillRect = fillObj.AddComponent<RectTransform>();
-            fillRect.anchorMin = Vector2.zero;
-            fillRect.anchorMax = new Vector2(1, 1);
-            fillRect.sizeDelta = new Vector2(-2, -2);
-            fillRect.anchoredPosition = Vector2.zero;
-            
-            expFill = fillObj.AddComponent<Image>();
-            expFill.color = new Color(1f, 0.8f, 0f, 0.9f); // Gold color
-            expFill.type = Image.Type.Filled;
-            expFill.fillMethod = Image.FillMethod.Horizontal;
-            expFill.fillOrigin = (int)Image.OriginHorizontal.Left;
-
-            // Text
-            GameObject textObj = new GameObject("Text");
-            textObj.transform.SetParent(expBar.transform, false);
-            
-            RectTransform textRect = textObj.AddComponent<RectTransform>();
-            textRect.anchorMin = Vector2.zero;
-            textRect.anchorMax = Vector2.one;
-            textRect.sizeDelta = Vector2.zero;
-            textRect.anchoredPosition = Vector2.zero;
-            
-            expText = textObj.AddComponent<Text>();
-            expText.text = "0 / 100 EXP (0.00%)";
-            expText.font = Font.CreateDynamicFontFromOSFont(new string[] { "Arial", "Helvetica", "Verdana" }, 11);
-            expText.fontSize = 11;
-            expText.color = Color.white;
-            expText.alignment = TextAnchor.MiddleCenter;
+            if (player == null || missing == null) return;
+            float ratio = player.ExperienceToNextLevel > 0 ? Mathf.Clamp01((float)((double)player.Experience / player.ExperienceToNextLevel)) : 1;
+            float filled=Mathf.Round(115*ratio);
+            ClassicUI.Place(missing.rectTransform, filled, 0, 115-filled, 14);
+            ClassicUI.Place(missingBacking.rectTransform, filled, 0, 115-filled, 14);
+            missing.enabled = ratio < 1;
+            missingBacking.enabled=missing.enabled;
+            text.text = player.ExperienceToNextLevel > 0 ? $"{player.Experience} [{ratio * 100:F2}%]" : "MAX LEVEL";
         }
-
-        public void SetPlayer(Player player)
-        {
-            this.player = player;
-            UpdateDisplay();
-        }
-
-        void Update()
-        {
-            if (player != null)
-            {
-                UpdateDisplay();
-            }
-        }
-
-        private void UpdateDisplay()
-        {
-            if (player == null) return;
-
-            // For now, using placeholder values since Player doesn't have EXP yet
-            int currentExp = 0;
-            int expToNextLevel = 100;
-            float expPercent = 0f;
-
-            expFill.fillAmount = expPercent;
-            expText.text = $"{currentExp} / {expToNextLevel} EXP ({expPercent * 100:F2}%)";
-        }
+        private void OnDestroy() { if (font != null) Destroy(font); }
     }
 }

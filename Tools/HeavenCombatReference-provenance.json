@@ -1,0 +1,24 @@
+{
+  "source": "C:\\HeavenClient\\MapleStory-Client",
+  "source_sha256": {
+    "Character/Inventory/Weapon.h": "ec4a83ed611004215ccb26298a2f5565ddd514fe14907ad8c908c1142dfec7cd",
+    "Character/EquipStat.h": "571d24adaa9d1152a051c5003552ea9ffb06374c3fbe1ffda5fe0af4c1e49e56",
+    "Character/StatCaps.h": "3e2f8a8f92079f2e704148554055b2aa0098ea5288da579c329bc50781ce1b4e",
+    "Character/Job.cpp": "977d7ae384fea7e8cc379dfb0239473ffcaeac1eaea8e2cc0fee742c45273119",
+    "Character/CharStats.cpp": "5d3b19e5f008226869a520b910a058a389a3050c405aa2234dbafbecae53440a",
+    "Gameplay/MapleMap/Mob.cpp": "c1bb8a07238eb61642717aa23e540a3b6ec01db62ee16a7317e147288d3b00b8",
+    "Character/Player.cpp": "d528b26d16246e9409e672d96b72525d7aab1f1d3b4f5eb71a7dd28b1789642a",
+    "Util/Randomizer.h": "078c29a7e98b6c3133b3aa5e672015d065e8c5693e4a176595e4f377eb03bd4b"
+  },
+  "method": "Unmodified CharStats caps/close/formulas, Job primary/secondary and Mob physical defense/hit/roll methods.",
+  "adapter": "Controlled stats, job/weapon IDs, level delta and unit random draws; reproduces Player::prepare_attack division in double precision. Does not reproduce an RNG seed/algorithm.",
+  "excluded": [
+    "NX import",
+    "network",
+    "magic/skill attacks",
+    "passive skill discovery",
+    "server-authoritative buffs and damage"
+  ],
+  "rows": 1008,
+  "trace_sha256": "80c7c625925ba7acac99443b961a5dc916270c720e472f92724f9e13c26818ca"
+}

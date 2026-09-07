@@ -12,16 +12,17 @@ namespace GameData
     /// <summary>
     /// Comprehensive NX data manager that provides all game assets
     /// </summary>
-    public class NXDataManager : IAssetProvider
+    public class NXDataManager : IAssetProvider, IQuestDataProvider
     {
         private readonly string dataPath;
         private readonly Dictionary<string, INxFile> loadedFiles;
         private readonly AssetCache cache;
         
         // Provider implementations
-        private ItemDataProvider itemProvider;
+        private NxItemDataProvider itemProvider;
         private MobDataProvider mobProvider;
-        private SkillDataProvider skillProvider;
+        private SkillCatalog skillProvider;
+        public MapleClient.GameLogic.Skills.SkillCastEffects SkillEffects { get; } = new MapleClient.GameLogic.Skills.SkillCastEffects();
         private NpcDataProvider npcProvider;
         private MapDataProvider mapProvider;
         private CharacterDataProvider characterProvider;
@@ -34,17 +35,37 @@ namespace GameData
         public IMapDataProvider MapData => mapProvider;
         public ICharacterDataProvider CharacterData => characterProvider;
         public ISoundDataProvider SoundData => soundProvider;
+        private IReadOnlyList<QuestDefinition> quests;
+        public IReadOnlyList<QuestDefinition> Quests => quests ?? (quests = NxQuestData.Read(GetFile("quest")));
         
         public NXDataManager(string dataPath = null)
         {
             // Use actual MapleStory NX files from HeavenClient
-            this.dataPath = dataPath ?? @"C:\HeavenClient\MapleStory-Client\nx";
+            this.dataPath = ResolveDataPath(dataPath);
             this.loadedFiles = new Dictionary<string, INxFile>();
             this.cache = new AssetCache();
         }
         
+        public string DataPath => dataPath;
+
+        private static string ResolveDataPath(string configuredPath)
+        {
+            if (!string.IsNullOrWhiteSpace(configuredPath))
+                return configuredPath;
+            string environmentPath = Environment.GetEnvironmentVariable("MAPLE_NX_PATH");
+            if (!string.IsNullOrWhiteSpace(environmentPath))
+                return environmentPath;
+            string projectPath = Path.Combine(Application.streamingAssetsPath, "NX");
+            if (Directory.Exists(projectPath))
+                return projectPath;
+            // Preserve the original development setup while allowing portable installs.
+            const string legacyPath = @"C:\HeavenClient\MapleStory-Client\nx";
+            return Directory.Exists(legacyPath) ? legacyPath : projectPath;
+        }
+
         public void Initialize()
         {
+            quests = null;
             Debug.Log($"Initializing NXDataManager with path: {dataPath}");
             
             // Load NX files
@@ -52,38 +73,46 @@ namespace GameData
             LoadNXFile("Map.nx");
             LoadNXFile("String.nx");
             LoadNXFile("Npc.nx");
-            // TODO: Fix paths for these files before enabling
-            // LoadNXFile("Item.nx");
-            // LoadNXFile("Mob.nx");
-            // LoadNXFile("Skill.nx");
-            // LoadNXFile("Quest.nx");
+            LoadNXFile("Mob.nx");
+            LoadNXFile("Item.nx");
+            // These providers remain separate rewrite milestones.
+            LoadNXFile("Skill.nx");
+            LoadNXFile("Quest.nx");
             // LoadNXFile("Reactor.nx");
             // LoadNXFile("Sound.nx");
-            // LoadNXFile("UI.nx");
-            // LoadNXFile("Effect.nx");
+            LoadNXFile("UI.nx");
+            LoadNXFile("Effect.nx");
             
             // Initialize providers
-            itemProvider = new ItemDataProvider(this);
+            itemProvider = new NxItemDataProvider(this);
             mobProvider = new MobDataProvider(this);
-            skillProvider = new SkillDataProvider(this);
+            skillProvider = new SkillCatalog(new NxSkillDataProvider(this), SkillEffects);
+            foreach (var asset in Resources.LoadAll<CustomSkillAsset>("Skills"))
+                if (!skillProvider.TryRegister(asset, out var error)) Debug.LogError($"Skill '{asset.name}': {error}");
             npcProvider = new NpcDataProvider(this);
             mapProvider = new MapDataProvider(this);
             characterProvider = new MapleClient.GameData.CharacterDataProvider();
             soundProvider = new SoundDataProvider(this);
             
             // Load essential data
-            // TODO: Fix item/mob/skill loading paths
-            // itemProvider.LoadAllItems();
+            // Item and mob metadata load lazily by ID.
             // mobProvider.LoadAllMobs();
-            // skillProvider.LoadAllSkills();
+            // Skill metadata also loads lazily by ID/job.
             
             Debug.Log("NXDataManager initialized successfully");
         }
         
         public void Shutdown()
         {
+            quests = null;
             cache.Clear();
+            foreach (var entry in loadedFiles)
+            {
+                NXAssetLoader.Instance.UnregisterNxFile(entry.Key, entry.Value);
+                (entry.Value as IDisposable)?.Dispose();
+            }
             loadedFiles.Clear();
+            MapleClient.GameData.SpriteLoader.ClearCache();
         }
         
         private void LoadNXFile(string fileName)
@@ -133,187 +162,6 @@ namespace GameData
         }
         
         // Provider implementations
-        private class ItemDataProvider : IItemDataProvider
-        {
-            private readonly NXDataManager manager;
-            private readonly Dictionary<int, ItemInfo> items;
-            
-            public ItemDataProvider(NXDataManager manager)
-            {
-                this.manager = manager;
-                this.items = new Dictionary<int, ItemInfo>();
-            }
-            
-            public void LoadAllItems()
-            {
-                // Load items from String.nx for names/descriptions
-                var stringFile = manager.GetFile("string");
-                var itemFile = manager.GetFile("item");
-                
-                if (itemFile == null) return;
-                
-                // Load equipment
-                LoadItemCategory(itemFile, stringFile, "Equip", ItemType.Equip);
-                LoadItemCategory(itemFile, stringFile, "Consume", ItemType.Use);
-                LoadItemCategory(itemFile, stringFile, "Install", ItemType.Setup);
-                LoadItemCategory(itemFile, stringFile, "Etc", ItemType.Etc);
-                LoadItemCategory(itemFile, stringFile, "Cash", ItemType.Cash);
-                
-                Debug.Log($"Loaded {items.Count} items");
-            }
-            
-            private void LoadItemCategory(INxFile itemFile, INxFile stringFile, string category, ItemType type)
-            {
-                var categoryNode = itemFile.GetNode(category);
-                if (categoryNode == null) return;
-                
-                foreach (var subCategory in categoryNode.Children)
-                {
-                    foreach (var itemNode in subCategory.Children)
-                    {
-                        if (int.TryParse(itemNode.Name.Replace(".img", ""), out int itemId))
-                        {
-                            var item = ParseItem(itemNode, itemId, type);
-                            if (item != null)
-                            {
-                                // Get name from String.nx
-                                var stringNode = stringFile?.GetNode($"Item.img/{itemId}");
-                                if (stringNode != null)
-                                {
-                                    item.Name = stringNode["name"]?.GetValue<string>() ?? $"Item {itemId}";
-                                    item.Description = stringNode["desc"]?.GetValue<string>() ?? "";
-                                }
-                                
-                                items[itemId] = item;
-                            }
-                        }
-                    }
-                }
-            }
-            
-            private ItemInfo ParseItem(INxNode node, int itemId, ItemType type)
-            {
-                var info = node["info"];
-                if (info == null) return null;
-                
-                var item = new ItemInfo
-                {
-                    ItemId = itemId,
-                    Type = type,
-                    Price = info["price"]?.GetValue<int>() ?? 0,
-                    MaxStack = info["slotMax"]?.GetValue<int>() ?? 1,
-                    IsCash = info["cash"]?.GetValue<bool>() ?? false,
-                    IsQuest = info["quest"]?.GetValue<bool>() ?? false,
-                    IsTradeable = info["tradeBlock"]?.GetValue<bool>() ?? true == false,
-                    IsOneOfAKind = info["only"]?.GetValue<bool>() ?? false,
-                    Stats = new Dictionary<StatType, int>()
-                };
-                
-                // Parse equipment stats
-                if (type == ItemType.Equip)
-                {
-                    ParseEquipStats(info, item);
-                }
-                // Parse consumable effects
-                else if (type == ItemType.Use)
-                {
-                    ParseConsumeEffects(info, item);
-                }
-                
-                return item;
-            }
-            
-            private void ParseEquipStats(INxNode info, ItemInfo item)
-            {
-                item.RequiredLevel = info["reqLevel"]?.GetValue<int>() ?? 0;
-                item.RequiredStr = info["reqSTR"]?.GetValue<int>() ?? 0;
-                item.RequiredDex = info["reqDEX"]?.GetValue<int>() ?? 0;
-                item.RequiredInt = info["reqINT"]?.GetValue<int>() ?? 0;
-                item.RequiredLuk = info["reqLUK"]?.GetValue<int>() ?? 0;
-                item.Slots = info["tuc"]?.GetValue<int>() ?? 0;
-                
-                // Stats
-                AddStat(item, StatType.STR, info["incSTR"]?.GetValue<int>());
-                AddStat(item, StatType.DEX, info["incDEX"]?.GetValue<int>());
-                AddStat(item, StatType.INT, info["incINT"]?.GetValue<int>());
-                AddStat(item, StatType.LUK, info["incLUK"]?.GetValue<int>());
-                AddStat(item, StatType.MaxHP, info["incMHP"]?.GetValue<int>());
-                AddStat(item, StatType.MaxMP, info["incMMP"]?.GetValue<int>());
-                AddStat(item, StatType.WeaponAttack, info["incPAD"]?.GetValue<int>());
-                AddStat(item, StatType.MagicAttack, info["incMAD"]?.GetValue<int>());
-                AddStat(item, StatType.WeaponDefense, info["incPDD"]?.GetValue<int>());
-                AddStat(item, StatType.MagicDefense, info["incMDD"]?.GetValue<int>());
-                AddStat(item, StatType.Accuracy, info["incACC"]?.GetValue<int>());
-                AddStat(item, StatType.Avoidability, info["incEVA"]?.GetValue<int>());
-                AddStat(item, StatType.Speed, info["incSpeed"]?.GetValue<int>());
-                AddStat(item, StatType.Jump, info["incJump"]?.GetValue<int>());
-            }
-            
-            private void ParseConsumeEffects(INxNode info, ItemInfo item)
-            {
-                item.Hp = info["hp"]?.GetValue<int>() ?? 0;
-                item.Mp = info["mp"]?.GetValue<int>() ?? 0;
-                item.HpRate = info["hpR"]?.GetValue<int>() ?? 0;
-                item.MpRate = info["mpR"]?.GetValue<int>() ?? 0;
-                item.Time = info["time"]?.GetValue<int>() ?? 0;
-                item.Buffs = new Dictionary<BuffType, int>();
-                
-                // Parse buff effects
-                AddBuff(item, BuffType.WeaponAttack, info["pad"]?.GetValue<int>());
-                AddBuff(item, BuffType.MagicAttack, info["mad"]?.GetValue<int>());
-                AddBuff(item, BuffType.WeaponDefense, info["pdd"]?.GetValue<int>());
-                AddBuff(item, BuffType.MagicDefense, info["mdd"]?.GetValue<int>());
-                AddBuff(item, BuffType.Accuracy, info["acc"]?.GetValue<int>());
-                AddBuff(item, BuffType.Avoidability, info["eva"]?.GetValue<int>());
-                AddBuff(item, BuffType.Speed, info["speed"]?.GetValue<int>());
-                AddBuff(item, BuffType.Jump, info["jump"]?.GetValue<int>());
-            }
-            
-            private void AddStat(ItemInfo item, StatType stat, int? value)
-            {
-                if (value.HasValue && value.Value != 0)
-                    item.Stats[stat] = value.Value;
-            }
-            
-            private void AddBuff(ItemInfo item, BuffType buff, int? value)
-            {
-                if (value.HasValue && value.Value != 0)
-                    item.Buffs[buff] = value.Value;
-            }
-            
-            public ItemInfo GetItem(int itemId)
-            {
-                items.TryGetValue(itemId, out var item);
-                return item ?? CreateMockItem(itemId);
-            }
-            
-            public Dictionary<int, ItemInfo> GetAllItems()
-            {
-                return new Dictionary<int, ItemInfo>(items);
-            }
-            
-            public bool ItemExists(int itemId)
-            {
-                return items.ContainsKey(itemId);
-            }
-            
-            private ItemInfo CreateMockItem(int itemId)
-            {
-                // Create mock item for testing
-                return new ItemInfo
-                {
-                    ItemId = itemId,
-                    Name = $"Item {itemId}",
-                    Description = "Unknown item",
-                    Type = ItemType.Etc,
-                    Price = 100,
-                    MaxStack = 100,
-                    Stats = new Dictionary<StatType, int>(),
-                    Buffs = new Dictionary<BuffType, int>()
-                };
-            }
-        }
-        
         private class MobDataProvider : IMobDataProvider
         {
             private readonly NXDataManager manager;
@@ -375,7 +223,12 @@ namespace GameData
                     Speed = info["speed"]?.GetValue<int>() ?? 0,
                     IsBoss = info["boss"]?.GetValue<bool>() ?? false,
                     IsUndead = info["undead"]?.GetValue<bool>() ?? false,
-                    CanFly = info["flySpeed"]?.GetValue<int>() > 0,
+                    CanFly = node["fly"]?.Children.Any() == true,
+                    CanMove = node["move"]?.Children.Any() == true || node["fly"]?.Children.Any() == true,
+                    BodyAttack = (info["bodyAttack"]?.GetValue<int>() ?? 0) != 0,
+                    ContactAnimations = NxMobContactLoader.Load(manager, mobId),
+                    NoFlip = (info["noFlip"]?.GetValue<int>() ?? 0) != 0,
+                    KnockbackThreshold = info["pushed"]?.GetValue<int>() ?? 0,
                     Skills = new List<int>(),
                     Drops = new Dictionary<int, DropInfo>()
                 };
@@ -383,8 +236,15 @@ namespace GameData
             
             public MobInfo GetMob(int mobId)
             {
-                mobs.TryGetValue(mobId, out var mob);
-                return mob ?? CreateMockMob(mobId);
+                if (mobs.TryGetValue(mobId, out var mob)) return mob;
+                var node = manager.GetNode("mob", mobId.ToString("D7") + ".img");
+                if (node == null) return null;
+                mob = ParseMob(node, mobId);
+                if (mob == null) return null;
+                mob.Name = manager.GetNode("string", $"Mob.img/{mobId}/name")?.GetValue<string>() ?? $"Monster {mobId}";
+                mob.SpritePath = mobId.ToString("D7") + ".img";
+                mobs[mobId] = mob;
+                return mob;
             }
             
             public Dictionary<int, MobInfo> GetAllMobs()
@@ -394,7 +254,7 @@ namespace GameData
             
             public bool MobExists(int mobId)
             {
-                return mobs.ContainsKey(mobId);
+                return GetMob(mobId) != null;
             }
             
             private MobInfo CreateMockMob(int mobId)
@@ -411,293 +271,6 @@ namespace GameData
                     Skills = new List<int>(),
                     Drops = new Dictionary<int, DropInfo>()
                 };
-            }
-        }
-        
-        // Complete skill data provider implementation
-        private class SkillDataProvider : ISkillDataProvider
-        {
-            private readonly NXDataManager manager;
-            private readonly Dictionary<int, SkillInfo> skills;
-            private readonly Dictionary<int, List<int>> skillsByJob;
-            
-            public SkillDataProvider(NXDataManager manager)
-            {
-                this.manager = manager;
-                this.skills = new Dictionary<int, SkillInfo>();
-                this.skillsByJob = new Dictionary<int, List<int>>();
-            }
-            
-            public void LoadAllSkills()
-            {
-                var skillFile = manager.GetFile("skill");
-                var stringFile = manager.GetFile("string");
-                
-                if (skillFile == null) return;
-                
-                foreach (var jobNode in skillFile.Root.Children)
-                {
-                    if (!jobNode.Name.EndsWith(".img")) continue;
-                    
-                    string jobIdStr = jobNode.Name.Replace(".img", "");
-                    if (!int.TryParse(jobIdStr, out int jobId)) continue;
-                    
-                    var skillList = new List<int>();
-                    
-                    // Parse skills in the skill subfolder
-                    var skillFolder = jobNode["skill"];
-                    if (skillFolder != null)
-                    {
-                        foreach (var skillNode in skillFolder.Children)
-                        {
-                            if (int.TryParse(skillNode.Name, out int skillId))
-                            {
-                                var skill = ParseSkill(skillNode, skillId, jobId);
-                                if (skill != null)
-                                {
-                                    // Get name from String.nx
-                                    var stringNode = stringFile?.GetNode($"Skill.img/{skillId}");
-                                    if (stringNode != null)
-                                    {
-                                        skill.Name = stringNode["name"]?.GetValue<string>() ?? $"Skill {skillId}";
-                                        skill.Description = stringNode["desc"]?.GetValue<string>() ?? "";
-                                        skill.H1 = stringNode["h1"]?.GetValue<string>() ?? "";
-                                    }
-                                    
-                                    skills[skillId] = skill;
-                                    skillList.Add(skillId);
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (skillList.Count > 0)
-                        skillsByJob[jobId] = skillList;
-                }
-                
-                Debug.Log($"Loaded {skills.Count} skills across {skillsByJob.Count} jobs");
-            }
-            
-            private SkillInfo ParseSkill(INxNode node, int skillId, int jobId)
-            {
-                var skill = new SkillInfo
-                {
-                    SkillId = skillId,
-                    JobId = jobId,
-                    MaxLevel = node["maxLevel"]?.GetValue<int>() ?? 20,
-                    IsPassive = false, // Will be determined by skill type
-                    Type = SkillType.Attack, // Default, will be overridden
-                    Element = ElementType.Physical,
-                    Levels = new Dictionary<int, SkillInfo.LevelData>()
-                };
-                
-                // Parse common properties
-                var common = node["common"];
-                if (common != null)
-                {
-                    skill.AttackCount = common["attackCount"]?.GetValue<int>() ?? 1;
-                    skill.MobCount = common["mobCount"]?.GetValue<int>() ?? 1;
-                    skill.BulletCount = common["bulletCount"]?.GetValue<int>() ?? 0;
-                    skill.BulletConsume = common["bulletConsume"]?.GetValue<int>() ?? 0;
-                    skill.ItemCon = common["itemCon"]?.GetValue<int>() ?? 0;
-                    skill.ItemConNo = common["itemConNo"]?.GetValue<int>() ?? 0;
-                }
-                
-                // Determine skill type
-                DetermineSkillType(node, skill);
-                
-                // Parse level data
-                ParseLevelData(node, skill);
-                
-                // Parse element
-                var elemAttr = node["elemAttr"]?.GetValue<string>();
-                if (!string.IsNullOrEmpty(elemAttr))
-                {
-                    skill.Element = ParseElement(elemAttr);
-                }
-                
-                return skill;
-            }
-            
-            private void DetermineSkillType(INxNode node, SkillInfo skill)
-            {
-                // Check for passive skills
-                if (node["psd"] != null)
-                {
-                    skill.IsPassive = true;
-                    skill.Type = SkillType.Passive;
-                    return;
-                }
-                
-                // Check for summon skills
-                if (node["summon"] != null)
-                {
-                    skill.Type = SkillType.Summon;
-                    return;
-                }
-                
-                // Check for buff skills
-                var level1 = node["level"]?["1"];
-                if (level1 != null)
-                {
-                    if (level1["time"] != null && level1["damage"] == null)
-                    {
-                        skill.Type = SkillType.Buff;
-                        return;
-                    }
-                    
-                    if (level1["hp"] != null || level1["hpR"] != null)
-                    {
-                        skill.Type = SkillType.Recovery;
-                        return;
-                    }
-                }
-                
-                // Default to attack
-                skill.Type = SkillType.Attack;
-            }
-            
-            private void ParseLevelData(INxNode node, SkillInfo skill)
-            {
-                var levelNode = node["level"];
-                if (levelNode == null) return;
-                
-                foreach (var level in levelNode.Children)
-                {
-                    if (int.TryParse(level.Name, out int levelNum))
-                    {
-                        var levelData = new SkillInfo.LevelData
-                        {
-                            MpCost = level["mpCon"]?.GetValue<int>() ?? 0,
-                            Damage = level["damage"]?.GetValue<int>() ?? 0,
-                            AttackCount = level["attackCount"]?.GetValue<int>() ?? skill.AttackCount,
-                            MobCount = level["mobCount"]?.GetValue<int>() ?? skill.MobCount,
-                            Range = level["range"]?.GetValue<int>() ?? 0,
-                            Duration = level["time"]?.GetValue<int>() ?? 0,
-                            Cooldown = level["cooltime"]?.GetValue<int>() ?? 0,
-                            Mastery = level["mastery"]?.GetValue<int>() ?? 0,
-                            Critical = level["critical"]?.GetValue<int>() ?? 0,
-                            Buffs = new Dictionary<BuffType, int>()
-                        };
-                        
-                        // Parse buff effects
-                        ParseBuffEffects(level, levelData);
-                        
-                        // Special properties
-                        levelData.Hp = level["hp"]?.GetValue<int>() ?? 0;
-                        levelData.HpR = level["hpR"]?.GetValue<int>() ?? 0;
-                        levelData.Mp = level["mp"]?.GetValue<int>() ?? 0;
-                        levelData.MpR = level["mpR"]?.GetValue<int>() ?? 0;
-                        levelData.Prop = level["prop"]?.GetValue<int>() ?? 100; // Success rate
-                        levelData.X = level["x"]?.GetValue<int>() ?? 0; // Various uses
-                        levelData.Y = level["y"]?.GetValue<int>() ?? 0;
-                        levelData.Z = level["z"]?.GetValue<int>() ?? 0;
-                        
-                        skill.Levels[levelNum] = levelData;
-                    }
-                }
-            }
-            
-            private void ParseBuffEffects(INxNode level, SkillInfo.LevelData levelData)
-            {
-                // Physical stats
-                AddBuffIfExists(level, levelData, "pad", BuffType.WeaponAttack);
-                AddBuffIfExists(level, levelData, "mad", BuffType.MagicAttack);
-                AddBuffIfExists(level, levelData, "pdd", BuffType.WeaponDefense);
-                AddBuffIfExists(level, levelData, "mdd", BuffType.MagicDefense);
-                AddBuffIfExists(level, levelData, "acc", BuffType.Accuracy);
-                AddBuffIfExists(level, levelData, "eva", BuffType.Avoidability);
-                AddBuffIfExists(level, levelData, "speed", BuffType.Speed);
-                AddBuffIfExists(level, levelData, "jump", BuffType.Jump);
-                
-                // Special buffs
-                if (level["powerGuard"] != null)
-                    levelData.Buffs[BuffType.PowerGuard] = level["powerGuard"].GetValue<int>();
-                if (level["hyperBody"] != null)
-                    levelData.Buffs[BuffType.HyperBody] = 1;
-                if (level["mesoUp"] != null)
-                    levelData.Buffs[BuffType.MesoUp] = level["mesoUp"].GetValue<int>();
-                if (level["dropUp"] != null)
-                    levelData.Buffs[BuffType.DropUp] = level["dropUp"].GetValue<int>();
-            }
-            
-            private void AddBuffIfExists(INxNode level, SkillInfo.LevelData levelData, string key, BuffType buffType)
-            {
-                var value = level[key]?.GetValue<int>();
-                if (value.HasValue && value.Value != 0)
-                    levelData.Buffs[buffType] = value.Value;
-            }
-            
-            private ElementType ParseElement(string elemAttr)
-            {
-                switch (elemAttr.ToLower())
-                {
-                    case "i": return ElementType.Ice;
-                    case "f": return ElementType.Fire;
-                    case "l": return ElementType.Lightning;
-                    case "s": return ElementType.Poison;
-                    case "h": return ElementType.Holy;
-                    case "d": return ElementType.Dark;
-                    case "p": return ElementType.Physical;
-                    default: return ElementType.Neutral;
-                }
-            }
-            
-            public SkillInfo GetSkill(int skillId)
-            {
-                skills.TryGetValue(skillId, out var skill);
-                return skill ?? CreateMockSkill(skillId);
-            }
-            
-            public Dictionary<int, SkillInfo> GetSkillsForJob(int jobId)
-            {
-                var result = new Dictionary<int, SkillInfo>();
-                
-                if (skillsByJob.TryGetValue(jobId, out var skillIds))
-                {
-                    foreach (var skillId in skillIds)
-                    {
-                        if (skills.TryGetValue(skillId, out var skill))
-                            result[skillId] = skill;
-                    }
-                }
-                
-                return result;
-            }
-            
-            public bool SkillExists(int skillId)
-            {
-                return skills.ContainsKey(skillId);
-            }
-            
-            private SkillInfo CreateMockSkill(int skillId)
-            {
-                // Create mock skill for testing
-                var skill = new SkillInfo
-                {
-                    SkillId = skillId,
-                    Name = $"Skill {skillId}",
-                    Description = "Unknown skill",
-                    MaxLevel = 10,
-                    Type = SkillType.Attack,
-                    Element = ElementType.Physical,
-                    Levels = new Dictionary<int, SkillInfo.LevelData>()
-                };
-                
-                // Add mock level data
-                for (int i = 1; i <= skill.MaxLevel; i++)
-                {
-                    skill.Levels[i] = new SkillInfo.LevelData
-                    {
-                        MpCost = 10 + i * 2,
-                        Damage = 100 + i * 20,
-                        AttackCount = 1,
-                        MobCount = 1,
-                        Buffs = new Dictionary<BuffType, int>()
-                    };
-                }
-                
-                return skill;
             }
         }
         
@@ -756,8 +329,7 @@ namespace GameData
                 var stringFile = manager.GetFile("string");
                 if (stringFile == null) return $"Map {mapId}";
                 
-                var mapNameNode = stringFile.GetNode($"Map.img/maple/{mapId}/mapName");
-                return mapNameNode?.GetValue<string>() ?? $"Map {mapId}";
+                return NxMapNames.Name(stringFile.GetNode("Map.img"), mapId);
             }
             
             public byte[] GetMapBackground(int mapId) => null;

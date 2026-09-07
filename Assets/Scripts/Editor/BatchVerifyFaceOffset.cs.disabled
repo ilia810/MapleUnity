@@ -1,0 +1,151 @@
+using UnityEngine;
+using UnityEditor;
+using MapleClient.GameView;
+using MapleClient.GameData;
+using System.IO;
+
+public static class BatchVerifyFaceOffset
+{
+    public static void RunTest()
+    {
+        string logPath = Path.Combine(Application.dataPath, "..", "face-offset-verification.log");
+        
+        try
+        {
+            File.WriteAllText(logPath, "=== FACE OFFSET VERIFICATION ===\n\n");
+            
+            // Initialize NXAssetLoader with mock data
+            var mockFile = new MockNxFile();
+            NXAssetLoader.Instance.RegisterNxFile("character", mockFile);
+            File.AppendAllText(logPath, "NXAssetLoader initialized with MockNxFile\n");
+            
+            // Create test character
+            var characterObj = new GameObject("TestCharacter");
+            var renderer = characterObj.AddComponent<MapleCharacterRenderer>();
+            
+            // Set character appearance
+            renderer.SetCharacterAppearance(0, 20000, 30000);
+            File.AppendAllText(logPath, "Character appearance set (skin: 0, face: 20000, hair: 30000)\n\n");
+            
+            // Force update
+            renderer.SendMessage("Start", SendMessageOptions.DontRequireReceiver);
+            renderer.SendMessage("Update", SendMessageOptions.DontRequireReceiver);
+            
+            // Analyze structure
+            File.AppendAllText(logPath, "=== CHARACTER STRUCTURE ===\n");
+            AnalyzeCharacterStructure(characterObj, logPath);
+            
+            // Clean up
+            GameObject.DestroyImmediate(characterObj);
+            
+            File.AppendAllText(logPath, "\n=== TEST COMPLETE ===\n");
+            Debug.Log($"Test complete. Results written to: {logPath}");
+            EditorApplication.Exit(0);
+        }
+        catch (System.Exception e)
+        {
+            File.AppendAllText(logPath, $"\nERROR: {e.Message}\n{e.StackTrace}\n");
+            Debug.LogError($"Test failed: {e.Message}");
+            EditorApplication.Exit(1);
+        }
+    }
+    
+    private static void AnalyzeCharacterStructure(GameObject character, string logPath)
+    {
+        File.AppendAllText(logPath, $"Character position: {character.transform.position}\n");
+        File.AppendAllText(logPath, $"Character scale: {character.transform.localScale}\n\n");
+        
+        // Log hierarchy
+        File.AppendAllText(logPath, "Hierarchy:\n");
+        LogHierarchy(character.transform, 0, logPath);
+        
+        // Find face and calculate offset
+        Transform face = null;
+        Transform head = character.transform.Find("Head");
+        Vector3 faceWorldPos = Vector3.zero;
+        Vector3 faceLocalPos = Vector3.zero;
+        
+        if (head != null)
+        {
+            face = head.Find("Face");
+            if (face != null)
+            {
+                faceLocalPos = head.localPosition + face.localPosition;
+                faceWorldPos = face.position;
+                File.AppendAllText(logPath, $"\nFace found under Head\n");
+                File.AppendAllText(logPath, $"Head local position: {head.localPosition}\n");
+                File.AppendAllText(logPath, $"Face relative to head: {face.localPosition}\n");
+            }
+        }
+        else
+        {
+            face = character.transform.Find("Face");
+            if (face != null)
+            {
+                faceLocalPos = face.localPosition;
+                faceWorldPos = face.position;
+                File.AppendAllText(logPath, $"\nFace found directly under character\n");
+            }
+        }
+        
+        if (face != null)
+        {
+            File.AppendAllText(logPath, $"\n=== FACE OFFSET ANALYSIS ===\n");
+            File.AppendAllText(logPath, $"Face total local offset from character: {faceLocalPos}\n");
+            File.AppendAllText(logPath, $"Face world position: {faceWorldPos}\n");
+            
+            // Convert to pixels
+            Vector2 pixelOffset = new Vector2(faceLocalPos.x * 100, faceLocalPos.y * 100);
+            File.AppendAllText(logPath, $"Face pixel offset: ({pixelOffset.x:F1}, {pixelOffset.y:F1})\n");
+            
+            // Expected C++ value
+            Vector2 expectedPixels = new Vector2(-8, -52);
+            File.AppendAllText(logPath, $"Expected C++ offset: {expectedPixels}\n");
+            
+            // Calculate difference
+            Vector2 difference = pixelOffset - expectedPixels;
+            float distance = Vector2.Distance(pixelOffset, expectedPixels);
+            
+            File.AppendAllText(logPath, $"Difference: ({difference.x:F1}, {difference.y:F1}) pixels\n");
+            File.AppendAllText(logPath, $"Distance: {distance:F1} pixels\n");
+            
+            if (distance < 1f)
+            {
+                File.AppendAllText(logPath, "\n✓ SUCCESS: Face offset matches C++ runtime values!\n");
+            }
+            else
+            {
+                File.AppendAllText(logPath, "\n✗ FAILURE: Face offset does not match C++ values\n");
+                
+                // Log attachment point values for debugging
+                File.AppendAllText(logPath, "\n--- Mock Attachment Points ---\n");
+                File.AppendAllText(logPath, "Body neck: (-7, -31)\n");
+                File.AppendAllText(logPath, "Head neck: (14, 19)\n");
+                File.AppendAllText(logPath, "Head brow: (13, -2)\n");
+                File.AppendAllText(logPath, "\nFormula: face_pos = body.neck - head.neck + head.brow\n");
+                File.AppendAllText(logPath, "Expected: (-7, -31) - (14, 19) + (13, -2) = (-8, -52)\n");
+            }
+        }
+        else
+        {
+            File.AppendAllText(logPath, "\n✗ ERROR: Face not found in character hierarchy!\n");
+        }
+    }
+    
+    private static void LogHierarchy(Transform t, int depth, string logPath)
+    {
+        string indent = new string(' ', depth * 2);
+        var sr = t.GetComponent<SpriteRenderer>();
+        string info = $"{indent}{t.name}: {t.localPosition}";
+        if (sr != null && sr.sprite != null)
+        {
+            info += $" [Sprite: {sr.sprite.name}]";
+        }
+        File.AppendAllText(logPath, info + "\n");
+        
+        foreach (Transform child in t)
+        {
+            LogHierarchy(child, depth + 1, logPath);
+        }
+    }
+}

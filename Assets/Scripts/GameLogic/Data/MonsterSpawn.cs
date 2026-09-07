@@ -7,5 +7,7 @@ namespace MapleClient.GameLogic
         public float Y { get; set; }
         public float SpawnInterval { get; set; }
         public int MaxCount { get; set; }
+        public int FootholdId { get; set; }
+        public bool FacingRight { get; set; }
     }
 }

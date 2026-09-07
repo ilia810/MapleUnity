@@ -4,7 +4,7 @@ namespace MapleClient.GameLogic.Interfaces
 {
     /// <summary>
     /// Interface for all objects that participate in the physics system.
-    /// All physics calculations are performed at a fixed 60 FPS timestep.
+    /// All physics calculations are performed at a fixed 8 ms timestep.
     /// </summary>
     public interface IPhysicsObject
     {
@@ -34,10 +34,10 @@ namespace MapleClient.GameLogic.Interfaces
         bool IsPhysicsActive { get; }
         
         /// <summary>
-        /// Update physics for exactly one fixed timestep (1/60 second)
+        /// Update physics for exactly one fixed timestep (8 ms)
         /// This method should be deterministic and frame-perfect.
         /// </summary>
-        /// <param name="fixedDeltaTime">The fixed timestep (always 0.01667 for 60 FPS)</param>
+        /// <param name="fixedDeltaTime">The fixed timestep (always 0.008 seconds)</param>
         /// <param name="mapData">Current map data for collision detection</param>
         void UpdatePhysics(float fixedDeltaTime, MapData mapData);
         

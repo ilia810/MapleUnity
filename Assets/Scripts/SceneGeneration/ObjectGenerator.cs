@@ -87,8 +87,7 @@ namespace MapleClient.SceneGeneration
             
             // Add sprite renderer
             SpriteRenderer renderer = spriteObj.AddComponent<SpriteRenderer>();
-            renderer.sortingLayerName = "Objects";
-            renderer.sortingOrder = CalculateSortingOrder(objData);
+            MapRenderOrder.SetOrder(renderer, MapRenderOrder.ObjectOrder(objData.Layer, objData.Z));
             
             // Load sprite
             LoadObjectSprite(objData, renderer);
@@ -236,118 +235,31 @@ namespace MapleClient.SceneGeneration
             return "Objects";
         }
         
-        private int CalculateSortingOrder(ObjectData objData)
-        {
-            // C++ client: Layers are drawn 0 to 7 (0 first/back, 7 last/front)
-            // Objects are drawn before tiles within each layer
-            
-            // Get the actual z value
-            int actualZ = objData.Z;
-            if (objData.ZM != 0)
-            {
-                actualZ += objData.ZM; // ZM is additive for objects
-            }
-            
-            // Ensure actualZ is in valid range (0-255 as uint8_t)
-            actualZ = Mathf.Clamp(actualZ, 0, 255);
-            
-            // Layer base: layer 0 = 0, layer 7 = 7000
-            int layerBase = objData.Layer * 1000;
-            
-            // Within each layer, sort by z value
-            // Objects draw before tiles, so no offset needed
-            return layerBase + actualZ;
-        }
+
     }
     
     /// <summary>
     /// Component for map objects
     /// </summary>
-    public class MapObject : MonoBehaviour
-    {
-        public string objectSet;
-        public string l0;
-        public string l1;
-        public string l2;
-        public int layer;
-        public int zOrder;
-        public int zModifier;
-    }
+
     
     /// <summary>
     /// Hidden portal activated by objects
     /// </summary>
-    public class HiddenPortal : MonoBehaviour
-    {
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.CompareTag("Player"))
-            {
-                // TODO: Activate hidden portal
-                Debug.Log("Hidden portal activated!");
-            }
-        }
-    }
+
     
     /// <summary>
     /// Climbable object (ladder/rope)
     /// </summary>
-    public class ClimbableObject : MonoBehaviour
-    {
-        public bool isLadder = true;
-        
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.CompareTag("Player"))
-            {
-                // TODO: Enable climbing
-                Debug.Log($"Player can climb {(isLadder ? "ladder" : "rope")}");
-            }
-        }
-        
-        private void OnTriggerExit2D(Collider2D other)
-        {
-            if (other.CompareTag("Player"))
-            {
-                // TODO: Disable climbing
-            }
-        }
-    }
+
     
     /// <summary>
     /// Sittable object
     /// </summary>
-    public class SeatObject : MonoBehaviour
-    {
-        private bool isOccupied = false;
-        
-        private void OnTriggerStay2D(Collider2D other)
-        {
-            if (other.CompareTag("Player") && !isOccupied && Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                // TODO: Make player sit
-                isOccupied = true;
-                Debug.Log("Player sits down");
-            }
-        }
-    }
+
     
     /// <summary>
     /// Reactor (interactive object)
     /// </summary>
-    public class ReactorObject : MonoBehaviour
-    {
-        public int reactorId;
-        public bool isActivated = false;
-        
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.CompareTag("Player") && !isActivated)
-            {
-                // TODO: Activate reactor
-                isActivated = true;
-                Debug.Log("Reactor activated!");
-            }
-        }
-    }
+
 }

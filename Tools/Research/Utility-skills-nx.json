@@ -1,0 +1,494 @@
+[
+  {
+    "id": 3000000,
+    "path": "300.img/skill/3000000",
+    "name": "The Blessing of Amazon",
+    "description": "[Master Level : 16]\\nIncreases accuracy.",
+    "req": {},
+    "action": {},
+    "level": {
+      "1": {
+        "hs": "h1",
+        "x": 1
+      },
+      "10": {
+        "hs": "h10",
+        "x": 10
+      },
+      "11": {
+        "hs": "h11",
+        "x": 11
+      },
+      "12": {
+        "hs": "h12",
+        "x": 12
+      },
+      "13": {
+        "hs": "h13",
+        "x": 13
+      },
+      "14": {
+        "hs": "h14",
+        "x": 14
+      },
+      "15": {
+        "hs": "h15",
+        "x": 15
+      },
+      "16": {
+        "hs": "h16",
+        "x": 16
+      },
+      "2": {
+        "hs": "h2",
+        "x": 2
+      },
+      "3": {
+        "hs": "h3",
+        "x": 3
+      },
+      "4": {
+        "hs": "h4",
+        "x": 4
+      },
+      "5": {
+        "hs": "h5",
+        "x": 5
+      },
+      "6": {
+        "hs": "h6",
+        "x": 6
+      },
+      "7": {
+        "hs": "h7",
+        "x": 7
+      },
+      "8": {
+        "hs": "h8",
+        "x": 8
+      },
+      "9": {
+        "hs": "h9",
+        "x": 9
+      }
+    }
+  },
+  {
+    "id": 3001003,
+    "path": "300.img/skill/3001003",
+    "name": "Focus",
+    "description": "[Master Level : 20]\\nFocusing to temporarily increase accuracy and avoidability.\\nRequired Skill : #cAt least Level 3 on The Blessing of Amazon#",
+    "req": {
+      "3000000": 3
+    },
+    "action": {
+      "0": "alert2"
+    },
+    "level": {
+      "1": {
+        "acc": 1,
+        "eva": 1,
+        "hs": "h1",
+        "mpCon": 8,
+        "time": 70
+      },
+      "10": {
+        "acc": "10",
+        "eva": 10,
+        "hs": "h10",
+        "mpCon": 10,
+        "time": 170
+      },
+      "11": {
+        "acc": "11",
+        "eva": 11,
+        "hs": "h11",
+        "mpCon": 13,
+        "time": 195
+      },
+      "12": {
+        "acc": "12",
+        "eva": 12,
+        "hs": "h12",
+        "mpCon": 13,
+        "time": 205
+      },
+      "13": {
+        "acc": "13",
+        "eva": 13,
+        "hs": "h13",
+        "mpCon": 13,
+        "time": 215
+      },
+      "14": {
+        "acc": "14",
+        "eva": 14,
+        "hs": "h14",
+        "mpCon": 13,
+        "time": 225
+      },
+      "15": {
+        "acc": "15",
+        "eva": 15,
+        "hs": "h15",
+        "mpCon": 13,
+        "time": 235
+      },
+      "16": {
+        "acc": "16",
+        "eva": 16,
+        "hs": "h16",
+        "mpCon": 16,
+        "time": 260
+      },
+      "17": {
+        "acc": "17",
+        "eva": 17,
+        "hs": "h17",
+        "mpCon": 16,
+        "time": 270
+      },
+      "18": {
+        "acc": "18",
+        "eva": 18,
+        "hs": "h18",
+        "mpCon": 16,
+        "time": 280
+      },
+      "19": {
+        "acc": "19",
+        "eva": 19,
+        "hs": "h19",
+        "mpCon": 16,
+        "time": 290
+      },
+      "2": {
+        "acc": 2,
+        "eva": 2,
+        "hs": "h2",
+        "mpCon": 8,
+        "time": 80
+      },
+      "20": {
+        "acc": "20",
+        "eva": 20,
+        "hs": "h20",
+        "mpCon": 16,
+        "time": 300
+      },
+      "3": {
+        "acc": 3,
+        "eva": 3,
+        "hs": "h3",
+        "mpCon": 8,
+        "time": 90
+      },
+      "4": {
+        "acc": 4,
+        "eva": 4,
+        "hs": "h4",
+        "mpCon": 8,
+        "time": 100
+      },
+      "5": {
+        "acc": 5,
+        "eva": 5,
+        "hs": "h5",
+        "mpCon": 8,
+        "time": 110
+      },
+      "6": {
+        "acc": 6,
+        "eva": 6,
+        "hs": "h6",
+        "mpCon": 10,
+        "time": 130
+      },
+      "7": {
+        "acc": 7,
+        "eva": 7,
+        "hs": "h7",
+        "mpCon": 10,
+        "time": 140
+      },
+      "8": {
+        "acc": 8,
+        "eva": 8,
+        "hs": "h8",
+        "mpCon": 10,
+        "time": 150
+      },
+      "9": {
+        "acc": 9,
+        "eva": 9,
+        "hs": "h9",
+        "mpCon": 10,
+        "time": 160
+      }
+    }
+  },
+  {
+    "id": 4000000,
+    "path": "400.img/skill/4000000",
+    "name": "Nimble Body",
+    "description": "[Master Level : 20]\\nIncreases accuracy and avoidability.",
+    "req": {},
+    "action": {},
+    "level": {
+      "1": {
+        "hs": "h1",
+        "x": 1,
+        "y": 1
+      },
+      "10": {
+        "hs": "h10",
+        "x": 10,
+        "y": 10
+      },
+      "11": {
+        "hs": "h11",
+        "x": 11,
+        "y": 11
+      },
+      "12": {
+        "hs": "h12",
+        "x": 12,
+        "y": 12
+      },
+      "13": {
+        "hs": "h13",
+        "x": 13,
+        "y": 13
+      },
+      "14": {
+        "hs": "h14",
+        "x": 14,
+        "y": 14
+      },
+      "15": {
+        "hs": "h15",
+        "x": 15,
+        "y": 15
+      },
+      "16": {
+        "hs": "h16",
+        "x": 16,
+        "y": 16
+      },
+      "17": {
+        "hs": "h17",
+        "x": 17,
+        "y": 17
+      },
+      "18": {
+        "hs": "h18",
+        "x": 18,
+        "y": 18
+      },
+      "19": {
+        "hs": "h19",
+        "x": 19,
+        "y": 19
+      },
+      "2": {
+        "hs": "h2",
+        "x": 2,
+        "y": 2
+      },
+      "20": {
+        "hs": "h20",
+        "x": 20,
+        "y": 20
+      },
+      "3": {
+        "hs": "h3",
+        "x": 3,
+        "y": 3
+      },
+      "4": {
+        "hs": "h4",
+        "x": 4,
+        "y": 4
+      },
+      "5": {
+        "hs": "h5",
+        "x": 5,
+        "y": 5
+      },
+      "6": {
+        "hs": "h6",
+        "x": 6,
+        "y": 6
+      },
+      "7": {
+        "hs": "h7",
+        "x": 7,
+        "y": 7
+      },
+      "8": {
+        "hs": "h8",
+        "x": 8,
+        "y": 8
+      },
+      "9": {
+        "hs": "h9",
+        "x": 9,
+        "y": 9
+      }
+    }
+  },
+  {
+    "id": 4001003,
+    "path": "400.img/skill/4001003",
+    "name": "Dark Sight",
+    "description": "[Master Level : 20]\\nUse MP to hide behind the shadows. Can't be attacked, and can't attack either.\\nRequired Skill : #cAt least Level 3 on Disorder#",
+    "req": {
+      "4001002": 3
+    },
+    "action": {
+      "0": "darksight"
+    },
+    "level": {
+      "1": {
+        "hs": "h1",
+        "mpCon": 24,
+        "speed": -30,
+        "time": 10,
+        "x": 1
+      },
+      "10": {
+        "hs": "h10",
+        "mpCon": 15,
+        "speed": -12,
+        "time": 100,
+        "x": 1
+      },
+      "11": {
+        "hs": "h11",
+        "mpCon": 14,
+        "speed": -10,
+        "time": 110,
+        "x": 1
+      },
+      "12": {
+        "hs": "h12",
+        "mpCon": 13,
+        "speed": -8,
+        "time": 120,
+        "x": 1
+      },
+      "13": {
+        "hs": "h13",
+        "mpCon": 12,
+        "speed": -7,
+        "time": 130,
+        "x": 1
+      },
+      "14": {
+        "hs": "h14",
+        "mpCon": 11,
+        "speed": -6,
+        "time": 140,
+        "x": 1
+      },
+      "15": {
+        "hs": "h15",
+        "mpCon": 10,
+        "speed": -5,
+        "time": 150,
+        "x": 1
+      },
+      "16": {
+        "hs": "h16",
+        "mpCon": 9,
+        "speed": -4,
+        "time": 160,
+        "x": 1
+      },
+      "17": {
+        "hs": "h17",
+        "mpCon": 8,
+        "speed": -3,
+        "time": 170,
+        "x": 1
+      },
+      "18": {
+        "hs": "h18",
+        "mpCon": 7,
+        "speed": -2,
+        "time": 180,
+        "x": 1
+      },
+      "19": {
+        "hs": "h19",
+        "mpCon": 6,
+        "speed": -1,
+        "time": 190,
+        "x": 1
+      },
+      "2": {
+        "hs": "h2",
+        "mpCon": 23,
+        "speed": -28,
+        "time": 20,
+        "x": 1
+      },
+      "20": {
+        "hs": "h20",
+        "mpCon": 5,
+        "speed": 0,
+        "time": 200,
+        "x": 1
+      },
+      "3": {
+        "hs": "h3",
+        "mpCon": 22,
+        "speed": -26,
+        "time": 30,
+        "x": 1
+      },
+      "4": {
+        "hs": "h4",
+        "mpCon": 21,
+        "speed": -24,
+        "time": 40,
+        "x": 1
+      },
+      "5": {
+        "hs": "h5",
+        "mpCon": 20,
+        "speed": -22,
+        "time": 50,
+        "x": 1
+      },
+      "6": {
+        "hs": "h6",
+        "mpCon": 19,
+        "speed": -20,
+        "time": 60,
+        "x": 1
+      },
+      "7": {
+        "hs": "h7",
+        "mpCon": 18,
+        "speed": -18,
+        "time": 70,
+        "x": 1
+      },
+      "8": {
+        "hs": "h8",
+        "mpCon": 17,
+        "speed": -16,
+        "time": 80,
+        "x": 1
+      },
+      "9": {
+        "hs": "h9",
+        "mpCon": 16,
+        "speed": -14,
+        "time": 90,
+        "x": 1
+      }
+    }
+  }
+]

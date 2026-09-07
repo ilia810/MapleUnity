@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/henesys.unity
+    guid: 774135a7536890c4dabcf9fc4a24a155
   m_configObjects: {}

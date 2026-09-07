@@ -63,7 +63,7 @@ namespace MapleClient.GameView
             if (portal != null)
             {
                 // Convert from game logic coordinates to Unity coordinates
-                transform.position = new Vector3(portal.X / 100f, portal.Y / 100f, 0);
+                transform.position = new Vector3(portal.X / 100f, -portal.Y / 100f, 0);
                 
                 // Hide spawn and hidden portals
                 gameObject.SetActive(portal.Type != PortalType.Spawn && portal.Type != PortalType.Hidden);

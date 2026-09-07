@@ -1,0 +1,64 @@
+{
+  "source": "C:\\HeavenClient\\MapleStory-Client",
+  "source_sha256": {
+    "Character/Inventory/Weapon.h": "ec4a83ed611004215ccb26298a2f5565ddd514fe14907ad8c908c1142dfec7cd",
+    "Gameplay/Combat/SpecialMove.h": "fabc76c9d3166056acfed878f14ed709f3e886914841320887d6096162c428c0",
+    "Gameplay/Combat/Attack.h": "40f461d87fb4b8b8ca127801c0f88ec2c57815270b631f33b38286ab94a508ab",
+    "Data/SkillData.h": "b5454e32ac3d4ad1c5c7664fe7b31bab38ed32fbd8a53e50346d755288ea5108",
+    "Character/Look/BodyDrawInfo.h": "205cf78598d6954e53a1f73b92b90099c19b4852e4206a763fab4bb67575d3dc",
+    "Gameplay/Combat/Skill.cpp": "94c6025d77b157ebd8670a8c2344deef48ac137f5915e02c20b7bb3fa6ce332c",
+    "Character/Look/BodyDrawInfo.cpp": "2ad7123566bab6dfb953567dc03ceb02f2d91756889e05cb523c7a54349326f4",
+    "Character/Look/CharLook.cpp": "a1c6e6bbbe947715baf579d5933820c459cbefb404fff01d8f4660c010a9de50",
+    "Character/Char.cpp": "31f15da091a7868b4ca4297a66105ccdd5715beb9a1e3bdfcf9a1e205f2d354b",
+    "Gameplay/Combat/Combat.cpp": "e26c0e90a69db9256fb22bed5da90fe3502e61cf90e7b6279e76cb0512bd3d39",
+    "Data/SkillData.cpp": "c225cbd543b7013335772425f9d5d5d7ef4145f32e093584808d8cb532bfa407",
+    "Character/Player.cpp": "d528b26d16246e9409e672d96b72525d7aab1f1d3b4f5eb71a7dd28b1789642a",
+    "Gameplay/Combat/SkillBullet.cpp": "782d814c359d259d2862108019b2d7ba02fcd3494ef9dc00de7a6c14fd1be2a8",
+    "Character/SkillId.h": "244c8a7162b364a2fb193e90abd1ad59ae64ad97d810a5f0ead42efdf74e782c",
+    "Template/TimedQueue.h": "7c84cc3d2d442f6e79439b08b9856461eb51dc4adb5b528c66f0cc4b622e67ae"
+  },
+  "fixtures": {
+    "HeavenRangedSkillStats": {
+      "rows": 72,
+      "sha256": "0263f613506cd0b63c570cf669b117dc806b61f84b45db7ac57acad49fb202b2"
+    },
+    "HeavenRangedSkillCosts": {
+      "rows": 168,
+      "sha256": "3380b9d12915e8e2bc6b3703470565df3a96bf79f150b1f43b1ad7b46fcbbf66"
+    },
+    "HeavenRangedSkillDelays": {
+      "rows": 128,
+      "sha256": "ceb59393a04214f8c19e5fb23b63016db9a05ed6c65417311ab546f2bd73c3ea"
+    },
+    "HeavenRangedSkillActions": {
+      "rows": 6,
+      "sha256": "25adc44e1302f9d9a47a3eb1d7e3973d2874be9e5cafb1b661c20363536553e8"
+    }
+  },
+  "method": "Unmodified Skill::apply_stats/can_use, SkillData::Stats and Attack storage declarations, BodyAction constructor/accessors, BodyDrawInfo::get_attackdelay, CharLook::get_attackdelay, Char::get_real_attackspeed/get_attackdelay; exact Combat::apply_move horizontal range scaling statement.",
+  "adapter": [
+    "Controlled NX values for levels1/10/20, prepared damage bounds12/26, job acceptance boolean, ordinary stance delays170/160/120 and afterimage firstframe2.",
+    "Decoded named body frames are represented by a minimal nl::node stub. Marker accumulation uses the same statements as BodyDrawInfo::init with controlled storage.",
+    "The SkillData registry stub directly supplies these otherwise unregistered four IDs; no claim of end-to-end source activation is made.",
+    "Weapon requirements preserve the original loader result: Lucky Seven147; archer and gun NONE because archer has no weapon key and the gun key has a trailing space.",
+    "Cost scenarios10/11/12 set explicit bulletConsume0/3 independently of bulletCount, and scenario13 sets a synthetic hpCon10 to verify source guard precedence.",
+    "Stats fixtures invoke apply_stats directly for CLOSE/RANGED/MAGIC to show generic hit-count/range behavior. Public Player::can_use rejects prone before these helpers; that guard is outside this harness.",
+    "Stats scaled_left is evaluated by the extracted int16_t(range.left() * attack.hrange) statement after Skill::apply_stats. The product rounds as C++ float before truncation, independently of Python/Mono expression evaluation."
+  ],
+  "limitations": [
+    "The source attack registry lacks all four IDs; local family-scoped enablement is an explicit Unity extension.",
+    "No Lucky Seven-specific damage formula exists in the inspected source. These vectors verify generic source percentages, not retail Lucky Seven formula correctness.",
+    "No NX importer, renderer, projectile flight, random damage roll, network debit, or local offline consumption is executed.",
+    "The fixture tests Skill::can_use only; player busy/prone/climbing/cooldown and learned-skill entry guards require integration checks."
+  ],
+  "reason_values": {
+    "NONE": 0,
+    "WEAPONTYPE": 1,
+    "HPCOST": 2,
+    "MPCOST": 3,
+    "BULLETCOST": 4,
+    "COOLDOWN": 5,
+    "OTHER": 6
+  },
+  "nx_probe_sha256": "f08a4ec2ecb3b6c6deee483de9edec649c1f765f66ea861c2178a690959e7ab6"
+}

@@ -210,10 +210,5 @@ namespace MapleClient.SceneGeneration
     /// <summary>
     /// Component to store foothold data on platform GameObjects
     /// </summary>
-    public class FootholdData : MonoBehaviour
-    {
-        public int footholdId;
-        public int nextId;
-        public int prevId;
-    }
+
 }

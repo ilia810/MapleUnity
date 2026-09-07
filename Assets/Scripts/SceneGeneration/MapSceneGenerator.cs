@@ -104,7 +104,7 @@ namespace MapleClient.SceneGeneration
             // Generate NPCs
             if (mapData.NPCs != null && mapData.NPCs.Count > 0)
             {
-                lifeGen.GenerateNPCs(mapData.NPCs, mapRoot.transform);
+                lifeGen.GenerateNPCs(mapData.NPCs, mapRoot.transform, footholdManager);
             }
             
             // Generate monster spawns
@@ -154,10 +154,13 @@ namespace MapleClient.SceneGeneration
             
             // Configure camera for MapleStory rendering
             Camera mainCamera = Camera.main;
-            if (mainCamera != null)
+            if (mainCamera != null && (!Application.isPlaying ||
+                mainCamera.GetComponent<GameView.SimpleCameraFollow>() == null))
             {
                 GameView.RenderingConfiguration.ConfigureCamera(mainCamera);
             }
+            // A runtime map change keeps the active camera viewport and zoom.
+            boundsComponent.Apply();
         }
         
         #if UNITY_EDITOR
@@ -202,52 +205,12 @@ namespace MapleClient.SceneGeneration
     /// <summary>
     /// Component to store map information
     /// </summary>
-    public class MapInfo : MonoBehaviour
-    {
-        public int mapId;
-        public string bgm;
-        public int returnMap;
-        public int forcedReturn;
-        public int fieldLimit;
-        public Bounds vrBounds;
-    }
+
     
     /// <summary>
     /// Camera bounds controller
     /// </summary>
-    public class CameraBounds : MonoBehaviour
-    {
-        private Bounds bounds;
-        private Camera mainCamera;
-        
-        private void Start()
-        {
-            mainCamera = Camera.main;
-        }
-        
-        public void SetBounds(Bounds newBounds)
-        {
-            bounds = newBounds;
-        }
-        
-        private void LateUpdate()
-        {
-            if (mainCamera == null) return;
-            
-            // Constrain camera position to bounds
-            Vector3 pos = mainCamera.transform.position;
-            
-            // Calculate camera extents
-            float height = mainCamera.orthographicSize * 2;
-            float width = height * mainCamera.aspect;
-            
-            // Clamp position
-            pos.x = Mathf.Clamp(pos.x, bounds.min.x + width / 2, bounds.max.x - width / 2);
-            pos.y = Mathf.Clamp(pos.y, bounds.min.y + height / 2, bounds.max.y - height / 2);
-            
-            mainCamera.transform.position = pos;
-        }
-    }
+
     
     #if UNITY_EDITOR
     /// <summary>
@@ -266,6 +229,7 @@ namespace MapleClient.SceneGeneration
             { "Ellinia", 101000000 },
             { "Perion", 102000000 },
             { "Kerning City", 103000000 },
+            { "Aqua Road", 230000000 },
             { "Lith Harbor", 104000000 },
             { "Sleepywood", 105000000 },
             { "Mushroom Town", 106000000 },
@@ -329,6 +293,7 @@ namespace MapleClient.SceneGeneration
         
         private void GenerateScene()
         {
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
             if (createNewScene)
             {
                 // Create new scene
@@ -341,35 +306,59 @@ namespace MapleClient.SceneGeneration
                 CleanupExistingScene();
             }
             
-            // Create generator
-            GameObject generatorObj = new GameObject("MapSceneGenerator");
-            MapSceneGenerator generator = generatorObj.AddComponent<MapSceneGenerator>();
-            generator.InitializeGenerators();
-            
-            // Generate map
-            GameObject map = generator.GenerateMapScene(mapId);
-            
-            // Clean up generator
-            DestroyImmediate(generatorObj);
-            
-            // Clean up NXDataManager singleton
-            NXDataManagerSingleton.Cleanup();
-            
-            // Create GameManager to handle player creation
-            GameObject gameManagerObj = GameObject.Find("GameManager");
-            if (gameManagerObj == null)
-            {
-                gameManagerObj = new GameObject("GameManager");
-                gameManagerObj.AddComponent<GameView.GameManager>();
-                Debug.Log("Created GameManager for player initialization");
-            }
-            
-            // Mark scene as dirty
+            GeneratePlayableMap(mapId);
             EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
-            
-            Debug.Log($"Generated scene for map {mapId}");
+            Debug.Log($"Generated playable scene for map {mapId}. Press Play and open the Game view.");
         }
-        
+
+        public static GameObject GeneratePlayableMap(int selectedMapId)
+        {
+            var host = new GameObject("MapSceneGenerator");
+            GameObject map;
+            try
+            {
+                var generator = host.AddComponent<MapSceneGenerator>();
+                generator.InitializeGenerators();
+                map = generator.GenerateMapScene(selectedMapId);
+            }
+            finally { DestroyImmediate(host); }
+
+            // The scene references cache-owned NX sprites. Keep their owner alive
+            // while previewing/saving; shutting it down here deletes the map art.
+            if (map == null) return null;
+            var manager = FindFirstObjectByType<GameView.GameManager>();
+            if (manager == null)
+                manager = new GameObject("GameManager").AddComponent<GameView.GameManager>();
+            manager.StartingMapId = selectedMapId;
+            return map;
+        }
+
+        [MenuItem("MapleUnity/Play Henesys")]
+        public static void PlayHenesys()
+        {
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+            EditorSceneManager.OpenScene("Assets/henesys.unity", OpenSceneMode.Single);
+            EditorApplication.isPlaying = true;
+        }
+
+        [MenuItem("MapleUnity/Play Henesys", true)]
+        private static bool CanPlayHenesys() => !EditorApplication.isPlayingOrWillChangePlaymode;
+
+        [MenuItem("MapleUnity/Play Hunting Ground")]
+        public static void PlayHuntingGround()
+        {
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            var camera = new GameObject("Main Camera").AddComponent<Camera>();
+            camera.tag = "MainCamera";
+            camera.transform.position = new Vector3(0, 0, -10);
+            GeneratePlayableMap(100010000);
+            EditorApplication.isPlaying = true;
+        }
+
+        [MenuItem("MapleUnity/Play Hunting Ground", true)]
+        private static bool CanPlayHuntingGround() => !EditorApplication.isPlayingOrWillChangePlaymode;
+
         private void CleanupExistingScene()
         {
             Debug.Log("Cleaning up existing scene...");
@@ -417,26 +406,15 @@ namespace MapleClient.SceneGeneration
                 // Create new scene
                 Scene newScene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
                 
-                // Create generator
-                GameObject generatorObj = new GameObject("MapSceneGenerator");
-                MapSceneGenerator generator = generatorObj.AddComponent<MapSceneGenerator>();
-                generator.InitializeGenerators();
-                
-                // Generate map
-                GameObject mapObj = generator.GenerateMapScene(map.Value);
-                
-                // Clean up generator
-                DestroyImmediate(generatorObj);
-                
+                GeneratePlayableMap(map.Value);
+
                 // Save scene
                 string scenePath = $"Assets/Scenes/Maps/{map.Key.Replace(" ", "")}.unity";
+                System.IO.Directory.CreateDirectory("Assets/Scenes/Maps");
                 EditorSceneManager.SaveScene(newScene, scenePath);
                 
                 Debug.Log($"Generated and saved scene: {scenePath}");
             }
-            
-            // Clean up NXDataManager singleton after batch generation
-            NXDataManagerSingleton.Cleanup();
             
             Debug.Log("Batch generation complete!");
         }

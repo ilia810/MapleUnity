@@ -33,6 +33,7 @@ namespace MapleClient.GameLogic.Tests.Core
 
             // Act
             player.TryStartClimbing(mapData, true); // Up pressed
+            player.UpdatePhysics(0.008f,mapData);
 
             // Assert
             Assert.AreEqual(PlayerState.Climbing, player.State);
@@ -52,6 +53,7 @@ namespace MapleClient.GameLogic.Tests.Core
 
             // Act
             player.TryStartClimbing(mapData, false); // Down pressed
+            player.UpdatePhysics(0.008f,mapData);
 
             // Assert
             Assert.AreEqual(PlayerState.Climbing, player.State);
@@ -68,6 +70,7 @@ namespace MapleClient.GameLogic.Tests.Core
 
             // Act
             player.TryStartClimbing(mapData, true);
+            player.UpdatePhysics(0.008f,mapData);
 
             // Assert
             Assert.AreNotEqual(PlayerState.Climbing, player.State);
@@ -78,7 +81,9 @@ namespace MapleClient.GameLogic.Tests.Core
         {
             // Arrange
             var ladder = new LadderInfo { X = 5f, Y1 = 0f, Y2 = 10f };
+            player.Position = new Vector2(5f, 5f);
             player.StartClimbing(ladder);
+            player.UpdatePhysics(0.008f,mapData);
 
             // Assert
             Assert.IsFalse(player.UseGravity);
@@ -89,14 +94,16 @@ namespace MapleClient.GameLogic.Tests.Core
         {
             // Arrange
             var ladder = new LadderInfo { X = 5f, Y1 = 0f, Y2 = 10f };
-            player.StartClimbing(ladder);
             player.Position = new Vector2(5f, 5f);
+            player.StartClimbing(ladder);
+            player.UpdatePhysics(0.008f,mapData);
 
             // Act
             player.ClimbUp(true);
+            player.UpdatePhysics(0.008f,mapData);
 
             // Assert
-            Assert.AreEqual(MaplePhysics.ClimbSpeed, player.Velocity.Y);
+            Assert.AreEqual(1.25f, player.Velocity.Y);
             Assert.AreEqual(0f, player.Velocity.X);
         }
 
@@ -105,14 +112,16 @@ namespace MapleClient.GameLogic.Tests.Core
         {
             // Arrange
             var ladder = new LadderInfo { X = 5f, Y1 = 0f, Y2 = 10f };
-            player.StartClimbing(ladder);
             player.Position = new Vector2(5f, 5f);
+            player.StartClimbing(ladder);
+            player.UpdatePhysics(0.008f,mapData);
 
             // Act
             player.ClimbDown(true);
+            player.UpdatePhysics(0.008f,mapData);
 
             // Assert
-            Assert.AreEqual(-MaplePhysics.ClimbSpeed, player.Velocity.Y);
+            Assert.AreEqual(-1.25f, player.Velocity.Y);
             Assert.AreEqual(0f, player.Velocity.X);
         }
 
@@ -121,12 +130,14 @@ namespace MapleClient.GameLogic.Tests.Core
         {
             // Arrange
             var ladder = new LadderInfo { X = 5f, Y1 = 0f, Y2 = 10f };
-            player.StartClimbing(ladder);
             player.Position = new Vector2(5f, 5f);
+            player.StartClimbing(ladder);
+            player.UpdatePhysics(0.008f,mapData);
             player.MoveLeft(true); // Holding left
 
             // Act
             player.Jump();
+            player.UpdatePhysics(0.008f,mapData);
 
             // Assert
             Assert.AreEqual(PlayerState.Jumping, player.State);
@@ -140,12 +151,16 @@ namespace MapleClient.GameLogic.Tests.Core
         {
             // Arrange
             var ladder = new LadderInfo { X = 5f, Y1 = 0f, Y2 = 10f };
+            player.Position = new Vector2(5f, 5f);
             player.StartClimbing(ladder);
+            player.UpdatePhysics(0.008f,mapData);
             player.ClimbUp(true);
+            player.UpdatePhysics(0.008f,mapData);
 
             // Act
             player.ClimbUp(false);
             player.ClimbDown(false);
+            player.UpdatePhysics(0.008f,mapData);
 
             // Assert
             Assert.AreEqual(Vector2.Zero, player.Velocity);

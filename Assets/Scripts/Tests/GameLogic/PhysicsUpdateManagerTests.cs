@@ -32,10 +32,10 @@ namespace MapleClient.Tests.GameLogic
         }
         
         [Test]
-        public void FixedTimestep_ShouldBe_60FPS()
+        public void FixedTimestep_UsesHeavenClientsEightMilliseconds()
         {
-            Assert.AreEqual(1f / 60f, PhysicsUpdateManager.FIXED_TIMESTEP, 0.0001f);
-            Assert.AreEqual(60, PhysicsUpdateManager.TARGET_FPS);
+            Assert.AreEqual(0.008f, PhysicsUpdateManager.FIXED_TIMESTEP, 0.0001f);
+            Assert.AreEqual(125, PhysicsUpdateManager.TARGET_FPS);
         }
         
         [Test]
@@ -106,7 +106,7 @@ namespace MapleClient.Tests.GameLogic
         }
         
         [Test]
-        public void Update_WithVariableFramerate_ShouldMaintain60FPSPhysics()
+        public void Update_WithVariableFramerate_ShouldMaintainSourceTickRate()
         {
             var obj = new MockPhysicsObject { IsPhysicsActive = true };
             physicsManager.RegisterPhysicsObject(obj);
@@ -121,7 +121,7 @@ namespace MapleClient.Tests.GameLogic
                 totalTime += frameTime;
             }
             
-            // After ~0.103 seconds, we should have ~6 physics steps (at 60 FPS)
+            // Every complete source tick must run, retaining the fractional remainder.
             int expectedSteps = (int)(totalTime / PhysicsUpdateManager.FIXED_TIMESTEP);
             Assert.AreEqual(expectedSteps, obj.UpdateCount);
         }
@@ -136,7 +136,8 @@ namespace MapleClient.Tests.GameLogic
             physicsManager.Update(0.3f, testMapData);
             
             // Should be clamped to prevent spiral of death
-            Assert.LessOrEqual(obj.UpdateCount, 4); // Max 4 steps per frame
+            Assert.AreEqual(31, obj.UpdateCount); // Accept 250 ms: 31 * 8 ms + 2 ms.
+            Assert.AreEqual(0.002f, physicsManager.Accumulator, 0.000001f);
         }
         
         [Test]

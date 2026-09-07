@@ -94,3 +94,13 @@ Thumbs.db.meta
 *.user
 *.userosscache
 *.sln.docstates
+
+# Local agent configuration and generated research caches
+.claude/settings.local.json
+__pycache__/
+*.py[cod]
+
+# Generated diagnostic output (already tracked historical files are unchanged)
+*.log
+/%LOGFILE%
+/nul

@@ -10,33 +10,28 @@ namespace MapleClient.GameLogic.Skills
         private readonly SkillInfo skillInfo;
         private int currentLevel;
         private float cooldownRemaining;
-        private float buffTimeRemaining;
-        private bool isActive;
         
         public int SkillId => skillInfo.SkillId;
+        public SkillInfo Info => skillInfo;
         public string Name => skillInfo.Name;
         public SkillType Type => skillInfo.Type;
         public bool IsPassive => skillInfo.IsPassive;
         public int CurrentLevel => currentLevel;
-        public int MaxLevel => skillInfo.MaxLevel;
-        public bool IsMaxLevel => currentLevel >= skillInfo.MaxLevel;
+        public int MaxLevel => skillInfo.MaxLevel > 0 || skillInfo.IsSourceData ? skillInfo.MaxLevel : skillInfo.Levels.Count;
+        public bool IsMaxLevel => currentLevel >= MaxLevel;
         public bool IsOnCooldown => cooldownRemaining > 0;
-        public bool IsBuffActive => isActive && buffTimeRemaining > 0;
         public float CooldownRemaining => cooldownRemaining;
-        public float BuffTimeRemaining => buffTimeRemaining;
         
         public Skill(SkillInfo info, int level = 0)
         {
             this.skillInfo = info;
             this.currentLevel = level;
             this.cooldownRemaining = 0;
-            this.buffTimeRemaining = 0;
-            this.isActive = false;
         }
         
         public bool LevelUp()
         {
-            if (currentLevel >= skillInfo.MaxLevel)
+            if (currentLevel >= MaxLevel || !skillInfo.Levels.ContainsKey(currentLevel + 1))
                 return false;
                 
             currentLevel++;
@@ -78,24 +73,10 @@ namespace MapleClient.GameLogic.Skills
             }
         }
         
-        public void ActivateBuff()
-        {
-            var levelData = GetCurrentLevelData();
-            if (levelData != null && Type == SkillType.Buff)
-            {
-                isActive = true;
-                buffTimeRemaining = levelData.Duration / 1000f; // Convert ms to seconds
-            }
-        }
-        
-        public void DeactivateBuff()
-        {
-            isActive = false;
-            buffTimeRemaining = 0;
-        }
-        
         public void Update(float deltaTime)
         {
+            if (deltaTime <= 0 || float.IsNaN(deltaTime) || float.IsInfinity(deltaTime)) return;
+            // Only learned level and cooldown live here. Player owns all active buffs.
             // Update cooldown
             if (cooldownRemaining > 0)
             {
@@ -104,17 +85,8 @@ namespace MapleClient.GameLogic.Skills
                     cooldownRemaining = 0;
             }
             
-            // Update buff duration
-            if (isActive && buffTimeRemaining > 0)
-            {
-                buffTimeRemaining -= deltaTime;
-                if (buffTimeRemaining <= 0)
-                {
-                    DeactivateBuff();
-                }
-            }
         }
-        
+
         public bool CanUse(int playerMP)
         {
             if (currentLevel == 0)

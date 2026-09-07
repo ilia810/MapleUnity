@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace MapleClient.GameData
 {
@@ -155,6 +156,137 @@ namespace MapleClient.GameData
             (rootNode as NxNode).AddChild(stringImgNode);
         }
         
+        private void CreateMockCharacterData()
+        {
+            Debug.Log("Creating mock character data for tests");
+            
+            // Create character body structure for skin ID 0
+            var characterNode = new NxNode("00002000.img"); // Character body
+            
+            // Create stand1 animation
+            var stand1Node = new NxNode("stand1");
+            
+            // Create frame 0
+            var frame0Node = new NxNode("0");
+            
+            // Add body parts for standing frame 0
+            var bodyNode = new NxNode("body");
+            bodyNode.AddChild(new NxNode("_inlink", "00002000.img/front/body"));
+            frame0Node.AddChild(bodyNode);
+            
+            var armNode = new NxNode("arm");
+            armNode.AddChild(new NxNode("_inlink", "00002000.img/front/arm"));
+            frame0Node.AddChild(armNode);
+            
+            var headNode = new NxNode("head");
+            headNode.AddChild(new NxNode("_inlink", "00002000.img/front/head"));
+            frame0Node.AddChild(headNode);
+            
+            // Add attachment points that match C++ runtime values
+            // Body attachment points need a map node
+            var bodyMapNode = new NxNode("map");
+            bodyMapNode.AddChild(new NxNode("navel", new Dictionary<string, object> { { "x", 0 }, { "y", 0 } })); // Body origin
+            bodyMapNode.AddChild(new NxNode("neck", new Dictionary<string, object> { { "x", -7 }, { "y", -31 } })); // Body neck position
+            bodyNode.AddChild(bodyMapNode);
+            
+            // Head attachment points need a map node
+            var headMapNode = new NxNode("map");
+            headMapNode.AddChild(new NxNode("neck", new Dictionary<string, object> { { "x", 14 }, { "y", 19 } })); // Head neck position
+            headMapNode.AddChild(new NxNode("brow", new Dictionary<string, object> { { "x", 13 }, { "y", 9 } })); // Head brow position
+            headNode.AddChild(headMapNode);
+            
+            // Add delay for frame
+            frame0Node.AddChild(new NxNode("delay", 500));
+            
+            stand1Node.AddChild(frame0Node);
+            characterNode.AddChild(stand1Node);
+            
+            // Create front folder with actual sprite references
+            var frontNode = new NxNode("front");
+            
+            var frontBodyNode = new NxNode("body");
+            frontBodyNode.AddChild(new NxNode("_outlink", "Character/00002000.img/front/body.png"));
+            frontNode.AddChild(frontBodyNode);
+            
+            var frontArmNode = new NxNode("arm");
+            frontArmNode.AddChild(new NxNode("_outlink", "Character/00002000.img/front/arm.png"));
+            frontNode.AddChild(frontArmNode);
+            
+            var frontHeadNode = new NxNode("head");
+            frontHeadNode.AddChild(new NxNode("_outlink", "Character/00002000.img/front/head.png"));
+            frontHeadNode.AddChild(new NxNode("origin", new Dictionary<string, object> { { "x", 12 }, { "y", 20 } }));
+            frontNode.AddChild(frontHeadNode);
+            
+            characterNode.AddChild(frontNode);
+            
+            // Add character node to root
+            (rootNode as NxNode).AddChild(characterNode);
+            
+            // Create head structure (00012000.img) with proper attachment points
+            var headImgNode = new NxNode("00012000.img"); // Character head
+            
+            // Create stand1 animation for head
+            var headStand1Node = new NxNode("stand1");
+            
+            // Create frame 0 for head
+            var headFrame0Node = new NxNode("0");
+            
+            // Add head part
+            var headPartNode = new NxNode("head");
+            headPartNode.AddChild(new NxNode("_outlink", "Character/00012000.img/front/head.png"));
+            headPartNode.AddChild(new NxNode("origin", new Dictionary<string, object> { { "x", 14 }, { "y", 19 } }));
+            
+            // Add head attachment points (these values should produce face offset of -8,-52)
+            var headPartMapNode = new NxNode("map");
+            headPartMapNode.AddChild(new NxNode("neck", new Dictionary<string, object> { { "x", 14 }, { "y", 19 } }));
+            headPartMapNode.AddChild(new NxNode("brow", new Dictionary<string, object> { { "x", 13 }, { "y", -2 } })); // Adjusted to get -52 Y offset
+            headPartNode.AddChild(headPartMapNode);
+            
+            headFrame0Node.AddChild(headPartNode);
+            headStand1Node.AddChild(headFrame0Node);
+            headImgNode.AddChild(headStand1Node);
+            
+            // Add head img node to root
+            (rootNode as NxNode).AddChild(headImgNode);
+            
+            // Create face structure
+            var faceNode = new NxNode("Face");
+            var face20000Node = new NxNode("00020000.img");
+            
+            // Create default face expression
+            var defaultNode = new NxNode("default");
+            var faceFrameNode = new NxNode("face");
+            faceFrameNode.AddChild(new NxNode("_outlink", "Character/Face/00020000.img/default/face.png"));
+            faceFrameNode.AddChild(new NxNode("origin", new Dictionary<string, object> { { "x", 15 }, { "y", 15 } }));
+            defaultNode.AddChild(faceFrameNode);
+            
+            face20000Node.AddChild(defaultNode);
+            faceNode.AddChild(face20000Node);
+            (rootNode as NxNode).AddChild(faceNode);
+            
+            // Create hair structure
+            var hairNode = new NxNode("Hair");
+            var hair30000Node = new NxNode("00030000.img");
+            
+            // Create default hair
+            var hairDefaultNode = new NxNode("default");
+            var hairBackNode = new NxNode("hairBelowBody");
+            hairBackNode.AddChild(new NxNode("_outlink", "Character/Hair/00030000.img/default/hairBelowBody.png"));
+            hairBackNode.AddChild(new NxNode("origin", new Dictionary<string, object> { { "x", 17 }, { "y", 17 } }));
+            hairDefaultNode.AddChild(hairBackNode);
+            
+            var hairFrontNode = new NxNode("hair");
+            hairFrontNode.AddChild(new NxNode("_outlink", "Character/Hair/00030000.img/default/hair.png"));
+            hairFrontNode.AddChild(new NxNode("origin", new Dictionary<string, object> { { "x", 17 }, { "y", 17 } }));
+            hairDefaultNode.AddChild(hairFrontNode);
+            
+            hair30000Node.AddChild(hairDefaultNode);
+            hairNode.AddChild(hair30000Node);
+            (rootNode as NxNode).AddChild(hairNode);
+            
+            Debug.Log("Mock character data created successfully");
+        }
+        
         private void CreateMockDataForFile(string fileName)
         {
             // Create appropriate mock data based on file name
@@ -168,6 +300,9 @@ namespace MapleClient.GameData
                     break;
                 case "item.nx":
                     // Create item data if needed
+                    break;
+                case "character.nx":
+                    CreateMockCharacterData();
                     break;
                 default:
                     // Create minimal structure

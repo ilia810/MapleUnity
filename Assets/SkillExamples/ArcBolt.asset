@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9992e796e15948d49440758c7e153187, type: 3}
+  m_Name: ArcBolt
+  m_EditorClassIdentifier: 
+  Id: 100000001
+  DisplayName: Arc Bolt (Example)
+  Description: Two magic projectiles. Uses an explicit job and fixed base damage,
+    with original Magic Bolt presentation.
+  JobId: 200
+  InheritJob: 1
+  Execution: 1
+  AttackFamily: 2
+  DamagePolicy: 3
+  Targeting: 1
+  RequiresWeapon: 0
+  UsesAmmunition: 0
+  BlocksCrouching: 0
+  ArmorEcho: 0
+  AllowedWeapons: 
+  Action: alert2
+  CastEffects: []
+  Prerequisites: []
+  Ranks:
+  - HpCost: 0
+    MpCost: 8
+    CooldownMilliseconds: 1000
+    DurationMilliseconds: 0
+    Damage: 18
+    AttackCount: 2
+    MobCount: 1
+    RangePercent: 100
+    BulletCount: 1
+    BulletConsume: 1
+    Area: {x: -220, y: -90, z: 0, w: 20}
+    Buffs: []
+    HealHp: 0
+    HealHpPercent: 0
+    RestoreMp: 0
+    RestoreMpPercent: 0
+    EffectParameters: []
+    PassiveWeaponAttack: 0
+    PassiveMagicAttack: 0
+    PassiveAccuracy: 0
+    PassiveAvoidability: 0
+    PassiveMastery: -1
+    PassiveDamageMultiplier: -1
+    PassiveDamageReduction: -1
+    PassiveBelowHpPercent: -1
+  SourcePresentationSkillId: 2001004
+  Icon: {fileID: 0}
+  Use:
+    Frames: []
+    Position: 0
+    Z: 0
+  Hit:
+    Frames: []
+    Position: 0
+    Z: 0
+  Projectile:
+    Frames: []
+    Position: 0
+    Z: 0

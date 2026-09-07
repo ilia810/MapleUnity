@@ -6,6 +6,9 @@ namespace MapleClient.GameLogic
     {
         public int MapId { get; set; }
         public string Name { get; set; }
+        public string StreetName { get; set; } = "";
+        public MiniMapData MiniMap { get; set; }
+        public int ReturnMapId { get; set; } = -1;
         public int Width { get; set; }
         public int Height { get; set; }
         public List<Platform> Platforms { get; set; }

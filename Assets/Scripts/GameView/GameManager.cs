@@ -15,8 +15,16 @@ using Debug = UnityEngine.Debug;
 
 namespace MapleClient.GameView
 {
+    [DefaultExecutionOrder(-100)]
     public class GameManager : MonoBehaviour
     {
+        public static System.Func<int, GameObject> MapSceneFactory { get; set; }
+        public event System.Action PlayerViewRepositioned;
+        private GameObject activeMapVisuals;
+        private GameObject runtimePortals;
+        [SerializeField] private bool enableDiagnostics = false;
+        [SerializeField] private int startingMapId = 100000000;
+        public int StartingMapId { get => startingMapId; set => startingMapId = value; }
         private GameWorld gameWorld;
         private IMapLoader mapLoader;
         private IInputProvider inputProvider;
@@ -32,6 +40,7 @@ namespace MapleClient.GameView
         [SerializeField] private PlayerView playerViewPrefab;
         private PlayerView currentPlayerView;
         
+        private NxMobAnimations mobAnimations;
         private Dictionary<Monster, MonsterView> monsterViews = new Dictionary<Monster, MonsterView>();
         private Dictionary<DroppedItem, DroppedItemView> droppedItemViews = new Dictionary<DroppedItem, DroppedItemView>();
         private Dictionary<Player, PlayerView> otherPlayerViews = new Dictionary<Player, PlayerView>();
@@ -40,6 +49,7 @@ namespace MapleClient.GameView
         private SimplePlatformBridge platformBridge;
         private SimplePlayerController playerController;
         
+        public GameWorld World => gameWorld;
         public Player Player => gameWorld?.Player;
         public SkillManager SkillManager => gameWorld?.SkillManager;
         public IFootholdService FootholdService => footholdService;
@@ -53,13 +63,13 @@ namespace MapleClient.GameView
             }
             
             // Add physics debugger
-            if (!GetComponent<PhysicsDebugger>())
+            if (enableDiagnostics && !GetComponent<PhysicsDebugger>())
             {
                 gameObject.AddComponent<PhysicsDebugger>();
             }
             
             // Add foothold debug logger to capture console output
-            if (!GetComponent<MapleClient.GameView.Debugging.FootholdDebugLogger>())
+            if (enableDiagnostics && !GetComponent<MapleClient.GameView.Debugging.FootholdDebugLogger>())
             {
                 gameObject.AddComponent<MapleClient.GameView.Debugging.FootholdDebugLogger>();
             }
@@ -74,7 +84,7 @@ namespace MapleClient.GameView
             Debug.Log($"[GameManager] FPS locked to 60 - Target: {Application.targetFrameRate}, VSync: {QualitySettings.vSyncCount}");
             
             // Add test component temporarily
-            gameObject.AddComponent<MapleClient.GameData.TestReNX>();
+
             
             // Add runtime collision test
             // gameObject.AddComponent<RuntimeCollisionTest>();
@@ -85,8 +95,8 @@ namespace MapleClient.GameView
         private void InitializeGame()
         {
             // Initialize asset provider
-            assetProvider = new NXDataManager();
-            assetProvider.Initialize();
+            assetProvider = NXDataManagerSingleton.Instance.DataManager;
+            mobAnimations = new NxMobAnimations(NXDataManagerSingleton.Instance.DataManager);
             
             // Create FootholdService
             footholdService = new FootholdService();
@@ -97,18 +107,9 @@ namespace MapleClient.GameView
             // Initialize input
             inputProvider = new UnityInputProvider();
             
-            // Initialize map renderer
-            GameObject mapRendererObject = new GameObject("MapRenderer");
-            mapRenderer = mapRendererObject.AddComponent<MapRenderer>();
-            mapRenderer.Initialize(assetProvider);
-            
             // Create VisualEffectManager
             GameObject effectManagerObj = new GameObject("VisualEffectManager");
             effectManagerObj.AddComponent<VisualEffectManager>();
-            
-            // Initialize platform bridge for physics
-            GameObject platformBridgeObject = new GameObject("PlatformBridge");
-            platformBridge = platformBridgeObject.AddComponent<SimplePlatformBridge>();
             
             // Initialize network if enabled
             if (useNetworking)
@@ -121,17 +122,20 @@ namespace MapleClient.GameView
             
             // Initialize game logic with FootholdService
             gameWorld = new GameWorld(inputProvider, mapLoader, useNetworking ? networkClient : null, assetProvider, footholdService);
+            gameObject.AddComponent<SkillProjectileView>().Bind(gameWorld);
             gameWorld.MapLoaded += OnMapLoaded;
+            gameWorld.PlayerRecovered += SnapPlayerView;
+            gameWorld.PlayerTeleported += SnapPlayerView;
             gameWorld.MonsterSpawned += OnMonsterSpawned;
-            gameWorld.MonsterDied += OnMonsterDied;
             gameWorld.ItemDropped += OnItemDropped;
-            gameWorld.ItemPickedUp += OnItemPickedUp;
+            gameWorld.DropRemoved += OnDropRemoved;
             gameWorld.OnChatMessageReceived += OnChatMessageReceived;
             
             // Listen to player events
             gameWorld.Player.Landed += OnPlayerLanded;
             
             // Create UI
+            if (!useNetworking) gameObject.AddComponent<LocalProgressController>();
             CreateUI();
             
             // Start the game
@@ -142,16 +146,8 @@ namespace MapleClient.GameView
             }
             else
             {
-                // Start in offline mode - spawn at origin
-                // Platform will be adjusted to Y=200 in MapleStory coordinates
-                // Spawn player higher up so they don't gain too much velocity before hitting ground
-                // Y=150 MapleStory = Y=-1.5 Unity
-                Debug.Log($"[FOOTHOLD_COLLISION] GameManager: Calling InitializePlayer with Y=-1.5");
-                gameWorld.InitializePlayer(1, "Player", 100, 100, 100, 100, 0, -1.5f);
-                
-                // Load initial map (Henesys)
-                Debug.Log($"[FOOTHOLD_COLLISION] GameManager: Loading map 100000000");
-                gameWorld.LoadMap(100000000);
+                gameWorld.InitializePlayer(1, "Player", 100, 100, 100, 100, 0, 0);
+                gameWorld.LoadMap(startingMapId);
             }
         }
 
@@ -159,8 +155,9 @@ namespace MapleClient.GameView
         {
             if (gameWorld != null)
             {
-                // Process input and non-physics game logic in Update
+                // One clock owns simulation and interpolation. Unity FixedUpdate is unrelated.
                 gameWorld.ProcessInput();
+                gameWorld.UpdatePhysics(Time.deltaTime);
                 UpdateOtherPlayers();
                 
                 // Update visual interpolation for smooth rendering
@@ -174,15 +171,6 @@ namespace MapleClient.GameView
             if (networkClient != null)
             {
                 networkClient.ProcessMainThreadActions();
-            }
-        }
-        
-        private void FixedUpdate()
-        {
-            if (gameWorld != null)
-            {
-                // Physics updates happen at fixed 60 FPS timestep
-                gameWorld.UpdatePhysics(Time.fixedDeltaTime);
             }
         }
         
@@ -223,79 +211,63 @@ namespace MapleClient.GameView
             // Clean up old map visuals
             CleanupMapVisuals();
             
-            // Render the map using actual MapleStory assets
-            if (mapRenderer != null)
+            if (activeMapVisuals != null && activeMapVisuals.name != $"Map_{mapData.MapId}")
             {
+                activeMapVisuals.SetActive(false);
+                Destroy(activeMapVisuals);
+                activeMapVisuals = null;
+            }
+            activeMapVisuals = GameObject.Find($"Map_{mapData.MapId}");
+            if (activeMapVisuals == null && MapSceneFactory != null)
+                activeMapVisuals = MapSceneFactory(mapData.MapId);
+            if (activeMapVisuals == null)
+            {
+                if (mapRenderer == null)
+                {
+                    mapRenderer = new GameObject("MapRenderer").AddComponent<MapRenderer>();
+                    mapRenderer.Initialize(assetProvider);
+                }
                 mapRenderer.RenderMap(mapData);
             }
-            
-            // Initialize platform bridge
-            if (platformBridge != null)
-            {
-                // Extract platforms from the Unity scene
-                platformBridge.ExtractPlatformsFromScene(mapData);
-            }
-            
-            // Create SIMPLE WORKING player instead of broken MapleStory player
+            // Keep the same player and camera listeners across map changes.
             GameObject playerObject = GameObject.Find("Player");
             if (playerObject == null)
             {
                 playerObject = new GameObject("Player");
-                
-                // Use simple working player controller
                 playerController = playerObject.AddComponent<SimplePlayerController>();
                 playerController.SetGameLogicPlayer(gameWorld.Player);
                 playerController.SetGameWorld(gameWorld);
-                
-                // Position at spawn point
-                var spawnPos = gameWorld.Player.Position;
-                playerObject.transform.position = new Vector3(spawnPos.X, spawnPos.Y, 0);
-                
-                Debug.Log($"Simple player created at: ({spawnPos.X}, {spawnPos.Y})");
-                
-                // Setup camera to follow player
-                Camera mainCamera = Camera.main;
-                if (mainCamera != null)
-                {
-                    // Remove ALL existing camera controllers to avoid conflicts
-                    var cameraController = mainCamera.GetComponent<CameraController>();
-                    if (cameraController != null)
-                    {
-                        DestroyImmediate(cameraController);
-                    }
-                    
-                    var existingFollow = mainCamera.GetComponent<SimpleCameraFollow>();
-                    if (existingFollow != null)
-                    {
-                        DestroyImmediate(existingFollow);
-                    }
-                    
-                    // Add simple camera follow ONCE
-                    var cameraFollow = mainCamera.gameObject.AddComponent<SimpleCameraFollow>();
-                    cameraFollow.target = playerObject.transform;
-                    cameraFollow.offset = new Vector3(0, 0, -10); // Keep camera at same Y level as player
-                    cameraFollow.smoothSpeed = 8f; // Faster for less lag
-                    cameraFollow.enableSmoothing = true;
-                    cameraFollow.useCameraBounds = false; // Disable bounds temporarily
-                    cameraFollow.enableLookahead = false; // Disable lookahead to reduce jitter
-                    
-                    // Reset camera to target position
-                    cameraFollow.ResetToTarget();
-                    
-                    Debug.Log($"[GameManager] Camera follow setup complete. Target: {cameraFollow.target.name}, Camera position: {mainCamera.transform.position}");
-                    
-                    // Start coroutine to verify camera is working
-                    StartCoroutine(VerifyCameraFollow(cameraFollow, playerObject.transform));
-                }
-                else
-                {
-                    Debug.LogError("[GameManager] No main camera found! Cannot setup camera follow.");
-                }
             }
-            
+            else
+                playerController = playerObject.GetComponent<SimplePlayerController>();
+
+            var camera = Camera.main;
+            (playerObject.GetComponent<WorldLabelAnchor>() ?? playerObject.AddComponent<WorldLabelAnchor>()).Bind(gameWorld.Player);
+            if (camera != null)
+            {
+                // HeavenClient clears to black; uncovered space around small interiors is not sky.
+                camera.clearFlags = CameraClearFlags.SolidColor;
+                camera.backgroundColor = Color.black;
+                var legacyController = camera.GetComponent<CameraController>();
+                if (legacyController != null)
+                {
+                    legacyController.enabled = false;
+                    Destroy(legacyController);
+                }
+                var follow = camera.GetComponent<SimpleCameraFollow>();
+                if (follow == null) follow = camera.gameObject.AddComponent<SimpleCameraFollow>();
+                follow.target = playerObject.transform;
+                follow.offset = new Vector3(0, 0, -10);
+                follow.smoothSpeed = 8f;
+                follow.enableSmoothing = true;
+                follow.useCameraBounds = false; // The generated map owns its VR bounds.
+                follow.enableLookahead = false;
+            }
+            SnapPlayerView();
+
             // Add foothold debug visualizer if in editor
             #if UNITY_EDITOR
-            if (GameObject.Find("FootholdDebugVisualizer") == null)
+            if (enableDiagnostics && GameObject.Find("FootholdDebugVisualizer") == null)
             {
                 GameObject debugObj = new GameObject("FootholdDebugVisualizer");
                 var visualizer = debugObj.AddComponent<MapleClient.GameView.Debugging.FootholdDebugVisualizer>();
@@ -308,9 +280,19 @@ namespace MapleClient.GameView
             // which uses actual MapleStory sprites from NX files
             
             // Still create portal interaction zones
-            CreatePortalVisuals(mapData);
+            if (activeMapVisuals == null)
+                CreatePortalVisuals(mapData);
         }
         
+        private void SnapPlayerView()
+        {
+            if (playerController == null || gameWorld?.Player == null) return;
+            var position = gameWorld.Player.Position;
+            playerController.transform.position = new Vector3(position.X, position.Y, 0);
+            Camera.main?.GetComponent<SimpleCameraFollow>()?.ResetToTarget();
+            PlayerViewRepositioned?.Invoke();
+        }
+
         private void CreatePlatformVisuals(GameLogic.MapData mapData)
         {
             GameObject platformContainer = GameObject.Find("Platforms");
@@ -363,12 +345,8 @@ namespace MapleClient.GameView
             if (mapData.Portals == null || mapData.Portals.Count == 0)
                 return;
                 
-            GameObject portalContainer = GameObject.Find("Portals");
-            if (portalContainer == null)
-            {
-                portalContainer = new GameObject("Portals");
-            }
-            
+            runtimePortals = new GameObject("RuntimePortals");
+            GameObject portalContainer = runtimePortals;
             foreach (var portal in mapData.Portals)
             {
                 GameObject portalObject = new GameObject($"Portal_{portal.Name}");
@@ -383,18 +361,16 @@ namespace MapleClient.GameView
         {
             GameObject monsterObject = new GameObject($"Monster_{monster.MonsterId}");
             MonsterView monsterView = monsterObject.AddComponent<MonsterView>();
-            monsterView.SetMonster(monster);
+            monsterView.SetMonster(monster, mobAnimations);
+            monsterView.Removed += OnMonsterViewRemoved;
             
             monsterViews[monster] = monsterView;
         }
 
-        private void OnMonsterDied(Monster monster)
+        private void OnMonsterViewRemoved(MonsterView view)
         {
-            if (monsterViews.TryGetValue(monster, out MonsterView view))
-            {
-                monsterViews.Remove(monster);
-                // The MonsterView handles its own destruction animation
-            }
+            if (view.Model != null && monsterViews.TryGetValue(view.Model, out var current) && current == view)
+                monsterViews.Remove(view.Model);
         }
 
         private void OnItemDropped(DroppedItem item)
@@ -406,23 +382,12 @@ namespace MapleClient.GameView
             droppedItemViews[item] = itemView;
         }
 
-        private void OnItemPickedUp(int itemId, int quantity)
+        private void OnDropRemoved(DroppedItem item)
         {
-            // Find and remove the dropped item view
-            DroppedItem itemToRemove = null;
-            foreach (var kvp in droppedItemViews)
+            if (droppedItemViews.TryGetValue(item, out DroppedItemView view))
             {
-                if (kvp.Key.ItemId == itemId)
-                {
-                    itemToRemove = kvp.Key;
-                    break;
-                }
-            }
-
-            if (itemToRemove != null && droppedItemViews.TryGetValue(itemToRemove, out DroppedItemView view))
-            {
-                droppedItemViews.Remove(itemToRemove);
-                Destroy(view.gameObject);
+                droppedItemViews.Remove(item);
+                if (view != null) { view.gameObject.SetActive(false); Destroy(view.gameObject); }
             }
         }
 
@@ -439,6 +404,15 @@ namespace MapleClient.GameView
                 canvasObj.AddComponent<UnityEngine.UI.GraphicRaycaster>();
             }
 
+            canvas.pixelPerfect = true;
+            if (canvas.GetComponent<ClassicWorldLabels>() == null) canvas.gameObject.AddComponent<ClassicWorldLabels>();
+            if (canvas.GetComponent<ClassicMonsterHealthView>() == null) canvas.gameObject.AddComponent<ClassicMonsterHealthView>();
+            (canvas.GetComponent<ClassicMinimapView>() ?? canvas.gameObject.AddComponent<ClassicMinimapView>()).Bind(gameWorld);
+            if (canvas.GetComponent<UnityEngine.UI.GraphicRaycaster>() == null)
+                canvas.gameObject.AddComponent<UnityEngine.UI.GraphicRaycaster>();
+            if (FindFirstObjectByType<UnityEngine.EventSystems.EventSystem>() == null)
+                new GameObject("EventSystem", typeof(UnityEngine.EventSystems.EventSystem), typeof(UnityEngine.EventSystems.StandaloneInputModule));
+
             // Add InventoryView
             if (canvas.GetComponent<InventoryView>() == null)
             {
@@ -451,6 +425,20 @@ namespace MapleClient.GameView
                 canvas.gameObject.AddComponent<StatusBar>();
             }
             
+            var combatFeedback = canvas.GetComponent<PlayerCombatFeedback>() ?? canvas.gameObject.AddComponent<PlayerCombatFeedback>();
+            combatFeedback.Bind(gameWorld);
+            if (!useNetworking && canvas.GetComponent<CharacterProgressionView>() == null)
+                canvas.gameObject.AddComponent<CharacterProgressionView>();
+            if (!useNetworking) (canvas.GetComponent<LocalPlayMenu>() ?? canvas.gameObject.AddComponent<LocalPlayMenu>()).Bind(this);
+            if (!useNetworking)
+            {
+                (canvas.GetComponent<ClassicQuestView>() ?? canvas.gameObject.AddComponent<ClassicQuestView>()).Bind(gameWorld);
+                (canvas.GetComponent<ClassicNpcDialogue>() ?? canvas.gameObject.AddComponent<ClassicNpcDialogue>()).Bind(gameWorld);
+                (canvas.GetComponent<ClassicQuestIndicators>() ?? canvas.gameObject.AddComponent<ClassicQuestIndicators>()).Bind(gameWorld);
+                (canvas.GetComponent<ClassicNpcBubbles>() ?? canvas.gameObject.AddComponent<ClassicNpcBubbles>()).Bind(gameWorld);
+                if(canvas.GetComponent<ClassicCursorView>()==null)canvas.gameObject.AddComponent<ClassicCursorView>();
+            }
+
             // Add ExperienceBar
             if (canvas.GetComponent<ExperienceBar>() == null)
             {
@@ -469,11 +457,12 @@ namespace MapleClient.GameView
                 canvas.gameObject.AddComponent<SkillBar>();
                 
                 // Add movement state UI
-                canvas.gameObject.AddComponent<MovementStateUI>();
+                if (enableDiagnostics) canvas.gameObject.AddComponent<MovementStateUI>();
                 
                 // Add input prompt manager
                 canvas.gameObject.AddComponent<InputPromptManager>();
             }
+            ((UnityInputProvider)inputProvider).Quickslots = canvas.GetComponent<SkillBar>();
         }
 
         private void OnPlayerLanded()
@@ -485,64 +474,28 @@ namespace MapleClient.GameView
         {
             if (playerController == null || gameWorld?.CurrentMap?.Ladders == null) return;
             
-            var playerPos = gameWorld.Player.Position;
-            bool nearLadder = false;
-            
-            foreach (var ladder in gameWorld.CurrentMap.Ladders)
-            {
-                // Check if player is within ladder bounds
-                float ladderX = ladder.X / 100f;
-                float distance = System.Math.Abs(playerPos.X - ladderX);
-                
-                if (distance < 0.3f && // Within 30 pixels horizontally
-                    playerPos.Y >= ladder.Y2 / 100f && // Above bottom
-                    playerPos.Y <= ladder.Y1 / 100f) // Below top
-                {
-                    nearLadder = true;
-                    break;
-                }
-            }
-            
-            playerController.ShowLadderPrompt(nearLadder && gameWorld.Player.State != PlayerState.Climbing);
+            var player = gameWorld.Player;
+            bool nearLadder = player.CanClimb && gameWorld.CurrentMap.Ladders.Any(ladder =>
+                ladder.CanEnter(player.Position, true) || ladder.CanEnter(player.Position, false));
+            playerController.ShowLadderPrompt(nearLadder && player.State != PlayerState.Climbing);
         }
 
         private void CleanupMapVisuals()
         {
-            // Clean up platforms
-            GameObject platformContainer = GameObject.Find("Platforms");
-            if (platformContainer != null)
+            if (runtimePortals != null)
             {
-                foreach (Transform child in platformContainer.transform)
-                {
-                    Destroy(child.gameObject);
-                }
+                runtimePortals.SetActive(false);
+                Destroy(runtimePortals);
+                runtimePortals = null;
             }
-            
-            // Clean up ladders
-            GameObject ladderContainer = GameObject.Find("Ladders");
-            if (ladderContainer != null)
-            {
-                foreach (Transform child in ladderContainer.transform)
-                {
-                    Destroy(child.gameObject);
-                }
-            }
-            
-            // Clean up portals
-            GameObject portalContainer = GameObject.Find("Portals");
-            if (portalContainer != null)
-            {
-                foreach (Transform child in portalContainer.transform)
-                {
-                    Destroy(child.gameObject);
-                }
-            }
-            
             // Clean up monsters
             foreach (var kvp in monsterViews)
             {
                 if (kvp.Value != null)
+                {
+                    kvp.Value.gameObject.SetActive(false);
                     Destroy(kvp.Value.gameObject);
+                }
             }
             monsterViews.Clear();
             
@@ -550,7 +503,10 @@ namespace MapleClient.GameView
             foreach (var kvp in droppedItemViews)
             {
                 if (kvp.Value != null)
+                {
+                    kvp.Value.gameObject.SetActive(false);
                     Destroy(kvp.Value.gameObject);
+                }
             }
             droppedItemViews.Clear();
         }
@@ -655,19 +611,16 @@ namespace MapleClient.GameView
                 networkClient.Disconnect();
             }
             
-            // Shutdown asset provider
-            if (assetProvider != null)
-            {
-                assetProvider.Shutdown();
-            }
+            // The persistent NXDataManagerSingleton owns shared asset lifetime.
             
             if (gameWorld != null)
             {
                 gameWorld.MapLoaded -= OnMapLoaded;
+                gameWorld.PlayerRecovered -= SnapPlayerView;
+                gameWorld.PlayerTeleported -= SnapPlayerView;
                 gameWorld.MonsterSpawned -= OnMonsterSpawned;
-                gameWorld.MonsterDied -= OnMonsterDied;
                 gameWorld.ItemDropped -= OnItemDropped;
-                gameWorld.ItemPickedUp -= OnItemPickedUp;
+                gameWorld.DropRemoved -= OnDropRemoved;
                 gameWorld.OnChatMessageReceived -= OnChatMessageReceived;
                 
                 if (gameWorld.Player != null)

@@ -9,7 +9,7 @@ using GameData;
 
 namespace MapleClient.GameData
 {
-    public class NxMapLoader : IMapLoader
+    public class NxMapLoader : IMapLoader, IMapPreviewLoader
     {
         private readonly INxFile mapNx;
         private readonly INxFile stringNx;
@@ -23,7 +23,7 @@ namespace MapleClient.GameData
             // Try to use NXDataManagerSingleton for real NX data
             try
             {
-                nxManager = NXDataManagerSingleton.Instance;
+                nxManager = string.IsNullOrEmpty(dataPath) ? NXDataManagerSingleton.Instance : null;
                 if (nxManager != null && nxManager.DataManager != null)
                 {
                     // Use real NX data from NXDataManagerSingleton
@@ -63,7 +63,9 @@ namespace MapleClient.GameData
             }
         }
 
-        public MapData GetMap(int mapId)
+        public MapData GetMap(int mapId) => ReadMap(mapId, true);
+        public MapData PreviewMap(int mapId) => ReadMap(mapId, false);
+        private MapData ReadMap(int mapId, bool updateFootholds)
         {
             var mapIdStr = mapId.ToString("D9");
             var mapCategory = mapIdStr.Substring(0, 1);
@@ -105,10 +107,23 @@ namespace MapleClient.GameData
                 return null;
             }
 
+            var names = NxMapNames.Find(nxManager?.DataManager?.GetNode("String", "Map.img") ?? stringNx?.GetNode("Map.img"), mapId);
+            var mini = mapNode["miniMap"];
             var mapData = new MapData
             {
                 MapId = mapId,
-                Name = GetMapName(mapId),
+                Name = names?["mapName"]?.GetValue<string>() ?? (mapId == 100000000 ? "Henesys" : $"Map {mapId}"),
+                StreetName = names?["streetName"]?.GetValue<string>() ?? "",
+                MiniMap = new MiniMapData {
+                    CenterX = mini?["centerX"]?.GetValue<int>() ?? 0,
+                    CenterY = mini?["centerY"]?.GetValue<int>() ?? 0,
+                    Magnification = mini?["mag"]?.GetValue<int>() ?? 0,
+                    HasCanvas = mini?["canvas"] != null,
+                    Hidden = (mapNode["info"]?["hideMinimap"]?.GetValue<int>() ?? 0) != 0,
+                    MapMark = mapNode["info"]?["mapMark"]?.GetValue<string>() ?? ""
+                },
+                ReturnMapId = mapNode["info"]?["returnMap"]?.GetValue<int>() ?? -1,
+                IsUnderwater = (mapNode["info"]?["swim"]?.GetValue<int>() ?? 0) != 0,
                 Width = 2000, // Default values for now
                 Height = 1000
             };
@@ -118,6 +133,23 @@ namespace MapleClient.GameData
             
             // Load portals
             LoadPortals(mapNode, mapData);
+            var ladders = mapNode["ladderRope"];
+            if (ladders != null)
+            {
+                foreach (var ladder in ladders.Children)
+                {
+                    float x = ladder["x"]?.GetValue<int>() ?? 0;
+                    float y1 = ladder["y1"]?.GetValue<int>() ?? 0;
+                    float y2 = ladder["y2"]?.GetValue<int>() ?? 0;
+                    mapData.Ladders.Add(new GameLogic.Core.LadderInfo {
+                        Id = int.TryParse(ladder.Name, out var ladderId) ? ladderId : 0,
+                        IsLadder = (ladder["l"]?.GetValue<int>() ?? 0) != 0,
+                        X = x / 100f,
+                        Y1 = -System.Math.Max(y1, y2) / 100f,
+                        Y2 = -System.Math.Min(y1, y2) / 100f
+                    });
+                }
+            }
             
             // Load life (NPCs and monster spawns)
             LoadLife(mapNode, mapData);
@@ -130,65 +162,21 @@ namespace MapleClient.GameData
             }
 
             // Update FootholdService if available
-            if (footholdService != null && mapData.Platforms.Count > 0)
+            if (updateFootholds && footholdService != null && mapData.Platforms.Count > 0)
             {
                 var footholds = FootholdDataAdapter.ConvertPlatformsToFootholds(mapData.Platforms);
-                FootholdDataAdapter.BuildFootholdConnectivity(footholds);
+                if (!mapData.Platforms.Any(p => p.HasSourceTopology))
+                    FootholdDataAdapter.BuildFootholdConnectivity(footholds);
                 footholdService.LoadFootholds(footholds);
                 UnityEngine.Debug.Log($"Updated FootholdService with {footholds.Count} footholds");
                 UnityEngine.Debug.Log($"[FOOTHOLD_COLLISION] NxMapLoader updated FootholdService with {footholds.Count} footholds from {mapData.Platforms.Count} platforms");
             }
-            else
+            else if (updateFootholds)
             {
                 UnityEngine.Debug.LogWarning($"[FOOTHOLD_COLLISION] NxMapLoader skipped FootholdService update - service:{footholdService != null}, platforms:{mapData.Platforms.Count}");
             }
 
             return mapData;
-        }
-
-        private string GetMapName(int mapId)
-        {
-            // For testing with mock data
-            if (mapId == 100000000)
-                return "Henesys";
-            
-            // Try to use NXDataManagerSingleton for string data
-            if (nxManager != null && nxManager.DataManager != null)
-            {
-                try
-                {
-                    var stringNode = nxManager.DataManager.GetNode("String", $"Map.img/streetName/{mapId}");
-                    if (stringNode != null && stringNode is INxNode nxNode)
-                    {
-                        return nxNode["streetName"]?.GetValue<string>() ?? $"Map {mapId}";
-                    }
-                    
-                    var mapNameNode = nxManager.DataManager.GetNode("String", $"Map.img/mapName/{mapId}");
-                    if (mapNameNode != null && mapNameNode is INxNode nxMapNode)
-                    {
-                        return nxMapNode["mapName"]?.GetValue<string>() ?? $"Map {mapId}";
-                    }
-                }
-                catch { }
-            }
-            
-            // Fallback to direct string NX access
-            if (stringNx != null)
-            {
-                var streetNode = stringNx.GetNode($"Map.img/streetName/{mapId}");
-                if (streetNode != null)
-                {
-                    return streetNode["streetName"]?.GetValue<string>() ?? $"Map {mapId}";
-                }
-
-                var mapNode = stringNx.GetNode($"Map.img/mapName/{mapId}");
-                if (mapNode != null)
-                {
-                    return mapNode["mapName"]?.GetValue<string>() ?? $"Map {mapId}";
-                }
-            }
-
-            return $"Map {mapId}";
         }
 
         private void LoadPlatforms(INxNode mapNode, MapData mapData)
@@ -220,7 +208,7 @@ namespace MapleClient.GameData
                         if (child["x1"] != null && child["y1"] != null && 
                             child["x2"] != null && child["y2"] != null)
                         {
-                            ProcessFoothold(child, ref platformId, mapData);
+                            ProcessFoothold(child, ref platformId, mapData, int.TryParse(layerNode.Name, out int layer) ? layer : 0);
                         }
                         else
                         {
@@ -230,7 +218,7 @@ namespace MapleClient.GameData
                                 if (subChild["x1"] != null && subChild["y1"] != null && 
                                     subChild["x2"] != null && subChild["y2"] != null)
                                 {
-                                    ProcessFoothold(subChild, ref platformId, mapData);
+                                    ProcessFoothold(subChild, ref platformId, mapData, int.TryParse(layerNode.Name, out int nestedLayer) ? nestedLayer : 0);
                                 }
                             }
                         }
@@ -271,7 +259,7 @@ namespace MapleClient.GameData
             }
         }
         
-        private void ProcessFoothold(INxNode fhNode, ref int platformId, MapData mapData)
+        private void ProcessFoothold(INxNode fhNode, ref int platformId, MapData mapData, int layer)
         {
             var x1 = fhNode["x1"]?.GetValue<int>() ?? 0;
             var y1 = fhNode["y1"]?.GetValue<int>() ?? 0;
@@ -287,7 +275,11 @@ namespace MapleClient.GameData
 
             mapData.Platforms.Add(new Platform
             {
-                Id = platformId++,
+                Id = int.TryParse(fhNode.Name, out int sourceId) ? sourceId : platformId,
+                PreviousId = fhNode["prev"]?.GetValue<int>() ?? 0,
+                NextId = fhNode["next"]?.GetValue<int>() ?? 0,
+                Layer = layer,
+                HasSourceTopology = true,
                 X1 = x1,
                 Y1 = y1,
                 X2 = x2,
@@ -295,6 +287,7 @@ namespace MapleClient.GameData
                 Type = PlatformType.Normal
             });
             
+            platformId++;
             UnityEngine.Debug.Log($"Platform {platformId-1}: ({x1},{y1}) to ({x2},{y2})");
         }
 
@@ -308,7 +301,7 @@ namespace MapleClient.GameData
             {
                 var portal = new Portal
                 {
-                    Id = pNode["id"]?.GetValue<int>() ?? 0,
+                    Id = int.TryParse(pNode.Name, out int portalId) ? portalId : (pNode["id"]?.GetValue<int>() ?? 0),
                     Name = pNode["pn"]?.GetValue<string>() ?? "",
                     X = pNode["x"]?.GetValue<int>() ?? 0,
                     Y = pNode["y"]?.GetValue<int>() ?? 0,
@@ -334,7 +327,7 @@ namespace MapleClient.GameData
                 var x = life["x"]?.GetValue<int>() ?? 0;
                 var y = life["y"]?.GetValue<int>() ?? 0;
 
-                if (type == "m" && int.TryParse(id, out var mobId))
+                if (type == "m" && int.TryParse(id, out var mobId) && (life["hide"]?.GetValue<int>() ?? 0) == 0)
                 {
                     // Monster spawn
                     mapData.MonsterSpawns.Add(new MonsterSpawn
@@ -342,11 +335,14 @@ namespace MapleClient.GameData
                         MonsterId = mobId,
                         X = x,
                         Y = y,
-                        SpawnInterval = life["mobTime"]?.GetValue<int>() ?? 30,
+                        FootholdId = life["fh"]?.GetValue<int>() ?? 0,
+                        // Mob bitmaps face left; life/f mirrors the authored art.
+                        FacingRight = (life["f"]?.GetValue<int>() ?? 0) != 0,
+                        SpawnInterval = life["mobTime"]?.GetValue<int>() ?? 0,
                         MaxCount = 1
                     });
                 }
-                else if (type == "n" && int.TryParse(id, out var npcId))
+                else if (type == "n" && int.TryParse(id, out var npcId) && (life["hide"]?.GetValue<int>() ?? 0) == 0)
                 {
                     // NPC spawn
                     mapData.NpcSpawns.Add(new NpcSpawn
@@ -366,8 +362,12 @@ namespace MapleClient.GameData
             {
                 0 => PortalType.Spawn,
                 1 => PortalType.Normal,
-                2 => PortalType.Hidden,
-                3 => PortalType.Script,
+                2 => PortalType.Regular,
+                7 => PortalType.Script,
+                8 => PortalType.Script,
+                9 => PortalType.Script,
+                10 => PortalType.Hidden,
+                11 => PortalType.Script,
                 _ => PortalType.Normal
             };
         }

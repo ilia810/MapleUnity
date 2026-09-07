@@ -9,6 +9,7 @@ namespace MapleClient.GameLogic
     /// </summary>
     public class FootholdService : IFootholdService
     {
+        public int Revision { get; private set; }
         private List<Foothold> footholds = new List<Foothold>();
         private Dictionary<int, Foothold> footholdById = new Dictionary<int, Foothold>();
         
@@ -17,6 +18,7 @@ namespace MapleClient.GameLogic
         /// </summary>
         public void LoadFootholds(List<Foothold> footholdData)
         {
+            Revision++;
             footholds = new List<Foothold>(footholdData);
             footholdById.Clear();
             
@@ -42,6 +44,7 @@ namespace MapleClient.GameLogic
         /// </summary>
         public void UpdateFoothold(Foothold foothold)
         {
+            Revision++;
             if (footholdById.ContainsKey(foothold.Id))
             {
                 // Update existing
@@ -66,67 +69,18 @@ namespace MapleClient.GameLogic
         /// </summary>
         public float GetGroundBelow(float x, float y)
         {
-            // Find all footholds that could be below this position
-            var candidates = new List<(Foothold fh, float groundY)>();
-            
-            // Only log foothold issues when requested
-            bool debugThis = false; // Set to true to enable detailed logging
-            int footholdCheckCount = 0;
-            
-            foreach (var fh in footholds)
+            float closestY = float.MaxValue;
+            foreach (var foothold in footholds)
             {
-                // Check if X is within foothold's horizontal range
-                float minX = System.Math.Min(fh.X1, fh.X2);
-                float maxX = System.Math.Max(fh.X1, fh.X2);
-                
-                if (x >= minX && x <= maxX)
-                {
-                    footholdCheckCount++;
-                    
-                    // Calculate Y position on this foothold at the given X
-                    float groundY = fh.GetYAtX(x);
-                    
-                    // Log first few checks to understand the issue
-                    if (footholdCheckCount <= 3 && !float.IsNaN(groundY))
-                    {
-                        System.Console.WriteLine($"[FOOTHOLD_COLLISION] Checking FH{fh.Id}: X in [{minX:F0},{maxX:F0}], groundY={groundY:F0}, queryY={y:F0}, considered={(groundY >= y - 10)}");
-                    }
-                    
-                    // Only consider footholds below the current Y position
-                    // In MapleStory coords, Y increases downward, so groundY >= y means below
-                    // However, for collision detection, we also need to consider footholds slightly above
-                    // the query position (within ~10 pixels) to handle cases where the player has fallen through
-                    if (!float.IsNaN(groundY) && groundY >= y - 10)
-                    {
-                        candidates.Add((fh, groundY));
-                    }
-                }
+                if (IsWall(foothold)) continue;
+                float groundY = foothold.GetYAtX(x);
+                // Preserve the legacy near-ground query and HeavenClient ground-1 offset.
+                // Landing sweeps are independent of this lookup tolerance.
+                if (!float.IsNaN(groundY) && groundY >= y - 10 && groundY < closestY) closestY = groundY;
             }
-            
-            if (candidates.Count == 0)
-            {
-                // No foothold found below
-                if (footholdCheckCount == 0)
-                {
-                    // No footholds were even in X range - this is suspicious
-                    System.Console.WriteLine($"[FOOTHOLD_COLLISION] WARNING: No footholds in X range for X={x:F0} (checked {footholds.Count} footholds)");
-                }
-                return float.MaxValue;
-            }
-            
-            // Find the closest foothold below (smallest Y value since Y increases downward)
-            var closest = candidates.OrderBy(c => c.groundY).First();
-            
-            // Log what we're returning
-            if (System.Math.Abs(x) < 100)
-            {
-                System.Console.WriteLine($"[FOOTHOLD_COLLISION] Returning ground at Y={closest.groundY - 1} (foothold Y={closest.groundY})");
-            }
-            
-            // C++ client returns ground - 1 to sink characters slightly into the floor
-            return closest.groundY - 1;
+            return closestY == float.MaxValue ? float.MaxValue : closestY - 1;
         }
-        
+
         /// <summary>
         /// Checks if a position is on solid ground within the specified tolerance.
         /// </summary>
@@ -150,7 +104,7 @@ namespace MapleClient.GameLogic
         {
             foreach (var fh in footholds)
             {
-                if (fh.ContainsPoint(x, y, 5f)) // 5 pixel tolerance
+                if (!IsWall(fh) && fh.ContainsPoint(x, y, 5f)) // 5 pixel tolerance
                 {
                     return fh;
                 }
@@ -169,6 +123,7 @@ namespace MapleClient.GameLogic
             
             foreach (var fh in footholds)
             {
+                if (IsWall(fh)) continue;
                 float minX = System.Math.Min(fh.X1, fh.X2);
                 float maxX = System.Math.Max(fh.X1, fh.X2);
                 

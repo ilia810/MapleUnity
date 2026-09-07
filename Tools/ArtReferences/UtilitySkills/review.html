@@ -1,0 +1,22 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Archer and thief utility skills</title>
+<style>body{margin:32px auto;max-width:1360px;padding:0 20px;background:#182431;color:#edf2f7;font:16px/1.5 system-ui}h1{font-size:28px}h2{margin-top:36px}a{color:#92d9ff}img{display:block;width:100%;height:auto;border:1px solid #597080}p{max-width:900px}.small{max-width:640px}</style>
+<h1>Archer and thief utility skills</h1>
+<p>Captured in the isolated Unity validation project. Original NX art, learned skill ranks and the existing buff system drive these scenes.</p>
+<p><a href="../../Research/Utility-skills-source.md">Behavior, source evidence and testing instructions</a> · <a href="../../Research/Skill-authoring.md">Custom skill authoring</a></p>
+<h2>Focus with earned first-job SP</h2>
+<p>Amazon Blessing 3 unlocks Focus in the ordinary skill book. Casting uses the original effect and active buff icon; accuracy and avoidability affect combat.</p>
+<a href="../../../Logs/utility-skills-scenes-final-focus-cast.png"><img src="../../../Logs/utility-skills-scenes-final-focus-cast.png" alt="Focus casting after learning its prerequisite" loading="lazy"></a>
+<h2>Dark Sight</h2>
+<p>All assembled character layers become translucent. Labels, HUD and the native casting burst remain legible. Concealment blocks new attacks and contact damage.</p>
+<a href="../../../Logs/utility-skills-scenes-final-dark-sight.png"><img src="../../../Logs/utility-skills-scenes-final-dark-sight.png" alt="Dark Sight with translucent character and native smoke effect" loading="lazy"></a>
+<h2>Cancel through the buff icon</h2>
+<p>Right-clicking the icon restores the character and removes that source's remaining stat contributions. A newer buff replacing one of its stats survives cancellation.</p>
+<a href="../../../Logs/utility-skills-scenes-final-dark-sight-cancelled.png"><img src="../../../Logs/utility-skills-scenes-final-dark-sight-cancelled.png" alt="Character fully visible after cancelling Dark Sight" loading="lazy"></a>
+<h2>Contact evasion</h2>
+<p>Nimble Body contributes real avoidability. This deterministic scene forces an evaded contact to verify native MISS artwork, unchanged HP/MP and the contact grace period.</p>
+<a href="../../../Logs/utility-skills-scenes-final-nimble-body-miss.png"><img src="../../../Logs/utility-skills-scenes-final-nimble-body-miss.png" alt="Original incoming MISS graphic above the player" loading="lazy"></a>
+<h2>Practice at 640 × 480</h2>
+<p>The existing support picker includes Archer: Focus and Thief: Dark Sight. Presets retain higher learned ranks and do not award items, healing or progression points.</p>
+<a href="../../../Logs/utility-skills-scenes-final-utility-picker-small.png"><img class="small" src="../../../Logs/utility-skills-scenes-final-utility-picker-small.png" alt="All eight support presets fit the small display" loading="lazy"></a>

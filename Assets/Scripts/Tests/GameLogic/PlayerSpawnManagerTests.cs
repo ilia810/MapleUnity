@@ -115,7 +115,7 @@ namespace MapleClient.Tests.GameLogic
         public void IsValidSpawnPoint_ValidPoint_ReturnsTrue()
         {
             // Arrange
-            var spawnPoint = new Vector2(5f, 3f); // In units, not pixels
+            var spawnPoint = new Vector2(5f, -1.69f); // Center with feet one pixel above the Maple Y=200 floor
             var platform = new Platform
             {
                 Id = 1,

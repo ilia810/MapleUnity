@@ -1,0 +1,7 @@
+action,frame,signed_delay,duration,attack_marker,elapsed_before,move_x,move_y
+doublefire,0,90,90,1,0,0,0
+doublefire,1,360,360,1,90,2,0
+doublefire,2,0,100,1,450,0,0
+handgun,0,-240,240,0,0,0,0
+handgun,1,540,540,1,240,2,0
+handgun,2,0,100,1,780,0,0

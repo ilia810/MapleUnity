@@ -1,0 +1,30 @@
+{
+  "source": "C:\\HeavenClient\\MapleStory-Client",
+  "source_sha256": {
+    "Character/Inventory/Weapon.h": "ec4a83ed611004215ccb26298a2f5565ddd514fe14907ad8c908c1142dfec7cd",
+    "Character/Inventory/InventoryType.h": "15b2d03e1ee1c579b787b959f19a19237d8a7ba84333b7b560c9a94db478abfa",
+    "Character/Inventory/Inventory.cpp": "f8c5c0040fbc3bab6075a31ed83bedc3e42ef0a080597ac612d4791e45c06151",
+    "Character/Char.cpp": "31f15da091a7868b4ca4297a66105ccdd5715beb9a1e3bdfcf9a1e205f2d354b",
+    "Gameplay/Combat/RegularAttack.cpp": "1d75793adc5d479883e56768795c75e539366af76f4c80d67a9c2c36d865dadd",
+    "Character/Look/BodyDrawInfo.h": "205cf78598d6954e53a1f73b92b90099c19b4852e4206a763fab4bb67575d3dc",
+    "Character/Look/CharLook.cpp": "a1c6e6bbbe947715baf579d5933820c459cbefb404fff01d8f4660c010a9de50"
+  },
+  "fixtures": {
+    "HeavenAmmunition": {
+      "rows": 48,
+      "sha256": "578bfe499654e17b76ab9788b1c1d8e3a0db8970c48588d7d3e8bca3a24f7c5c"
+    },
+    "HeavenGunDelay": {
+      "rows": 16,
+      "sha256": "cef1092eebcc21de2aea489bd9d892ee02b99b80b79fa375b820f7d4ba431ef3"
+    }
+  },
+  "method": "Unmodified Inventory::recalc_stats and Char::get_real_attackspeed/get_attackdelay.",
+  "adapter": "Controlled ordered USE slots and BulletData attack values; no equipped items. The look returns the 240 ms first handgun attack marker independently verified from Character.nx.",
+  "excluded": [
+    "Full inventory capacity/stack instances",
+    "Network consumption",
+    "Rendering",
+    "Ranged skill rules"
+  ]
+}

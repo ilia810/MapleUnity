@@ -1,0 +1,157 @@
+using UnityEngine;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using MapleClient.GameView;
+using MapleClient.GameData;
+using System.Collections.Generic;
+using System.Reflection;
+using System.IO;
+
+public static class DirectAlignmentTest
+{
+    public static void RunTest()
+    {
+        try
+        {
+            Debug.Log("=== DIRECT ALIGNMENT TEST ===");
+            
+            // Create a new scene
+            EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
+            
+            // Initialize NX with mock data
+            var mockFile = new MockNxFile();
+            NXAssetLoader.Instance.RegisterNxFile("character", mockFile);
+            
+            // Create character object manually with all required components
+            var characterObj = new GameObject("TestCharacter");
+            
+            // Create the sprite layers manually to simulate what CreateSpriteRenderers does
+            var body = CreateSpriteLayer(characterObj.transform, "Body", 0);
+            var head = CreateSpriteLayer(characterObj.transform, "Head", 10);
+            var face = CreateSpriteLayer(characterObj.transform, "Face", 11);
+            
+            // Load sprites directly from NXAssetLoader
+            Debug.Log("\n=== LOADING SPRITES ===");
+            
+            // Load body sprite
+            var bodySprite = NXAssetLoader.Instance.LoadCharacterBody(0, "stand1", 0);
+            if (bodySprite != null)
+            {
+                body.sprite = bodySprite;
+                Debug.Log($"Body sprite loaded: {bodySprite.name}, pivot: {bodySprite.pivot}");
+            }
+            
+            // Load head sprite
+            var headSprite = NXAssetLoader.Instance.LoadCharacterHead(0, "stand1", 0);
+            if (headSprite != null)
+            {
+                head.sprite = headSprite;
+                Debug.Log($"Head sprite loaded: {headSprite.name}, pivot: {headSprite.pivot}");
+            }
+            
+            // Load face sprite
+            var faceSprite = NXAssetLoader.Instance.LoadCharacterFace(20000, "default", 0);
+            if (faceSprite != null)
+            {
+                face.sprite = faceSprite;
+                Debug.Log($"Face sprite loaded: {faceSprite.name}, pivot: {faceSprite.pivot}");
+            }
+            
+            // Now apply the alignment logic from the C++ client
+            Debug.Log("\n=== APPLYING C++ ALIGNMENT LOGIC ===");
+            
+            // Get attachment points
+            Dictionary<string, Vector2> attachmentPoints;
+            NXAssetLoader.Instance.LoadCharacterBodyParts(0, "stand1", 0, out attachmentPoints);
+            
+            if (attachmentPoints != null)
+            {
+                Debug.Log($"Found {attachmentPoints.Count} attachment points:");
+                foreach (var kvp in attachmentPoints)
+                {
+                    Debug.Log($"  {kvp.Key}: {kvp.Value}");
+                }
+                
+                // Apply C++ logic: head.position = body.neck - head.neck
+                if (attachmentPoints.ContainsKey("neck") && attachmentPoints.ContainsKey("head_neck"))
+                {
+                    var bodyNeck = attachmentPoints["neck"];
+                    var headNeck = attachmentPoints["head_neck"];
+                    var headOffset = bodyNeck - headNeck;
+                    
+                    // Convert from pixels to Unity units
+                    head.transform.localPosition = new Vector3(headOffset.x / 100f, headOffset.y / 100f, 0);
+                    Debug.Log($"Head positioned at: {head.transform.localPosition} (offset: {headOffset} pixels)");
+                }
+                
+                // Apply C++ logic: face.position = body.neck - head.neck + head.brow
+                if (attachmentPoints.ContainsKey("head_brow"))
+                {
+                    var headBrow = attachmentPoints["head_brow"];
+                    var faceOffset = head.transform.localPosition + new Vector3(headBrow.x / 100f, headBrow.y / 100f, 0);
+                    face.transform.localPosition = faceOffset;
+                    Debug.Log($"Face positioned at: {face.transform.localPosition}");
+                }
+            }
+            
+            // Analyze final positions
+            Debug.Log("\n=== FINAL POSITIONS ===");
+            Debug.Log($"Body: world={body.transform.position}, local={body.transform.localPosition}");
+            Debug.Log($"Head: world={head.transform.position}, local={head.transform.localPosition}");
+            Debug.Log($"Face: world={face.transform.position}, local={face.transform.localPosition}");
+            
+            // Calculate offsets
+            var faceOffsetFromHead = face.transform.position - head.transform.position;
+            Debug.Log($"\nFace offset from head: {faceOffsetFromHead} units");
+            Debug.Log($"Face offset in pixels: ({faceOffsetFromHead.x * 100:F1}, {faceOffsetFromHead.y * 100:F1})");
+            
+            // Compare with expected
+            Debug.Log($"\nExpected offset from C++: (-8, -52) pixels");
+            var actualPixels = new Vector2(faceOffsetFromHead.x * 100, faceOffsetFromHead.y * 100);
+            var expectedPixels = new Vector2(-8, -52);
+            var diff = actualPixels - expectedPixels;
+            Debug.Log($"Difference: ({diff.x:F1}, {diff.y:F1}) pixels");
+            
+            // Check sprite bounds
+            Debug.Log("\n=== SPRITE BOUNDS ===");
+            if (face.sprite != null)
+            {
+                Debug.Log($"Face sprite bounds: center={face.sprite.bounds.center}, size={face.sprite.bounds.size}");
+                Debug.Log($"Face world bounds: center={face.bounds.center}, size={face.bounds.size}");
+            }
+            
+            // Write results
+            string results = "Direct Alignment Test Results\n";
+            results += "============================\n\n";
+            results += $"Face offset from head: {faceOffsetFromHead}\n";
+            results += $"Face offset in pixels: ({faceOffsetFromHead.x * 100:F1}, {faceOffsetFromHead.y * 100:F1})\n";
+            results += $"Expected: (-8, -52) pixels\n";
+            results += $"Difference: ({diff.x:F1}, {diff.y:F1}) pixels\n";
+            
+            File.WriteAllText("direct-alignment-results.txt", results);
+            Debug.Log($"\nResults written to: {Path.GetFullPath("direct-alignment-results.txt")}");
+            
+            Debug.Log("\n=== TEST COMPLETED SUCCESSFULLY ===");
+            EditorApplication.Exit(0);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Test failed: {e.Message}");
+            Debug.LogError(e.StackTrace);
+            EditorApplication.Exit(1);
+        }
+    }
+    
+    static SpriteRenderer CreateSpriteLayer(Transform parent, string name, int sortingOrder)
+    {
+        var obj = new GameObject(name);
+        obj.transform.SetParent(parent, false);
+        obj.transform.localPosition = Vector3.zero;
+        
+        var renderer = obj.AddComponent<SpriteRenderer>();
+        renderer.sortingLayerName = "Player";
+        renderer.sortingOrder = sortingOrder;
+        
+        return renderer;
+    }
+}

@@ -1,21 +1,28 @@
 using UnityEngine;
-using MapleClient.Utilities;
+using MapleClient.GameView;
+using MapleClient.SceneGeneration;
 
 namespace MapleClient.Core
 {
-    /// <summary>
-    /// Initializes core game systems at startup
-    /// </summary>
+    /// <summary>Connects the view layer to map generation at application startup.</summary>
     public class GameInitializer : MonoBehaviour
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void InitializeOnLoad()
         {
-            // Create debug log capture system
-            GameObject debugLogObj = new GameObject("DebugLogCapture");
-            debugLogObj.AddComponent<DebugLogCapture>();
-            
-            Debug.Log("Game systems initialized - Debug log capture enabled");
+            GameManager.MapSceneFactory = mapId =>
+            {
+                var host = new GameObject("MapSceneGenerator");
+                var generator = host.AddComponent<MapSceneGenerator>();
+                try
+                {
+                    return generator.GenerateMapScene(mapId);
+                }
+                finally
+                {
+                    Object.Destroy(host);
+                }
+            };
         }
     }
 }

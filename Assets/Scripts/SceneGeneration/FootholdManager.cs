@@ -40,41 +40,29 @@ namespace MapleClient.SceneGeneration
         /// </summary>
         public float GetYBelow(float x, float y)
         {
-            // Find all footholds that could be below this position
-            var candidates = new List<(Foothold fh, float groundY)>();
-            
+            return TryGetGroundBelow(x, y, out float groundY) ? groundY - 1f : y;
+        }
+
+        // Exact settled surface, separate from HeavenClient's one-pixel spawn query.
+        public bool TryGetGroundBelow(float x, float y, out float groundY)
+        {
+            groundY = float.PositiveInfinity;
+            bool found = false;
             foreach (var fh in footholds)
             {
-                // Check if X is within foothold's horizontal range
-                float minX = Mathf.Min(fh.X1, fh.X2);
-                float maxX = Mathf.Max(fh.X1, fh.X2);
-                
-                if (x >= minX && x <= maxX)
+                if (fh.X1 == fh.X2 || x < Mathf.Min(fh.X1, fh.X2) || x > Mathf.Max(fh.X1, fh.X2))
+                    continue;
+                float candidate = GetYAtX(fh, x);
+                if (candidate >= y - 0.001f && candidate < groundY)
                 {
-                    // Calculate Y position on this foothold at the given X
-                    float groundY = GetYAtX(fh, x);
-                    
-                    // Only consider footholds below the current Y position
-                    if (groundY >= y)
-                    {
-                        candidates.Add((fh, groundY));
-                    }
+                    groundY = candidate;
+                    found = true;
                 }
             }
-            
-            if (candidates.Count == 0)
-            {
-                // No foothold found below, return original Y
-                return y;
-            }
-            
-            // Find the closest foothold below (smallest Y value since Y increases downward in MapleStory)
-            var closest = candidates.OrderBy(c => c.groundY).First();
-            
-            // C++ client returns ground - 1 to sink characters slightly into the floor
-            return closest.groundY - 1;
+            if (!found) groundY = y;
+            return found;
         }
-        
+
         /// <summary>
         /// Calculate the Y position on a foothold at a given X coordinate
         /// </summary>

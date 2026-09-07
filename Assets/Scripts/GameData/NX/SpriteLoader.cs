@@ -13,6 +13,9 @@ namespace MapleClient.GameData
     {
         private static Dictionary<string, Sprite> spriteCache = new Dictionary<string, Sprite>();
         private static Dictionary<string, SpriteWithOrigin> spriteWithOriginCache = new Dictionary<string, SpriteWithOrigin>();
+        private static readonly Dictionary<string, Texture2D> characterTextureCache = new Dictionary<string, Texture2D>();
+        private static readonly Dictionary<(string path, Vector2 origin), Sprite> characterSpriteCache =
+            new Dictionary<(string path, Vector2 origin), Sprite>();
         
         /// <summary>
         /// Load sprite and origin together from the same node
@@ -65,6 +68,34 @@ namespace MapleClient.GameData
             return null;
         }
         
+        /// <summary>
+        /// Load a sprite with a shift applied to its origin (C++ client's Texture::shift behavior)
+        /// C++ does: origin -= shift
+        /// So the new origin = original_origin - shift
+        /// This bakes the shift into the sprite's pivot point.
+        /// </summary>
+        public static Sprite LoadSpriteWithShift(INxNode node, Vector2 shift, string path = null)
+        {
+            if (node == null) return null;
+
+            // Get the original origin from the node
+            Vector2 originalOrigin = GetOrigin(node);
+
+            // Apply shift (C++ style: origin -= shift)
+            Vector2 shiftedOrigin = originalOrigin - shift;
+
+#if MAPLE_RENDERING_DEBUG
+            Debug.Log($"[SpriteLoader] LoadSpriteWithShift '{path ?? node.Name}':");
+            Debug.Log($"  Original origin: {originalOrigin}");
+            Debug.Log($"  Shift: {shift}");
+            Debug.Log($"  Shifted origin: {shiftedOrigin}");
+
+#endif
+
+            // Use ConvertCharacterNodeToSprite with the shifted origin
+            return ConvertCharacterNodeToSprite(node, path ?? node.Name, shiftedOrigin);
+        }
+
         /// <summary>
         /// Load a sprite from an NX node (for backward compatibility)
         /// </summary>
@@ -514,41 +545,9 @@ namespace MapleClient.GameData
                 if (texture.LoadImage(imageData))
                 {
                     
-                    // Sample first few pixels to check if it's solid color
-                    if (texture.width > 0 && texture.height > 0)
-                    {
-                        Color topLeft = texture.GetPixel(0, 0);
-                        Color center = texture.GetPixel(texture.width / 2, texture.height / 2);
-                        Color bottomRight = texture.GetPixel(texture.width - 1, texture.height - 1);
-                        
-                        // Check if texture is completely transparent or black
-                        bool isTransparent = topLeft.a == 0 && center.a == 0 && bottomRight.a == 0;
-                        bool isBlack = topLeft == Color.black && center == Color.black && bottomRight == Color.black;
-                        
-                        if (isTransparent)
-                        {
-                            // Reduce log level for transparent textures - many are intentionally transparent
-                            Debug.LogWarning($"Texture {name} is completely transparent! PNG data might be corrupted.");
-                        }
-                        else if (isBlack)
-                        {
-                            Debug.LogWarning($"Texture {name} is solid black! This might indicate a loading issue.");
-                        }
-                        else if (topLeft == center && center == bottomRight)
-                        {
-                            // Info level for solid colors - sky backgrounds are often solid blue
-                            Debug.Log($"Texture {name} appears to be solid color: {topLeft}");
-                        }
-                        
-                        // Log more pixel samples for debugging
-                        if (isTransparent || isBlack)
-                        {
-                            Debug.Log($"  Image dimensions: {texture.width}x{texture.height}");
-                            Debug.Log($"  PNG data size: {imageData.Length} bytes");
-                            Debug.Log($"  First 16 bytes: {string.Join(" ", System.Linq.Enumerable.Take(imageData, 16).Select(b => b.ToString("X2")))}");
-                        }
-                    }
-                    
+                    // Transparent margins and solid/empty animation frames are valid
+                    // NX art. LoadImage already reports decoding failures; sampling
+                    // three pixels cannot establish corruption.
                     // Set texture settings for pixel art
                     texture.filterMode = FilterMode.Point;
                     texture.wrapMode = TextureWrapMode.Clamp;
@@ -589,69 +588,38 @@ namespace MapleClient.GameData
         /// </summary>
         public static Sprite ConvertCharacterNodeToSprite(INxNode node, string name, Vector2 origin)
         {
+            if (node == null) return null;
+            string path = name ?? node.Name;
+            var key = (path, origin);
+            if (characterSpriteCache.TryGetValue(key, out var cached) && cached != null) return cached;
             try
             {
-                // Get image data as byte array
-                byte[] imageData = null;
-                
-                var value = node.Value;
-                if (value != null && value is byte[] bytes)
+                if (!characterTextureCache.TryGetValue(path, out var texture) || texture == null)
                 {
-                    imageData = bytes;
-                }
-                
-                if (imageData == null)
-                {
-                    try
+                    byte[] imageData = node.Value as byte[];
+                    if (imageData == null)
                     {
-                        imageData = node.GetValue<byte[]>();
+                        try { imageData = node.GetValue<byte[]>(); } catch { }
                     }
-                    catch { }
-                }
-                
-                if (imageData == null || imageData.Length == 0)
-                {
-                    return null;
-                }
-                
-                // Create texture from PNG data
-                var texture = new Texture2D(2, 2, TextureFormat.ARGB32, false);
-                texture.name = name;
-                
-                if (texture.LoadImage(imageData))
-                {
-                    // Set texture settings for pixel art
+                    if (imageData == null || imageData.Length == 0) return null;
+                    texture = new Texture2D(2, 2, TextureFormat.ARGB32, false);
+                    texture.name = path;
+                    if (!texture.LoadImage(imageData))
+                    {
+                        DestroyCachedAsset(texture);
+                        return null;
+                    }
                     texture.filterMode = FilterMode.Point;
                     texture.wrapMode = TextureWrapMode.Clamp;
-                    
-                    // For character sprites, the origin point is the anchor point
-                    // Convert MapleStory origin (from top-left) to Unity pivot (0-1 range from bottom-left)
-                    Vector2 pivot = new Vector2(
-                        origin.x / texture.width,
-                        1.0f - (origin.y / texture.height) // Flip Y because Unity uses bottom-left origin
-                    );
-                    
-                    // Clamp pivot to valid range
-                    pivot.x = Mathf.Clamp01(pivot.x);
-                    pivot.y = Mathf.Clamp01(pivot.y);
-                    
-                    Debug.Log($"Character sprite {name}: size={texture.width}x{texture.height}, origin={origin}, pivot={pivot}");
-                    
-                    // Create sprite with character-specific pivot
-                    var sprite = Sprite.Create(
-                        texture,
-                        new Rect(0, 0, texture.width, texture.height),
-                        pivot,
-                        100f // pixels per unit
-                    );
-                    
-                    return sprite;
+                    characterTextureCache[path] = texture;
                 }
-                else
-                {
-                    UnityEngine.Object.Destroy(texture);
-                    return null;
-                }
+                // Preserve HeavenClient anchors outside trimmed bitmaps.
+                Vector2 pivot = new Vector2(origin.x / texture.width, 1f - origin.y / texture.height);
+                var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
+                    pivot, 100f, 0, SpriteMeshType.FullRect);
+                sprite.name = path;
+                characterSpriteCache[key] = sprite;
+                return sprite;
             }
             catch (Exception e)
             {
@@ -659,7 +627,7 @@ namespace MapleClient.GameData
                 return null;
             }
         }
-        
+
         /// <summary>
         /// Get origin/pivot point from NX data
         /// </summary>
@@ -735,16 +703,28 @@ namespace MapleClient.GameData
         /// </summary>
         public static void ClearCache()
         {
-            foreach (var sprite in spriteCache.Values)
-            {
-                if (sprite != null && sprite.texture != null)
-                {
-                    UnityEngine.Object.Destroy(sprite.texture);
-                }
-            }
+            var sprites = new HashSet<Sprite>(spriteCache.Values);
+            sprites.UnionWith(characterSpriteCache.Values);
+            foreach (var entry in spriteWithOriginCache.Values)
+                if (entry?.Sprite != null) sprites.Add(entry.Sprite);
+            var textures = new HashSet<Texture2D>(characterTextureCache.Values);
+            foreach (var sprite in sprites)
+                if (sprite != null && sprite.texture != null) textures.Add(sprite.texture);
+            foreach (var sprite in sprites) DestroyCachedAsset(sprite);
+            foreach (var texture in textures) DestroyCachedAsset(texture);
             spriteCache.Clear();
+            spriteWithOriginCache.Clear();
+            characterSpriteCache.Clear();
+            characterTextureCache.Clear();
         }
-        
+
+        private static void DestroyCachedAsset(UnityEngine.Object asset)
+        {
+            if (asset == null) return;
+            if (Application.isPlaying) UnityEngine.Object.Destroy(asset);
+            else UnityEngine.Object.DestroyImmediate(asset);
+        }
+
         /// <summary>
         /// Get a sprite from cache
         /// </summary>

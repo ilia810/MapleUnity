@@ -1,0 +1,23 @@
+{
+  "source": "C:\\HeavenClient\\MapleStory-Client",
+  "source_sha256": {
+    "Character/Inventory/Weapon.h": "ec4a83ed611004215ccb26298a2f5565ddd514fe14907ad8c908c1142dfec7cd",
+    "Character/EquipStat.h": "571d24adaa9d1152a051c5003552ea9ffb06374c3fbe1ffda5fe0af4c1e49e56",
+    "Character/SkillId.h": "244c8a7162b364a2fb193e90abd1ad59ae64ad97d810a5f0ead42efdf74e782c",
+    "Character/StatCaps.h": "3e2f8a8f92079f2e704148554055b2aa0098ea5288da579c329bc50781ce1b4e",
+    "Character/Job.cpp": "977d7ae384fea7e8cc379dfb0239473ffcaeac1eaea8e2cc0fee742c45273119",
+    "Character/CharStats.cpp": "5d3b19e5f008226869a520b910a058a389a3050c405aa2234dbafbecae53440a",
+    "Character/PassiveBuffs.h": "11908c6574d1fd7c0a933a4b2d78284d7e113a9d2826ea025ac2cb28e3b52b6e",
+    "Character/PassiveBuffs.cpp": "9cc69680a2c3035db881d75bbbc2d5e00435459c3a32d05aeb9bd54ede9a5874"
+  },
+  "rows": 4212,
+  "trace_sha256": "cbd938ef622f8374a9e77e1557a2875efefdb40d5d1dd570dab90393299bd019",
+  "method": "Unmodified PassiveBuffs registry/handlers, Job ancestry and CharStats additive/mastery/reduction setters.",
+  "adapter": "Synthetic NX level node and HP/stat container; 12 IDs, 13 jobs, 9 weapons and 3 HP thresholds.",
+  "excluded": [
+    "NX import",
+    "network skill books/AP/SP",
+    "passives absent from source registry",
+    "server damage authority"
+  ]
+}

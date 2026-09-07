@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using MapleClient.GameData;
-using GameData;
 
 namespace MapleClient.SceneGeneration
 {
@@ -11,7 +9,6 @@ namespace MapleClient.SceneGeneration
     /// </summary>
     public class BackgroundGenerator
     {
-        private NXDataManagerSingleton nxManager;
         
         // Standard MapleStory viewport dimensions (in pixels)
         public const float VIEWPORT_WIDTH = 1024f;
@@ -23,11 +20,6 @@ namespace MapleClient.SceneGeneration
         
         // Buffer tiles as per C++ client
         public const int TILE_BUFFER = 3;
-        
-        public BackgroundGenerator()
-        {
-            nxManager = NXDataManagerSingleton.Instance;
-        }
         
         public GameObject GenerateBackgrounds(List<BackgroundData> backgrounds, Transform parent, Bounds vrBounds)
         {
@@ -87,10 +79,10 @@ namespace MapleClient.SceneGeneration
         {
             Debug.Log($"Creating background layer {bgData.No}: {bgData.BgName} (Type: {bgData.Type}, Pos: {bgData.X},{bgData.Y})");
             
-            // Skip backgrounds without sprite names unless they're type 3 (color layers)
-            if (string.IsNullOrEmpty(bgData.BgName) && bgData.Type != 3)
+            // Skip entries without a background asset.
+            if (string.IsNullOrEmpty(bgData.BgName))
             {
-                Debug.Log($"  Skipping background layer {bgData.No} - no sprite name and not a color layer");
+                Debug.Log($"  Skipping background layer {bgData.No} - no sprite name");
                 return;
             }
             
@@ -108,335 +100,7 @@ namespace MapleClient.SceneGeneration
             bgLayer.isForeground = isForeground;
             bgLayer.manager = manager;
             
-            // Load sprite
-            var sprite = LoadBackgroundSprite(bgData.BgName, bgData.Ani != 0);
-            if (sprite != null)
-            {
-                bgLayer.tileSprite = sprite;
-                bgLayer.Initialize();
-            }
-        }
-        
-        private Sprite LoadBackgroundSprite(string bgName, bool isAnimated)
-        {
-            Debug.Log($"Loading background sprite: {bgName} (animated: {isAnimated})");
-            
-            // Check if bgName is empty or a generated name
-            if (string.IsNullOrEmpty(bgName) || bgName.StartsWith("layer"))
-            {
-                // This layer doesn't have a sprite - it might be a solid color or gradient
-                Debug.Log($"Background layer '{bgName}' has no sprite - using transparent");
-                return null;
-            }
-            
-            // Load from NX data
-            var sprite = nxManager.GetBackgroundSprite(bgName);
-            if (sprite != null)
-            {
-                Debug.Log($"Successfully loaded background sprite: {bgName}, size: {sprite.rect.width}x{sprite.rect.height}");
-                
-                // Check if the sprite is a solid color (like grassySoil)
-                var texture = sprite.texture;
-                if (texture.width == 256 && texture.height == 256)
-                {
-                    // This is likely a sky/base color layer
-                    Debug.Log($"Background {bgName} appears to be a base color layer (256x256)");
-                }
-            }
-            else
-            {
-                // Placeholder
-                Debug.LogWarning($"Background sprite not found: {bgName}");
-            }
-            
-            if (isAnimated)
-            {
-                // TODO: Add animation component
-                Debug.Log($"Background {bgName} is animated - animation not implemented yet");
-            }
-            
-            return sprite;
-        }
-    }
-    
-    /// <summary>
-    /// Manages all background layers and updates them based on camera position
-    /// </summary>
-    public class DynamicBackgroundManager : MonoBehaviour
-    {
-        public Bounds vrBounds { get; set; }
-        private Transform cameraTransform;
-        private Vector3 lastCameraPosition;
-        private float updateThreshold = 0.1f; // Only update when camera moves more than this
-        
-        private void Start()
-        {
-            cameraTransform = Camera.main?.transform;
-            if (cameraTransform != null)
-            {
-                lastCameraPosition = cameraTransform.position;
-            }
-        }
-        
-        private void LateUpdate()
-        {
-            if (cameraTransform == null) return;
-            
-            // Only update if camera has moved significantly
-            Vector3 currentCameraPos = cameraTransform.position;
-            if (Vector3.Distance(currentCameraPos, lastCameraPosition) > updateThreshold)
-            {
-                lastCameraPosition = currentCameraPos;
-                // Background layers will check their own update needs
-            }
-        }
-    }
-    
-    /// <summary>
-    /// Handles viewport-based tiling for a single background layer
-    /// Replicates C++ client behavior of tiling relative to camera view
-    /// </summary>
-    public class ViewportBackgroundLayer : MonoBehaviour
-    {
-        public BackgroundData backgroundData { get; set; }
-        public Sprite tileSprite { get; set; }
-        public int sortingOrder { get; set; }
-        public bool isForeground { get; set; }
-        public DynamicBackgroundManager manager { get; set; }
-        
-        private Transform cameraTransform;
-        private float tileWidth;
-        private float tileHeight;
-        private int horizontalTiles;
-        private int verticalTiles;
-        
-        private List<GameObject> activeTiles = new List<GameObject>();
-        private Vector3 lastUpdatePosition;
-        private float updateThreshold = 0.5f; // Only update when moved enough
-        
-        // Parallax rates
-        private float parallaxRateX;
-        private float parallaxRateY;
-        
-        public void Initialize()
-        {
-            if (tileSprite == null) return;
-            
-            cameraTransform = Camera.main?.transform;
-            if (cameraTransform == null) return;
-            
-            // Get tile dimensions in Unity units
-            tileWidth = tileSprite.bounds.size.x;
-            tileHeight = tileSprite.bounds.size.y;
-            
-            // Calculate parallax rates
-            parallaxRateX = backgroundData.RX / 100f;
-            parallaxRateY = backgroundData.RY / 100f;
-            
-            // No need to create tile pool - we'll use the singleton
-            
-            // Calculate tiles needed based on background type
-            CalculateTileCount();
-            
-            // Create initial tiles
-            lastUpdatePosition = cameraTransform.position;
-            UpdateTiling();
-        }
-        
-        private void CalculateTileCount()
-        {
-            // Default to no tiling
-            horizontalTiles = 1;
-            verticalTiles = 1;
-            
-            // Use the viewport size constants from BackgroundGenerator
-            float viewWidth = BackgroundGenerator.VIEW_WIDTH_UNITS;
-            float viewHeight = BackgroundGenerator.VIEW_HEIGHT_UNITS;
-            
-            switch (backgroundData.Type)
-            {
-                case 0: // Normal - no tiling
-                    horizontalTiles = 1;
-                    verticalTiles = 1;
-                    break;
-                    
-                case 1: // Horizontal tiling
-                    horizontalTiles = Mathf.CeilToInt(viewWidth / tileWidth) + BackgroundGenerator.TILE_BUFFER;
-                    verticalTiles = 1;
-                    break;
-                    
-                case 2: // Vertical tiling (rare)
-                    horizontalTiles = 1;
-                    verticalTiles = Mathf.CeilToInt(viewHeight / tileHeight) + BackgroundGenerator.TILE_BUFFER;
-                    break;
-                    
-                case 3: // Full screen tiling
-                    horizontalTiles = Mathf.CeilToInt(viewWidth / tileWidth) + BackgroundGenerator.TILE_BUFFER;
-                    verticalTiles = Mathf.CeilToInt(viewHeight / tileHeight) + BackgroundGenerator.TILE_BUFFER;
-                    break;
-                    
-                case 4: // Scrolling (treated like horizontal for now)
-                    horizontalTiles = Mathf.CeilToInt(viewWidth / tileWidth) + BackgroundGenerator.TILE_BUFFER;
-                    verticalTiles = 1;
-                    break;
-            }
-            
-            Debug.Log($"Background {backgroundData.BgName} type {backgroundData.Type}: {horizontalTiles}x{verticalTiles} tiles needed");
-            Debug.Log($"  Tile size: {tileWidth}x{tileHeight} units");
-            Debug.Log($"  Parallax rates: RX={parallaxRateX} ({backgroundData.RX}%), RY={parallaxRateY} ({backgroundData.RY}%)");
-            Debug.Log($"  Background position: {transform.position}");
-        }
-        
-        private void LateUpdate()
-        {
-            if (cameraTransform == null || tileSprite == null) return;
-            
-            // Only update if camera has moved enough
-            float movedDistance = Vector3.Distance(cameraTransform.position, lastUpdatePosition);
-            if (movedDistance > updateThreshold)
-            {
-                lastUpdatePosition = cameraTransform.position;
-                UpdateTiling();
-            }
-        }
-        
-        private void UpdateTiling()
-        {
-            Vector3 cameraPos = cameraTransform.position;
-            
-            // Calculate the starting position for the tile grid
-            float baseX, baseY;
-            
-            // Type 3 backgrounds ALWAYS follow the camera to create infinite tiling
-            if (backgroundData.Type == 3)
-            {
-                // The tiles are always centered on the camera
-                baseX = cameraPos.x;
-                baseY = cameraPos.y;
-                
-                // Apply a small offset based on the background's origin position and parallax
-                // This creates the scrolling effect, but the tiles still follow the camera
-                float offsetX = transform.position.x * (1f - parallaxRateX);
-                float offsetY = transform.position.y * (1f - parallaxRateY);
-                
-                // Wrap the offset to create seamless tiling
-                if (horizontalTiles > 1)
-                {
-                    offsetX = offsetX % tileWidth;
-                    baseX += offsetX;
-                    
-                    // Center the tile grid on the camera
-                    baseX -= (horizontalTiles * tileWidth) / 2f;
-                }
-                
-                if (verticalTiles > 1)
-                {
-                    offsetY = offsetY % tileHeight;
-                    baseY += offsetY;
-                    
-                    // Center the tile grid on the camera
-                    baseY -= (verticalTiles * tileHeight) / 2f;
-                }
-            }
-            else if (horizontalTiles > 1 || verticalTiles > 1)
-            {
-                // Other tiled types (1, 2, 4) - use standard parallax with tiling
-                baseX = transform.position.x + (cameraPos.x * (1f - parallaxRateX));
-                baseY = transform.position.y + (cameraPos.y * (1f - parallaxRateY));
-                
-                // For horizontal tiling (Type 1, 4)
-                if (horizontalTiles > 1)
-                {
-                    // Wrap to camera position for seamless tiling
-                    float offsetX = cameraPos.x - baseX;
-                    offsetX = offsetX % tileWidth;
-                    baseX = cameraPos.x - offsetX - (horizontalTiles * tileWidth) / 2f;
-                }
-                
-                // For vertical tiling (Type 2)
-                if (verticalTiles > 1)
-                {
-                    float offsetY = cameraPos.y - baseY;
-                    offsetY = offsetY % tileHeight;
-                    baseY = cameraPos.y - offsetY - (verticalTiles * tileHeight) / 2f;
-                }
-            }
-            else
-            {
-                // Non-tiled backgrounds (Type 0) - simple parallax
-                baseX = transform.position.x + (cameraPos.x - transform.position.x) * parallaxRateX;
-                baseY = transform.position.y + (cameraPos.y - transform.position.y) * parallaxRateY;
-            }
-            
-            // Return existing tiles to pool
-            foreach (var tile in activeTiles)
-            {
-                BackgroundTilePool.Instance.ReturnTile(tile, tileSprite);
-            }
-            activeTiles.Clear();
-            
-            // Create/reuse tiles for current view
-            for (int x = 0; x < horizontalTiles; x++)
-            {
-                for (int y = 0; y < verticalTiles; y++)
-                {
-                    GameObject tile = GetOrCreateTile();
-                    
-                    // Position tile
-                    float tileX = baseX + (x * tileWidth);
-                    float tileY = baseY + (y * tileHeight);
-                    tile.transform.position = new Vector3(tileX, tileY, transform.position.z);
-                    
-                    if (tile != null)
-                    {
-                        activeTiles.Add(tile);
-                    }
-                }
-            }
-        }
-        
-        private GameObject GetOrCreateTile()
-        {
-            string sortingLayerName = isForeground ? "Foreground" : "Background";
-            float alpha = backgroundData.A / 255f;
-            bool flipX = backgroundData.F != 0;
-            
-            GameObject tile = BackgroundTilePool.Instance.GetTile(tileSprite, sortingLayerName, sortingOrder, alpha, flipX);
-            if (tile != null)
-            {
-                tile.transform.parent = transform;
-            }
-            
-            return tile;
-        }
-        
-        // Debug method to check coverage
-        public void LogCoverage()
-        {
-            if (activeTiles.Count == 0) return;
-            
-            float minX = float.MaxValue, maxX = float.MinValue;
-            float minY = float.MaxValue, maxY = float.MinValue;
-            
-            foreach (var tile in activeTiles)
-            {
-                if (tile.activeSelf)
-                {
-                    Vector3 pos = tile.transform.position;
-                    var renderer = tile.GetComponent<SpriteRenderer>();
-                    if (renderer != null && renderer.sprite != null)
-                    {
-                        minX = Mathf.Min(minX, pos.x - renderer.bounds.extents.x);
-                        maxX = Mathf.Max(maxX, pos.x + renderer.bounds.extents.x);
-                        minY = Mathf.Min(minY, pos.y - renderer.bounds.extents.y);
-                        maxY = Mathf.Max(maxY, pos.y + renderer.bounds.extents.y);
-                    }
-                }
-            }
-            
-            Debug.Log($"Background {backgroundData.BgName} coverage: X({minX:F2} to {maxX:F2}), Y({minY:F2} to {maxY:F2})");
-            Debug.Log($"  Total coverage: {maxX - minX:F2} x {maxY - minY:F2} units");
-            Debug.Log($"  Camera at: {cameraTransform.position}");
+            bgLayer.Initialize();
         }
     }
 }

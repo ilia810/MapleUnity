@@ -34,8 +34,8 @@ namespace MapleClient.GameView
             if (ladder != null && lineRenderer != null)
             {
                 // Convert from game logic coordinates to Unity coordinates
-                lineRenderer.SetPosition(0, new Vector3(ladder.X / 100f, ladder.Y1 / 100f, 0));
-                lineRenderer.SetPosition(1, new Vector3(ladder.X / 100f, ladder.Y2 / 100f, 0));
+                lineRenderer.SetPosition(0, new Vector3(ladder.X, ladder.Y1, 0));
+                lineRenderer.SetPosition(1, new Vector3(ladder.X, ladder.Y2, 0));
             }
         }
     }

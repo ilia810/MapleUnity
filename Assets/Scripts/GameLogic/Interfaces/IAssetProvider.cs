@@ -110,6 +110,7 @@ namespace MapleClient.GameLogic.Interfaces
         public bool IsCash { get; set; }
         public bool IsQuest { get; set; }
         public bool IsTradeable { get; set; }
+        public bool IsUnsellable { get; set; }
         public bool IsOneOfAKind { get; set; }
         public int MaxStack { get; set; }
         
@@ -121,6 +122,15 @@ namespace MapleClient.GameLogic.Interfaces
         public int RequiredInt { get; set; }
         public int RequiredLuk { get; set; }
         public JobType RequiredJob { get; set; }
+        public int RequiredJobMask { get; set; }
+        public int Gender { get; set; } = 2;
+        public EquipSlot? EquipmentSlot { get; set; }
+        public bool IsOverall { get; set; }
+        public bool IsTwoHanded { get; set; }
+        public WeaponProfile Weapon { get; set; }
+        public SkillEffectDefinition Ammunition { get; set; }
+        public bool IsRecoveryConsumable { get; set; }
+        public bool IsStatBuffConsumable { get; set; }
         public int Slots { get; set; }
         
         // Consumable specific
@@ -154,6 +164,11 @@ namespace MapleClient.GameLogic.Interfaces
         public bool IsBoss { get; set; }
         public bool IsUndead { get; set; }
         public bool CanFly { get; set; }
+        public bool CanMove { get; set; }
+        public bool NoFlip { get; set; }
+        public bool BodyAttack { get; set; }
+        public Dictionary<string, MobContactAnimation> ContactAnimations { get; set; }
+        public int KnockbackThreshold { get; set; }
         public ElementType Element { get; set; }
         public Dictionary<int, float> ElementalDamage { get; set; }
         public List<int> Skills { get; set; }
@@ -163,6 +178,22 @@ namespace MapleClient.GameLogic.Interfaces
     
     public class SkillInfo
     {
+        public MapleClient.GameLogic.Skills.SkillBehavior Behavior { get; set; } = new MapleClient.GameLogic.Skills.SkillBehavior();
+        public bool InheritJob { get; set; } = true;
+        public string IconFile { get; set; } = "skill";
+        public bool IsSourceData { get; set; }
+        public bool IsInvisible { get; set; }
+        public int RequiredWeaponType { get; set; }
+        public Dictionary<int, int> RequiredSkills { get; set; } = new Dictionary<int, int>();
+        public Dictionary<int, string> LevelDescriptions { get; set; } = new Dictionary<int, string>();
+        public string Action { get; set; }
+        public CharacterState[] ActionStances { get; set; }
+        public int[] ActionFrames { get; set; }
+        public int[] ActionDelays { get; set; }
+        public int[] ActionHitDelays { get; set; }
+        public Vector2[] ActionMoves { get; set; }
+        public MapleClient.GameLogic.Data.AfterimageFrame[] EffectFrames { get; set; }
+        public SortedDictionary<int, MapleClient.GameLogic.Data.SkillEffectSet> Effects { get; set; } = new SortedDictionary<int, MapleClient.GameLogic.Data.SkillEffectSet>();
         public int SkillId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -184,13 +215,27 @@ namespace MapleClient.GameLogic.Interfaces
         // Per level data
         public class LevelData
         {
+            public Dictionary<string, float> EffectParameters { get; set; } = new Dictionary<string, float>();
+            public MapleClient.GameLogic.Skills.PassiveContribution Passive { get; set; }
+            public MapleClient.GameLogic.Data.MonsterDebuffDefinition TargetDebuff { get; set; }
+            public int HpCost { get; set; }
             public int MpCost { get; set; }
-            public int Damage { get; set; }
+            public int MagicAttack { get; set; }
+            public int BulletCount { get; set; } = 1;
+            public int BulletConsume { get; set; } = 1;
+            public AttackBounds? AttackBounds { get; set; }
+            private int damage;
+            private float damageMultiplier;
+            public int Damage { get => damage; set { damage = value; damageMultiplier = value / 100f; } }
+            // SkillData stores a float before multiplying Attack's double range. Keeping
+            // it in a field also prevents Mono retaining extra precision in a division.
+            public float DamageMultiplier => damageMultiplier;
             public int AttackCount { get; set; }
             public int MobCount { get; set; }
             public int Range { get; set; }
             public int Duration { get; set; }
             public int Cooldown { get; set; }
+            public SkillEffectDefinition Projectile { get; set; }
             public Dictionary<BuffType, int> Buffs { get; set; }
             public int Mastery { get; set; }
             public int Critical { get; set; }
@@ -376,7 +421,9 @@ namespace MapleClient.GameLogic.Interfaces
         MesoUp, DropUp,
         HPRecovery, MPRecovery,
         PowerGuard, HyperBody,
-        Invincible, Hide
+        Invincible, Hide,
+        Booster,
+        MaxHPPercent, MaxMPPercent, MagicGuard
     }
     
     public enum ElementType
@@ -407,7 +454,10 @@ namespace MapleClient.GameLogic.Interfaces
         Alert, Prone, Fly,
         Ladder, Rope,
         Attack1, Attack2,
-        Skill
+        Skill,
+        Stand2, Walk2, StabO2, SwingO2, SwingO3,
+        SwingT1, SwingT2, SwingT3, StabT1, SwingP1, ProneStab,
+        Shoot1, Shoot2, Shot
     }
     
     public enum CharacterExpression
@@ -415,7 +465,8 @@ namespace MapleClient.GameLogic.Interfaces
         Default, Blink, Hit, Smile,
         Troubled, Cry, Angry,
         Bewildered, Stunned,
-        Vomit, Oops
+        Vomit, Oops,
+        Blaze, Bowing, Cheers, Chu, Dam, Despair, Glitter, Hot, Hum, Love, Pain, Shine, Wink
     }
     
     public enum MapType
